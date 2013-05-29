@@ -13,7 +13,7 @@ function deims_install() {
   minimal_install();
 
   // Add text formats.
-  deims_install_filters();
+  deims_install_filter();
 
   // Enable some standard blocks.
   $default_theme = variable_get('theme_default', 'bartik');
