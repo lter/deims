@@ -279,9 +279,9 @@ function deims_install_user() {
   // Do not allow user account creation by default.
   variable_set('user_register', USER_REGISTER_ADMINISTRATORS_ONLY);
 
-
   // Enable default permissions for system roles.
-  $filtered_html_permission = filter_permission_name($filtered_html_format);
+  $format = filter_format_load('full_html');
+  $filtered_html_permission = filter_permission_name($format);
   user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array('access content', $filtered_html_permission));
   user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array('access content', $filtered_html_permission));
 
