@@ -5,7 +5,7 @@
 
   name        = DEIMS Theme
   description = Subtheme for Pixture Reloaded.
-  
+
 
 
 ;----------// Drupal and AT Core compatibility - dont change this!
@@ -63,9 +63,9 @@
   ; following as a guide:
   ;
   ; ie_scripts[lte IE 8] = js/my-script.js
-  
-  
-  
+
+
+
 ;----------// Regions
 
   ; Copy and paste the region list from your base theme - these are the
@@ -446,10 +446,3 @@
   settings[body_background]       = 'bb-n'
   settings[menu_bullets]          = 'mb-dd'
   settings[menu_bar_position]     = 'mbp-l'
-
-; Information added by drupal.org packaging script on 2012-09-19
-version = "7.x-3.0-rc1"
-core = "7.x"
-project = "footheme"
-datestamp = "1348059849"
-
