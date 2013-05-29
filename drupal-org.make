@@ -157,8 +157,9 @@ projects[taxonomy_csv] = 5.10
 ; Dave Reid maintains this D8 backport, dev release is ok.
 projects[telephone] = 1.x-dev
 
-projects[term_reference_tree] = 1.x-dev
-; @todo List patch for adding AJAX search filtering
+projects[term_reference_tree] = 1.10
+; Add filtering to the widget
+projects[term_reference_tree][patches][2007164] = "http://drupal.org/files/2007164-filter.patch"
 
 projects[token] = 1.2
 
