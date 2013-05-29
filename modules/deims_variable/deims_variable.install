@@ -1,0 +1,58 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the DEIMS Variable Field module.
+ */
+
+/**
+ * Implements hook_field_schema().
+ */
+function deims_variable_field_schema($field) {
+  $schema = array();
+
+  $schema['columns']['label'] = array(
+    'description' => 'The label of the source column of this variable (the CSV header value).',
+    'type' => 'varchar',
+    'length' => 80,
+    'not null' => FALSE,
+  );
+  $schema['columns']['name'] = array(
+    'description' => 'The human-readable name of the variable.',
+    'type' => 'varchar',
+    'length' => 255,
+    'not null' => FALSE,
+  );
+  $schema['columns']['definition'] = array(
+    'type' => 'text',
+    'size' => 'big',
+    'not null' => FALSE,
+  );
+  $schema['columns']['type'] = array(
+    'description' => 'The type of variable (measurment, date, list).',
+    'type' => 'varchar',
+    'length' => 32,
+    'not null' => FALSE,
+  );
+  $schema['columns']['data'] = array(
+    'description' => 'A serialized array of data about the variable, depending on its type.',
+    'type' => 'blob',
+    'size' => 'big',
+    'not null' => FALSE,
+    'serialize' => TRUE,
+    'unserialized default' => array(),
+  );
+  $schema['columns']['missing_values'] = array(
+    'description' => 'A serialized array of key/value pairs considered to be empty or missing.',
+    'type' => 'blob',
+    'size' => 'big',
+    'not null' => FALSE,
+    'serialize' => TRUE,
+    'unserialized default' => array(),
+  );
+  $schema['indexes']['label'] = array('label');
+  $schema['indexes']['name'] = array('name');
+  $schema['indexes']['type'] = array('type');
+
+  return $schema;
+}

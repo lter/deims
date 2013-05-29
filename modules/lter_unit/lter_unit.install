@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the LTER Unit module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function lter_unit_schema() {
+  $schema['cache_lter_unit'] = drupal_get_schema_unprocessed('system', 'cache');
+  $schema['cache_lter_unit']['description'] = 'Cache for LTER Unit API requests.';
+
+  return $schema;
+}

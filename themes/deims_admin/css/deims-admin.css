@@ -1,0 +1,47 @@
+/* Set the padding to be the same as input fields so it doesn't look like
+ * there is odd indentation in text areas.
+ */
+textarea.form-textarea {
+  padding: 5px;
+  font: normal 500 1em/1em "Open Sans", Arial, sans-serif;
+}
+
+/* Override the Inline Entity Form buttons so they actually look like buttons */
+.field-widget-inline-entity-form .ief-entity-operations input.form-submit,
+.field-widget-inline-entity-form .field-type-image table input.form-submit {
+  color: #5A5A5A;
+  text-shadow: 0 -1px 1px white;
+
+  background-position: 0 bottom;
+  -moz-box-shadow: 0 1px 2px #cccccc, inset 0 -1px 1px white;
+  -webkit-box-shadow: 0 1px 2px #cccccc, inset 0 -1px 1px white;
+  box-shadow: 0 1px 2px #cccccc, inset 0 -1px 1px white;
+
+  background: #e0e0e0;
+  background: -moz-linear-gradient(top, #fefefe 0%, #e0e0e0 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fefefe), color-stop(100%, #e0e0e0));
+  background: -webkit-linear-gradient(top, #fefefe 0%, #e0e0e0 100%);
+  background: -o-linear-gradient(top, #fefefe 0%, #e0e0e0 100%);
+  background: -ms-linear-gradient(top, #fefefe 0%, #e0e0e0 100%);
+  background: linear-gradient(to bottom, #fefefe 0%, #e0e0e0 100%);
+  border: 1px solid #cccccc;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  -moz-box-shadow: 0 1px 2px #cccccc, inset 0 1px 1px white;
+  -webkit-box-shadow: 0 1px 2px #cccccc, inset 0 1px 1px white;
+  box-shadow: 0 1px 2px #cccccc, inset 0 1px 1px white;
+
+  padding: 6px 30px;
+}
+
+
+/* Override the chosen module's default grey color for selected values */
+.chzn-container-single .chzn-single span {
+  color: #333;
+}
+
+/* Override teh Inline Entity Form's legends */
+fieldset.horizontal-tabs-pane fieldset legend {
+  display: none;
+}

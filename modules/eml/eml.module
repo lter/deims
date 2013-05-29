@@ -1,0 +1,405 @@
+<?php
+
+/**
+ * @file
+ * EML generation.
+ *
+ * Major features
+ * - EML view mode and template for nodes
+ * - API to generate a package ID for EML
+ * - API to fetch the DOI of an EML
+ * - Action that can be used in VBO to update data sets' DOI fields
+ *
+ * @todo Sean check all the pasta api urls and calls.
+ * @todo Consider consolidating the API URLs into a constant or other means of
+ * abstracting them out.
+ * @todo Sean to trace the process for the API calls and test the logic.
+ */
+
+/**
+ * @defgroup eml_data_manager_api Data Package Manager API
+ * @{
+ * Code that interacts with the LTER Data Package Manager API
+ *
+ * @link https://pasta.lternet.edu/package/docs/api @endlink
+ * @}
+ */
+
+require_once dirname(__FILE__) . '/eml.field.inc';
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function eml_entity_info_alter(array &$info) {
+  $info['node']['view modes']['eml'] = array(
+    'label' => t('EML'),
+    'custom settings' => TRUE,
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function eml_menu() {
+  $items = array();
+
+  $items['node/%node/eml'] = array(
+    'page callback' => 'eml_output_node',
+    'page arguments' => array(1),
+    'access callback' => 'node_access',
+    'access arguments' => array('view', 1),
+    'type' => MENU_CALLBACK,
+    'file' => 'eml.pages.inc',
+  );
+  $items['admin/config/services/eml'] = array(
+    'title' => 'EML',
+    'description' => 'Configure EML settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('eml_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'eml.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function eml_theme() {
+  $theme['eml'] = array(
+    'render element' => 'elements',
+    'template' => 'eml',
+  );
+  $theme['eml_tag'] = array(
+    'render element' => 'element',
+  );
+
+  return $theme;
+}
+
+function theme_eml_tag($variables) {
+  $element = &$variables['element'];
+  $element += array('#attributes' => array());
+  // @todo Dave, do you want to use this variable somewhere?
+  $tag = $element['#tag'];
+  if (isset($element['#value'])) {
+    $element['#value'] = check_plain($element['#value']);
+  }
+  elseif ($children = element_children($element)) {
+    $element['#value'] = '';
+    foreach ($children as $key) {
+      $element[$key] += array('#theme' => 'eml_tag');
+      $element['#value'] .= drupal_render($element[$key]);
+    }
+  }
+  return theme_html_tag($variables);
+}
+
+/**
+ * Implements hook_node_view().
+ */
+function eml_node_view($node, $view_mode, $langcode) {
+  if ($view_mode != 'eml') {
+    return;
+  }
+
+  switch ($node->type) {
+    case 'data_set':
+      if ($items = field_get_items('node', $node, 'field_additional_information')) {
+        $node->eml_elements['additionalInfo']['para']['literalLayout'] = strip_tags($items[0]['safe_value']);
+      }
+      if ($items = field_get_items('node', $node, 'field_abstract')) {
+        $node->eml_elements['abstract']['section']['para'] = strip_tags($items[0]['safe_value']);
+      }
+      if ($items = field_get_items('node', $node, 'field_purpose')) {
+        $node->eml_elements['purpose']['para']['literalLayout'] = strip_tags($items[0]['safe_value']);
+      }
+      if ($items = field_get_items('node', $node, 'field_maintenance')) {
+        $node->eml_elements['maintenance']['description']['para']['literalLayout'] = strip_tags($items[0]['safe_value']);
+      }
+
+      if ($items = field_get_items('node', $node, 'field_methods')) {
+        foreach ($items as $item) {
+          $method = array();
+          $method['section']['para']['literalLayout'] = strip_tags($item['safe_value']);
+          $node->eml_elements['methods']['methodStep'][] = array(
+            'key' => 'description',
+            'value' => $method,
+          );
+        }
+      }
+      if ($items = field_get_items('node', $node, 'field_instrumentation')) {
+        $node->eml_elements['methods']['instrumentation'] = strip_tags($items[0]['safe_value']);
+      }
+
+      if ($metadata = eml_dataset_get_custom_unit_metadata($node)) {
+        $node->content['additionalMetadata'][] = array(
+          '#theme' => 'eml_tag',
+          '#tag' => 'metadata',
+          '0' => $metadata,
+        );
+      }
+      break;
+
+    case 'data_source':
+      $node->eml_elements['entityName'] = $node->title;
+      if ($items = field_get_items('node', $node, 'field_description')) {
+        $node->eml_elements['entityDescription'] = $items[0]['safe_value'];
+      }
+      $node->eml_elements['physical'] = array();
+      $node->eml_elements['physical']['objectName'] = $node->field_data_source_file[LANGUAGE_NONE][0]['filename'];
+      $node->eml_elements['physical']['dataFormat']['textFormat'] = array();
+      if ($items = field_get_items('node', $node, 'field_csv_header_lines')) {
+        $node->eml_elements['physical']['dataFormat']['textFormat']['numHeaderLines'] = $items['0']['value'];
+      }
+      if ($items = field_get_items('node', $node, 'field_csv_footer_lines')) {
+        $node->eml_elements['physical']['dataFormat']['textFormat']['numFooterLines'] = $items['0']['value'];
+      }
+      if ($items = field_get_items('node', $node, 'field_csv_record_delimiter')) {
+        $node->eml_elements['physical']['dataFormat']['textFormat']['recordDelimiter'] = $items['0']['value'];
+      }
+      if ($items = field_get_items('node', $node, 'field_csv_orientation')) {
+        $node->eml_elements['physical']['dataFormat']['textFormat']['attributeOrientation'] = $items['0']['value'];
+      }
+      if ($items = field_get_items('node', $node, 'field_csv_column_delimiter')) {
+        $node->eml_elements['physical']['dataFormat']['textFormat']['simpleDelimited']['fieldDelimiter'] = $items['0']['value'];
+      }
+      $node->eml_elements['physical']['distribution']['online']['url'] = url('file/' . $node->field_data_source_file[LANGUAGE_NONE][0]['fid'] . '/download', array('absolute' => TRUE));
+      if ($items = field_get_items('node', $node, 'field_date_range')) {
+        $node->eml_elements['coverage']['temporalCoverage']['rangeOfDates']['beginDate']['calendarDate'] = substr($items[0]['value'], 0, 10);
+        if (!empty($items[0]['value2']) && $items[0]['value'] != $items[0]['value2']) {
+          $node->eml_elements['coverage']['temporalCoverage']['rangeOfDates']['endDate']['calendarDate'] = substr($items[0]['value2'], 0, 10);
+        }
+      }
+      break;
+  }
+}
+
+function eml_preprocess_node(&$variables) {
+  //@todo Dave, do we need to assign variables by reference since it's already
+  //received by reference?
+  $node = &$variables['elements']['#node'];
+}
+
+function template_preprocess_eml(&$variables) {
+  $variables['node'] = $variables['elements']['#node'];
+  $node = $variables['node'];
+
+  $uri = entity_uri('node', $node);
+  $variables['node_url'] = url($uri['path'], array('absolute' => TRUE) + $uri['options']);
+  $variables['title'] = check_plain($node->title);
+
+  $variables['language'] = check_plain(drupal_strtolower($GLOBALS[LANGUAGE_TYPE_CONTENT]->name));
+  $variables['pubPlace'] = check_plain(variable_get('site_name', 'Drupal'));
+  $variables['station'] = check_plain(variable_get('station_acronym', 'STATION'));
+  $variables['data_policies'] = check_plain(strip_tags(variable_get('eml_data_policies', '')));
+
+  $variables['namespaces_array'] = array(
+    'xmlns:eml' => "eml://ecoinformatics.org/eml-2.1.0",
+    'xmlns:stmml' => "http://www.xml-cml.org/schema/stmml-1.1",
+    'xmlns:ds' => "eml://ecoinformatics.org/dataset-2.1.0",
+    'xmlns:xs' => "http://www.w3.org/2001/XMLSchema",
+    'xmlns:xsi' => "http://www.w3.org/2001/XMLSchema-instance",
+    'xsi:schemaLocation' => "eml://ecoinformatics.org/eml-2.1.0 http://nis.lternet.edu/schemas/EML/eml-2.1.0/eml.xsd",
+  );
+
+  $variables['attributes_array'] += array(
+    'packageId' => eml_dataset_get_package_id($node),
+    'system' => "knb",
+  );
+
+  // Helpful $content variable for templates.
+  $variables += array('content' => array());
+  foreach (element_children($variables['elements']) as $key) {
+    $variables['content'][$key] = $variables['elements'][$key];
+  }
+}
+
+function template_process_eml(array &$variables) {
+  $variables['namespaces'] = $variables['namespaces_array'] ? drupal_attributes($variables['namespaces_array']) : '';
+}
+
+// ----------------------------------------------------------------------------
+// Package ID API
+// ----------------------------------------------------------------------------
+
+/**
+ * Calculate the package ID of a data set.
+ *
+ * @param $node
+ *   A data set node object.
+ *
+ * @return string
+ *   The package ID of the data set in the format of scope.identifier.revision.
+ */
+function eml_dataset_get_package_id($node) {
+  $pattern = variable_get('eml_package_id_pattern', 'knb-lter-[site:station-acronym].[node:field_data_set_id].[node:maximum-timestamp:raw]');
+  return drupal_strtolower(token_replace($pattern, array('node' => $node), array('clear' => TRUE, 'callback' => 'eml_cleanup_package_id_tokens')));
+}
+
+function eml_dataset_is_valid_package_id($package_id) {
+  return preg_match('/^([\w-]+)\.(\d+)\.(\d+)$/', $package_id);
+}
+
+/**
+ * Token replacement callback to remove leading zeros from token values.
+ *
+ * This is necessary since it is very likely that [node:field_data_set_id]
+ * has leading zeros.
+ */
+function eml_cleanup_package_id_tokens(array &$replacements, array $data, array $options) {
+  foreach ($replacements as &$replacement) {
+    $replacement = ltrim($replacement, '0');
+  }
+}
+
+/**
+ * Render a node into EML.
+ *
+ * @param object $node
+ *   A node object
+ *
+ * @return string
+ *   A string containing the EML XML.
+ */
+function eml_get_node_eml($node) {
+  $build = node_view($node, 'eml');
+  $build['#theme'] = 'eml';
+  return drupal_render($build);
+}
+
+// ----------------------------------------------------------------------------
+// Cron queues
+// ----------------------------------------------------------------------------
+
+/**
+ * Implements hook_cron_queue_info().
+ */
+function eml_cron_queue_info() {
+  $info['eml_validation_report'] = array(
+    'worker callback' => 'eml_validation_report_queue_process',
+    'time' => 20,
+  );
+
+  return $info;
+}
+
+/**
+ * Implements callback_cron_queue_info_worker().
+ */
+function eml_validation_report_queue_process($data) {
+  return EmlValidationReportQueue::process($data);
+}
+
+// ----------------------------------------------------------------------------
+// Actions
+// ----------------------------------------------------------------------------
+
+/**
+ * Implements hook_action_info().
+ */
+function eml_action_info() {
+  $info['eml_action_dataset_update_doi'] = array(
+    'type' => 'node',
+    'label' => t('Fetch DOI from PASTA'),
+    'configurable' => FALSE,
+    'triggers' => array(),
+  );
+  $info['eml_action_dataset_enqueue_validation_report'] = array(
+    'type' => 'node',
+    'label' => t('Enqueue to fetch EML validation report'),
+    'configurable' => FALSE,
+    'triggers' => array(),
+  );
+
+  return $info;
+}
+
+/**
+ * Implements callback_action_info().
+ *
+ * Action callback to retrieve a data set's DOI and save it in field_doi.
+ */
+function eml_action_dataset_update_doi($node) {
+  if ($node->type != 'data_set') {
+    return;
+  }
+
+  try {
+    $dataset = new EmlDataSet($node);
+    if ($doi = $dataset->fetchDOI()) {
+      $node->field_doi[LANGUAGE_NONE][0]['value'] = $doi;
+      EntityHelper::updateFieldValues('node', $node);
+      $uri = entity_uri('node', $node);
+      $link = l(t('View data set'), $uri['path'], $uri['options']);
+      watchdog('action', 'Updated DOI for %title to @doi.', array('%title' => $node->title, '@doi' => $doi), WATCHDOG_INFO, $link);
+    }
+  }
+  catch (Exception $exception) {
+    // @todo Should we set the DOI field to be empty here?
+    watchdog_exception('eml', $exception);
+  }
+}
+
+/**
+ * Implements callback_action_info().
+ *
+ * Enqueues a data set node to fetch its validation report.
+ */
+function eml_action_dataset_enqueue_validation_report($node) {
+  if ($node->type != 'data_set') {
+    return;
+  }
+
+  try {
+    $dataset = new EmlDataSet($node);
+    if ($transaction = $dataset->fetchValidationReportTransaction()) {
+      $data = array(
+        'nid' => $node->nid,
+        'transaction' => $transaction,
+        'created' => REQUEST_TIME,
+      );
+      EmlValidationReportQueue::get()->createItem($data);
+    }
+  }
+  catch (Exception $exception) {
+    watchdog_exception('eml', $exception);
+  }
+}
+
+// ----------------------------------------------------------------------------
+// Helper utility functions
+// ----------------------------------------------------------------------------
+
+function eml_dataset_get_custom_unit_metadata($node) {
+  $nids = array();
+  if ($items = field_get_items('node', $node, 'field_data_sources')) {
+    foreach ($items as $item) {
+      if (!empty($item['target_id'])) {
+        $nids[] = $item['target_id'];
+      }
+    }
+  }
+  $sources = node_load_multiple($nids);
+
+  $custom_units = array();
+  foreach ($sources as $source) {
+    if ($items = field_get_items('node', $source, 'field_variables')) {
+      foreach ($items as $item) {
+        if ($item['type'] == DEIMS_VARIABLE_TYPE_PHYSICAL && !deims_is_unit_standard($item['data']['unit'])) {
+          $custom_units[] = $item['data']['unit'];
+        }
+      }
+    }
+  }
+
+  $custom_units = array_unique($custom_units);
+
+  if (!empty($custom_units) && $stmml = lter_unit_get_units_stmml($custom_units)) {
+    return array(
+      '#theme' => NULL,
+      '#markup' => $stmml,
+    );
+  }
+}

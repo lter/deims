@@ -1,0 +1,22 @@
+.field-type-deims-variable .description {
+  width: 100%;
+  white-space: normal;
+}
+
+.field-type-deims-variable .remove-button {
+  float: right;
+  margin-top: 1em;
+}
+
+@media screen and (min-width:60em) {
+  .variable-left-column {
+    width: 52%;
+    float: left;
+  }
+
+  .variable-right-column {
+    width: 46%;
+    float: right;
+    clear: right;
+  }
+}

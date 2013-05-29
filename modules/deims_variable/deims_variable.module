@@ -1,0 +1,132 @@
+<?php
+
+/**
+ * @file
+ * Provides a custom field for DEIMS data source variables.
+ *
+ * This module would have been named 'variable' but it conflicts with an
+ * existing namespace on Drupal.org.
+ */
+
+require_once dirname(__FILE__) . '/deims_variable.field.inc';
+
+/**
+ * The nominal variable type.
+ */
+define('DEIMS_VARIABLE_TYPE_NOMINAL', '');
+
+/**
+ * The physical measurement variable type.
+ */
+define('DEIMS_VARIABLE_TYPE_PHYSICAL', 'physical');
+
+/**
+ * The date or time variable type.
+ */
+define('DEIMS_VARIABLE_TYPE_DATE', 'date');
+
+/**
+ * The list/code variable type.
+ */
+define('DEIMS_VARIABLE_TYPE_CODES', 'codes');
+
+/**
+ * Implements hook_menu().
+ */
+function deims_variable_menu() {
+  return array();
+}
+
+/**
+ * Implements hook_theme().
+ */
+function deims_variable_theme() {
+  $theme['deims_variable_summary'] = array(
+    'variables' => array('variable' => NULL),
+    'file' => 'deims_variable.theme.inc',
+    'template' => 'deims-variable-summary',
+  );
+  $theme['deims_variable_table'] = array(
+    'variables' => array('variables' => array()),
+    'file' => 'deims_variable.theme.inc',
+  );
+  $theme['deims_variable_codes_list'] = array(
+    'variables' => array(
+      'codes' => array(),
+      'title' => NULL,
+      'type' => 'ul',
+      'attributes' => array(),
+    ),
+    'file' => 'deims_variable.theme.inc',
+  );
+
+  return $theme;
+}
+
+function _deims_variable_types() {
+  return array(
+    DEIMS_VARIABLE_TYPE_NOMINAL => t('Nominal'),
+    DEIMS_VARIABLE_TYPE_PHYSICAL => t('Physical quantity'),
+    DEIMS_VARIABLE_TYPE_DATE => t('Date and/or time'),
+    DEIMS_VARIABLE_TYPE_CODES => t('Codes / list'),
+  );
+}
+
+/**
+ * Implements hook_form_alter().
+ *
+ * Code to remove a field item from the form taken from
+ * http://drupal.org/project/field_remove_item
+ */
+function deims_variable_form_alter(&$form, &$form_state, $form_id) {
+  if (module_exists('field_remove_item')) {
+    return;
+  }
+
+  if (isset($form_state['triggering_element']['#parents'][3]) && $form_state['triggering_element']['#parents'][3] == 'field_remove_item') {
+
+    $field_name = $form_state['triggering_element']['#parents'][0];
+    $field_language = $form_state['triggering_element']['#parents'][1];
+    $field_delta = $form_state['triggering_element']['#parents'][2];
+
+    if ($form[$field_name][$field_language]['#cardinality'] == FIELD_CARDINALITY_UNLIMITED) {
+      $form['#field_remove_item'] = array(
+        'wrapper' => $form[$field_name]['#attributes']['class'][1],
+        'field_name' => $field_name,
+      );
+      // Remove field item.
+      unset($form[$field_name][$field_language][$field_delta]);
+
+      if (!isset($form_state['#field_remove_item'])) {
+        $form_state['#field_remove_item'] = array();
+      }
+      // Memorize this removal.
+      $form_state['#field_remove_item'][$field_name][$field_language][] = $field_delta;
+    }
+  }
+
+  // Remove all items again in case the form submission fails validation.
+  if (!empty($form_state['#field_remove_item'])) {
+    foreach ($form_state['#field_remove_item'] as $field_name => $field_values) {
+      foreach ($field_values as $field_language => $field_deltas) {
+        foreach ($field_deltas as $field_delta) {
+          if (isset($form[$field_name][$field_language][$field_delta])) {
+            unset($form[$field_name][$field_language][$field_delta]);
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_migrate_api().
+ */
+function deims_variable_migrate_api() {
+  return array(
+    'api' => 2,
+    'field handlers' => array(
+      'DeimsVariableMigrateFieldHandler',
+    ),
+  );
+}

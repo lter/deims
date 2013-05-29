@@ -1,0 +1,9 @@
+name = EML
+description = Provides the ability to output EML from nodes.
+core = 7.x
+package = DEIMS
+dependencies[] = field
+dependencies[] = lter_unit
+dependencies[] = helper
+files[] = lib/EmlDataSet.php
+files[] = lib/EmlValidationReportQueue.php

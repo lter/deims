@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Data Source Content Type feature.
+ */
+
+include_once 'data_source_content_type.features.inc';

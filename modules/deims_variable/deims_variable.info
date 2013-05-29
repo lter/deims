@@ -1,0 +1,10 @@
+name = DEIMS Variable Field
+description = Provides a measurement field for data sources.
+core = 7.x
+package = DEIMS
+dependencies[] = field
+dependencies[] = elements
+dependencies[] = list
+dependencies[] = lter_unit
+recommends[] = select_or_other
+files[] = DeimsVariableMigrateFieldHandler.php

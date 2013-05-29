@@ -1,0 +1,3 @@
+name = LTER Units
+description = Integration with the LTER Unit directory.
+core = 7.x
