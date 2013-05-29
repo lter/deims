@@ -9,9 +9,7 @@ defaults[projects][subdir] = "contrib"
 
 projects[addressfield] = 1.0-beta3
 
-;projects[addthis] = 4.0-alpha2
-
-projecst[admin_menu] = 3.0-rc4
+projects[admin_menu] = 3.0-rc4
 
 projects[admin_select] = 1.3
 

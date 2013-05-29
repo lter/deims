@@ -35,8 +35,6 @@ dependencies[] = elements
 dependencies[] = entity
 dependencies[] = menu_block
 dependencies[] = pathauto
-dependencies[] = strongarm
-dependencies[] = subpathauto
 dependencies[] = token
 ; Migration
 files[] = migration/DeimsContentPageMigration.php
