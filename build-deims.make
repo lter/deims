@@ -8,7 +8,7 @@ includes[] = "drupal-org-core.make"
 includes[] = "drupal-org.make"
 
 ; Download the DEIMS install profile.
-;projects[deims][type] = profile
-;projects[deims][download][type] = "git"
-;projects[deims][download][url] = "http://git.drupal.org/project/deims.git"
-;projects[deims][download][branch] = "7.x-1.x"
+projects[deims][type] = profile
+projects[deims][download][type] = "git"
+projects[deims][download][url] = "https://github.com/palantirnet/deims-profile.git"
+projects[deims][download][branch] = "7.x-1.x"
