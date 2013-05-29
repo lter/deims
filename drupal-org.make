@@ -15,10 +15,7 @@ projecst[admin_menu] = 3.0-rc4
 
 projects[admin_select] = 1.3
 
-projects[auto_entitylabel] = 1.1
-; Add support for altering forms using field_attach_form_alter()
-; This patch will be included in the 1.2 release.
-projects[auto_entitylabel][patch][1980652] = "http://drupal.org/files/1980652-auto-entitylabel-field-attach-form-alter.patch"
+projects[auto_entitylabel] = 1.2
 
 projects[autosave] = 2.2
 
@@ -98,11 +95,9 @@ projects[geophp] = 1.7
 
 projects[google_analytics] = 1.3
 
-projects[inline_entity_form] = 1.1
+projects[inline_entity_form] = 1.2
 ; Add a 'Clone' button to the widget
 projects[inline_entity_form][patch][1590146] = "http://drupal.org/files/ief_clone_button-1590146-18.patch"
-; Fix table class attribute is not an array
-projects[inline_entity_form][patch][1979766] = "http://drupal.org/files/1979766-ief-class-attribute-array.patch"
 ; Limit 'Add new' bundle options when entityreference uses a view for selection
 projects[inline_entity_form][patch][1872316] = "http://drupal.org/files/1872316-ief-bundle-selection-node-view_0.patch"
 
