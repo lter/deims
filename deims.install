@@ -317,4 +317,11 @@ function deims_install_theme() {
   variable_set('theme_default', DEIMS_DEFAULT_THEME);
   variable_set('admin_theme', DEIMS_ADMIN_THEME);
   variable_set('node_admin_theme', '1');
+
+  // Set settings for the theme including color scheme.
+  $form_state = array();
+  form_load_include($form_state, 'inc', 'system', 'system.admin');
+  $form_state['build_info']['args'][0] = DEIMS_DEFAULT_THEME;
+  $form_state['values']['scheme'] = 'deepblue';
+  drupal_form_submit('system_theme_settings', $form_state);
 }

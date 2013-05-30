@@ -24,28 +24,6 @@ $info = array(
   // Pre-defined color schemes.
   'schemes' => array(
     'default' => array(
-      'title' => t('Default (DEIMS)'),
-      'colors' => array(
-        'base'     => '#1c44a9',
-        'page'     => '#ffffff',
-        'sitename' => '#feffff',
-        'slogan'   => '#fefefe',
-        'header'   => '#fdfdfd',
-        'mmenu'    => '#fffffe',
-        'link'     => '#4b5cc3',
-        'top'      => '#062984',
-        'bottom'   => '#5283ff',
-        'ftop'     => '#181818',
-        'fbottom'  => '#343434',
-        'text'     => '#555555',
-        'blockh'   => '#284ead',
-        'blockht'  => '#fffffc',
-        'blockbg'  => '#bbc7e5',
-        'borders'  => '#e9e9e9',
-        'sticky'   => '#f7f7f7',
-      ),
-    ),
-    'girlypink' => array(
       'title' => t('Girly Pink'),
       'colors' => array(
         'base'     => '#eb52c1',
