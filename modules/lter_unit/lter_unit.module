@@ -279,3 +279,8 @@ function lter_unit_get_units_stmml(array $units) {
   //$dom->appendChild($unitList);
   return $dom->saveXML($unitList, LIBXML_NOXMLDECL);
 }
+
+function lter_unit_is_unit_standard($unit) {
+  $units = lter_unit_get_units();
+  return !empty($units[$unit]);
+}

@@ -132,11 +132,6 @@ function _deims_gather_entity_properties($entity_type, array $entities, $key) {
   return $timestamps;
 }
 
-function deims_is_unit_standard($unit) {
-  $units = lter_unit_get_units();
-  return !empty($units[$unit]);
-}
-
 /**
  * Implements hook_preprocess_HOOK().
  *

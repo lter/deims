@@ -175,7 +175,7 @@ class EmlDataSet {
     foreach ($sources as $source) {
       if ($items = field_get_items('node', $source, 'field_variables')) {
         foreach ($items as $item) {
-          if ($item['type'] == DEIMS_VARIABLE_TYPE_PHYSICAL && !deims_is_unit_standard($item['data']['unit'])) {
+          if ($item['type'] == DEIMS_VARIABLE_TYPE_PHYSICAL && !lter_unit_is_unit_standard($item['data']['unit'])) {
             $custom_units[] = $item['data']['unit'];
           }
         }

@@ -430,7 +430,7 @@ function deims_variable_field_formatter_view($entity_type, $entity, $field, $ins
           case DEIMS_VARIABLE_TYPE_PHYSICAL:
             $attribute['measurementScale']['ratio'] = array();
             $attribute['measurementScale']['ratio']['unit'] = array();
-            if (deims_is_unit_standard($item['data']['unit'])) {
+            if (lter_unit_is_unit_standard($item['data']['unit'])) {
               $attribute['measurementScale']['ratio']['unit']['standardUnit'] = $item['data']['unit'];
             }
             else {
