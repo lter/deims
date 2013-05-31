@@ -150,12 +150,44 @@ function deims_preprocess_entity(&$variables) {
   }
 }
 
+
 /**
  * Implements hook_field_widget_form_alter().
  */
 function deims_field_widget_form_alter(&$element, &$form_state, $context) {
-  if ($context['field']['field_name'] == 'field_data_set_id') {
-    // @todo Remove when elements module can provide a number widget.
-    $element['value']['#type'] = 'numberfield';
+  // @todo Remove when elements module can provide a widget for fields.
+  if ($context['field']['type'] == 'email' && $context['instance']['widget']['type'] == 'email_textfield') {
+    $element['email']['#type'] = 'emailfield';
   }
+  if ($context['field']['type'] == 'number_integer' && $context['instance']['widget']['type'] == 'number') {
+    $element['value']['#type'] = 'numberfield';
+    if (drupal_strlen($context['instance']['settings']['min'])) {
+      $element['value']['#min'] = $context['instance']['settings']['min'];
+    }
+    if (drupal_strlen($context['instance']['settings']['max'])) {
+      $element['value']['#max'] = $context['instance']['settings']['max'];
+    }
+  }
+}
+
+/**
+ * Implements hook_form_alter() for migrate_ui_dashboard_form().
+ */
+function deims_form_migrate_ui_dashboard_form_alter(&$form, &$form_state) {
+  // Make the additional info easier to get to.
+  $form['operations']['options']['#type'] = 'container';
+}
+
+/**
+ * Implements hook_form_alter() for migrate_migration_info().
+ */
+function deims_form_migrate_migration_info_alter(&$form, &$form_state) {
+  // Display the actual class used for the migration.
+  $migration = $form_state['build_info']['args'][0];
+  $form['overview']['class_name'] = array(
+    '#type' => 'item',
+    '#title' => t('Migration class name:'),
+    '#markup' => get_class($migration),
+  );
+  $form['overview']['description']['#access'] = !empty($form['overview']['description']['#markup']);
 }

@@ -12,6 +12,11 @@ define('DEIMS_ADMIN_THEME', 'deims_admin');
  * Implements hook_install().
  */
 function deims_install() {
+  // Run the install task for each enabled module.
+  //foreach (module_list() as $module) {
+  //  module_invoke('developer', 'install_' . $module);
+  //}
+
   // Add text formats.
   deims_install_filter();
 
@@ -294,10 +299,11 @@ function deims_install_user() {
   // Set this as the administrator role.
   variable_set('user_admin_role', $admin_role->rid);
 
-  // Assign user 1 the "administrator" role.
-  db_insert('users_roles')
-    ->fields(array('uid' => 1, 'rid' => $admin_role->rid))
-    ->execute();
+  $account = user_load(1);
+  $account->roles[$admin_role->rid] = $admin_role->name;
+  $account->data['admin_select'] = 'admin_menu';
+  //$account->data['overlay'] = 0;
+  user_save($account);
 }
 
 function deims_install_menu() {
@@ -324,4 +330,23 @@ function deims_install_theme() {
   $form_state['build_info']['args'][0] = DEIMS_DEFAULT_THEME;
   $form_state['values']['scheme'] = 'deepblue';
   drupal_form_submit('system_theme_settings', $form_state);
+}
+
+function deims_install_admin_select() {
+  $admin_role = user_role_load_by_name('administrator');
+  variable_set('admin_select_defaults', array(
+    $admin_role->rid => array('admin_select_default' => 'admin_menu', 'weight' => -2),
+    DRUPAL_AUTHENTICATED_RID => array('admin_select_default' => 'toolbar', 'weight' => -1),
+  ));
+}
+
+function deims_install_admin_menu() {
+  variable_set('admin_menu_components', array(
+    'admin_menu.icon' => TRUE,
+    'admin_menu.menu' => TRUE,
+    'admin_menu.search' => TRUE,
+    'admin_menu.users' => FALSE,
+    'admin_menu.account' => TRUE,
+    'shortcut.links' => TRUE,
+  ));
 }
