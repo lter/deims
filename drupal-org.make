@@ -69,6 +69,9 @@ projects[features] = 2.0-beta2
 
 ;projects[fieldable_panels_panes] = 1.4
 
+projects[filefield_sources] = 1.x-dev
+projects[filefield_sources][patch][1492374] = "https://drupal.org/files/1492374-ffs-attach-file-same-path.patch"
+
 projects[field_permissions] = 1.0-beta2
 
 projects[field_referenced_delete] = 1.0-rc4
