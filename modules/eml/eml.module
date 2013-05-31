@@ -28,6 +28,15 @@
 require_once dirname(__FILE__) . '/eml.field.inc';
 
 /**
+ * Implements hook_help().
+ */
+function eml_help($path, $arg) {
+  if (preg_match('/.*\/manage\/.*\/display\/eml/', $path)) {
+    drupal_set_message(t('The ordering of these elements is hard-coded in the template files of the EML module. Re-ordering here will not change any output in EML.'), 'warning');
+  }
+}
+
+/**
  * Implements hook_entity_info_alter().
  */
 function eml_entity_info_alter(array &$info) {
