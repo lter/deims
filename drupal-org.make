@@ -69,9 +69,6 @@ projects[features] = 2.0-beta2
 
 ;projects[fieldable_panels_panes] = 1.4
 
-projects[filefield_sources] = 1.x-dev
-projects[filefield_sources][patch][1492374] = "https://drupal.org/files/1492374-ffs-attach-file-same-path.patch"
-
 projects[field_permissions] = 1.0-beta2
 
 projects[field_referenced_delete] = 1.0-rc4
@@ -82,6 +79,12 @@ projects[file_download_count] = 1.0-beta1
 
 ; Dave Reid maintains this, ok to use dev for now.
 projects[file_entity] = 2.x-dev
+
+projects[filefield_sources] = 1.8
+; Ensure files that already exist in the files directory are left alone.
+projects[filefield_sources][patch][1492374] = "http://drupal.org/files/1492374-ffs-attach-file-same-path.patch"
+; Only show files with relevant extensions in the attach select list.
+projects[filefield_sources][patch][1492374] = "http://drupal.org/files/2006436-file-attach-extension-filter.patch"
 
 ; The field group module has mannnny updates since 7.x-1.1
 projects[field_group] = 1.x-dev
