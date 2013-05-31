@@ -413,7 +413,8 @@ function deims_variable_field_formatter_view($entity_type, $entity, $field, $ins
       break;
 
     case 'eml_attribute_list':
-      $entity->eml_elements['attributeList'] = array();
+      $attributes = array();
+
       foreach ($items as $delta => $item) {
         $attribute = array();
         $attribute['attributeName'] = $item['name'];
@@ -477,11 +478,20 @@ function deims_variable_field_formatter_view($entity_type, $entity, $field, $ins
             }
             break;
         }
-        $entity->eml_elements['attributeList'][] = array(
+
+        $attributes[] = array(
           'key' => 'attribute',
           'value' => $attribute,
         );
       }
+
+      if (!empty($attributes)) {
+        $element = array(
+          '#theme' => 'eml_elements',
+          '#eml' => array('attributeList' => $attributes),
+        );
+      }
+
       break;
   }
 

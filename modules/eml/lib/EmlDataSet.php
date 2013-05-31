@@ -20,8 +20,7 @@ class EmlDataSet {
    */
   public function getEML() {
     $build = node_view($this->node, 'eml');
-    $build['#theme'] = 'eml';
-    return drupal_render($build);
+    return render($build);
   }
 
   /**

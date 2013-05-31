@@ -24,19 +24,12 @@ function eml_field_formatter_info() {
       'element' => '',
     ),
   );
-  $info['entityreference_eml_people'] = array(
-    'label' => t('EML people'),
-    'field types' => array('entityreference'),
-    'settings' => array(
-      'element' => '',
-    ),
-  );
   $info['name_eml_individualName'] = array(
     'label' => t('EML individualName'),
     'field types' => array('name'),
   );
   $info['addressfield_eml_address'] = array(
-    'label' => t('EML individualName'),
+    'label' => t('EML address'),
     'field types' => array('addressfield'),
   );
   $info['email_eml_electronicMailAddress'] = array(
@@ -47,7 +40,7 @@ function eml_field_formatter_info() {
     'label' => t('EML phone'),
     'field types' => array('telephone'),
     'settings' => array(
-      'type' => 'voice',
+      'phonetype' => 'voice',
     ),
   );
   $info['date_eml_temporalCoverage'] = array(
@@ -84,11 +77,11 @@ function eml_field_formatter_settings_summary($field, $instance, $view_mode) {
       break;
 
     case 'entityreference_eml_element':
-      $summary[] = t('Element name: @value', array('@value' => $settings['element']));
+      $summary[] = t('Element name: @value', array('@value' => !empty($settings['element']) ? $settings['element'] : t('None')));
       break;
 
     case 'telephone_eml_phone':
-      $summary[] = t('Type: @value', array('@value' => $settings['type']));
+      $summary[] = t('Type: @value', array('@value' => $settings['phonetype']));
       break;
   }
 
@@ -129,19 +122,20 @@ function eml_field_formatter_settings_form($field, $instance, $view_mode, $form,
         '#title' => t('EML element name'),
         '#type' => 'textfield',
         '#default_value' => $settings['element'],
-        '#required' => TRUE,
+        '#description' => t('If blank, will not output a root XML element and only output the contents from the template.'),
       );
       break;
 
     case 'telephone_eml_phone':
-      $element['type'] = array(
+      $element['phonetype'] = array(
         '#title' => t('Type'),
         '#type' => 'select',
         '#options' => array(
           'voice' => t('Voice'),
-          'fax' => t('Fax'),
+          'facsimile' => t('Fax'),
+          'tdd' => t('TDD'),
         ),
-        '#default_value' => $settings['type'],
+        '#default_value' => $settings['phonetype'],
       );
       break;
   }
@@ -186,87 +180,45 @@ function eml_field_formatter_view($entity_type, $entity, $field, $instance, $lan
       }
       $entities = entity_load($field['settings']['target_type'], $ids);
       $results = entity_view($field['settings']['target_type'], $entities, 'eml', $langcode, FALSE);
-      foreach ($results[$field['settings']['target_type']] as $result) {
-        if (!empty($result['#entity']->eml_elements)) {
-          $entity->eml_elements[] = array(
-            'key' => $settings['element'],
-            'value' => $result['#entity']->eml_elements,
+      foreach ($results[$field['settings']['target_type']] as $delta => $result) {
+        if (!empty($settings['element'])) {
+          $element[$delta] = array(
+            '#theme' => 'eml_tag',
+            '#tag' => $settings['element'],
+            '#value' => render($result),
           );
         }
-        elseif (!empty($result['#node']->eml_elements)) {
-          $entity->eml_elements[] = array(
-            'key' => $settings['element'],
-            'value' => $result['#node']->eml_elements,
+        else {
+          $element[$delta] = array(
+            '#markup' => render($result),
           );
         }
-      }
-      break;
-
-    case 'entityreference_eml_people':
-      $ids = array();
-      foreach ($items as $item) {
-        $ids[] = $item['target_id'];
-      }
-      $entities = entity_load($field['settings']['target_type'], $ids);
-
-      foreach ($entities as $result) {
-        $person = array();
-        $person_entity = node_load($result->field_related_person[LANGUAGE_NONE][0]['target_id']);
-
-        $person['individualName'] = array();
-        $person['individualName']['givenName'] = $person_entity->field_name[LANGUAGE_NONE][0]['given'];
-        $person['individualName']['surName'] = $person_entity->field_name[LANGUAGE_NONE][0]['family'];
-        $person['address'] = array();
-        $person['address']['deliveryPoint'] = $person_entity->field_address[LANGUAGE_NONE][0]['thoroughfare'];
-        $person['address']['city'] = $person_entity->field_address[LANGUAGE_NONE][0]['locality'];
-        $person['address']['administrativeArea'] = $person_entity->field_address[LANGUAGE_NONE][0]['administrative_area'];
-        $person['address']['postalCode'] = $person_entity->field_address[LANGUAGE_NONE][0]['postal_code'];
-        $person['electronicMailAddress'] = $person_entity->field_email[LANGUAGE_NONE][0]['email'];
-
-
-        $key = 'associatedParty';
-        switch ($result->field_project_role[LANGUAGE_NONE][0]['value']) {
-          case 'creator':
-          case 'contact':
-          case 'publisher':
-          case 'metadataProvider':
-            $key = $result->field_project_role[LANGUAGE_NONE][0]['value'];
-            break;
-          default:
-            $person['role'] = drupal_strtolower($result->field_project_role[LANGUAGE_NONE][0]['value']);
-            break;
-        }
-
-        $entity->eml_elements[] = array(
-          'key' => $key,
-          'value' => $person,
-        );
       }
       break;
 
     case 'name_eml_individualName':
-      foreach ($items as $item) {
+      foreach ($items as $delta => $item) {
         $name = array(
           'givenName' => $item['given'],
           'surName' => $item['family'],
         );
-        $entity->eml_elements[] = array(
-          'key' => 'individualName',
-          'value' => $name,
+        $element[$delta] = array(
+          '#theme' => 'eml_elements',
+          '#eml' => array('individualName' => $name),
         );
       }
       break;
 
     case 'addressfield_eml_address':
-      foreach ($items as $item) {
+      foreach ($items as $delta => $item) {
         $address = array();
         $address['deliveryPoint'] = $item['thoroughfare'];
         $address['city'] = $item['locality'];
         $address['administrativeArea'] = $item['administrative_area'];
         $address['postalCode'] = $item['postal_code'];
-        $entity->eml_elements[] = array(
-          'key' => 'address',
-          'value' => $address,
+        $element[$delta] = array(
+          '#theme' => 'eml_elements',
+          '#eml' => array('address' => $address),
         );
       }
       break;
@@ -275,7 +227,7 @@ function eml_field_formatter_view($entity_type, $entity, $field, $instance, $lan
       $values = array();
       foreach ($items as $item) {
         $display['settings']['format_type'] = 'iso_8601';
-        $dates = date_formatter_process($formatter, $entity_type, $entity, $field, $instance, $langcode, $item, $display);
+        $dates = date_formatter_process('date_default', $entity_type, $entity, $field, $instance, $langcode, $item, $display);
         $granularity = date_granularity($field);
         if ($dates['value']['formatted'] != $dates['value2']['formatted']) {
           $value = array('key' => 'rangeOfDates', 'value' => array(
@@ -290,26 +242,36 @@ function eml_field_formatter_view($entity_type, $entity, $field, $instance, $lan
       }
 
       if (!empty($values)) {
-        $entity->eml_elements[] = array(
-          'key' => 'temporalCoverage',
-          'value' => $dates,
+        $element = array(
+          '#theme' => 'eml_elements',
+          '#eml' => $values,
         );
       }
       break;
 
     case 'geofield_eml_boundingCoordinates':
-      $values = array();
-      foreach ($items as $item) {
-        $value = array(
-          'westBoundingCoordinate' => $item['right'],
-          'eastBoundingCoordinate' => $item['left'],
-          'northBoundingCoordinate' => $item['top'],
-          'southBoundingCoordinate' => $item['bottom'],
+      foreach ($items as $delta => $item) {
+        $element[$delta] = array(
+          '#theme' => 'eml_elements',
+          '#eml' => array(
+            'westBoundingCoordinate' => $item['right'],
+            'eastBoundingCoordinate' => $item['left'],
+            'northBoundingCoordinate' => $item['top'],
+            'southBoundingCoordinate' => $item['bottom'],
+          ),
         );
-        // @todo <boundingAltitudes> value needs to be inside this element.
-        $entity->eml_elements[] = array(
-          'key' => 'boundingCoordinates',
-          'value' => $value,
+      }
+      break;
+
+    case 'telephone_eml_phone':
+      foreach ($items as $delta => $item) {
+        $element[$delta] = array(
+          '#theme' => 'eml_elements',
+          '#eml' => array(array(
+            'key' => 'phone',
+            'attributes' => array('phonetype' => $settings['phonetype']),
+            'value' => $item['value'],
+          )),
         );
       }
       break;

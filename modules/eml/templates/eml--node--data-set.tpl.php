@@ -1,0 +1,111 @@
+<eml:eml<?php print $namespaces; ?> <?php print $attributes; ?>>
+  <access scope="document" order="allowFirst" authSystem="knb">
+    <allow>
+      <principal>uid=<?php print $station; ?>,o=LTER,dc=ecoinformatics,dc=org</principal>
+      <permission>all</permission>
+    </allow>
+    <allow>
+      <principal>public</principal>
+      <permission>read</permission>
+    </allow>
+  </access>
+  <dataset>
+    <title><?php print $label; ?></title>
+
+    <?php if (!empty($content['field_person_contact'])): ?>
+    <creator>
+      <?php print render($content['field_person_creator']); ?>
+    </creator>
+    <?php endif; ?>
+
+    <?php if (!empty($content['field_person_metadata_provider'])): ?>
+    <metadataProvider>
+      <?php print render($content['field_person_metadata_provider']); ?>
+    </metadataProvider>
+    <?php endif; ?>
+
+    <?php print render($content['field_project_roles']); ?>
+
+    <pubDate><?php print $pubDate; ?></pubDate>
+
+    <language><?php print $language; ?></language>
+
+    <?php if (!empty($content['field_abstract'])): ?>
+    <abstract>
+      <?php print render($content['field_abstract']); ?>
+    </abstract>
+    <?php endif; ?>
+
+    <keywordSet /><!-- @todo keywordSet -->
+
+    <?php if (!empty($content['field_additional_information'])): ?>
+    <additionalInfo>
+      <?php print render($content['field_additional_information']); ?>
+    </additionalInfo>
+    <?php endif; ?>
+
+    <intellectualRights>
+      <section>
+        <title>Data Policies</title>
+        <para>
+          <literalLayout>
+            <?php print $data_policies; ?>
+          </literalLayout>
+        </para>
+      </section>
+    </intellectualRights>
+
+    <distribution>
+      <online>
+        <url function="information"><?php print $url; ?></url>
+      </online>
+    </distribution>
+
+    <?php if (!empty($content['field_related_sites']) || !empty($content['field_date_range'])): ?>
+    <coverage>
+      <?php print render($content['field_related_sites']); ?>
+      <temporalCoverage>
+        <?php print render($content['field_date_range']); ?>
+      </temporalCoverage>
+    </coverage>
+    <?php endif; ?>
+
+    <?php if (!empty($content['field_purpose'])): ?>
+    <purpose>
+      <?php print render($content['field_purpose']); ?>
+    </purpose>
+    <?php endif; ?>
+
+    <?php if (!empty($content['field_maintenance'])): ?>
+    <maintenance>
+      <?php print render($content['field_maintenance']); ?>
+    </maintenance>
+    <?php endif; ?>
+
+    <?php if (!empty($content['field_person_contact'])): ?>
+    <contact>
+      <?php print render($content['field_person_contact']); ?>
+    </contact>
+    <?php endif; ?>
+
+    <?php if (!empty($content['field_person_publisher'])): ?>
+    <publisher>
+      <?php print render($content['field_person_publisher']); ?>
+    </publisher>
+    <?php endif; ?>
+
+    <pubPlace><?php print $pubPlace; ?></pubPlace>
+
+    <methods>
+      <!-- @todo methods -->
+    </methods>
+
+    <?php print render($content['field_data_sources']); ?>
+  </dataset>
+
+  <?php if (!empty($content['additionalMetadata'])): ?>
+  <additionalMetadata>
+    <?php print render($content['additionalMetadata']); ?>
+  </additionalMetadata>
+  <?php endif; ?>
+</eml:eml>

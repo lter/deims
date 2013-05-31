@@ -1,0 +1,8 @@
+<?php
+
+/**
+ * Implements hook_install().
+ */
+function eml_install() {
+  variable_set('date_format_eml_yeardate', 'Y-m-d');
+}
