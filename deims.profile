@@ -149,13 +149,3 @@ function deims_preprocess_entity(&$variables) {
     $variables['page'] = TRUE;
   }
 }
-
-/**
- * Implements hook_field_widget_form_alter().
- */
-function deims_field_widget_form_alter(&$element, &$form_state, $context) {
-  if ($context['field']['field_name'] == 'field_data_set_id') {
-    // @todo Remove when elements module can provide a number widget.
-    $element['value']['#type'] = 'numberfield';
-  }
-}
