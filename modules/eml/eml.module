@@ -31,6 +31,8 @@ require_once dirname(__FILE__) . '/eml.field.inc';
  * Implements hook_help().
  */
 function eml_help($path, $arg) {
+  // Show a warning on the 'EML' view mode sub-tab of 'Manage Display' pages
+  // that re-ordering fields has no affect on the actual EML templates used.
   if (preg_match('/.*\/manage\/.*\/display\/eml/', $path)) {
     drupal_set_message(t('The ordering of these elements is hard-coded in the template files of the EML module. Re-ordering here will not change any output in EML.'), 'warning');
   }
@@ -40,10 +42,15 @@ function eml_help($path, $arg) {
  * Implements hook_entity_info_alter().
  */
 function eml_entity_info_alter(array &$info) {
-  $info['node']['view modes']['eml'] = array(
-    'label' => t('EML'),
-    'custom settings' => TRUE,
-  );
+  // Add an 'EML' view mode to all possible entity types.
+  foreach (array_keys($info) as $entity_type) {
+    if (!empty($info[$entity_type]['view modes'])) {
+      $info[$entity_type]['view modes']['eml'] = array(
+        'label' => t('EML'),
+        'custom settings' => FALSE,
+      );
+    }
+  }
 }
 
 /**
