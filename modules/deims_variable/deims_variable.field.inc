@@ -24,14 +24,14 @@ function deims_variable_field_info() {
  */
 function deims_variable_field_load($entity_type, $entities, $field, $instances, $langcode, &$items, $age) {
   foreach ($entities as $id => $entity) {
-    foreach ($items[$id] as $delta => &$item) {
+    foreach ($items[$id] as $delta => $item) {
       foreach ($item as $column => $value) {
         if (!empty($field['columns'][$column]['serialize'])) {
-          if (empty($item[$column])) {
-            $item[$column] = isset($field['columns'][$column]['unserialized default']) ? $field['columns'][$column]['unserialized default'] : NULL;
+          if (empty($value)) {
+            $items[$id][$delta][$column] = isset($field['columns'][$column]['unserialized default']) ? $field['columns'][$column]['unserialized default'] : NULL;
           }
           else {
-            $item[$column] = unserialize($value);
+            $items[$id][$delta][$column] = unserialize($value);
           }
         }
       }
