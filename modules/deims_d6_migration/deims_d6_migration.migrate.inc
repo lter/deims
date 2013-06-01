@@ -8,7 +8,7 @@
 /**
  * Implements hook_migrate_api().
  */
-function deims_migrate_api() {
+function deims_d6_migration_migrate_api() {
   return array(
     'api' => 2,
     'migrations' => array(

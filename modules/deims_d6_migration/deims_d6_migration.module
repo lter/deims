@@ -5,6 +5,8 @@
  * Empty module file (migration code contained in includes).
  */
 
+define('DEIMS_MIGRATION_BASE', 'deims_d6_migration');
+
 /**
  * Implements hook_form_alter() for migrate_ui_dashboard_form().
  */
