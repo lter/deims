@@ -25,7 +25,7 @@ function eml_output_node($node) {
   $output = render($build);
 
   // Cleanup the XML output using the Tidy library.
-  if (extension_loaded('tidy')) {
+  if (class_exists('tidy')) {
     $config = array(
       'indent' => TRUE,
       'input-xml' => TRUE,
