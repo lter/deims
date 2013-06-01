@@ -176,25 +176,3 @@ function deims_field_widget_form_alter(&$element, &$form_state, $context) {
     }
   }
 }
-
-/**
- * Implements hook_form_alter() for migrate_ui_dashboard_form().
- */
-function deims_form_migrate_ui_dashboard_form_alter(&$form, &$form_state) {
-  // Make the additional info easier to get to.
-  $form['operations']['options']['#type'] = 'container';
-}
-
-/**
- * Implements hook_form_alter() for migrate_migration_info().
- */
-function deims_form_migrate_migration_info_alter(&$form, &$form_state) {
-  // Display the actual class used for the migration.
-  $migration = $form_state['build_info']['args'][0];
-  $form['overview']['class_name'] = array(
-    '#type' => 'item',
-    '#title' => t('Migration class name:'),
-    '#markup' => get_class($migration),
-  );
-  $form['overview']['description']['#access'] = !empty($form['overview']['description']['#markup']);
-}

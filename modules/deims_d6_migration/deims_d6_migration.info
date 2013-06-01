@@ -1,0 +1,18 @@
+name = DEIMS Drupal 6 Migration
+description = Provides a base migration from the DEIMS Drupal 6 install profile.
+core = 7.x
+dependencies[] = migrate
+dependencies[] = migrate_ui
+dependencies[] = migrate_extras
+dependencies[] = migrate_d2d
+dependencies[] = date_migrate
+; Migration classes
+files[] = migration/DeimsContentPageMigration.php
+files[] = migration/DeimsContentStoryMigration.php
+files[] = migration/DeimsContentResearchSiteMigration.php
+files[] = migration/DeimsContentPersonMigration.php
+files[] = migration/DeimsEntityOrganizationMigration.php
+files[] = migration/DeimsFileMigration.php
+files[] = migration/DeimsContentDataSetMigration.php
+files[] = migration/DeimsContentDataFileMigration.php
+files[] = migration/DeimsContentBookMigration.php

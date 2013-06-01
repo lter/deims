@@ -13,7 +13,6 @@ dependencies[] = list
 dependencies[] = menu
 dependencies[] = number
 dependencies[] = options
-dependencies[] = overlay
 dependencies[] = path
 dependencies[] = rdf
 dependencies[] = search
@@ -37,16 +36,6 @@ dependencies[] = menu_block
 dependencies[] = pathauto
 dependencies[] = responsive_tables
 dependencies[] = token
-; Migration
-files[] = migration/DeimsContentPageMigration.php
-files[] = migration/DeimsContentStoryMigration.php
-files[] = migration/DeimsContentResearchSiteMigration.php
-files[] = migration/DeimsContentPersonMigration.php
-files[] = migration/DeimsEntityOrganizationMigration.php
-files[] = migration/DeimsFileMigration.php
-files[] = migration/DeimsContentDataSetMigration.php
-files[] = migration/DeimsContentDataFileMigration.php
-files[] = migration/DeimsContentBookMigration.php
 ; CSS
 ; @todo Move this CSS to an actual admin custom theme.
 stylesheets[all][] = deims.admin.css

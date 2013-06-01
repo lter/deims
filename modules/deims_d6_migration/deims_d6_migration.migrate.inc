@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Migrate module integration with the DEIMS install profile.
+ * Migrate module integration with the DEIMS D6 Migration module.
  */
 
 /**

@@ -1,0 +1,38 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the DEIMS D6 Migration module.
+ */
+
+/**
+ * Implements hook_requirements().
+ */
+function deims_d6_migration_requirements() {
+  $requirements = array();
+  $t = get_t();
+
+  if (!Database::getConnectionInfo('drupal6')) {
+    $requirements['deims_d6_migration_db_missing'] = array(
+      'title' => $t('Migration database connection'),
+      'value' => $t('Missing'),
+      'description' => $t('Make sure that you have a database connection with the key <em>drupal6</em> added to your settings.local.php.'),
+      'severity' => REQUIREMENT_ERROR,
+    );
+  }
+  else {
+    try {
+      $connection = Database::getConnection('default', 'drupal6');
+      $connection->query("SELECT 1 FROM {system}");
+    }
+    catch (Exception $e) {
+      $requirements['deims_d6_migration_db_missing'] = array(
+        'title' => $t('Migration database connection'),
+        'value' => check_plain($e->getMessage()),
+        'severity' => REQUIREMENT_ERROR,
+      );
+    }
+  }
+
+  return $requirements;
+}
