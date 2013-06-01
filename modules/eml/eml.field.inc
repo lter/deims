@@ -174,7 +174,10 @@ function eml_field_formatter_view($entity_type, $entity, $field, $instance, $lan
           'key' => 'keywordThesaurus',
           'value' => token_replace($settings['thesaurus_value'], array('term' => reset($terms)))
         );
-        $entity->eml_elements['keywordSet'] = $keywords;
+        $element = array(
+          '#theme' => 'eml_elements',
+          '#eml' => array('keywordSet' => $keywords),
+        );
       }
       break;
 

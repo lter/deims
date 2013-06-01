@@ -34,7 +34,7 @@
     </abstract>
     <?php endif; ?>
 
-    <!-- @todo <keywordSet /> -->
+    <?php print render($content['keywordSets']); ?>
 
     <?php if (!empty($content['field_additional_information'])): ?>
     <additionalInfo>

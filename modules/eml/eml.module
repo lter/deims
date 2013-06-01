@@ -169,6 +169,17 @@ function eml_node_view($node, $view_mode, $langcode) {
       //   $node->eml_elements['methods']['instrumentation'] = strip_tags($items[0]['safe_value']);
       // }
 
+      // Join all taxonomy fields into one content array to output in the
+      // template.
+      $node->content['keywordSets'] = array();
+      foreach (element_children($node->content) as $key) {
+        if (isset($node->content[$key]['#field_type'])
+            && $node->content[$key]['#field_type'] == 'taxonomy_term_reference'
+            && $node->content[$key]['#formatter'] == 'taxonomy_eml_keywordset') {
+          $node->content['keywordSets'][] = $node->content[$key];
+        }
+      }
+
       $dataset = new EMLDataSet($node);
       if ($metadata = $dataset->getCustomUnitMetadata()) {
         $node->content['additionalMetadata'][] = array(
