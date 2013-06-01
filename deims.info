@@ -36,6 +36,3 @@ dependencies[] = menu_block
 dependencies[] = pathauto
 dependencies[] = responsive_tables
 dependencies[] = token
-; CSS
-; @todo Move this CSS to an actual admin custom theme.
-stylesheets[all][] = deims.admin.css
