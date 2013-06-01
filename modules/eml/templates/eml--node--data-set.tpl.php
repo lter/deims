@@ -12,11 +12,9 @@
   <dataset>
     <title><?php print $label; ?></title>
 
-    <?php if (!empty($content['field_person_contact'])): ?>
     <creator>
       <?php print render($content['field_person_creator']); ?>
     </creator>
-    <?php endif; ?>
 
     <?php if (!empty($content['field_person_metadata_provider'])): ?>
     <metadataProvider>
@@ -80,11 +78,9 @@
     </maintenance>
     <?php endif; ?>
 
-    <?php if (!empty($content['field_person_contact'])): ?>
     <contact>
       <?php print render($content['field_person_contact']); ?>
     </contact>
-    <?php endif; ?>
 
     <?php if (!empty($content['field_person_publisher'])): ?>
     <publisher>

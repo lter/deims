@@ -5,7 +5,11 @@
  */
 ?>
 <?php print render($content['field_name']); ?>
-<organizationName><?php print render($content['field_organization']); ?></organizationName>
+<?php if (!empty($content['field_organization'])): ?>
+<organizationName>
+  <?php print render($content['field_organization']); ?>
+</organizationName>
+<?php endif; ?>
 <?php print render($content['field_address']); ?>
 <?php print render($content['field_phone']); ?>
 <?php print render($content['field_fax']); ?>

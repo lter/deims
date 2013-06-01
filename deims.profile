@@ -158,7 +158,6 @@ function deims_preprocess_entity(&$variables) {
   }
 }
 
-
 /**
  * Implements hook_field_widget_form_alter().
  */

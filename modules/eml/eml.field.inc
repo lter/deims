@@ -183,20 +183,22 @@ function eml_field_formatter_view($entity_type, $entity, $field, $instance, $lan
       foreach ($items as $item) {
         $ids[] = $item['target_id'];
       }
-      $entities = entity_load($field['settings']['target_type'], $ids);
-      $results = entity_view($field['settings']['target_type'], $entities, 'eml', $langcode, FALSE);
-      foreach ($results[$field['settings']['target_type']] as $delta => $result) {
-        if (!empty($settings['element'])) {
-          $element[$delta] = array(
-            '#theme' => 'eml_tag',
-            '#tag' => $settings['element'],
-            '#value' => render($result),
-          );
-        }
-        else {
-          $element[$delta] = array(
-            '#markup' => render($result),
-          );
+      if (!empty($ids) && $entities = entity_load($field['settings']['target_type'], $ids)) {
+        $entities = entity_load($field['settings']['target_type'], $ids);
+        $results = entity_view($field['settings']['target_type'], $entities, 'eml', $langcode, FALSE);
+        foreach ($results[$field['settings']['target_type']] as $delta => $result) {
+          if (!empty($settings['element'])) {
+            $element[$delta] = array(
+              '#theme' => 'eml_tag',
+              '#tag' => $settings['element'],
+              '#value' => render($result),
+            );
+          }
+          else {
+            $element[$delta] = array(
+              '#markup' => render($result),
+            );
+          }
         }
       }
       break;
