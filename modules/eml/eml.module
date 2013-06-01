@@ -161,6 +161,17 @@ function eml_node_presave($node) {
 }
 
 /**
+ * Implements hook_workbench_moderation_transition().
+ *
+ * @todo Figure out if we should increment the revision automatically
+ * when a published revision is created?
+ */
+// function eml_workbench_moderation_transition($node, $previous_state, $new_state) {
+//   if ($node->type == 'data_set' && $new_state == 'published') {
+//   }
+// }
+
+/**
  * Implements hook_node_view().
  */
 function eml_node_view($node, $view_mode, $langcode) {

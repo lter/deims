@@ -74,8 +74,14 @@ class EmlDataSet {
   }
 
   public function incrementEMLRevisionID() {
-    $old_revision_id = FieldHelper::getValue('node', $this->node, 'field_eml_revision_id', 'value');
-    $this->node->field_eml_revision_id[LANGUAGE_NONE][0]['value'] = !empty($old_revision_id) ? $old_revision_id + 1 : 1;
+    $revision_id = $this->getEMLRevisionID();
+    if (!empty($revision_id)) {
+      $revision_id++;
+    }
+    else {
+      $revision_id = 1;
+    }
+    $this->setEMLRevisionID($revision_id);
   }
 
   public function checkIfChanged($eml = NULL) {

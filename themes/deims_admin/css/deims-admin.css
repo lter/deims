@@ -7,9 +7,7 @@ textarea.form-textarea {
 }
 
 /* Override the Inline Entity Form buttons so they actually look like buttons */
-/* @todo (Dave) I'm not sure what this actually changes. I don't see any visual
-   difference in the IEF widget with this commented out. */
-/*.field-widget-inline-entity-form .ief-entity-operations input.form-submit,
+.field-widget-inline-entity-form .ief-entity-operations input.form-submit,
 .field-widget-inline-entity-form .field-type-image table input.form-submit {
   color: #5A5A5A;
   text-shadow: 0 -1px 1px white;
@@ -35,7 +33,7 @@ textarea.form-textarea {
   box-shadow: 0 1px 2px #cccccc, inset 0 1px 1px white;
 
   padding: 6px 30px;
-}*/
+}
 
 /* Override the chosen module's default grey color for selected values */
 .chzn-container-single .chzn-single span {
