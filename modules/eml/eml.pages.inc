@@ -20,26 +20,15 @@ function eml_output_node($node) {
     return MENU_NOT_FOUND;
   }
 
+  // Get the EML as a string.
+  $dataset = new EMLDataSet($node);
+  $eml = $dataset->getEML();
+
+  // Check for any changes in the EML output.
+  $dataset->checkIfChanged($eml);
+
+  // Output the EML.
   drupal_add_http_header('Content-Type', 'application/xml; charset=utf-8');
-  $build = node_view($node, 'eml');
-  $output = render($build);
-
-  // Cleanup the XML output using the Tidy library.
-  if (class_exists('tidy')) {
-    $config = array(
-      'indent' => TRUE,
-      'input-xml' => TRUE,
-      'output-xml' => TRUE,
-      'wrap' => FALSE,
-    );
-    $tidy = new tidy();
-    $output = $tidy->repairString($output, $config);
-  }
-  print $output;
-
-  // @todo Convert to use the helper function.
-  //$dataset = new EMLDataSet($node);
-  //print $dataset->getEML();
-
+  print $eml;
   drupal_page_footer();
 }

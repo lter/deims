@@ -20,7 +20,84 @@ class EmlDataSet {
    */
   public function getEML() {
     $build = node_view($this->node, 'eml');
-    return render($build);
+    $output = render($build);
+
+    // Cleanup the XML output using the Tidy library.
+    $config = array(
+      'indent' => TRUE,
+      'input-xml' => TRUE,
+      'output-xml' => TRUE,
+      'wrap' => FALSE,
+    );
+    $tidy = new tidy();
+    $output = $tidy->repairString($output, $config);
+
+    return $output;
+  }
+
+  /**
+   * Calculate the package ID of the data set.
+   *
+   * @return string
+   *   The package ID of the data set in the format of scope.identifier.revision.
+   */
+  public function getPackageID() {
+    $pattern = variable_get('eml_package_id_pattern', 'knb-lter-[site:station-acronym].[node:field_data_set_id].[node:field_eml_revision_id]');
+    return drupal_strtolower(token_replace($pattern, array('node' => $this->node), array('clear' => TRUE, 'callback' => 'eml_cleanup_package_id_tokens')));
+  }
+
+  public function getEMLHash() {
+    return FieldHelper::getValue('node', $this->node, 'field_eml_hash', 'value');
+  }
+
+  public function setEMLHash($hash) {
+    $this->node->field_eml_hash[LANGUAGE_NONE][0]['value'] = $hash;
+  }
+
+  public function calculateEMLHash($eml = NULL) {
+    if (!isset($eml)) {
+      $eml = $this->getEML();
+    }
+
+    // Remove the revision number from the EML so that we can 'truly' compare it.
+    $eml = str_replace($this->getPackageID(), '', $eml);
+
+    return hash('md5', $eml);
+  }
+
+  public function getEMLRevisionID() {
+    return FieldHelper::getValue('node', $this->node, 'field_eml_revision_id', 'value');
+  }
+
+  public function setEMLRevisionID($id) {
+    $this->node->field_eml_revision_id[LANGUAGE_NONE][0]['value'] = $id;
+  }
+
+  public function incrementEMLRevisionID() {
+    $old_revision_id = FieldHelper::getValue('node', $this->node, 'field_eml_revision_id', 'value');
+    $this->node->field_eml_revision_id[LANGUAGE_NONE][0]['value'] = !empty($old_revision_id) ? $old_revision_id + 1 : 1;
+  }
+
+  public function checkIfChanged($eml = NULL) {
+    $current_hash = $this->calculateEMLHash($eml);
+    $old_hash = $this->getEMLHash();
+
+    if ($current_hash != $old_hash) {
+      $original = clone $this->node;
+
+      // Increment the revision ID and set the new hash.
+      $this->incrementEMLRevisionID();
+      $this->setEMLHash($current_hash);
+      EntityHelper::updateFieldValues('node', $this->node);
+
+      watchdog(
+        'eml',
+        'EML data set change detected. Updated EML revision ID and hash for !title.',
+        array('!title' => $this->node->title),
+        WATCHDOG_INFO,
+        l(t('View data set'), 'node/' . $this->node->nid) . ' | ' . l(t('View EML'), 'node/' . $this->node->nid . '/eml')
+      );
+    }
   }
 
   /**
@@ -33,7 +110,7 @@ class EmlDataSet {
    * @ingroup eml_data_manager_api
    */
   public function fetchDOI() {
-    $package_id = eml_dataset_get_package_id($this->node);
+    $package_id = $this->getPackageID();
 
     // @todo Remove after testing.
     $package_id = 'knb-lter-sev.107.313449';

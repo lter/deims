@@ -146,6 +146,21 @@ function theme_eml_tag($variables) {
 }
 
 /**
+ * Implements hook_node_presave().
+ */
+function eml_node_presave($node) {
+  if ($node->type == 'data_set' && empty($node->nid)) {
+    // For new datasets, set the EML revision ID to 1 and calculate it's hash.
+    $dataset = new EMLDataSet($node);
+    if (!$dataset->getEMLRevisionID()) {
+      $dataset->setEMLRevisionID(1);
+    }
+    $hash = $dataset->calculateEMLHash();
+    $dataset->setEMLHash($hash);
+  }
+}
+
+/**
  * Implements hook_node_view().
  */
 function eml_node_view($node, $view_mode, $langcode) {
@@ -180,8 +195,8 @@ function eml_node_view($node, $view_mode, $langcode) {
         }
       }
 
-      $dataset = new EMLDataSet($node);
-      if ($metadata = $dataset->getCustomUnitMetadata()) {
+      $node->EmlDataSet = new EmlDataSet($node);
+      if ($metadata = $node->EmlDataSet->getCustomUnitMetadata()) {
         $node->content['additionalMetadata'][] = array(
           '#theme' => 'eml_tag',
           '#tag' => 'metadata',
@@ -244,7 +259,8 @@ function template_preprocess_eml(&$variables, $hook) {
 
   if ($entity_type == 'node' && $variables['elements']['#bundle'] == 'data_set') {
     $variables['attributes_array'] += array(
-      'packageId' => eml_dataset_get_package_id($entity),
+      // The EmlDataSet property is loaded in eml_node_view().
+      'packageId' => $entity->EmlDataSet->getPackageID(),
       'system' => "knb",
     );
     $variables['pubDate'] = format_date($entity->created, 'eml_yeardate');
@@ -289,6 +305,8 @@ function template_process_eml(array &$variables) {
 /**
  * Calculate the package ID of a data set.
  *
+ * @deprecated Use EmlDataSet::getPackageID().
+ *
  * @param $node
  *   A data set node object.
  *
@@ -296,7 +314,7 @@ function template_process_eml(array &$variables) {
  *   The package ID of the data set in the format of scope.identifier.revision.
  */
 function eml_dataset_get_package_id($node) {
-  $pattern = variable_get('eml_package_id_pattern', 'knb-lter-[site:station-acronym].[node:field_data_set_id].[node:maximum-timestamp:raw]');
+  $pattern = variable_get('eml_package_id_pattern', 'knb-lter-[site:station-acronym].[node:field_data_set_id].[node:field_eml_revision_id]');
   return drupal_strtolower(token_replace($pattern, array('node' => $node), array('clear' => TRUE, 'callback' => 'eml_cleanup_package_id_tokens')));
 }
 
