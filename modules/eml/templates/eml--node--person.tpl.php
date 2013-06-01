@@ -5,14 +5,9 @@
  */
 ?>
 <?php print render($content['field_name']); ?>
-<organizationName>
-  <?php print render($content['field_organization']); ?>
-</organizationName>
+<organizationName><?php print render($content['field_organization']); ?></organizationName>
 <?php print render($content['field_address']); ?>
 <?php print render($content['field_phone']); ?>
 <?php print render($content['field_fax']); ?>
-<?php if (!empty($content['field_email'])): ?>
-  <electronicMailAddress>
-    <?php print render($content['field_email']); ?>
-  </electronicMailAddress>
-<?php endif; ?>
+<?php print render($content['field_email']); ?>
+<?php print render($content['field_url']); ?>

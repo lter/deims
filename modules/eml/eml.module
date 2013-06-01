@@ -155,19 +155,19 @@ function eml_node_view($node, $view_mode, $langcode) {
 
   switch ($node->type) {
     case 'data_set':
-      if ($items = field_get_items('node', $node, 'field_methods')) {
-        foreach ($items as $item) {
-          $method = array();
-          $method['section']['para']['literalLayout'] = strip_tags($item['safe_value']);
-          $node->eml_elements['methods']['methodStep'][] = array(
-            'key' => 'description',
-            'value' => $method,
-          );
-        }
-      }
-      if ($items = field_get_items('node', $node, 'field_instrumentation')) {
-        $node->eml_elements['methods']['instrumentation'] = strip_tags($items[0]['safe_value']);
-      }
+      // if ($items = field_get_items('node', $node, 'field_methods')) {
+      //   foreach ($items as $item) {
+      //     $method = array();
+      //     $method['section']['para']['literalLayout'] = strip_tags($item['safe_value']);
+      //     $node->eml_elements['methods']['methodStep'][] = array(
+      //       'key' => 'description',
+      //       'value' => $method,
+      //     );
+      //   }
+      // }
+      // if ($items = field_get_items('node', $node, 'field_instrumentation')) {
+      //   $node->eml_elements['methods']['instrumentation'] = strip_tags($items[0]['safe_value']);
+      // }
 
       $dataset = new EMLDataSet($node);
       if ($metadata = $dataset->getCustomUnitMetadata()) {
@@ -176,16 +176,6 @@ function eml_node_view($node, $view_mode, $langcode) {
           '#tag' => 'metadata',
           '0' => $metadata,
         );
-      }
-
-      break;
-
-    case 'data_source':
-      if ($items = field_get_items('node', $node, 'field_date_range')) {
-        $node->eml_elements['coverage']['temporalCoverage']['rangeOfDates']['beginDate']['calendarDate'] = substr($items[0]['value'], 0, 10);
-        if (!empty($items[0]['value2']) && $items[0]['value'] != $items[0]['value2']) {
-          $node->eml_elements['coverage']['temporalCoverage']['rangeOfDates']['endDate']['calendarDate'] = substr($items[0]['value2'], 0, 10);
-        }
       }
       break;
   }
@@ -267,11 +257,16 @@ function template_preprocess_eml(&$variables, $hook) {
     }
   }
 
+  // Add template suggestions to use, starting with the least preferred, and
+  // ending with the one to try first if it exists. The last one should be the
+  // most specific.
   $variables['theme_hook_suggestions'][] = 'eml';
   $variables['theme_hook_suggestions'][] = "eml__{$entity_type}__{$bundle}";
-  //dpm($variables);
 }
 
+/**
+ * Implements hook_process_HOOK() for eml.tpl.php.
+ */
 function template_process_eml(array &$variables) {
   $variables['namespaces'] = $variables['namespaces_array'] ? drupal_attributes($variables['namespaces_array']) : '';
 }

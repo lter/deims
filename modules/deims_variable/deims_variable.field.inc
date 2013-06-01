@@ -277,8 +277,6 @@ function deims_variable_field_widget_form(&$form, &$form_state, $field, $instanc
       if (module_exists('select_or_other')) {
         $element['data']['unit']['#type'] = 'select_or_other';
         $element['data']['unit']['#options'] = lter_unit_get_unit_options(1);
-        $element['data']['unit']['#other_unknown_defaults'] = 'other';
-        $element['data']['unit']['#other_delimiter'] = FALSE;
       }
       $element['data']['maximum'] = array(
         '#type' => 'numberfield',
@@ -488,7 +486,7 @@ function deims_variable_field_formatter_view($entity_type, $entity, $field, $ins
       if (!empty($attributes)) {
         $element = array(
           '#theme' => 'eml_elements',
-          '#eml' => array('attributeList' => $attributes),
+          '#eml' => $attributes,
         );
       }
 

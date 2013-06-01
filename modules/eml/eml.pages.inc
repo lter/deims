@@ -21,6 +21,24 @@ function eml_output_node($node) {
   }
 
   drupal_add_http_header('Content-Type', 'application/xml; charset=utf-8');
-  print eml_get_node_eml($node);
+  $build = node_view($node, 'eml');
+  $output = render($build);
+
+  if (extension_loaded('tidy')) {
+    $config = array(
+      'indent' => TRUE,
+      'input-xml' => TRUE,
+      'output-xml' => TRUE,
+      'wrap' => FALSE,
+    );
+    $tidy = new tidy();
+    $output = $tidy->repairString($output, $config);
+  }
+  print $output;
+
+  // @todo Convert to use the helper function.
+  //$dataset = new EMLDataSet($node);
+  //print $dataset->getEML();
+
   drupal_page_footer();
 }

@@ -36,7 +36,7 @@
     </abstract>
     <?php endif; ?>
 
-    <keywordSet /><!-- @todo keywordSet -->
+    <!-- @todo <keywordSet /> -->
 
     <?php if (!empty($content['field_additional_information'])): ?>
     <additionalInfo>
@@ -64,9 +64,7 @@
     <?php if (!empty($content['field_related_sites']) || !empty($content['field_date_range'])): ?>
     <coverage>
       <?php print render($content['field_related_sites']); ?>
-      <temporalCoverage>
-        <?php print render($content['field_date_range']); ?>
-      </temporalCoverage>
+      <?php print render($content['field_date_range']); ?>
     </coverage>
     <?php endif; ?>
 
@@ -96,9 +94,7 @@
 
     <pubPlace><?php print $pubPlace; ?></pubPlace>
 
-    <methods>
-      <!-- @todo methods -->
-    </methods>
+    <!-- @todo <methods /> -->
 
     <?php print render($content['field_data_sources']); ?>
   </dataset>

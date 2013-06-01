@@ -32,7 +32,7 @@ function eml_field_formatter_info() {
     'label' => t('EML address'),
     'field types' => array('addressfield'),
   );
-  $info['email_eml_electronicMailAddress'] = array(
+  $info['eml_electronicMailAddress'] = array(
     'label' => t('EML electronicMailAddress'),
     'field types' => array('email'),
   );
@@ -51,11 +51,19 @@ function eml_field_formatter_info() {
     'label' => t('EML boundingCoordinates'),
     'field types' => array('geofield'),
   );
+  $info['eml_onlineUrl'] = array(
+    'label' => t('EML onlineUrl'),
+    'field types' => array('link_field'),
+  );
+  $info['eml_text'] = array(
+    'label' => t('EML text'),
+    'field types' => array('text', 'text_long', 'text_with_summary'),
+  );
 
   // Add a low weight to each formatter so that it isn't assigned as the
   // defaul formatter for new fields.
-  foreach ($info as &$field) {
-    $field['weight'] = 100;
+  foreach ($info as &$formatter) {
+    $formatter['weight'] = 100;
   }
 
   return $info;
@@ -129,15 +137,12 @@ function eml_field_formatter_settings_form($field, $instance, $view_mode, $form,
     case 'telephone_eml_phone':
       $element['phonetype'] = array(
         '#title' => t('Type'),
-        '#type' => 'select',
-        '#options' => array(
-          'voice' => t('Voice'),
-          'facsimile' => t('Fax'),
-          'tdd' => t('TDD'),
-        ),
+        '#type' => module_exists('select_or_other') ? 'select_or_other' : 'select',
+        '#options' => drupal_map_assoc(array('voice', 'facsimile', 'tdd')),
         '#default_value' => $settings['phonetype'],
       );
       break;
+
   }
 
   return $element;
@@ -244,7 +249,7 @@ function eml_field_formatter_view($entity_type, $entity, $field, $instance, $lan
       if (!empty($values)) {
         $element = array(
           '#theme' => 'eml_elements',
-          '#eml' => $values,
+          '#eml' => array('temporalCoverage' => $values),
         );
       }
       break;
@@ -272,6 +277,39 @@ function eml_field_formatter_view($entity_type, $entity, $field, $instance, $lan
             'attributes' => array('phonetype' => $settings['phonetype']),
             'value' => $item['value'],
           )),
+        );
+      }
+      break;
+
+    case 'eml_electronicMailAddress':
+      foreach ($items as $delta => $item) {
+        $element[$delta] = array(
+          '#theme' => 'eml_elements',
+          '#eml' => array(
+            'electronicMailAddress' => $item['email'],
+          ),
+        );
+      }
+      break;
+
+    case 'eml_onlineUrl':
+      foreach ($items as $delta => $item) {
+        $element[$delta] = array(
+          '#theme' => 'eml_elements',
+          '#eml' => array(
+            'onlineUrl' => $item['url'],
+          ),
+        );
+      }
+      break;
+
+    case 'text_eml_literalLayout':
+      foreach ($items as $delta => $item) {
+        $element[$delta] = array(
+          '#theme' => 'eml_elements',
+          '#eml' => array(
+            'para' => array('literalLayout' => strip_tags($item['safe_value'])),
+          ),
         );
       }
       break;

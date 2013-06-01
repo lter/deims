@@ -16,6 +16,19 @@ function deims_form_install_configure_form_alter(&$form, $form_state) {
 }
 
 /**
+ * Implements hook_element_info_alter().
+ */
+function deims_element_info_alter(&$info) {
+  // Merge in some defaults to select or other elements.
+  if (isset($info['select_or_other'])) {
+    $info['select_or_other'] += array(
+      '#other_unknown_defaults' => 'other',
+      '#other_delimiter' => FALSE,
+    );
+  }
+}
+
+/**
  * Implements hook_entity_info().
  */
 function deims_entity_info() {
