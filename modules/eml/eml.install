@@ -7,17 +7,15 @@ function eml_requirements($phase) {
   $requirements = array();
   $t = get_t();
 
-  if ($phase == 'runtime') {
-    $requirements['eml_php_tidy'] = array('title' => $t('PHP tidy class'));
-    if (class_exists('tidy')) {
-      $requirements['eml_php_tidy']['value'] = $t('Enabled');
-      $requirements['eml_php_tidy']['severity'] = REQUIREMENT_OK;
-    }
-    else {
-      $requirements['eml_php_tidy']['description'] = $t('The EML module requires the <a href="@php-tidy">PHP tidy extension</a> in order to provide EML XML that passes validation.', array('@php-tidy' => 'http://www.php.net/manual/en/tidy.installation.php'));
-      $requirements['eml_php_tidy']['value'] = $t('Not enabled or missing');
-      $requirements['eml_php_tidy']['severity'] = REQUIREMENT_ERROR;
-    }
+  $requirements['eml_php_tidy'] = array('title' => $t('PHP tidy class'));
+  if (class_exists('tidy')) {
+    $requirements['eml_php_tidy']['value'] = $t('Enabled');
+    $requirements['eml_php_tidy']['severity'] = REQUIREMENT_OK;
+  }
+  else {
+    $requirements['eml_php_tidy']['description'] = $t('The EML module requires the <a href="@php-tidy">PHP tidy extension</a> in order to provide EML XML that passes validation.', array('@php-tidy' => 'http://www.php.net/manual/en/tidy.installation.php'));
+    $requirements['eml_php_tidy']['value'] = $t('Not enabled or missing');
+    $requirements['eml_php_tidy']['severity'] = REQUIREMENT_ERROR;
   }
 
   return $requirements;
