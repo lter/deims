@@ -30,5 +30,4 @@ function eml_output_node($node) {
   // Output the EML.
   drupal_add_http_header('Content-Type', 'application/xml; charset=utf-8');
   print $eml;
-  drupal_page_footer();
 }
