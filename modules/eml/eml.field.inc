@@ -308,7 +308,7 @@ function eml_field_formatter_view($entity_type, $entity, $field, $instance, $lan
       }
       break;
 
-    case 'text_eml_literalLayout':
+    case 'eml_text':
       foreach ($items as $delta => $item) {
         $element[$delta] = array(
           '#theme' => 'eml_elements',
