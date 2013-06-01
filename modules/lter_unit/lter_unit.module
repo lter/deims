@@ -111,7 +111,7 @@ function lter_unit_get_unit_options($category_minimum = 0) {
 
   if (!isset($results)) {
     $cid = 'unit-options:' . $GLOBALS['language']->language;
-    if (FALSE && $cache = cache_get($cid, 'lter_unit')) {
+    if (FALSE && $cache = cache_get($cid, 'cache_lter_unit')) {
       $results = $cache->data;
     }
     else {
@@ -134,7 +134,7 @@ function lter_unit_get_unit_options($category_minimum = 0) {
         }
       }
 
-      cache_set($cid, $results, 'lter_unit');
+      cache_set($cid, $results, 'cache_lter_unit');
     }
   }
 
