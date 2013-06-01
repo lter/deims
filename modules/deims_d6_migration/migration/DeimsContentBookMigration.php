@@ -26,7 +26,7 @@ class DeimsContentBookMigration extends DrupalNode6Migration {
     parent::prepareRow($row);
   }
 
-  public function prepare() {
+  public function prepare($node, $row) {
     // Remove any empty or illegal delta field values.
     EntityHelper::removeInvalidFieldDeltas('node', $node);
     EntityHelper::removeEmptyFieldValues('node', $node);
