@@ -37,7 +37,7 @@ projects[diff] = 3.2
 
 projects[ds] = 2.2
 
-projects[eck] = 2.x-dev
+projects[eck][version] = 2.x-dev
 ; Add entity access alter for ECK entities.
 projects[eck][patch][1969394] = "http://drupal.org/files/1969394-eck-entity-access-alter.patch"
 ; Add IEF clone button support
@@ -49,7 +49,7 @@ projects[elements] = 1.2
 
 projects[email] = 1.2
 
-projects[entity] = 1.0
+projects[entity][version] = 1.0
 ; entity_metadata_no_hook_node_access() should respect that the $node parameter can be a string or an object
 projects[entity][patch][1780646] = "http://drupal.org/files/entity-node_access-1780646-57.patch"
 
@@ -80,7 +80,7 @@ projects[file_download_count] = 1.0-beta1
 ; Dave Reid maintains this, ok to use dev for now.
 projects[file_entity] = 2.x-dev
 
-projects[filefield_sources] = 1.8
+projects[filefield_sources][version] = 1.8
 ; Ensure files that already exist in the files directory are left alone.
 projects[filefield_sources][patch][1492374] = "http://drupal.org/files/1492374-ffs-attach-file-same-path.patch"
 ; Only show files with relevant extensions in the attach select list.
@@ -99,7 +99,7 @@ projects[geophp] = 1.7
 
 projects[google_analytics] = 1.3
 
-projects[inline_entity_form] = 1.2
+projects[inline_entity_form][version] = 1.2
 ; Add a 'Clone' button to the widget
 projects[inline_entity_form][patch][1590146] = "http://drupal.org/files/ief_clone_button-1590146-18.patch"
 ; Limit 'Add new' bundle options when entityreference uses a view for selection
@@ -113,7 +113,7 @@ projects[menu_block] = 2.3
 
 projects[module_filter] = 1.7
 
-projects[migrate] = 2.6-beta1
+projects[migrate][version] = 2.6-beta1
 ; Rebuild menus when registering or deregistering groups and migrations.
 projects[migrate][patch][2011024] = "http://drupal.org/files/2011024-menu-rebuilds_0.patch"
 
@@ -159,7 +159,7 @@ projects[taxonomy_csv] = 5.10
 ; Dave Reid maintains this D8 backport, dev release is ok.
 projects[telephone] = 1.x-dev
 
-projects[term_reference_tree] = 1.10
+projects[term_reference_tree][version] = 1.10
 ; Add filtering to the widget
 projects[term_reference_tree][patches][2007164] = "http://drupal.org/files/2007164-filter.patch"
 
@@ -177,7 +177,7 @@ projects[webform] = 3.18
 
 projects[workbench] = 1.2
 
-projects[workbench_moderation] = 1.3
+projects[workbench_moderation][version] = 1.3
 ; Show revision log message in the workbench message menu_block
 projects[workbench_moderation][patches][1972888] = "http://drupal.org/files/1972888-workbench-show-revision-log-message.patch"
 
