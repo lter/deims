@@ -17,13 +17,13 @@ projects[auto_entitylabel] = 1.2
 
 projects[autosave] = 2.2
 
-projects[backup_migrate] = 2.5
+projects[backup_migrate] = 2.7
 
 projects[biblio] = 1.0-rc5
 
 projects[ctools] = 1.3
 
-projects[chosen] = 2.0-alpha1
+projects[chosen] = 2.0-alpha2
 
 projects[custom_breadcrumbs] = 2.0-alpha3
 
@@ -45,7 +45,7 @@ projects[eck][patch][1979686] = "http://drupal.org/files/1979686-eck-ief-clone-b
 ; Temporary patch to make the inline form display actual useful fields.
 projects[eck][patch][] = "https://gist.github.com/davereid/0014f396fed3f20a66ca/raw/e4f54f8a026dbd1ef4d8981e898ed9782b12a826/deims-eck.patch"
 
-projects[elements] = 1.2
+projects[elements] = 1.3
 
 projects[email] = 1.2
 
@@ -63,9 +63,7 @@ projects[extlink] = 1.12
 
 projects[facetapi] = 1.3
 
-projects[faq] = 1.x-dev
-
-projects[features] = 2.0-beta2
+projects[features] = 2.0-rc1
 
 ;projects[fieldable_panels_panes] = 1.4
 
@@ -89,7 +87,7 @@ projects[filefield_sources][patch][1492374] = "http://drupal.org/files/2006436-f
 ; The field group module has mannnny updates since 7.x-1.1
 projects[field_group] = 1.x-dev
 
-projects[flag] = 3.0-alpha4
+projects[flag] = 3.0-rc1
 
 projects[flexslider] = 2.0-alpha1
 
@@ -117,7 +115,7 @@ projects[migrate][version] = 2.6-beta1
 ; Rebuild menus when registering or deregistering groups and migrations.
 projects[migrate][patch][2011024] = "http://drupal.org/files/2011024-menu-rebuilds_0.patch"
 
-projects[migrate_d2d] = 2.x-dev
+projects[migrate_d2d] = 2.1-beta1
 
 projects[migrate_extras] = 2.x-dev
 
@@ -144,11 +142,11 @@ projects[schema] = 1.0-rc1
 
 projects[schema_reference] = 1.0-beta3
 
-projects[search_api] = 1.4
+projects[search_api] = 1.6
 
 projects[search_api_page] = 1.x-dev
 
-projects[select_or_other] = 2.16
+projects[select_or_other] = 2.17
 
 projects[strongarm] = 2.0
 
@@ -163,17 +161,17 @@ projects[term_reference_tree][version] = 1.10
 ; Add filtering to the widget
 projects[term_reference_tree][patches][2007164] = "http://drupal.org/files/2007164-filter.patch"
 
-projects[token] = 1.2
+projects[token] = 1.5
 
 projects[token_field] = 1.x-dev
 
-projects[token_formatters] = 1.1
+projects[token_formatters] = 1.2
 
 projects[views] = 3.7
 
 projects[views_bulk_operations] = 3.1
 
-projects[webform] = 3.18
+projects[webform] = 3.19
 
 projects[workbench] = 1.2
 
@@ -183,7 +181,7 @@ projects[workbench_moderation][patches][1972888] = "http://drupal.org/files/1972
 
 projects[workbench_access] = 1.2
 
-projects[workbench_email] = 2.1
+projects[workbench_email] = 2.2
 
 projects[wysiwyg] = 2.x-dev
 
@@ -195,7 +193,7 @@ projects[adaptivetheme] = 3.x-dev
 
 projects[pixture_reloaded] = 3.0-rc1
 
-projects[shiny] = 1.1
+projects[shiny] = 1.2
 
 ; -----------------------------------------------------------------------------
 ; Libraries
