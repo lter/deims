@@ -209,8 +209,8 @@ libraries[flexslider][download][subtree] = "FlexSlider-master"
 libraries[flexslider][directory_name] = "flexslider"
 
 libraries[chosen][download][type] = "get"
-libraries[chosen][download][url] = "https://github.com/harvesthq/chosen/archive/master.zip"
-libraries[chosen][download][subtree] = "chosen-master"
+libraries[chosen][download][url] = "https://github.com/koenpunt/chosen/archive/option_adding.zip"
+libraries[chosen][download][subtree] = "option_adding"
 libraries[chosen][directory_name] = "chosen"
 
 ;libraries[datatables][download][type] = "get"
