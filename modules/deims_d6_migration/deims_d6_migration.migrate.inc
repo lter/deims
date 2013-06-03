@@ -60,7 +60,7 @@ function deims_d6_migration_migrate_api() {
         'source_version' => 6,
         // @todo Make this vocabulary source ID automatic from the D6 database.
         'source_vocabulary' => '1',
-        'destination_vocabulary' => 'categories',
+        'destination_vocabulary' => 'core_areas',
       ),
       'DeimsTaxonomyLTERControlled' => array(
         'class_name' => 'DrupalTerm6Migration',
