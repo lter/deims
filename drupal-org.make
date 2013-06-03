@@ -37,7 +37,7 @@ projects[diff] = 3.2
 
 projects[ds] = 2.2
 
-projects[eck][version] = 2.x-dev
+projects[eck][version] = 2.0-rc2
 ; Add entity access alter for ECK entities.
 projects[eck][patch][1969394] = "http://drupal.org/files/1969394-eck-entity-access-alter.patch"
 ; Add IEF clone button support
@@ -49,7 +49,7 @@ projects[elements] = 1.2
 
 projects[email] = 1.2
 
-projects[entity][version] = 1.0
+projects[entity][version] = 1.1
 ; entity_metadata_no_hook_node_access() should respect that the $node parameter can be a string or an object
 projects[entity][patch][1780646] = "http://drupal.org/files/entity-node_access-1780646-57.patch"
 
@@ -200,8 +200,6 @@ projects[shiny] = 1.1
 ; -----------------------------------------------------------------------------
 ; Libraries
 ; -----------------------------------------------------------------------------
-
-;defaults[libraries][destination] = "libraries"
 
 libraries[ckeditor][download][type]= "get"
 libraries[ckeditor][download][url] = "http://download.cksource.com/CKEditor/CKEditor/CKEditor%203.6.6.1/ckeditor_3.6.6.1.zip"
