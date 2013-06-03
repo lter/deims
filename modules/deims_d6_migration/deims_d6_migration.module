@@ -5,7 +5,15 @@
  * Empty module file (migration code contained in includes).
  */
 
-define('DEIMS_MIGRATION', 'deims_d6_migration');
+define('DEIMS_D6_MIGRATION_GROUP', 'deims_d6');
+
+/**
+ * Implements hook_hook_info().
+ */
+function deims_d6_migration_hook_info() {
+  $info['deims_migration_overrides'] = array('group' => 'migrate');
+  return $info;
+}
 
 /**
  * Implements hook_form_alter() for migrate_migration_info().

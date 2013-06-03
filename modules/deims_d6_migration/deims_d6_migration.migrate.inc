@@ -12,8 +12,8 @@ function deims_d6_migration_migrate_api() {
   $info = array(
     'api' => 2,
     'groups' => array(
-      DEIMS_MIGRATION => array(
-        'title' => t('DEIMS D6 migration'),
+      DEIMS_D6_MIGRATION_GROUP => array(
+        'title' => t('DEIMS Drupal 6 migration'),
       ),
     ),
     'migrations' => array(
@@ -81,7 +81,15 @@ function deims_d6_migration_migrate_api() {
   );
 
   foreach ($info['migrations'] as &$migration) {
-    $migration['group_name'] = DEIMS_MIGRATION;
+    $migration['group_name'] = DEIMS_D6_MIGRATION_GROUP;
+  }
+
+  // Allow other modules to alter our migration classes.
+  $overrides = module_invoke_all('deims_migration_overrides');
+  foreach ($overrides as $machine_name => $class_name) {
+    if (isset($info['migrations'][$machine_name])) {
+      $info['migrations'][$machine_name]['class_name'] = $class_name;
+    }
   }
 
   return $info;
