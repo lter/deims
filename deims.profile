@@ -44,13 +44,6 @@ function deims_entity_info() {
         'id' => 'cid',
         'label' => 'name',
       ),
-      'view modes' => array(
-        'full' => array(
-          'label' => t('Full content'),
-          'custom settings' => TRUE,
-        )
-      )
-
     );
   }
 
