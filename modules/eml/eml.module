@@ -129,9 +129,6 @@ function theme_eml_elements($variables) {
 
 function theme_eml_tag($variables) {
   $element = &$variables['element'];
-  $element += array('#attributes' => array());
-  // @todo Dave, do you want to use this variable somewhere?
-  $tag = $element['#tag'];
   if (isset($element['#value'])) {
     $element['#value'] = check_plain($element['#value']);
   }

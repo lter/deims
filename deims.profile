@@ -19,7 +19,10 @@ function deims_form_install_configure_form_alter(&$form, $form_state) {
  * Implements hook_element_info_alter().
  */
 function deims_element_info_alter(&$info) {
-  // Merge in some defaults to select or other elements.
+  // Merge in some defaults to select or other elements. This makes it so that
+  // if a select field is converted to select_or_other, that if #default_value
+  // is not in the array of #options, then it will show the 'Other' field
+  // pre-filled in the form.
   if (isset($info['select_or_other'])) {
     $info['select_or_other'] += array(
       '#other_unknown_defaults' => 'other',
