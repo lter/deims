@@ -113,13 +113,11 @@ projects[menu_block] = 2.3
 
 projects[module_filter] = 1.7
 
-projects[migrate] = 2.5
-; Add hook_migrate_api_alter(). This patch will be included in 2.6.
-projects[migrate][patch][1996736] = "http://drupal.org/files/1996736-hook-migrate-api-alter-do-not-test_0.patch"
+projects[migrate] = 2.6-beta1
+; Rebuild menus when registering or deregistering groups and migrations.
+projects[migrate][patch][2011024] = "http://drupal.org/files/2011024-menu-rebuilds_0.patch"
 
 projects[migrate_d2d] = 2.x-dev
-; Fix PHP strict notice when overridding migration classes.
-projects[migrate_d2d][patch][1996808] = "http://drupal.org/files/1996808-migrate-d2d-generatemachinename-strict-declaration.patch"
 
 projects[migrate_extras] = 2.x-dev
 

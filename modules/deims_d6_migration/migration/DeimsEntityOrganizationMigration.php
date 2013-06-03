@@ -7,8 +7,8 @@
 
 class DeimsEntityOrganizationMigration extends Migration {
 
-  public function __construct() {
-    parent::__construct(MigrateGroup::getInstance('Entity'));
+  public function __construct($arguments) {
+    parent::__construct($arguments);
 
     $this->connection = Database::getConnection('default', 'drupal6');
 

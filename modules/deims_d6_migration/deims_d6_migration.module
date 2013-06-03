@@ -5,22 +5,15 @@
  * Empty module file (migration code contained in includes).
  */
 
-define('DEIMS_MIGRATION_BASE', 'deims_d6_migration');
-
-/**
- * Implements hook_form_alter() for migrate_ui_dashboard_form().
- */
-function deims_d6_migration_form_migrate_ui_dashboard_form_alter(&$form, &$form_state) {
-  // Make the additional info easier to get to.
-  $form['operations']['options']['#type'] = 'container';
-}
+define('DEIMS_MIGRATION', 'deims_d6_migration');
 
 /**
  * Implements hook_form_alter() for migrate_migration_info().
  */
 function deims_d6_migration_form_migrate_migration_info_alter(&$form, &$form_state) {
   // Display the actual class used for the migration.
-  $migration = $form_state['build_info']['args'][0];
+  $migration_name = $form_state['build_info']['args'][1];
+  $migration = Migration::getInstance($migration_name);
   $form['overview']['class_name'] = array(
     '#type' => 'item',
     '#title' => t('Migration class name:'),
