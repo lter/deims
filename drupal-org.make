@@ -85,7 +85,9 @@ projects[filefield_sources][patch][1492374] = "http://drupal.org/files/1492374-f
 projects[filefield_sources][patch][1492374] = "http://drupal.org/files/2006436-file-attach-extension-filter.patch"
 
 ; The field group module has mannnny updates since 7.x-1.1
-projects[field_group] = 1.x-dev
+projects[field_group][version] = 1.x-dev
+; Fix nested vertical/horizontal tabs cause unwanted fieldset labels.
+projects[field_group][patch][1945848] = "http://drupal.org/files/1945848-field-group-nested-fieldset-unwanted-labels.patch"
 
 projects[flag] = 3.0-rc1
 
