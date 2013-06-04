@@ -19,6 +19,7 @@ dependencies[] = search
 dependencies[] = shortcut
 dependencies[] = taxonomy
 dependencies[] = toolbar
+
 ; Contrib
 dependencies[] = admin_menu
 dependencies[] = admin_menu_toolbar
@@ -36,3 +37,7 @@ dependencies[] = menu_block
 dependencies[] = pathauto
 dependencies[] = responsive_tables
 dependencies[] = token
+dependencies[] = views
+
+; Enable the custom modules
+dependencies[] = data_set_content_type
