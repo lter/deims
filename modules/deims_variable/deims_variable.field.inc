@@ -151,23 +151,41 @@ function deims_variable_field_widget_info() {
  * Implements hook_field_widget_form().
  */
 function deims_variable_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
-  if ($delta > 0 && !isset($items[$delta]) && empty($form_state['input'])) {
-    // Do not add an 'extra' field value if this is not the first delta field
-    // item.
-    return FALSE;
-  }
-
   // We need to actually track the form parents of our widget since it may be
   // used with inline entity forms.
   $field_name = $element['#field_name'];
   $langcode = $element['#language'];
   $parents = array_merge($element['#field_parents'], array($field_name, $langcode, $delta));
-  $state_parent = $parents[0] . '[' . implode('][', array_slice($parents, 1));
+
+  if ($field['cardinality'] == FIELD_CARDINALITY_UNLIMITED) {
+    // Do not add an 'extra' field value if this is not the first delta field
+    // item and we assume the user has not clicked on the 'Add another item'
+    // button by checking for an empty form state.
+    if (empty($form_state['input']) && !isset($items[$delta]) && $delta > 0) {
+      //$field_state = field_form_get_state($form['#parents'], $field_name, $langcode, $form_state);
+      //$field_state = count($items);
+      //field_form_set_state($form['#parents'], $field_name, $langcode, $form_state, $field_state);
+      //$form_state['field'][$field_name][$langcode]['items_count'] = count($items);
+      return FALSE;
+    }
+
+    // Field API always tries to add an 'extra' field to the existing values.
+    // Since in the above code we return FALSE for that 'extra' empty delta
+    // value form, ensure that when the user clicks the 'Add another item'
+    // button that we only show one more item, and not two on the first click.
+    if (!empty($form_state['input']) && count($items) > 0) {
+      $field_state = field_form_get_state($form['#parents'], $field_name, $langcode, $form_state);
+      if ($delta == $field_state['items_count']) {
+        return FALSE;
+      }
+    }
+  }
 
   if ($field['cardinality'] == 1) {
     $element['#type'] = 'fieldset';
   }
 
+  $state_parent = $parents[0] . '[' . implode('][', array_slice($parents, 1));
   $element['#attached']['css'][] = drupal_get_path('module', 'deims_variable') . '/deims_variable.field.css';
 
   $element['label'] = array(
