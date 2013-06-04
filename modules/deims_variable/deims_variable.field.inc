@@ -66,7 +66,7 @@ function deims_variable_field_validate($entity_type, $entity, $field, $instance,
 
       $partial = array();
 
-      foreach($fields as $field_partial) {
+      foreach ($fields as $field_partial) {
         if (!empty($field_partial)) {
           array_push($partial, $field_partial);
         }
@@ -124,11 +124,11 @@ function deims_variable_field_presave($entity_type, $entity, $field, $instance, 
     // Serialize all columns that are flagged as such in hook_field_schema().
     foreach ($item as $column => $value) {
       if (!empty($field['columns'][$column]['serialize'])) {
-        if (!empty($item[$column])) {
-          $item[$column] = serialize($item[$column]);
+        if (!empty($value)) {
+          $items[$delta][$column] = serialize($value);
         }
         else {
-          $item[$column] = isset($field['columns'][$column]['unserialized default']) ? serialize($field['columns'][$column]['unserialized default']) : NULL;
+          $items[$delta][$column] = isset($field['columns'][$column]['unserialized default']) ? serialize($field['columns'][$column]['unserialized default']) : NULL;
         }
       }
     }
@@ -151,7 +151,7 @@ function deims_variable_field_widget_info() {
  * Implements hook_field_widget_form().
  */
 function deims_variable_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
-  if ($delta > 0 && !isset($items[$delta])) {
+  if ($delta > 0 && !isset($items[$delta]) && empty($form_state['input'])) {
     // Do not add an 'extra' field value if this is not the first delta field
     // item.
     return FALSE;
