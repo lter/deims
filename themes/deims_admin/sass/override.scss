@@ -1,0 +1,57 @@
+@import "compass/css3";
+
+// Set the padding to be the same as input fields so it doesn't look like
+// there is odd indentation in text areas.
+.form-textarea {
+  padding: 5px;
+  font: normal 500 1em/1em "Open Sans", Arial, sans-serif;
+}
+
+// Override the chosen module's default grey color for selected values
+.chzn-container-single .chzn-single span {
+  color: #333;
+}
+
+// Tweak inline entity form widget CSS.
+.field-widget-inline-entity-form {
+
+  // Override the Inline Entity Form buttons so they actually look like buttons */
+  .ief-entity-operations input.form-submit {
+    color: #5A5A5A;
+    text-shadow: 0 -1px 1px white;
+    background-position: 0 bottom;
+    @include box-shadow(0 1px 2px #cccccc, inset 0 -1px 1px white);
+    background: #e0e0e0;
+    @include background(linear-gradient(top, #fefefe 0%, #e0e0e0 100%));
+    @include border-radius(4px);
+    padding: 6px 30px;
+  }
+
+  // Override Inline Entity Form to not show a border around the fieldset.
+  .form-wrapper {
+    border: none;
+  }
+
+  // Because we're moving the IEF entity form title from a fieldset legend to an
+  // actual title in the fieldset, we need to make sure there is not a giant
+  // amount of space between the entity form and the field label, description,
+  // and existing value table.
+  .ief-form-bottom {
+    padding-top: 0;
+  }
+  .ief-entity-table + .ief-form-bottom {
+    margin-top: -11px;
+  }
+}
+
+// Reset Shiny's styling of managed file help text.
+.form-type-managed-file strong {
+  color: inherit;
+  font-weight: inherit;
+}
+
+// Change required color from a light orange to the color in proposed in the
+// Drupal 8 style guide: https://groups.drupal.org/node/283223.
+.form-required {
+  color: #e62600;
+}

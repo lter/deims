@@ -5,7 +5,7 @@ version = VERSION
 core = 7.x
 base theme = shiny
 
-stylesheets[all][] = css/deims-admin.css
+stylesheets[all][] = css/override.css
 
 settings[shortcut_module_link] = 1
 
