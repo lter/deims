@@ -99,7 +99,7 @@ projects[google_analytics] = 1.3
 
 projects[inline_entity_form][version] = 1.2
 ; Add a 'Clone' button to the widget
-projects[inline_entity_form][patch][1590146] = "http://drupal.org/files/ief_clone_button-1590146-18.patch"
+projects[inline_entity_form][patch][1590146] = "http://drupal.org/files/ief_clone_button-1590146-18-default-off.patch"
 ; Limit 'Add new' bundle options when entityreference uses a view for selection
 projects[inline_entity_form][patch][1872316] = "http://drupal.org/files/1872316-ief-bundle-selection-node-view_0.patch"
 
