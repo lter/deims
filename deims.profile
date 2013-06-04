@@ -67,14 +67,21 @@ function deims_preprocess_entity(&$variables) {
 }
 
 /**
- * Implements hook_field_widget_form_alter().
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ *
+ * Tweak the email widget to use an HTML5 input element.
  */
-function deims_field_widget_form_alter(&$element, &$form_state, $context) {
-  // @todo Remove when elements module can provide a widget for fields.
-  if ($context['field']['type'] == 'email' && $context['instance']['widget']['type'] == 'email_textfield') {
-    $element['email']['#type'] = 'emailfield';
-  }
-  if ($context['field']['type'] == 'number_integer' && $context['instance']['widget']['type'] == 'number') {
+function deims_field_widget_email_textfield_form_alter(&$element, &$form_state, $context) {
+  $element['email']['#type'] = 'emailfield';
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ *
+ * Tweak the number widget to use an HTML5 input element.
+ */
+function deims_field_widget_number_form_alter(&$element, &$form_state, $context) {
+  if ($context['field']['type'] == 'number_integer') {
     $element['value']['#type'] = 'numberfield';
     if (drupal_strlen($context['instance']['settings']['min'])) {
       $element['value']['#min'] = $context['instance']['settings']['min'];
@@ -82,5 +89,95 @@ function deims_field_widget_form_alter(&$element, &$form_state, $context) {
     if (drupal_strlen($context['instance']['settings']['max'])) {
       $element['value']['#max'] = $context['instance']['settings']['max'];
     }
+  }
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ *
+ * Make some visiual tweaks to the inline entity form and it's subforms.
+ */
+function deims_field_widget_inline_entity_form_form_alter(&$element, &$form_state, $context) {
+  $info = entity_get_info($element['entities']['#entity_type']);
+
+  // If there is ony one bundle available to use, change the wording in the
+  // buttons to be more helpful and reference that bundle only, rather than
+  // the entity type.
+  if (!empty($element['actions']['bundle']['#value']) && $element['actions']['bundle']['#type'] == 'value') {
+    $bundle = drupal_strtolower($info['bundles'][$element['actions']['bundle']['#value']]['label']);
+    $bundle_lowercase = drupal_strtolower($bundle);
+    if (isset($element['actions']['ief_add']['#value'])) {
+      $element['actions']['ief_add']['#value'] = t('Add @bundle', array('@bundle' => $bundle_lowercase));
+    }
+    if (isset($element['actions']['ief_add_existing']['#value'])) {
+      $element['actions']['ief_add_existing']['#value'] = t('Use existing @bundle', array('@bundle' => $bundle_lowercase));
+    }
+  }
+
+  $state = $form_state['inline_entity_form'][$element['#ief_id']];
+
+  if (!empty($element['form'])) {
+    $bundle = $info['bundles'][$state['form settings']['bundle']]['label'];
+    $bundle_lowercase = drupal_strtolower($bundle);
+    if ($state['form'] == 'add') {
+      $element['form']['#title'] = t('Add @bundle', array('@bundle' => $bundle_lowercase));
+      $element['form']['actions']['ief_add_save']['#value'] = t('Save @bundle', array('@bundle' => $bundle_lowercase));
+    }
+    elseif ($state['form'] == 'ief_add_existing') {
+      $element['form']['#title'] = t('Select an existing @bundle', array('@bundle' => $bundle_lowercase));
+      $element['form']['entity_id']['#title'] = check_plain($bundle);
+      $element['form']['actions']['ief_reference_save']['#value'] = t('Select @bundle', array('@bundle' => $bundle_lowercase));
+    }
+    elseif ($element['form']['#op'] == 'clone') {
+      $element['form']['#title'] = t('Clone @bundle', array('@bundle' => $bundle_lowercase));
+      $element['form']['actions']['ief_clone_save']['#value'] = t('Save @bundle', array('@bundle' => $bundle_lowercase));
+    }
+
+    if (!empty($element['form']['#title'])) {
+      $element['form']['ief_form_title'] = array(
+        '#markup' => '<h4>' . $element['form']['#title'] . '</h4>',
+        '#weight' => -100,
+      );
+      unset($element['form']['#title']);
+    }
+  }
+
+  if (!empty($state['entities'])) {
+    foreach ($state['entities'] as $delta => $entity_state) {
+      if ($entity_state['form'] == 'edit') {
+        $bundle = $info['bundles'][$element['entities'][$delta]['form']['#bundle']]['label'];
+        $bundle_lowercase = drupal_strtolower($bundle);
+        $element['entities'][$delta]['form']['actions']['ief_edit_save']['#value'] = t('Save @bundle', array('@bundle' => $bundle_lowercase));
+      }
+    }
+  }
+
+  // Force the parent element to always be rendered as a fieldset so that we
+  // never lose the parent field title, description, and required indicators.
+  $element['#type'] = 'fieldset';
+
+  // Add support for the field help text.
+  if (!empty($context['instance']['description'])) {
+    $element['#description'] = field_filter_xss($context['instance']['description']);
+  }
+  else {
+    $element['#description'] = '';
+  }
+
+  // Only re-add the cardinality description if you can add more than one
+  // value, and this isn't an unlimited-value field.
+  if ($context['field']['cardinality'] != FIELD_CARDINALITY_UNLIMITED && $context['field']['cardinality'] > 1) {
+    if (!empty($element['#description'])) {
+      $element['#description'] .= ' ';
+    }
+    $element['#description'] = t('You have added @entities_count out of @cardinality_count allowed.', array(
+      '@entities_count' => count($state['entities']),
+      '@cardinality_count' => $context['field']['cardinality'],
+    ));
+  }
+
+  // Add the required marker to the title.
+  if ($context['instance']['required']) {
+    $element['#title'] .= theme('form_required_marker');
   }
 }
