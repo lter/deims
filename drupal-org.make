@@ -99,6 +99,9 @@ projects[geophp] = 1.7
 
 projects[google_analytics] = 1.3
 
+; Dave maintains this module, dev is ok.
+projects[helper][version] = 1.x
+
 projects[inline_entity_form][version] = 1.2
 ; Add a 'Clone' button to the widget
 projects[inline_entity_form][patch][1590146] = "http://drupal.org/files/ief_clone_button-1590146-18-default-off.patch"
