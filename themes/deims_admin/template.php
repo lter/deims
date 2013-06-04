@@ -136,5 +136,10 @@ function deims_admin_field_widget_form_alter(&$element, &$form_state, $context) 
         '@cardinality_count' => $context['field']['cardinality'],
       ));
     }
+
+    // Add the required marker to the title.
+    if ($context['instance']['required']) {
+      $element['#title'] .= theme('form_required_marker');
+    }
   }
 }
