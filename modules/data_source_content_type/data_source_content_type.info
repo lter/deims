@@ -18,6 +18,7 @@ dependencies[] = list
 dependencies[] = lter_unit
 dependencies[] = number
 dependencies[] = options
+dependencies[] = schema_reference
 dependencies[] = select_or_other
 dependencies[] = strongarm
 dependencies[] = token_formatters

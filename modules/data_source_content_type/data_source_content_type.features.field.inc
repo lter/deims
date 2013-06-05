@@ -10,6 +10,87 @@
 function data_source_content_type_field_default_fields() {
   $fields = array();
 
+  // Exported field: 'node-data_source-field_connection'.
+  $fields['node-data_source-field_connection'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_connection',
+      'field_permissions' => array(
+        'type' => '1',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(
+        'connection' => array(
+          0 => 'connection',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'schema_reference',
+      'settings' => array(
+        'allowed_connections' => array(
+          'data' => 'data',
+          'default' => 0,
+          'drupal6' => 0,
+        ),
+        'select_column' => 0,
+        'select_table' => 1,
+      ),
+      'translatable' => '0',
+      'type' => 'schema_reference',
+    ),
+    'field_instance' => array(
+      'bundle' => 'data_source',
+      'default_value' => array(
+        0 => array(
+          'connection' => 'default',
+          'table' => '',
+          'column' => NULL,
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 15,
+        ),
+        'eml' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '10',
+        ),
+        'full' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '0',
+        ),
+      ),
+      'ds_extras_field_template' => '',
+      'entity_type' => 'node',
+      'field_name' => 'field_connection',
+      'label' => 'Connection',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'schema_reference',
+        'settings' => array(),
+        'type' => 'schema_reference_default',
+        'weight' => '14',
+      ),
+      'workbench_access_field' => 0,
+    ),
+  );
+
   // Exported field: 'node-data_source-field_csv_field_delimiter'.
   $fields['node-data_source-field_csv_field_delimiter'] = array(
     'field_config' => array(
@@ -1115,6 +1196,9 @@ function data_source_content_type_field_default_fields() {
         'label' => array(
           0 => 'label',
         ),
+        'name' => array(
+          0 => 'name',
+        ),
         'type' => array(
           0 => 'type',
         ),
@@ -1173,6 +1257,7 @@ function data_source_content_type_field_default_fields() {
   // Translatables
   // Included for use with string extractors like potx.
   t('A description of the spreadsheet or text file containing the data.');
+  t('Connection');
   t('Date Range');
   t('Description');
   t('Field delimiter');
