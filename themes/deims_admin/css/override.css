@@ -1,5 +1,5 @@
 /* line 5, ../sass/override.scss */
-.form-textarea {
+textarea.form-textarea {
   padding: 5px;
   font: normal 500 1em/1em "Open Sans", Arial, sans-serif;
 }
