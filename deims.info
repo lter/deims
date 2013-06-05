@@ -57,7 +57,6 @@ dependencies[] = workbench_access
 dependencies[] = workbench_email
 dependencies[] = workbench_moderation
 
-; Enable the custom modules
-dependencies[] = deims_variable
+; Features
 dependencies[] = data_set_content_type
 dependencies[] = data_source_content_type

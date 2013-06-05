@@ -1115,6 +1115,9 @@ function data_source_content_type_field_default_fields() {
         'label' => array(
           0 => 'label',
         ),
+        'name' => array(
+          0 => 'name',
+        ),
         'type' => array(
           0 => 'type',
         ),
