@@ -130,7 +130,9 @@ projects[name] = 1.7
 
 projects[noggin] = 1.1
 
-projects[options_element] = 1.9
+projects[options_element][version] = 1.9
+; For empty values, only show two key/value fields instead of three
+projects[options_element][patch][2012198] = "http://drupal.org/files/2012198-options-element-only-two-blank-values-do-not-test.patch"
 
 projects[pathauto] = 1.2
 
