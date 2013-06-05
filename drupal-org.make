@@ -166,7 +166,7 @@ projects[telephone] = 1.x-dev
 
 projects[term_reference_tree][version] = 1.10
 ; Add filtering to the widget
-projects[term_reference_tree][patches][2007164] = "http://drupal.org/files/2007164-filter.patch"
+projects[term_reference_tree][patch][2007164] = "http://drupal.org/files/2007164-filter.patch"
 
 projects[token] = 1.5
 
@@ -184,7 +184,7 @@ projects[workbench] = 1.2
 
 projects[workbench_moderation][version] = 1.3
 ; Show revision log message in the workbench message menu_block
-projects[workbench_moderation][patches][1972888] = "http://drupal.org/files/1972888-workbench-show-revision-log-message.patch"
+projects[workbench_moderation][patch][1972888] = "http://drupal.org/files/1972888-workbench-show-revision-log-message.patch"
 
 projects[workbench_access] = 1.2
 
