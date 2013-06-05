@@ -17,7 +17,7 @@ is _www_.
 
 * `git clone --branch 7.x-1.x git@github.com:palantirnet/deims-profile.git`
 * `cd deims-profile`
-* `drush make build-deims.make www --prepare-install`
+* `drush make build-deims.make www --prepare-install --contrib-destination=profiles/deims`
 * `cd www`
 * `drush si deims`
 
