@@ -310,10 +310,11 @@ function eml_field_formatter_view($entity_type, $entity, $field, $instance, $lan
 
     case 'eml_text':
       foreach ($items as $delta => $item) {
+        $text = _text_sanitize($instance, $langcode, $item, 'value');
         $element[$delta] = array(
           '#theme' => 'eml_elements',
           '#eml' => array(
-            'para' => array('literalLayout' => strip_tags($item['safe_value'])),
+            'para' => array('literalLayout' => strip_tags($text)),
           ),
         );
       }

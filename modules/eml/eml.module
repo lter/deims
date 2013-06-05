@@ -205,11 +205,7 @@ function eml_node_view($node, $view_mode, $langcode) {
 
       $node->EmlDataSet = new EmlDataSet($node);
       if ($metadata = $node->EmlDataSet->getCustomUnitMetadata()) {
-        $node->content['additionalMetadata'][] = array(
-          '#theme' => 'eml_tag',
-          '#tag' => 'metadata',
-          '0' => $metadata,
-        );
+        $node->content['additionalMetadata'] = $metadata;
       }
       break;
   }

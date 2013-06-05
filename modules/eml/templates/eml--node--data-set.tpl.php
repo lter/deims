@@ -97,7 +97,9 @@
 
   <?php if (!empty($content['additionalMetadata'])): ?>
   <additionalMetadata>
-    <?php print render($content['additionalMetadata']); ?>
+    <metadata>
+      <?php print render($content['additionalMetadata']); ?>
+    </metadata>
   </additionalMetadata>
   <?php endif; ?>
 </eml:eml>
