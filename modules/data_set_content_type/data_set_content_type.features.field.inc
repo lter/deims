@@ -55,7 +55,7 @@ function data_set_content_type_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '0',
+          'weight' => '3',
         ),
         'full' => array(
           'label' => 'inline',
@@ -149,7 +149,7 @@ function data_set_content_type_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '1',
+          'weight' => '6',
         ),
         'full' => array(
           'label' => 'above',
@@ -252,7 +252,7 @@ function data_set_content_type_field_default_fields() {
             'thesaurus_value' => '[term:vocabulary]',
           ),
           'type' => 'taxonomy_eml_keywordset',
-          'weight' => '7',
+          'weight' => '4',
         ),
         'full' => array(
           'label' => 'inline',
@@ -346,7 +346,7 @@ function data_set_content_type_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '15',
+          'weight' => '24',
         ),
         'full' => array(
           'label' => 'inline',
@@ -458,10 +458,10 @@ function data_set_content_type_field_default_fields() {
           'label' => 'above',
           'module' => 'eml',
           'settings' => array(
-            'element' => 'dataTable',
+            'element' => '',
           ),
           'type' => 'entityreference_eml_element',
-          'weight' => '8',
+          'weight' => '16',
         ),
         'full' => array(
           'label' => 'inline',
@@ -569,9 +569,10 @@ function data_set_content_type_field_default_fields() {
         ),
         'eml' => array(
           'label' => 'above',
+          'module' => 'eml',
           'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
+          'type' => 'date_eml_temporalCoverage',
+          'weight' => '8',
         ),
         'search_result' => array(
           'label' => 'inline',
@@ -611,14 +612,14 @@ function data_set_content_type_field_default_fields() {
         'settings' => array(
           'display_all_day' => 0,
           'increment' => '30',
-          'input_format' => 'm/d/Y - H:i:s',
+          'input_format' => 'Y-m-d H:i:s',
           'input_format_custom' => '',
           'label_position' => 'above',
           'text_parts' => array(),
           'year_range' => '1900:+10',
         ),
         'type' => 'date_popup',
-        'weight' => '62',
+        'weight' => '4',
       ),
       'workbench_access_field' => 0,
     ),
@@ -660,7 +661,7 @@ function data_set_content_type_field_default_fields() {
       'bundle' => 'data_set',
       'default_value' => NULL,
       'deleted' => '0',
-      'description' => 'Data Object ID, retrieved from the API service. <strong>Do not edit this field.</strong>',
+      'description' => '',
       'display' => array(
         'default' => array(
           'label' => 'inline',
@@ -673,7 +674,7 @@ function data_set_content_type_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => 0,
+          'weight' => '22',
         ),
         'search_result' => array(
           'label' => 'inline',
@@ -705,8 +706,95 @@ function data_set_content_type_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '1',
+        'weight' => '80',
       ),
+      'workbench_access_field' => 0,
+    ),
+  );
+
+  // Exported field: 'node-data_set-field_eml_hash'.
+  $fields['node-data_set-field_eml_hash'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_eml_hash',
+      'field_permissions' => array(
+        'type' => '2',
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'max_length' => '255',
+      ),
+      'translatable' => '0',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'data_set',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 24,
+        ),
+        'eml' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '17',
+        ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'ds_extras_field_template' => '',
+      'entity_type' => 'node',
+      'field_name' => 'field_eml_hash',
+      'label' => 'EML hash',
+      'required' => 0,
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'size' => '60',
+        ),
+        'type' => 'text_textfield',
+        'weight' => '77',
+      ),
+      'workbench_access_field' => 0,
     ),
   );
 
@@ -750,7 +838,7 @@ function data_set_content_type_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => 0,
+          'weight' => '21',
         ),
         'search_result' => array(
           'label' => 'inline',
@@ -778,7 +866,90 @@ function data_set_content_type_field_default_fields() {
         'module' => 'token_field',
         'settings' => array(),
         'type' => 'token_field',
-        'weight' => '2',
+        'weight' => '78',
+      ),
+      'workbench_access_field' => 0,
+    ),
+  );
+
+  // Exported field: 'node-data_set-field_eml_revision_id'.
+  $fields['node-data_set-field_eml_revision_id'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_eml_revision_id',
+      'field_permissions' => array(
+        'type' => '2',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'locked' => '0',
+      'module' => 'number',
+      'settings' => array(),
+      'translatable' => '0',
+      'type' => 'number_integer',
+    ),
+    'field_instance' => array(
+      'bundle' => 'data_set',
+      'default_value' => array(
+        0 => array(
+          'value' => '1',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'number',
+          'settings' => array(
+            'decimal_separator' => '.',
+            'prefix_suffix' => TRUE,
+            'scale' => 0,
+            'thousand_separator' => ' ',
+          ),
+          'type' => 'number_integer',
+          'weight' => 23,
+        ),
+        'eml' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '18',
+        ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'ds_extras_field_template' => '',
+      'entity_type' => 'node',
+      'field_name' => 'field_eml_revision_id',
+      'label' => 'EML revision ID',
+      'required' => 0,
+      'settings' => array(
+        'max' => '',
+        'min' => '1',
+        'prefix' => '',
+        'suffix' => '',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'number',
+        'settings' => array(),
+        'type' => 'number',
+        'weight' => '76',
       ),
       'workbench_access_field' => 0,
     ),
@@ -833,7 +1004,7 @@ function data_set_content_type_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => 0,
+          'weight' => '20',
         ),
         'search_result' => array(
           'label' => 'above',
@@ -863,7 +1034,7 @@ function data_set_content_type_field_default_fields() {
           'display_label' => 1,
         ),
         'type' => 'options_onoff',
-        'weight' => '3',
+        'weight' => '79',
       ),
       'workbench_access_field' => 0,
     ),
@@ -911,9 +1082,10 @@ function data_set_content_type_field_default_fields() {
         ),
         'eml' => array(
           'label' => 'above',
+          'module' => 'text',
           'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '12',
+          'type' => 'text_default',
+          'weight' => '14',
         ),
         'full' => array(
           'label' => 'above',
@@ -1009,9 +1181,13 @@ function data_set_content_type_field_default_fields() {
         ),
         'eml' => array(
           'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '17',
+          'module' => 'eml',
+          'settings' => array(
+            'keyword_value' => '[term:name]',
+            'thesaurus_value' => '[term:vocabulary]',
+          ),
+          'type' => 'taxonomy_eml_keywordset',
+          'weight' => '5',
         ),
         'full' => array(
           'label' => 'inline',
@@ -1072,6 +1248,9 @@ function data_set_content_type_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_maintenance',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -1109,7 +1288,7 @@ function data_set_content_type_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '5',
+          'weight' => '10',
         ),
         'full' => array(
           'label' => 'above',
@@ -1132,12 +1311,13 @@ function data_set_content_type_field_default_fields() {
           'weight' => '9',
         ),
       ),
+      'ds_extras_field_template' => '',
       'entity_type' => 'node',
       'field_name' => 'field_maintenance',
       'label' => 'Maintenance',
       'required' => 0,
       'settings' => array(
-        'text_processing' => '0',
+        'text_processing' => '1',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -1149,6 +1329,7 @@ function data_set_content_type_field_default_fields() {
         'type' => 'text_textarea',
         'weight' => '7',
       ),
+      'workbench_access_field' => 0,
     ),
   );
 
@@ -1197,7 +1378,7 @@ function data_set_content_type_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '3',
+          'weight' => '13',
         ),
         'full' => array(
           'label' => 'above',
@@ -1244,7 +1425,7 @@ function data_set_content_type_field_default_fields() {
   $fields['node-data_set-field_person_contact'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_person_contact',
@@ -1303,9 +1484,12 @@ function data_set_content_type_field_default_fields() {
         ),
         'eml' => array(
           'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
+          'module' => 'eml',
+          'settings' => array(
+            'element' => '',
+          ),
+          'type' => 'entityreference_eml_element',
+          'weight' => '11',
         ),
         'search_result' => array(
           'label' => 'above',
@@ -1330,13 +1514,17 @@ function data_set_content_type_field_default_fields() {
       ),
       'widget' => array(
         'active' => 1,
-        'module' => 'entityreference',
+        'module' => 'inline_entity_form',
         'settings' => array(
-          'match_operator' => 'CONTAINS',
-          'path' => '',
-          'size' => '60',
+          'fields' => array(),
+          'type_settings' => array(
+            'allow_existing' => 1,
+            'clone_button' => 0,
+            'delete_references' => 0,
+            'match_operator' => 'CONTAINS',
+          ),
         ),
-        'type' => 'entityreference_autocomplete',
+        'type' => 'inline_entity_form',
         'weight' => '64',
       ),
       'workbench_access_field' => 0,
@@ -1347,7 +1535,7 @@ function data_set_content_type_field_default_fields() {
   $fields['node-data_set-field_person_creator'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_person_creator',
@@ -1406,9 +1594,12 @@ function data_set_content_type_field_default_fields() {
         ),
         'eml' => array(
           'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
+          'module' => 'eml',
+          'settings' => array(
+            'element' => '',
+          ),
+          'type' => 'entityreference_eml_element',
+          'weight' => '0',
         ),
         'search_result' => array(
           'label' => 'above',
@@ -1433,13 +1624,17 @@ function data_set_content_type_field_default_fields() {
       ),
       'widget' => array(
         'active' => 1,
-        'module' => 'entityreference',
+        'module' => 'inline_entity_form',
         'settings' => array(
-          'match_operator' => 'CONTAINS',
-          'path' => '',
-          'size' => '60',
+          'fields' => array(),
+          'type_settings' => array(
+            'allow_existing' => 1,
+            'clone_button' => 0,
+            'delete_references' => 0,
+            'match_operator' => 'CONTAINS',
+          ),
         ),
-        'type' => 'entityreference_autocomplete',
+        'type' => 'inline_entity_form',
         'weight' => '63',
       ),
       'workbench_access_field' => 0,
@@ -1450,7 +1645,7 @@ function data_set_content_type_field_default_fields() {
   $fields['node-data_set-field_person_metadata_provider'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_person_metadata_provider',
@@ -1509,9 +1704,12 @@ function data_set_content_type_field_default_fields() {
         ),
         'eml' => array(
           'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
+          'module' => 'eml',
+          'settings' => array(
+            'element' => '',
+          ),
+          'type' => 'entityreference_eml_element',
+          'weight' => '1',
         ),
         'search_result' => array(
           'label' => 'above',
@@ -1530,19 +1728,23 @@ function data_set_content_type_field_default_fields() {
       'entity_type' => 'node',
       'field_name' => 'field_person_metadata_provider',
       'label' => 'Metadata provider',
-      'required' => 1,
+      'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
       ),
       'widget' => array(
         'active' => 1,
-        'module' => 'entityreference',
+        'module' => 'inline_entity_form',
         'settings' => array(
-          'match_operator' => 'CONTAINS',
-          'path' => '',
-          'size' => '60',
+          'fields' => array(),
+          'type_settings' => array(
+            'allow_existing' => 1,
+            'clone_button' => 0,
+            'delete_references' => 0,
+            'match_operator' => 'CONTAINS',
+          ),
         ),
-        'type' => 'entityreference_autocomplete',
+        'type' => 'inline_entity_form',
         'weight' => '65',
       ),
       'workbench_access_field' => 0,
@@ -1612,9 +1814,12 @@ function data_set_content_type_field_default_fields() {
         ),
         'eml' => array(
           'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
+          'module' => 'eml',
+          'settings' => array(
+            'element' => '',
+          ),
+          'type' => 'entityreference_eml_element',
+          'weight' => '12',
         ),
         'search_result' => array(
           'label' => 'above',
@@ -1633,19 +1838,23 @@ function data_set_content_type_field_default_fields() {
       'entity_type' => 'node',
       'field_name' => 'field_person_publisher',
       'label' => 'Publisher',
-      'required' => 1,
+      'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
       ),
       'widget' => array(
         'active' => 1,
-        'module' => 'entityreference',
+        'module' => 'inline_entity_form',
         'settings' => array(
-          'match_operator' => 'CONTAINS',
-          'path' => '',
-          'size' => '60',
+          'fields' => array(),
+          'type_settings' => array(
+            'allow_existing' => 1,
+            'clone_button' => 0,
+            'delete_references' => 0,
+            'match_operator' => 'CONTAINS',
+          ),
         ),
-        'type' => 'entityreference_autocomplete',
+        'type' => 'inline_entity_form',
         'weight' => '66',
       ),
       'workbench_access_field' => 0,
@@ -1701,7 +1910,7 @@ function data_set_content_type_field_default_fields() {
       'bundle' => 'data_set',
       'default_value' => NULL,
       'deleted' => '0',
-      'description' => '',
+      'description' => 'Use this to add anyone that was a data manager, field crew, lab crew, or associated researcher.',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -1719,8 +1928,8 @@ function data_set_content_type_field_default_fields() {
           'settings' => array(
             'element' => '',
           ),
-          'type' => 'entityreference_eml_people',
-          'weight' => '6',
+          'type' => 'entityreference_eml_element',
+          'weight' => '2',
         ),
         'full' => array(
           'label' => 'inline',
@@ -1770,7 +1979,7 @@ function data_set_content_type_field_default_fields() {
           'fields' => array(),
           'type_settings' => array(
             'allow_existing' => 0,
-            'clone_button' => 0,
+            'clone_button' => 1,
             'delete_references' => 0,
             'match_operator' => 'CONTAINS',
           ),
@@ -1837,7 +2046,7 @@ function data_set_content_type_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => 0,
+          'weight' => '19',
         ),
         'search_result' => array(
           'label' => 'inline',
@@ -1877,7 +2086,7 @@ function data_set_content_type_field_default_fields() {
         'settings' => array(
           'display_all_day' => 0,
           'increment' => '30',
-          'input_format' => 'm/d/Y - H:i:s',
+          'input_format' => 'Y-m-d H:i:s',
           'input_format_custom' => '',
           'label_position' => 'above',
           'text_parts' => array(),
@@ -1935,7 +2144,7 @@ function data_set_content_type_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '2',
+          'weight' => '9',
         ),
         'full' => array(
           'label' => 'above',
@@ -2023,7 +2232,7 @@ function data_set_content_type_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '4',
+          'weight' => '15',
         ),
         'full' => array(
           'label' => 'above',
@@ -2113,7 +2322,7 @@ function data_set_content_type_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '18',
+          'weight' => '26',
         ),
         'full' => array(
           'label' => 'inline',
@@ -2232,7 +2441,7 @@ function data_set_content_type_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '14',
+          'weight' => '23',
         ),
         'full' => array(
           'label' => 'inline',
@@ -2346,9 +2555,12 @@ function data_set_content_type_field_default_fields() {
         ),
         'eml' => array(
           'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '10',
+          'module' => 'eml',
+          'settings' => array(
+            'element' => '',
+          ),
+          'type' => 'entityreference_eml_element',
+          'weight' => '7',
         ),
         'full' => array(
           'label' => 'inline',
@@ -2447,7 +2659,7 @@ function data_set_content_type_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '16',
+          'weight' => '25',
         ),
         'full' => array(
           'label' => 'inline',
@@ -2500,12 +2712,13 @@ function data_set_content_type_field_default_fields() {
   t('Contact');
   t('Core Areas');
   t('DOI');
-  t('Data Object ID, retrieved from the API service. <strong>Do not edit this field.</strong>');
   t('Data set ID');
   t('Data sources');
   t('Date Range');
   t('EML Link');
+  t('EML hash');
   t('EML is valid');
+  t('EML revision ID');
   t('Explain here the purpose of your dat aset - for example, the goals sought with the collection of your data.');
   t('Information about the instruments used to gather data.');
   t('Instrumentation');
@@ -2524,6 +2737,7 @@ function data_set_content_type_field_default_fields() {
   t('Short name');
   t('The methodologies used to gather these data.');
   t('This is an unique, numeric identifier for your data set (for example, 1012009).');
+  t('Use this to add anyone that was a data manager, field crew, lab crew, or associated researcher.');
 
   return $fields;
 }

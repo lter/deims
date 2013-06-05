@@ -6,20 +6,6 @@
 
 include_once 'data_set_content_type.features.inc';
 
-
-/**
- * Implements hook_field_widget_form_alter().
- */
-function data_set_content_type_field_widget_form_alter(&$element, &$form_state, $context) {
-  // Force the data set ID to be a numeric field for entry rather than
-  // free-form text.
-  // @todo Remove when this field is converted to a number field.
-  if ($context['field']['field_name'] == 'field_data_set_id' && $element['value']['#type'] == 'textfield') {
-    $element['value']['#type'] = 'numberfield';
-    $element['value']['#min'] = 1;
-  }
-}
-
 /**
  * Implements hook_form_alter().
  */

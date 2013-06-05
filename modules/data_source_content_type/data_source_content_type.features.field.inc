@@ -18,6 +18,9 @@ function data_source_content_type_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_csv_field_delimiter',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -53,9 +56,10 @@ function data_source_content_type_field_default_fields() {
         ),
         'eml' => array(
           'label' => 'above',
+          'module' => 'text',
           'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
+          'type' => 'text_plain',
+          'weight' => '5',
         ),
         'full' => array(
           'label' => 'inline',
@@ -69,7 +73,7 @@ function data_source_content_type_field_default_fields() {
       'entity_type' => 'node',
       'field_name' => 'field_csv_field_delimiter',
       'label' => 'Field delimiter',
-      'required' => 0,
+      'required' => 1,
       'settings' => array(
         'text_processing' => '0',
         'user_register_form' => FALSE,
@@ -88,8 +92,9 @@ function data_source_content_type_field_default_fields() {
           'sort_options' => 0,
         ),
         'type' => 'select_or_other',
-        'weight' => '7',
+        'weight' => '12',
       ),
+      'workbench_access_field' => 0,
     ),
   );
 
@@ -123,9 +128,10 @@ function data_source_content_type_field_default_fields() {
         ),
         'eml' => array(
           'label' => 'above',
+          'module' => 'number',
           'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
+          'type' => 'number_unformatted',
+          'weight' => '2',
         ),
         'full' => array(
           'label' => 'inline',
@@ -157,7 +163,7 @@ function data_source_content_type_field_default_fields() {
         'module' => 'number',
         'settings' => array(),
         'type' => 'number',
-        'weight' => '4',
+        'weight' => '9',
       ),
     ),
   );
@@ -192,9 +198,10 @@ function data_source_content_type_field_default_fields() {
         ),
         'eml' => array(
           'label' => 'above',
+          'module' => 'number',
           'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
+          'type' => 'number_unformatted',
+          'weight' => '1',
         ),
         'full' => array(
           'label' => 'inline',
@@ -226,7 +233,7 @@ function data_source_content_type_field_default_fields() {
         'module' => 'number',
         'settings' => array(),
         'type' => 'number',
-        'weight' => '3',
+        'weight' => '8',
       ),
     ),
   );
@@ -239,6 +246,9 @@ function data_source_content_type_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_csv_orientation',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(),
       'indexes' => array(
         'value' => array(
@@ -271,9 +281,10 @@ function data_source_content_type_field_default_fields() {
         ),
         'eml' => array(
           'label' => 'above',
+          'module' => 'list',
           'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
+          'type' => 'list_key',
+          'weight' => '4',
         ),
         'full' => array(
           'label' => 'inline',
@@ -287,7 +298,7 @@ function data_source_content_type_field_default_fields() {
       'entity_type' => 'node',
       'field_name' => 'field_csv_orientation',
       'label' => 'Orientation',
-      'required' => 0,
+      'required' => 1,
       'settings' => array(
         'user_register_form' => FALSE,
       ),
@@ -298,8 +309,9 @@ function data_source_content_type_field_default_fields() {
           'apply_chosen' => 0,
         ),
         'type' => 'options_select',
-        'weight' => '5',
+        'weight' => '10',
       ),
+      'workbench_access_field' => 0,
     ),
   );
 
@@ -346,9 +358,10 @@ function data_source_content_type_field_default_fields() {
         ),
         'eml' => array(
           'label' => 'above',
+          'module' => 'text',
           'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
+          'type' => 'text_plain',
+          'weight' => '6',
         ),
         'full' => array(
           'label' => 'inline',
@@ -382,7 +395,7 @@ function data_source_content_type_field_default_fields() {
           'sort_options' => 0,
         ),
         'type' => 'select_or_other',
-        'weight' => '6',
+        'weight' => '11',
       ),
     ),
   );
@@ -430,9 +443,10 @@ function data_source_content_type_field_default_fields() {
         ),
         'eml' => array(
           'label' => 'above',
+          'module' => 'text',
           'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
+          'type' => 'text_plain',
+          'weight' => '3',
         ),
         'full' => array(
           'label' => 'inline',
@@ -468,7 +482,7 @@ function data_source_content_type_field_default_fields() {
           'sort_options' => 0,
         ),
         'type' => 'select_or_other',
-        'weight' => '8',
+        'weight' => '13',
       ),
     ),
   );
@@ -481,6 +495,9 @@ function data_source_content_type_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_data_source_file',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'fid' => array(
           'columns' => array(
@@ -497,6 +514,7 @@ function data_source_content_type_field_default_fields() {
       'locked' => '0',
       'module' => 'file',
       'settings' => array(
+        'delete_on_parent_delete' => '',
         'display_default' => 0,
         'display_field' => 0,
         'uri_scheme' => 'public',
@@ -518,22 +536,22 @@ function data_source_content_type_field_default_fields() {
         ),
         'eml' => array(
           'label' => 'above',
+          'module' => 'file',
           'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '13',
+          'type' => 'file_url_plain',
+          'weight' => '7',
         ),
         'full' => array(
           'label' => 'inline',
-          'module' => 'token_formatters',
+          'module' => 'file',
           'settings' => array(
-            'check_access' => 1,
-            'link' => 'file/[file:fid]/download',
             'text' => '[file:basename]',
           ),
-          'type' => 'token_formatters_file',
+          'type' => 'file_default',
           'weight' => '2',
         ),
       ),
+      'ds_extras_field_template' => '',
       'entity_type' => 'node',
       'field_name' => 'field_data_source_file',
       'label' => 'File upload',
@@ -549,11 +567,32 @@ function data_source_content_type_field_default_fields() {
         'active' => 1,
         'module' => 'file',
         'settings' => array(
+          'filefield_sources' => array(
+            'filefield_sources' => array(
+              'attach' => 'attach',
+              'clipboard' => 0,
+              'reference' => 0,
+              'remote' => 0,
+              'upload' => 'upload',
+            ),
+            'source_attach' => array(
+              'absolute' => '0',
+              'attach_mode' => 'copy',
+              'path' => 'data',
+            ),
+            'source_imce' => array(
+              'imce_mode' => 0,
+            ),
+            'source_reference' => array(
+              'autocomplete' => '0',
+            ),
+          ),
           'progress_indicator' => 'bar',
         ),
         'type' => 'file_generic',
-        'weight' => '2',
+        'weight' => '7',
       ),
+      'workbench_access_field' => 0,
     ),
   );
 
@@ -610,15 +649,23 @@ function data_source_content_type_field_default_fields() {
         ),
         'eml' => array(
           'label' => 'above',
+          'module' => 'eml',
           'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
+          'type' => 'date_eml_temporalCoverage',
+          'weight' => '8',
         ),
         'full' => array(
           'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
+          'module' => 'date',
+          'settings' => array(
+            'format_type' => 'long',
+            'fromto' => 'both',
+            'multiple_from' => '',
+            'multiple_number' => '',
+            'multiple_to' => '',
+          ),
+          'type' => 'date_default',
+          'weight' => '0',
         ),
       ),
       'ds_extras_field_template' => '',
@@ -660,6 +707,9 @@ function data_source_content_type_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_description',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -694,9 +744,10 @@ function data_source_content_type_field_default_fields() {
         ),
         'eml' => array(
           'label' => 'above',
+          'module' => 'text',
           'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '7',
+          'type' => 'text_plain',
+          'weight' => '0',
         ),
         'full' => array(
           'label' => 'hidden',
@@ -706,12 +757,13 @@ function data_source_content_type_field_default_fields() {
           'weight' => '0',
         ),
       ),
+      'ds_extras_field_template' => '',
       'entity_type' => 'node',
       'field_name' => 'field_description',
       'label' => 'Description',
       'required' => 0,
       'settings' => array(
-        'text_processing' => '0',
+        'text_processing' => '1',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -723,6 +775,7 @@ function data_source_content_type_field_default_fields() {
         'type' => 'text_textarea',
         'weight' => '1',
       ),
+      'workbench_access_field' => 0,
     ),
   );
 
@@ -770,7 +823,7 @@ function data_source_content_type_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '10',
+          'weight' => '12',
         ),
         'full' => array(
           'label' => 'above',
@@ -844,7 +897,7 @@ function data_source_content_type_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '8',
+          'weight' => '11',
         ),
         'full' => array(
           'label' => 'above',
@@ -918,7 +971,7 @@ function data_source_content_type_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '11',
+          'weight' => '13',
         ),
         'full' => array(
           'label' => 'above',
@@ -1016,13 +1069,13 @@ function data_source_content_type_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '12',
+          'weight' => '14',
         ),
         'full' => array(
           'label' => 'above',
           'module' => 'entityreference',
           'settings' => array(
-            'link' => 0,
+            'link' => 1,
           ),
           'type' => 'entityreference_label',
           'weight' => '6',
@@ -1093,7 +1146,7 @@ function data_source_content_type_field_default_fields() {
           'module' => 'deims_variable',
           'settings' => array(),
           'type' => 'eml_attribute_list',
-          'weight' => '0',
+          'weight' => '9',
         ),
         'full' => array(
           'label' => 'hidden',
