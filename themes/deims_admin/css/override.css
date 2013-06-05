@@ -24,6 +24,7 @@ textarea.form-textarea {
   background: -o-linear-gradient(top, #fefefe 0%, #e0e0e0 100%);
   background: -ms-linear-gradient(top, #fefefe 0%, #e0e0e0 100%);
   background: linear-gradient(top, #fefefe 0%, #e0e0e0 100%);
+  border: 1px solid #cccccc;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   -ms-border-radius: 4px;
@@ -31,26 +32,26 @@ textarea.form-textarea {
   border-radius: 4px;
   padding: 6px 30px;
 }
-/* line 31, ../sass/override.scss */
+/* line 32, ../sass/override.scss */
 .field-widget-inline-entity-form .form-wrapper {
   border: none;
 }
-/* line 39, ../sass/override.scss */
+/* line 40, ../sass/override.scss */
 .field-widget-inline-entity-form .ief-form-bottom {
   padding-top: 0;
 }
-/* line 42, ../sass/override.scss */
+/* line 43, ../sass/override.scss */
 .field-widget-inline-entity-form .ief-entity-table + .ief-form-bottom {
   margin-top: -11px;
 }
 
-/* line 48, ../sass/override.scss */
+/* line 49, ../sass/override.scss */
 .form-type-managed-file strong {
   color: inherit;
   font-weight: inherit;
 }
 
-/* line 55, ../sass/override.scss */
+/* line 56, ../sass/override.scss */
 .form-required {
   color: #e62600;
 }

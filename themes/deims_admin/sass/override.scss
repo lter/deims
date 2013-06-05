@@ -15,7 +15,7 @@ textarea.form-textarea {
 // Tweak inline entity form widget CSS.
 .field-widget-inline-entity-form {
 
-  // Override the Inline Entity Form buttons so they actually look like buttons */
+  // Override the Inline Entity Form buttons so they actually look like buttons.
   .ief-entity-operations input.form-submit {
     color: #5A5A5A;
     text-shadow: 0 -1px 1px white;
@@ -23,6 +23,7 @@ textarea.form-textarea {
     @include box-shadow(0 1px 2px #cccccc, inset 0 -1px 1px white);
     background: #e0e0e0;
     @include background(linear-gradient(top, #fefefe 0%, #e0e0e0 100%));
+    border: 1px solid #cccccc;
     @include border-radius(4px);
     padding: 6px 30px;
   }
