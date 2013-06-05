@@ -295,6 +295,7 @@ function deims_variable_field_widget_form(&$form, &$form_state, $field, $instanc
       if (module_exists('select_or_other')) {
         $element['data']['unit']['#type'] = 'select_or_other';
         $element['data']['unit']['#options'] = lter_unit_get_unit_options(1);
+        $element['data']['unit']['#attributes']['data-create_option_text'] = t('Use other unit');
       }
       $element['data']['maximum'] = array(
         '#type' => 'numberfield',
