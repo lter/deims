@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the DEIMS Person feature.
+ */
+
+include_once 'deims_person.features.inc';

@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the DEIMS Image Gallery feature.
+ */
+
+include_once 'deims_image_gallery.features.inc';

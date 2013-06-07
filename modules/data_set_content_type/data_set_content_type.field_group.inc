@@ -446,5 +446,33 @@ function data_set_content_type_field_group_info() {
   );
   $export['group_summary|node|data_set|default'] = $field_group;
 
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_taxonomy|node|data_set|form';
+  $field_group->group_name = 'group_taxonomy';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'data_set';
+  $field_group->mode = 'form';
+  $field_group->parent_name = 'group_details';
+  $field_group->data = array(
+    'label' => 'Taxonomy',
+    'weight' => '13',
+    'children' => array(
+      0 => 'field_core_areas',
+      1 => 'field_keywords',
+    ),
+    'format_type' => 'htab',
+    'format_settings' => array(
+      'formatter' => 'closed',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => ' group-taxonomy field-group-htab',
+        'required_fields' => 1,
+      ),
+    ),
+  );
+  $export['group_taxonomy|node|data_set|form'] = $field_group;
+
   return $export;
 }

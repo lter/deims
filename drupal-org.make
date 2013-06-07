@@ -1,43 +1,57 @@
-api = 2
-core = 7.x
+api = "2"
+core = "7.x"
 
 ; -----------------------------------------------------------------------------
 ; Contributed modules
 ; -----------------------------------------------------------------------------
 
-defaults[projects][subdir] = "contrib"
+projects[addressfield][version] = "1.0-beta3"
+projects[addressfield][subdir] = "contrib"
 
-projects[addressfield] = 1.0-beta3
+projects[admin_menu][version] = "3.0-rc4"
+projects[admin_menu][subdir] = "contrib"
 
-projects[admin_menu] = 3.0-rc4
+projects[admin_select][version] = "1.3"
+projects[admin_select][subdir] = "contrib"
 
-projects[admin_select] = 1.3
+projects[auto_entitylabel][version] = "1.2"
+projects[auto_entitylabel][subdir] = "contrib"
 
-projects[auto_entitylabel] = 1.2
+projects[autosave][version] = "2.2"
+projects[autosave][subdir] = "contrib"
 
-projects[autosave] = 2.2
+projects[backup_migrate][version] = "2.7"
+projects[backup_migrate][subdir] = "contrib"
 
-projects[backup_migrate] = 2.7
+projects[biblio][version] = "1.0-rc5"
+projects[biblio][subdir] = "contrib"
 
-projects[biblio] = 1.0-rc5
+projects[ctools][version] = "1.3"
+projects[ctools][subdir] = "contrib"
 
-projects[ctools] = 1.3
+projects[chosen][version] = "2.0-alpha2"
+projects[chosen][subdir] = "contrib"
 
-projects[chosen] = 2.0-alpha2
+projects[custom_breadcrumbs][version] = "2.0-alpha3"
+projects[custom_breadcrumbs][subdir] = "contrib"
 
-projects[custom_breadcrumbs] = 2.0-alpha3
+projects[date][version] = "2.6"
+projects[date][subdir] = "contrib"
 
-projects[date] = 2.6
+projects[date_facets][version] = "1.x-dev"
+projects[date_facets][subdir] = "contrib"
 
-projects[date_facets] = 1.x-dev
+projects[devel][version] = "1.x-dev"
+projects[devel][subdir] = "contrib"
 
-projects[devel] = 1.x-dev
+projects[diff][version] = "3.2"
+projects[diff][subdir] = "contrib"
 
-projects[diff] = 3.2
+projects[ds][version] = "2.2"
+projects[ds][subdir] = "contrib"
 
-projects[ds] = 2.2
-
-projects[eck][version] = 2.0-rc2
+projects[eck][version] = "2.0-rc2"
+projects[eck][subdir] = "contrib"
 ; Add entity access alter for ECK entities.
 projects[eck][patch][1969394] = "http://drupal.org/files/1969394-eck-entity-access-alter.patch"
 ; Add IEF clone button support
@@ -45,162 +59,220 @@ projects[eck][patch][1979686] = "http://drupal.org/files/1979686-eck-ief-clone-b
 ; Temporary patch to make the inline form display actual useful fields.
 projects[eck][patch][] = "https://gist.github.com/davereid/0014f396fed3f20a66ca/raw/e4f54f8a026dbd1ef4d8981e898ed9782b12a826/deims-eck.patch"
 
-projects[elements] = 1.3
+projects[elements][version] = "1.3"
+projects[elements][subdir] = "contrib"
 
-projects[email] = 1.2
+projects[email][version] = "1.2"
+projects[email][subdir] = "contrib"
 
-projects[entity][version] = 1.1
+projects[entity][version] = "1.1"
+projects[entity][subdir] = "contrib"
 ; entity_metadata_no_hook_node_access() should respect that the $node parameter can be a string or an object
 projects[entity][patch][1780646] = "http://drupal.org/files/entity-node_access-1780646-57.patch"
 
-projects[entitycache] = 1.1
+projects[entitycache][version] = "1.x-dev"
+projects[entitycache][subdir] = "contrib"
 
-projects[entityreference] = 1.0
+projects[entityreference][version] = "1.0"
+projects[entityreference][subdir] = "contrib"
 
-projects[entity_view_mode] = 1.0-rc1
+projects[entity_view_mode][version] = "1.0-rc1"
+projects[entity_view_mode][subdir] = "contrib"
 
-projects[extlink] = 1.12
+projects[extlink][version] = "1.12"
+projects[extlink][subdir] = "contrib"
 
-projects[facetapi] = 1.3
+projects[facetapi][version] = "1.3"
+projects[facetapi][subdir] = "contrib"
 
-projects[features] = 2.0-rc1
+projects[features][version] = "2.0-rc1"
+projects[features][subdir] = "contrib"
 
-;projects[fieldable_panels_panes] = 1.4
+projects[field_permissions][version] = "1.0-beta2"
+projects[field_permissions][subdir] = "contrib"
 
-projects[field_permissions] = 1.0-beta2
+projects[field_referenced_delete][version] = "1.0-rc4"
+projects[field_referenced_delete][subdir] = "contrib"
 
-projects[field_referenced_delete] = 1.0-rc4
+projects[field_validation][version] = "2.3"
+projects[field_validation][subdir] = "contrib"
 
-projects[field_validation] = 2.3
-
-projects[file_download_count] = 1.0-beta1
+projects[file_download_count][version] = "1.0-beta1"
+projects[file_download_count][subdir] = "contrib"
 
 ; Dave Reid maintains this, ok to use dev for now.
-projects[file_entity] = 2.x-dev
+projects[file_entity][version] = "2.x-dev"
+projects[file_entity][subdir] = "contrib"
 
-projects[filefield_sources][version] = 1.8
+projects[filefield_sources][version] = "1.8"
+projects[filefield_sources][subdir] = "contrib"
 ; Ensure files that already exist in the files directory are left alone.
 projects[filefield_sources][patch][1492374] = "http://drupal.org/files/1492374-ffs-attach-file-same-path.patch"
 ; Only show files with relevant extensions in the attach select list.
 projects[filefield_sources][patch][1492374] = "http://drupal.org/files/2006436-file-attach-extension-filter.patch"
 
 ; The field group module has mannnny updates since 7.x-1.1
-projects[field_group][version] = 1.x-dev
+projects[field_group][version] = "1.x-dev"
+projects[field_group][subdir] = "contrib"
 ; Fix nested vertical/horizontal tabs cause unwanted fieldset labels.
 projects[field_group][patch][1945848] = "http://drupal.org/files/1945848-field-group-nested-fieldset-unwanted-labels.patch"
 
-projects[flag] = 3.0-rc1
+projects[flag][version] = "3.0-rc1"
+projects[flag][subdir] = "contrib"
 
-projects[flexslider] = 2.0-alpha1
+projects[flexslider][version] = "2.0-alpha1"
+projects[flexslider][subdir] = "contrib"
 
-projects[geofield] = 1.1
+projects[geofield][version] = "1.1"
+projects[geofield][subdir] = "contrib"
 
-projects[geophp] = 1.7
+projects[geophp][version] = "1.7"
+projects[geophp][subdir] = "contrib"
 
-projects[google_analytics] = 1.3
+projects[google_analytics][version] = "1.3"
+projects[google_analytics][subdir] = "contrib"
 
 ; Dave maintains this module, dev is ok.
-projects[helper][version] = 1.x
+projects[helper][version] = "1.x"
+projects[helper][subdir] = "contrib"
 
-projects[inline_entity_form][version] = 1.2
+projects[inline_entity_form][version] = "1.2"
+projects[inline_entity_form][subdir] = "contrib"
 ; Add a 'Clone' button to the widget
 projects[inline_entity_form][patch][1590146] = "http://drupal.org/files/ief_clone_button-1590146-18-default-off.patch"
 ; Limit 'Add new' bundle options when entityreference uses a view for selection
 projects[inline_entity_form][patch][1872316] = "http://drupal.org/files/1872316-ief-bundle-selection-node-view_0.patch"
 
-projects[libraries] = 2.1
+projects[libraries][version] = "2.1"
+projects[libraries][subdir] = "contrib"
 
-projects[link] = 1.1
+projects[link][version] = "1.1"
+projects[link][subdir] = "contrib"
 
-projects[menu_block] = 2.3
+projects[menu_block][version] = "2.3"
+projects[menu_block][subdir] = "contrib"
 
-projects[module_filter] = 1.7
-
-projects[migrate][version] = 2.6-beta1
+projects[migrate][version] = "2.6-beta1"
+projects[migrate][subdir] = "contrib"
 ; Rebuild menus when registering or deregistering groups and migrations.
 projects[migrate][patch][2011024] = "http://drupal.org/files/2011024-menu-rebuilds_0.patch"
 
-projects[migrate_d2d] = 2.1-beta1
+projects[migrate_d2d][version] = "2.1-beta1"
+projects[migrate_d2d][subdir] = "contrib"
 
-projects[migrate_extras] = 2.x-dev
+projects[migrate_extras][version] = "2.x-dev"
+projects[migrate_extras][subdir] = "contrib"
 
-projects[module_filter] = 1.7
+projects[module_filter][version] = "1.7"
+projects[module_filter][subdir] = "contrib"
 
-projects[name] = 1.7
+projects[name][version] = "1.7"
+projects[name][subdir] = "contrib"
 
-projects[noggin] = 1.1
+projects[noggin][version] = "1.1"
+projects[noggin][subdir] = "contrib"
 
-projects[options_element][version] = 1.9
+projects[options_element][version] = "1.9"
+projects[options_element][subdir] = "contrib"
 ; For empty values, only show two key/value fields instead of three
 projects[options_element][patch][2012198] = "http://drupal.org/files/2012198-options-element-only-two-blank-values-do-not-test.patch"
 
-projects[pathauto] = 1.2
+projects[pathauto][version] = "1.2"
+projects[pathauto][subdir] = "contrib"
 
-projects[pathauto_persist] = 1.3
+projects[pathauto_persist][version] = "1.3"
+projects[pathauto_persist][subdir] = "contrib"
 
-projects[print] = 2.x-dev
-
-; Dave Reid maintains this D8 backport, dev release is ok.
-projects[responsive_tables] = 2.x-dev
-
-projects[rules] = 2.3
-
-projects[schema] = 1.0-rc1
-
-projects[schema_reference] = 1.0-beta3
-
-projects[search_api] = 1.6
-
-projects[search_api_page] = 1.x-dev
-
-projects[select_or_other] = 2.17
-
-projects[strongarm] = 2.0
-
-projects[superfish] = 1.9-rc1
-
-projects[taxonomy_csv] = 5.10
+projects[print][version] = "2.x-dev"
+projects[print][subdir] = "contrib"
 
 ; Dave Reid maintains this D8 backport, dev release is ok.
-projects[telephone] = 1.x-dev
+projects[responsive_tables][version] = "2.x-dev"
+projects[responsive_tables][subdir] = "contrib"
 
-projects[term_reference_tree][version] = 1.10
+projects[rules][version] = "2.3"
+projects[rules][subdir] = "contrib"
+
+projects[schema][version] = "1.0-rc1"
+projects[schema][subdir] = "contrib"
+
+projects[schema_reference][version] = "1.0-beta3"
+projects[schema_reference][subdir] = "contrib"
+
+projects[search_api][version] = "1.6"
+projects[search_api][subdir] = "contrib"
+
+projects[search_api_page][version] = "1.x-dev"
+projects[search_api_page][subdir] = "contrib"
+
+projects[select_or_other][version] = "2.17"
+projects[select_or_other][subdir] = "contrib"
+
+projects[strongarm][version] = "2.0"
+projects[strongarm][subdir] = "contrib"
+
+projects[superfish][version] = "1.9-rc1"
+projects[superfish][subdir] = "contrib"
+
+projects[taxonomy_csv][version] = "5.10"
+projects[taxonomy_csv][subdir] = "contrib"
+
+; Dave Reid maintains this D8 backport, dev release is ok.
+projects[telephone][version] = "1.x-dev"
+projects[telephone][subdir] = "contrib"
+
+projects[term_reference_tree][version] = "1.10"
+projects[term_reference_tree][subdir] = "contrib"
 ; Add filtering to the widget
 projects[term_reference_tree][patch][2007164] = "http://drupal.org/files/2007164-filter.patch"
 
-projects[token] = 1.5
+projects[token][version] = "1.5"
+projects[token][subdir] = "contrib"
 
-projects[token_field] = 1.x-dev
+projects[token_field][version] = "1.x-dev"
+projects[token_field][subdir] = "contrib"
 
-projects[token_formatters] = 1.2
+projects[token_formatters][version] = "1.2"
+projects[token_formatters][subdir] = "contrib"
 
-projects[views] = 3.7
+projects[views][version] = "3.7"
+projects[views][subdir] = "contrib"
 
-projects[views_bulk_operations] = 3.1
+projects[views_bulk_operations][version] = "3.1"
+projects[views_bulk_operations][subdir] = "contrib"
 
-projects[webform] = 3.19
+projects[webform][version] = "3.19"
+projects[webform][subdir] = "contrib"
 
-projects[workbench] = 1.2
+projects[workbench][version] = "1.2"
+projects[workbench][subdir] = "contrib"
 
-projects[workbench_moderation][version] = 1.3
+projects[workbench_moderation][version] = "1.3"
+projects[workbench_moderation][subdir] = "contrib"
 ; Show revision log message in the workbench message menu_block
 projects[workbench_moderation][patch][1972888] = "http://drupal.org/files/1972888-workbench-show-revision-log-message.patch"
 
-projects[workbench_access] = 1.2
+projects[workbench_access][version] = "1.2"
+projects[workbench_access][subdir] = "contrib"
 
-projects[workbench_email] = 2.2
+projects[workbench_email][version] = "2.2"
+projects[workbench_email][subdir] = "contrib"
 
-projects[wysiwyg] = 2.x-dev
+projects[wysiwyg][version] = "2.x-dev"
+projects[wysiwyg][subdir] = "contrib"
 
 ; -----------------------------------------------------------------------------
 ; Contributed themes
 ; -----------------------------------------------------------------------------
 
-projects[adaptivetheme] = 3.x-dev
+projects[adaptivetheme][version] = "3.x-dev"
+projects[adaptivetheme][subdir] = "contrib"
 
-projects[pixture_reloaded] = 3.0-rc1
+projects[pixture_reloaded][version] = "3.x-dev"
+projects[pixture_reloaded][subdir] = "contrib"
 
-projects[shiny] = 1.2
+projects[shiny][version] = "1.2"
+projects[shiny][subdir] = "contrib"
 
 ; -----------------------------------------------------------------------------
 ; Libraries
@@ -220,16 +292,7 @@ libraries[chosen][download][url] = "https://github.com/koenpunt/chosen/archive/o
 libraries[chosen][download][subtree] = "chosen-option_adding"
 libraries[chosen][directory_name] = "chosen"
 
-;libraries[datatables][download][type] = "get"
-;libraries[datatables][download][url] = "http://www.datatables.net/releases/DataTables-1.9.4.zip"
-;libraries[datatables][download][subtree] = "DataTables-1.9.4"
-;libraries[datatables][directory_name] = "datatables"
-
 libraries[superfish][download][type] = "get"
 libraries[superfish][download][url] = "https://github.com/mehrpadin/Superfish-for-Drupal/zipball/9dbdd14d08200a18cb76a68445c28b26bab16ed6"
 libraries[superfish][download][subtree] = "mehrpadin-Superfish-for-Drupal-9dbdd14"
 libraries[superfish][directory_name] = "superfish"
-
-;libraries[responsive-nav.js] = https://github.com/viljamis/responsive-nav.js
-;libraries[jquery-placeholder]
-;libraries[leaflet]

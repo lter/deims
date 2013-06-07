@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the DEIMS Research Site feature.
+ */
+
+include_once 'deims_research_site.features.inc';

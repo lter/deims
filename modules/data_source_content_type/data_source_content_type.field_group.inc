@@ -147,7 +147,6 @@ function data_source_content_type_field_group_info() {
       4 => 'field_csv_quote_character',
       5 => 'field_csv_field_delimiter',
       6 => 'field_csv_record_delimiter',
-      7 => 'field_connection',
     ),
     'format_type' => 'htab',
     'format_settings' => array(

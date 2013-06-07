@@ -1,0 +1,16 @@
+name = DEIMS Organization
+core = 7.x
+package = DEIMS Base
+dependencies[] = ctools
+dependencies[] = eck
+dependencies[] = eck
+dependencies[] = features
+dependencies[] = field_sql_storage
+dependencies[] = link
+dependencies[] = strongarm
+features[ctools][] = strongarm:strongarm:1
+features[eck_bundle][] = organization_organization
+features[eck_entity_type][] = organization
+features[features_api][] = api:1
+features[field][] = organization-organization-field_url
+features[variable][] = field_bundle_settings_organization__organization

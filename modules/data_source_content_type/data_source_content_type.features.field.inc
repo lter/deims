@@ -543,11 +543,11 @@ function data_source_content_type_field_default_fields() {
         ),
         'full' => array(
           'label' => 'inline',
-          'module' => 'file',
+          'module' => 'file_entity',
           'settings' => array(
             'text' => '[file:basename]',
           ),
-          'type' => 'file_default',
+          'type' => 'file_download_link',
           'weight' => '2',
         ),
       ),

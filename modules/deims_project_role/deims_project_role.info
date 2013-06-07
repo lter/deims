@@ -1,0 +1,17 @@
+name = DEIMS Project Role
+core = 7.x
+package = DEIMS Base
+dependencies[] = eck
+dependencies[] = eck
+dependencies[] = eml
+dependencies[] = entityreference
+dependencies[] = features
+dependencies[] = field_sql_storage
+dependencies[] = inline_entity_form
+dependencies[] = list
+dependencies[] = options
+features[eck_bundle][] = project_role_project_role
+features[eck_entity_type][] = project_role
+features[features_api][] = api:1
+features[field][] = project_role-project_role-field_project_role
+features[field][] = project_role-project_role-field_related_person

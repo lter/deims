@@ -1,0 +1,7 @@
+name = DEIMS Taxonomy: LTER Controlled Vocabulary
+core = 7.x
+package = DEIMS Base
+dependencies[] = features
+dependencies[] = taxonomy
+features[features_api][] = api:1
+features[taxonomy][] = lter_controlled_vocabulary

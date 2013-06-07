@@ -1,0 +1,17 @@
+name = DEIMS Main Menu
+core = 7.x
+package = DEIMS Base
+dependencies[] = features
+dependencies[] = menu
+features[features_api][] = api:1
+features[menu_custom][] = main-menu
+features[menu_links][] = main-menu:<front>
+features[menu_links][] = main-menu:about/sites
+features[menu_links][] = main-menu:contact
+features[menu_links][] = main-menu:data
+features[menu_links][] = main-menu:http://www.lternet.edu/
+features[menu_links][] = main-menu:node/32
+features[menu_links][] = main-menu:node/33
+features[menu_links][] = main-menu:people
+features[menu_links][] = main-menu:people/researchers
+features[menu_links][] = main-menu:power-search/data-set

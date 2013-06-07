@@ -52,9 +52,9 @@ function data_set_content_type_field_default_fields() {
         ),
         'eml' => array(
           'label' => 'above',
-          'module' => 'text',
+          'module' => 'eml',
           'settings' => array(),
-          'type' => 'text_default',
+          'type' => 'eml_text',
           'weight' => '3',
         ),
         'full' => array(
@@ -146,9 +146,9 @@ function data_set_content_type_field_default_fields() {
         ),
         'eml' => array(
           'label' => 'above',
-          'module' => 'text',
+          'module' => 'eml',
           'settings' => array(),
-          'type' => 'text_default',
+          'type' => 'eml_text',
           'weight' => '6',
         ),
         'full' => array(
@@ -1285,9 +1285,9 @@ function data_set_content_type_field_default_fields() {
         ),
         'eml' => array(
           'label' => 'above',
-          'module' => 'text',
+          'module' => 'eml',
           'settings' => array(),
-          'type' => 'text_default',
+          'type' => 'eml_text',
           'weight' => '10',
         ),
         'full' => array(
@@ -2141,9 +2141,9 @@ function data_set_content_type_field_default_fields() {
         ),
         'eml' => array(
           'label' => 'above',
-          'module' => 'text',
+          'module' => 'eml',
           'settings' => array(),
-          'type' => 'text_default',
+          'type' => 'eml_text',
           'weight' => '9',
         ),
         'full' => array(

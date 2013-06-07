@@ -85,6 +85,8 @@ function deims_install() {
 
   // Enable theme settings.
   deims_install_theme();
+
+  variable_set('menu_rebuild_needed', TRUE);
 }
 
 function deims_install_filter() {
@@ -274,6 +276,9 @@ function deims_install_block() {
   $query->execute();
 }
 
+/**
+ * Helper function to setup DEIMs users.
+ */
 function deims_install_user() {
   // Enable user picture support and set the default to a square thumbnail option.
   variable_set('user_pictures', '1');
@@ -306,18 +311,9 @@ function deims_install_user() {
   user_save($account);
 }
 
-function deims_install_menu() {
-  // Create a Home link in the main menu.
-  $item = array(
-    'link_title' => st('Home'),
-    'link_path' => '<front>',
-    'menu_name' => 'main-menu',
-  );
-  menu_link_save($item);
-
-  variable_set('menu_rebuild_needed', TRUE);
-}
-
+/**
+ * Helper function to install default DEIMs themes.
+ */
 function deims_install_theme() {
   theme_enable(array(DEIMS_DEFAULT_THEME, DEIMS_ADMIN_THEME));
   variable_set('theme_default', DEIMS_DEFAULT_THEME);
@@ -332,6 +328,9 @@ function deims_install_theme() {
   drupal_form_submit('system_theme_settings', $form_state);
 }
 
+/**
+ * Helper function.
+ */
 function deims_install_admin_select() {
   $admin_role = user_role_load_by_name('administrator');
   variable_set('admin_select_defaults', array(
@@ -340,6 +339,9 @@ function deims_install_admin_select() {
   ));
 }
 
+/**
+ * Helper function.
+ */
 function deims_install_admin_menu() {
   variable_set('admin_menu_components', array(
     'admin_menu.icon' => TRUE,

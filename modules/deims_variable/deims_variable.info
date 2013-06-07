@@ -1,7 +1,7 @@
 name = DEIMS Variable Field
 description = Provides a measurement field for data sources.
 core = 7.x
-package = DEIMS
+package = DEIMS Base
 dependencies[] = field
 dependencies[] = elements
 dependencies[] = list

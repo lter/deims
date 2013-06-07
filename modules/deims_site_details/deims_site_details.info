@@ -1,0 +1,14 @@
+name = DEIMS Site Details
+core = 7.x
+package = DEIMS Base
+dependencies[] = eck
+dependencies[] = eck
+dependencies[] = features
+dependencies[] = field_sql_storage
+dependencies[] = select_or_other
+dependencies[] = text
+features[eck_bundle][] = site_details_site_details
+features[eck_entity_type][] = site_details
+features[features_api][] = api:1
+features[field][] = site_details-site_details-field_description
+features[field][] = site_details-site_details-field_label

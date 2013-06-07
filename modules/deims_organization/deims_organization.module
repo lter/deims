@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the DEIMS Organization feature.
+ */
+
+include_once 'deims_organization.features.inc';

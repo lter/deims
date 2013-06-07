@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the DEIMS Site Details feature.
+ */
+
+include_once 'deims_site_details.features.inc';

@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the DEIMS Article feature.
+ */
+
+include_once 'deims_article.features.inc';

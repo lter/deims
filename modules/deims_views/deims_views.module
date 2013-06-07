@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the DEIMS Views feature.
+ */
+
+include_once 'deims_views.features.inc';
