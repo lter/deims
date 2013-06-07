@@ -267,3 +267,46 @@ function deims_install_workbench_access() {
   variable_set('workbench_access_taxonomy', array('section' => 'section'));
   variable_set('workbench_access_custom_form', 0);
 }
+
+/**
+ * Porfile install for custom breadcrumbs.
+ */
+function deims_install_custom_breadcrumbs() {
+
+  $custom_breadcrumbs = array();
+  $custom_breadcrumbs[] = array(
+    'name' => 'Node: Data set',
+    'titles' => 'Data',
+    'paths' => 'data',
+    'node_type' => 'data_set',
+  );
+
+  $custom_breadcrumbs[] = array(
+    'name' => 'Node: Data source',
+    'titles' => 'Data
+[node:source-data-set]',
+    'paths' => 'data
+[node:source-data-set:url:path]',
+    'node_type' => 'data_source',
+  );
+
+  $custom_breadcrumbs[] = array(
+    'name' => 'Node: Article',
+    'titles' => '[node:field_section]',
+    'paths' => '[node:field-section:url:path]',
+    'node_type' => 'article',
+  );
+
+  $custom_breadcrumbs[] = array(
+    'name' => 'Node: Research site',
+    'titles' => 'About
+Research Sites',
+    'paths' => 'about
+about/sites',
+    'node_type' => 'research_site'
+  );
+
+  foreach ($custom_breadcrumbs as $custom_breadcrumb) {
+    drupal_write_record('custom_breadcrumb', $custom_breadcrumb);
+  }
+}
