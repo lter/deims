@@ -202,6 +202,9 @@ projects[schema_reference][subdir] = "contrib"
 projects[search_api][version] = "1.6"
 projects[search_api][subdir] = "contrib"
 
+projects[search_api_db][version] = "1.0-rc1"
+projects[search_api_db][subdir] = "contrib"
+
 projects[search_api_page][version] = "1.x-dev"
 projects[search_api_page][subdir] = "contrib"
 
