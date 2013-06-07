@@ -13,16 +13,14 @@ define('DEIMS_ADMIN_THEME', 'deims_admin');
  */
 function deims_install() {
   // Run the install task for each enabled module.
-  //foreach (module_list() as $module) {
-  //  module_invoke('developer', 'install_' . $module);
-  //}
+  foreach (module_list() as $module) {
+    module_invoke('deims', 'install_' . $module);
+  }
 
-  // Add text formats.
-  deims_install_filter();
+  variable_set('menu_rebuild_needed', TRUE);
+}
 
-  // Enable some standard blocks.
-  deims_install_block();
-
+function deims_install_node() {
   // Insert default pre-defined node types into the database. For a complete
   // list of available node type attributes, refer to the node type API
   // documentation at: http://api.drupal.org/api/HEAD/function/hook_node_info.
@@ -78,15 +76,6 @@ function deims_install() {
 
   // Don't display date and author information for "Basic page" nodes by default.
   variable_set('node_submitted_page', FALSE);
-
-  deims_install_user();
-
-  deims_install_menu();
-
-  // Enable theme settings.
-  deims_install_theme();
-
-  variable_set('menu_rebuild_needed', TRUE);
 }
 
 function deims_install_filter() {
@@ -314,7 +303,7 @@ function deims_install_user() {
 /**
  * Helper function to install default DEIMs themes.
  */
-function deims_install_theme() {
+function deims_install_system() {
   theme_enable(array(DEIMS_DEFAULT_THEME, DEIMS_ADMIN_THEME));
   variable_set('theme_default', DEIMS_DEFAULT_THEME);
   variable_set('admin_theme', DEIMS_ADMIN_THEME);
