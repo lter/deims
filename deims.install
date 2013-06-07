@@ -18,6 +18,9 @@ function deims_install() {
   }
 
   variable_set('menu_rebuild_needed', TRUE);
+
+  // Clear any normal messages from being displayed.
+  drupal_get_messages('status');
 }
 
 function deims_install_node() {
