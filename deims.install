@@ -23,63 +23,9 @@ function deims_install() {
   drupal_get_messages('status');
 }
 
-function deims_install_filter() {
-  $filtered_html_format = array(
-    'format' => 'filtered_html',
-    'name' => 'Filtered HTML',
-    'weight' => 0,
-    'filters' => array(
-      // URL filter.
-      'filter_url' => array(
-        'weight' => 0,
-        'status' => 1,
-      ),
-      // HTML filter.
-      'filter_html' => array(
-        'weight' => 1,
-        'status' => 1,
-      ),
-      // Line break filter.
-      'filter_autop' => array(
-        'weight' => 2,
-        'status' => 1,
-      ),
-      // HTML corrector filter.
-      'filter_htmlcorrector' => array(
-        'weight' => 10,
-        'status' => 1,
-      ),
-    ),
-  );
-  $filtered_html_format = (object) $filtered_html_format;
-  filter_format_save($filtered_html_format);
-
-  $full_html_format = array(
-    'format' => 'full_html',
-    'name' => 'Full HTML',
-    'weight' => 1,
-    'filters' => array(
-      // URL filter.
-      'filter_url' => array(
-        'weight' => 0,
-        'status' => 1,
-      ),
-      // Line break filter.
-      'filter_autop' => array(
-        'weight' => 1,
-        'status' => 1,
-      ),
-      // HTML corrector filter.
-      'filter_htmlcorrector' => array(
-        'weight' => 10,
-        'status' => 1,
-      ),
-    ),
-  );
-  $full_html_format = (object) $full_html_format;
-  filter_format_save($full_html_format);
-}
-
+/**
+ * Profile install tasks for the block module.
+ */
 function deims_install_block() {
   $blocks = array(
     array(
@@ -151,7 +97,88 @@ function deims_install_block() {
 }
 
 /**
- * Helper function to setup DEIMs users.
+ * Profile install tasks for the filter module.
+ */
+function deims_install_filter() {
+  $filtered_html_format = array(
+    'format' => 'filtered_html',
+    'name' => 'Filtered HTML',
+    'weight' => 0,
+    'filters' => array(
+      // URL filter.
+      'filter_url' => array(
+        'weight' => 0,
+        'status' => 1,
+      ),
+      // HTML filter.
+      'filter_html' => array(
+        'weight' => 1,
+        'status' => 1,
+      ),
+      // Line break filter.
+      'filter_autop' => array(
+        'weight' => 2,
+        'status' => 1,
+      ),
+      // HTML corrector filter.
+      'filter_htmlcorrector' => array(
+        'weight' => 10,
+        'status' => 1,
+      ),
+    ),
+  );
+  $filtered_html_format = (object) $filtered_html_format;
+  filter_format_save($filtered_html_format);
+
+  $full_html_format = array(
+    'format' => 'full_html',
+    'name' => 'Full HTML',
+    'weight' => 1,
+    'filters' => array(
+      // URL filter.
+      'filter_url' => array(
+        'weight' => 0,
+        'status' => 1,
+      ),
+      // Line break filter.
+      'filter_autop' => array(
+        'weight' => 1,
+        'status' => 1,
+      ),
+      // HTML corrector filter.
+      'filter_htmlcorrector' => array(
+        'weight' => 10,
+        'status' => 1,
+      ),
+    ),
+  );
+  $full_html_format = (object) $full_html_format;
+  filter_format_save($full_html_format);
+}
+
+/**
+ * Profile install tasks for the system module.
+ */
+function deims_install_system() {
+  // Enable the default and admin themes.
+  theme_enable(array(DEIMS_DEFAULT_THEME, DEIMS_ADMIN_THEME));
+  variable_set('theme_default', DEIMS_DEFAULT_THEME);
+  variable_set('admin_theme', DEIMS_ADMIN_THEME);
+  variable_set('node_admin_theme', '1');
+
+  // Set settings for the theme including color scheme.
+  $form_state = array();
+  form_load_include($form_state, 'inc', 'system', 'system.admin');
+  $form_state['build_info']['args'][0] = DEIMS_DEFAULT_THEME;
+  $form_state['values']['scheme'] = 'deepblue';
+  drupal_form_submit('system_theme_settings', $form_state);
+
+  // Set up the ISO 8601 date format.
+  variable_set('date_format_iso_8601', 'Y-m-d\TH:i:sO');
+}
+
+/**
+ * Profile install tasks for the user module.
  */
 function deims_install_user() {
   // Enable user picture support and set the default to a square thumbnail option.
@@ -181,29 +208,11 @@ function deims_install_user() {
   $account = user_load(1);
   $account->roles[$admin_role->rid] = $admin_role->name;
   $account->data['admin_select'] = 'admin_menu';
-  //$account->data['overlay'] = 0;
   user_save($account);
 }
 
 /**
- * Helper function to install default DEIMs themes.
- */
-function deims_install_system() {
-  theme_enable(array(DEIMS_DEFAULT_THEME, DEIMS_ADMIN_THEME));
-  variable_set('theme_default', DEIMS_DEFAULT_THEME);
-  variable_set('admin_theme', DEIMS_ADMIN_THEME);
-  variable_set('node_admin_theme', '1');
-
-  // Set settings for the theme including color scheme.
-  $form_state = array();
-  form_load_include($form_state, 'inc', 'system', 'system.admin');
-  $form_state['build_info']['args'][0] = DEIMS_DEFAULT_THEME;
-  $form_state['values']['scheme'] = 'deepblue';
-  drupal_form_submit('system_theme_settings', $form_state);
-}
-
-/**
- * Helper function.
+ * Profile install tasks for the admin_select module.
  */
 function deims_install_admin_select() {
   $admin_role = user_role_load_by_name('administrator');
@@ -214,7 +223,7 @@ function deims_install_admin_select() {
 }
 
 /**
- * Helper function.
+ * Profile install tasks for the admin_menu module.
  */
 function deims_install_admin_menu() {
   variable_set('admin_menu_components', array(
@@ -227,12 +236,18 @@ function deims_install_admin_menu() {
   ));
 }
 
+/**
+ * Profile install tasks for the schema module.
+ */
 function deims_install_schema() {
   variable_set('schema_suppress_type_warnings', TRUE);
 }
 
+/**
+ * Profile install tasks for the workbench_access module.
+ */
 function deims_install_workbench_access() {
   variable_set('workbench_access', 'taxonomy');
   variable_set('workbench_access_taxonomy', array('section' => 'section'));
-  variable_set('workbnech_access_custom_form', 0);
+  variable_set('workbench_access_custom_form', 0);
 }
