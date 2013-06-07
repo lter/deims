@@ -18,7 +18,7 @@ function eml_settings_form() {
     '#type' => 'textfield',
     '#title' => t('Package ID pattern'),
     '#description' => t('This field supports tokens.'),
-    '#default_value' => variable_get('eml_package_id_pattern', 'knb-lter-[site:station-acronym].[node:field_data_set_id].[node:maximum-timestamp:raw]'),
+    '#default_value' => variable_get('eml_package_id_pattern', 'knb-lter-[site:station-acronym].[node:field_data_set_id].[node:field_eml_revision_id]'),
     '#required' => TRUE,
     '#size' => 100,
     '#element_validate' => array('token_element_validate'),
