@@ -3,7 +3,6 @@ core = 7.x
 package = DEIMS Base
 dependencies[] = ctools
 dependencies[] = eck
-dependencies[] = eck
 dependencies[] = features
 dependencies[] = field_sql_storage
 dependencies[] = link
