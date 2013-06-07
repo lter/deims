@@ -16,6 +16,28 @@ function deims_form_install_configure_form_alter(&$form, $form_state) {
 }
 
 /**
+ * Implements hook_date_format_types().
+ */
+function deims_date_format_types() {
+  return array(
+    'iso_8601' => t('ISO 8601'),
+  );
+}
+
+/**
+ * Implements hook_date_formats().
+ */
+function deims_date_formats() {
+  return array(
+    array(
+      'type' => 'iso_8601',
+      'format' => 'Y-m-d\TH:i:sO',
+      'locales' => array(),
+    ),
+  );
+}
+
+/**
  * Implements hook_element_info_alter().
  */
 function deims_element_info_alter(&$info) {

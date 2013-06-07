@@ -1,7 +1,5 @@
 name = DEIMS Admin Theme
 description = Administrative theme for DEIMS
-package = Core
-version = VERSION
 core = 7.x
 base theme = shiny
 

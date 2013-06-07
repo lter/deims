@@ -1,6 +1,6 @@
 name = DEIMS Article
 core = 7.x
-package = Features
+package = DEIMS Base
 dependencies[] = ctools
 dependencies[] = data_set_content_type
 dependencies[] = date
