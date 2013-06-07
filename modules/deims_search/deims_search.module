@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the DEIMS Search feature.
+ */
+
+include_once 'deims_search.features.inc';

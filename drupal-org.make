@@ -29,6 +29,9 @@ projects[biblio][subdir] = "contrib"
 projects[ctools][version] = "1.3"
 projects[ctools][subdir] = "contrib"
 
+projects[context][version] = "3.0-beta6"
+projects[context][subdir] = "context"
+
 projects[chosen][version] = "2.0-alpha2"
 projects[chosen][subdir] = "contrib"
 ; Add support for select_or_other with the koenpunt fork of chosen
