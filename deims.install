@@ -226,3 +226,13 @@ function deims_install_admin_menu() {
     'shortcut.links' => TRUE,
   ));
 }
+
+function deims_install_schema() {
+  variable_set('schema_suppress_type_warnings', TRUE);
+}
+
+function deims_install_workbench_access() {
+  variable_set('workbench_access', 'taxonomy');
+  variable_set('workbench_access_taxonomy', array('section' => 'section'));
+  variable_set('workbnech_access_custom_form', 0);
+}

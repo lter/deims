@@ -31,6 +31,8 @@ projects[ctools][subdir] = "contrib"
 
 projects[chosen][version] = "2.0-alpha2"
 projects[chosen][subdir] = "contrib"
+; Add support for select_or_other with the koenpunt fork of chosen
+projects[chosen][patch][2012900] = "http://drupal.org/files/2012900-chosen-select-or-other.patch"
 
 projects[custom_breadcrumbs][version] = "2.0-alpha3"
 projects[custom_breadcrumbs][subdir] = "contrib"
