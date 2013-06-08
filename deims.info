@@ -104,9 +104,9 @@ dependencies[] = workbench_email
 dependencies[] = workbench_moderation
 dependencies[] = wysiwyg
 ; DEIMS Base
-dependencies[] = data_set_content_type
-dependencies[] = data_source_content_type
 dependencies[] = deims_article
+dependencies[] = deims_data_set
+dependencies[] = deims_data_source
 dependencies[] = deims_image_gallery
 dependencies[] = deims_organization
 dependencies[] = deims_page

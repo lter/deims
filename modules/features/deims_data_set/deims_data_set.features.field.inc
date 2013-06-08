@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * data_set_content_type.features.field.inc
+ * deims_data_set.features.field.inc
  */
 
 /**
  * Implements hook_field_default_fields().
  */
-function data_set_content_type_field_default_fields() {
+function deims_data_set_field_default_fields() {
   $fields = array();
 
   // Exported field: 'node-data_set-field_abstract'.

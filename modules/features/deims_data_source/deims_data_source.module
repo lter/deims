@@ -4,18 +4,18 @@
  * Code for the Data Source Content Type feature.
  */
 
-include_once 'data_source_content_type.features.inc';
+include_once 'deims_data_source.features.inc';
 
 /**
  * Implements hook_form_alter().
  */
-function data_source_content_type_form_alter(&$form, &$form_state, $form_id) {
+function deims_data_source_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'data_source_node_form' && arg(2) == 'edit') {
     // Remove the last variable since it's empty and prevents a save.
     // See: http://drupal.org/node/1239946 for more info.
     foreach ($form['field_variables'][LANGUAGE_NONE] as $key => $field) {
       if (is_numeric($key) && empty($field['label']['#default_value'])) {
-        unset($form['field_variables'][LANGUAGE_NONE][$key]);
+        //unset($form['field_variables'][LANGUAGE_NONE][$key]);
       }
     }
   }

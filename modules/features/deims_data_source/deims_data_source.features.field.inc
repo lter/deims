@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * data_source_content_type.features.field.inc
+ * deims_data_source.features.field.inc
  */
 
 /**
  * Implements hook_field_default_fields().
  */
-function data_source_content_type_field_default_fields() {
+function deims_data_source_field_default_fields() {
   $fields = array();
 
   // Exported field: 'node-data_source-field_csv_field_delimiter'.

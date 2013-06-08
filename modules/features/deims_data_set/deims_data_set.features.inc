@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * data_set_content_type.features.inc
+ * deims_data_set.features.inc
  */
 
 /**
  * Implements hook_ctools_plugin_api().
  */
-function data_set_content_type_ctools_plugin_api() {
+function deims_data_set_ctools_plugin_api() {
   list($module, $api) = func_get_args();
   if ($module == "ds" && $api == "ds") {
     return array("version" => "1");
@@ -29,14 +29,14 @@ function data_set_content_type_ctools_plugin_api() {
 /**
  * Implements hook_views_api().
  */
-function data_set_content_type_views_api() {
+function deims_data_set_views_api() {
   return array("version" => "3.0");
 }
 
 /**
  * Implements hook_node_info().
  */
-function data_set_content_type_node_info() {
+function deims_data_set_node_info() {
   $items = array(
     'data_set' => array(
       'name' => t('Data set'),

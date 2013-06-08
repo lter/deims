@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * data_set_content_type.features.taxonomy.inc
+ * deims_data_set.features.taxonomy.inc
  */
 
 /**
  * Implements hook_taxonomy_default_vocabularies().
  */
-function data_set_content_type_taxonomy_default_vocabularies() {
+function deims_data_set_taxonomy_default_vocabularies() {
   return array(
     'core_areas' => array(
       'name' => 'Core Areas',

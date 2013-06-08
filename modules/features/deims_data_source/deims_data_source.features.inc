@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * data_source_content_type.features.inc
+ * deims_data_source.features.inc
  */
 
 /**
  * Implements hook_ctools_plugin_api().
  */
-function data_source_content_type_ctools_plugin_api() {
+function deims_data_source_ctools_plugin_api() {
   list($module, $api) = func_get_args();
   if ($module == "ds" && $api == "ds") {
     return array("version" => "1");
@@ -25,7 +25,7 @@ function data_source_content_type_ctools_plugin_api() {
 /**
  * Implements hook_node_info().
  */
-function data_source_content_type_node_info() {
+function deims_data_source_node_info() {
   $items = array(
     'data_source' => array(
       'name' => t('Data source'),

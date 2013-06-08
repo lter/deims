@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * data_set_content_type.views_default.inc
+ * deims_data_set.views_default.inc
  */
 
 /**
  * Implements hook_views_default_views().
  */
-function data_set_content_type_views_default_views() {
+function deims_data_set_views_default_views() {
   $export = array();
 
   $view = new view();

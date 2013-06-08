@@ -1,5 +1,4 @@
-name = Data Set Content Type
-description = Data Set for DEIMs Platform
+name = DEIMS Data Set
 core = 7.x
 package = DEIMS Base
 dependencies[] = ctools

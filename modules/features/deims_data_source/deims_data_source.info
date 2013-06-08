@@ -1,5 +1,4 @@
-name = Data Source Content Type
-description = Data Source for DEIMs Platform
+name = DEIMS Data Source
 core = 7.x
 package = DEIMS Base
 dependencies[] = ctools

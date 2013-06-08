@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * data_set_content_type.strongarm.inc
+ * deims_data_set.strongarm.inc
  */
 
 /**
  * Implements hook_strongarm().
  */
-function data_set_content_type_strongarm() {
+function deims_data_set_strongarm() {
   $export = array();
 
   $strongarm = new stdClass();

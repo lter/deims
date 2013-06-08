@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * data_source_content_type.ds.inc
+ * deims_data_source.ds.inc
  */
 
 /**
  * Implements hook_ds_field_settings_info().
  */
-function data_source_content_type_ds_field_settings_info() {
+function deims_data_source_ds_field_settings_info() {
   $export = array();
 
   $ds_fieldsetting = new stdClass();
@@ -70,7 +70,7 @@ function data_source_content_type_ds_field_settings_info() {
 /**
  * Implements hook_ds_layout_settings_info().
  */
-function data_source_content_type_ds_layout_settings_info() {
+function deims_data_source_ds_layout_settings_info() {
   $export = array();
 
   $ds_layout = new stdClass();

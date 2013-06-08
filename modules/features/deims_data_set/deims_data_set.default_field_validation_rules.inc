@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * data_set_content_type.default_field_validation_rules.inc
+ * deims_data_set.default_field_validation_rules.inc
  */
 
 /**
  * Implements hook_default_field_validation_rule().
  */
-function data_set_content_type_default_field_validation_rule() {
+function deims_data_set_default_field_validation_rule() {
   $export = array();
 
   $rule = new stdClass();

@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * data_source_content_type.field_group.inc
+ * deims_data_source.field_group.inc
  */
 
 /**
  * Implements hook_field_group_info().
  */
-function data_source_content_type_field_group_info() {
+function deims_data_source_field_group_info() {
   $export = array();
 
   $field_group = new stdClass();
