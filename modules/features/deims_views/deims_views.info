@@ -11,5 +11,4 @@ features[views_view][] = data_set_admin
 features[views_view][] = data_sets
 features[views_view][] = directory
 features[views_view][] = entity_reference_selection_project_role
-features[views_view][] = power_search
 features[views_view][] = research_sites
