@@ -64,7 +64,7 @@ projects[eck][patch][1979686] = "http://drupal.org/files/1979686-eck-ief-clone-b
 ; Temporary patch to make the inline form display actual useful fields.
 projects[eck][patch][] = "https://gist.github.com/davereid/0014f396fed3f20a66ca/raw/e4f54f8a026dbd1ef4d8981e898ed9782b12a826/deims-eck.patch"
 
-projects[elements][version] = "1.3"
+projects[elements][version] = "1.x-dev"
 projects[elements][subdir] = "contrib"
 
 projects[email][version] = "1.2"
