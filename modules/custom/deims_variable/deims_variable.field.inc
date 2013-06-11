@@ -106,6 +106,14 @@ function deims_variable_field_validate($entity_type, $entity, $field, $instance,
         break;
 
       case DEIMS_VARIABLE_TYPE_CODES:
+        if (empty($items[$delta]['data']['codes'])) {
+          form_set_error(implode('][', array(
+            'field_variables',
+            $langcode,
+            $delta,
+            'type',
+            )), 'Type: Codes table cannot be empty');
+        }
         break;
     }
   }
