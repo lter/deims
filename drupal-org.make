@@ -141,14 +141,12 @@ projects[google_analytics][subdir] = "contrib"
 projects[helper][version] = "1.x"
 projects[helper][subdir] = "contrib"
 
-projects[inline_entity_form][version] = "1.2"
+projects[inline_entity_form][version] = "1.x-dev"
 projects[inline_entity_form][subdir] = "contrib"
 ; Add a 'Clone' button to the widget
 projects[inline_entity_form][patch][1590146] = "http://drupal.org/files/ief_clone_button-1590146-18-default-off.patch"
 ; Limit 'Add new' bundle options when entityreference uses a view for selection
 projects[inline_entity_form][patch][1872316] = "http://drupal.org/files/1872316-ief-bundle-selection-node-view_0.patch"
-; Fix entity create access checks. Will be fixed in 1.3.
-projects[inline_entity_form][patch][1990064] = "http://drupal.org/files/inline_entity_form-entity_access-1990064-5.patch"
 
 projects[libraries][version] = "2.1"
 projects[libraries][subdir] = "contrib"
