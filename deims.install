@@ -199,7 +199,7 @@ function deims_install_user() {
   // Create a default role for site administrators, with all available permissions assigned.
   $admin_role = new stdClass();
   $admin_role->name = 'administrator';
-  $admin_role->weight = 2;
+  $admin_role->weight = 5;
   user_role_save($admin_role);
   user_role_grant_permissions($admin_role->rid, array_keys(module_invoke_all('permission')));
   // Set this as the administrator role.
@@ -209,6 +209,22 @@ function deims_install_user() {
   $account->roles[$admin_role->rid] = $admin_role->name;
   $account->data['admin_select'] = 'admin_menu';
   user_save($account);
+
+  // Create the DEIMS roles.
+  $role = new stdClass();
+  $role->name = 'content contributor';
+  $role->weight = 2;
+  user_role_save($role);
+
+  $role = new stdClass();
+  $role->name = 'data contributor';
+  $role->weight = 3;
+  user_role_save($role);
+
+  $role = new stdClass();
+  $role->name = 'information manager';
+  $role->weight = 4;
+  user_role_save($role);
 }
 
 /**
