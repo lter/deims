@@ -12,31 +12,26 @@ function deims_workbench_workbench_email_export() {
     'draft:needs_review:information manager' => array(
       'from_name' => 'draft',
       'to_name' => 'needs_review',
-      'rid' => '5',
       'role' => 'information manager',
     ),
     'needs_contributor_work:needs_review:information manager' => array(
       'from_name' => 'needs_contributor_work',
       'to_name' => 'needs_review',
-      'rid' => '5',
       'role' => 'information manager',
     ),
     'needs_review:draft:data contributor' => array(
       'from_name' => 'needs_review',
       'to_name' => 'draft',
-      'rid' => '4',
       'role' => 'data contributor',
     ),
     'needs_review:draft:information manager' => array(
       'from_name' => 'needs_review',
       'to_name' => 'draft',
-      'rid' => '5',
       'role' => 'information manager',
     ),
     'needs_review:needs_contributor_work:data contributor' => array(
       'from_name' => 'needs_review',
       'to_name' => 'needs_contributor_work',
-      'rid' => '4',
       'role' => 'data contributor',
     ),
   );

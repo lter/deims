@@ -1,6 +1,7 @@
 name = DEIMS Data Set
 core = 7.x
 package = DEIMS Base
+php = 5.2.4
 dependencies[] = ctools
 dependencies[] = date
 dependencies[] = ds
@@ -72,6 +73,7 @@ features[field_group][] = group_read_only|node|data_set|form
 features[field_group][] = group_related|node|data_set|default
 features[field_group][] = group_related|node|data_set|form
 features[field_group][] = group_summary|node|data_set|default
+features[field_group][] = group_taxonomy|node|data_set|form
 features[field_validation_rule][] = data_set_id_unique
 features[node][] = data_set
 features[taxonomy][] = core_areas

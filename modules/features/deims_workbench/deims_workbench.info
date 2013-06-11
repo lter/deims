@@ -1,10 +1,9 @@
 name = DEIMS Workbench
 core = 7.x
 package = DEIMS Base
+php = 5.2.4
 dependencies[] = token
 dependencies[] = workbench_email
-dependencies[] = workbench_moderation
-dependencies[] = workbench_moderation
 dependencies[] = workbench_moderation
 features[features_api][] = api:1
 features[workbench_email][] = draft:needs_review::information manager
