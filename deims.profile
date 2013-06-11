@@ -248,6 +248,7 @@ function deims_environment_switch($target_env, $current_env) {
       variable_set('environment_indicator_enabled', FALSE);
 
       break;
+
     case 'development':
       module_enable($devel_modules);
       drupal_set_message('Enabled development modules');

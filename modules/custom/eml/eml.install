@@ -32,3 +32,13 @@ function eml_requirements($phase) {
 function eml_install() {
   variable_set('date_format_eml_yeardate', 'Y-m-d');
 }
+
+/**
+ * Implements hook_uninstall().
+ */
+function eml_uninstall() {
+  variable_del('station_acronym');
+  variable_del('eml_data_policies');
+  variable_del('eml_package_id_pattern');
+  variable_del('eml_pasta_base_url');
+}
