@@ -306,6 +306,6 @@ libraries[chosen][download][subtree] = "chosen-option_adding"
 libraries[chosen][directory_name] = "chosen"
 
 libraries[superfish][download][type] = "get"
-libraries[superfish][download][url] = "https://github.com/mehrpadin/Superfish-for-Drupal/zipball/9dbdd14d08200a18cb76a68445c28b26bab16ed6"
-libraries[superfish][download][subtree] = "mehrpadin-Superfish-for-Drupal-9dbdd14"
+libraries[superfish][download][url] = "https://github.com/mehrpadin/Superfish-for-Drupal/archive/1.x.zip"
+libraries[superfish][download][subtree] = "Superfish-for-Drupal-1.x"
 libraries[superfish][directory_name] = "superfish"
