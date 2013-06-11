@@ -72,8 +72,8 @@ projects[email][subdir] = "contrib"
 
 projects[entity][version] = "1.1"
 projects[entity][subdir] = "contrib"
-; entity_metadata_no_hook_node_access() should respect that the $node parameter can be a string or an object
-projects[entity][patch][1780646] = "http://drupal.org/files/entity-node_access-1780646-57.patch"
+; Fix for entity_metadata_no_hook_node_access() and new entity objects (required to work with inline_entity_form).
+projects[entity][patch][1780646] = "http://drupal.org/files/entity-entity_access-1780646-107.patch"
 
 projects[entitycache][version] = "1.x-dev"
 projects[entitycache][subdir] = "contrib"
@@ -147,6 +147,8 @@ projects[inline_entity_form][subdir] = "contrib"
 projects[inline_entity_form][patch][1590146] = "http://drupal.org/files/ief_clone_button-1590146-18-default-off.patch"
 ; Limit 'Add new' bundle options when entityreference uses a view for selection
 projects[inline_entity_form][patch][1872316] = "http://drupal.org/files/1872316-ief-bundle-selection-node-view_0.patch"
+; Fix entity create access checks. Will be fixed in 1.3.
+projects[inline_entity_form][patch][1990064] = "http://drupal.org/files/inline_entity_form-entity_access-1990064-5.patch"
 
 projects[libraries][version] = "2.1"
 projects[libraries][subdir] = "contrib"
