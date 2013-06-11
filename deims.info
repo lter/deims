@@ -100,7 +100,6 @@ dependencies[] = views
 dependencies[] = views_bulk_operations
 dependencies[] = workbench
 dependencies[] = workbench_access
-dependencies[] = workbench_email
 dependencies[] = workbench_moderation
 dependencies[] = wysiwyg
 ; DEIMS Base
@@ -122,5 +121,4 @@ dependencies[] = deims_taxonomy_section
 dependencies[] = deims_taxonomy_station_keywords
 dependencies[] = deims_taxonomy_tags
 dependencies[] = deims_views
-dependencies[] = deims_workbench
 dependencies[] = eml
