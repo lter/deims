@@ -1,6 +1,7 @@
 name = DEIMS Research Project
 core = 7.x
 package = DEIMS Base
+php = 5.2.4
 dependencies[] = ctools
 dependencies[] = deims_data_set
 dependencies[] = entityreference

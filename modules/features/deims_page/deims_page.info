@@ -1,6 +1,7 @@
 name = DEIMS Basic Page
 core = 7.x
 package = DEIMS Base
+php = 5.2.4
 dependencies[] = ctools
 dependencies[] = features
 dependencies[] = field_sql_storage

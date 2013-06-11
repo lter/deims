@@ -1,6 +1,7 @@
 name = DEIMS Site Details
 core = 7.x
 package = DEIMS Base
+php = 5.2.4
 dependencies[] = eck
 dependencies[] = features
 dependencies[] = field_sql_storage

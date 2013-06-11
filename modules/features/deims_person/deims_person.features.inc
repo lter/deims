@@ -26,36 +26,6 @@ function deims_person_views_api() {
 }
 
 /**
- * Implements hook_eck_entity_type_info().
- */
-function deims_person_eck_entity_type_info() {
-$items = array(
-  'organization' => array(
-  'name' => 'organization',
-  'label' => 'Organization',
-  'properties' => array(
-    'title' => array(
-      'label' => 'Title',
-      'type' => 'text',
-      'behavior' => 'title',
-    ),
-    'changed' => array(
-      'label' => 'Changed',
-      'type' => 'integer',
-      'behavior' => 'changed',
-    ),
-    'language' => array(
-      'label' => 'Entity language',
-      'type' => 'language',
-      'behavior' => 'language',
-    ),
-  ),
-),
-  );
-  return $items;
-}
-
-/**
  * Implements hook_node_info().
  */
 function deims_person_node_info() {

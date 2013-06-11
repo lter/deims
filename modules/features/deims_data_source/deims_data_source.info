@@ -1,6 +1,7 @@
 name = DEIMS Data Source
 core = 7.x
 package = DEIMS Base
+php = 5.2.4
 dependencies[] = ctools
 dependencies[] = date
 dependencies[] = deims_variable

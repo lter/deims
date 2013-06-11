@@ -1,6 +1,7 @@
 name = DEIMS Project Role
 core = 7.x
 package = DEIMS Base
+php = 5.2.4
 dependencies[] = eck
 dependencies[] = eml
 dependencies[] = entityreference

@@ -1,10 +1,10 @@
 name = DEIMS Organization
 core = 7.x
 package = DEIMS Base
+php = 5.2.4
 dependencies[] = ctools
 dependencies[] = eck
 dependencies[] = features
-dependencies[] = field_sql_storage
 dependencies[] = link
 dependencies[] = strongarm
 features[ctools][] = strongarm:strongarm:1

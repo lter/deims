@@ -90,7 +90,7 @@ projects[extlink][subdir] = "contrib"
 projects[facetapi][version] = "1.3"
 projects[facetapi][subdir] = "contrib"
 
-projects[features][version] = "2.0-rc1"
+projects[features][version] = "1.x-dev"
 projects[features][subdir] = "contrib"
 
 projects[field_permissions][version] = "1.0-beta2"

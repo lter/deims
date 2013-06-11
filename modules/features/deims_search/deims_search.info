@@ -1,6 +1,7 @@
 name = DEIMS Search
 core = 7.x
 package = DEIMS Base
+php = 5.2.4
 dependencies[] = block
 dependencies[] = context
 dependencies[] = facetapi
