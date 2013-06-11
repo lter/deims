@@ -12,6 +12,11 @@ class EmlDataSet {
     $this->node = $node;
   }
 
+  public static function getApiUrl($path, array $options = array()) {
+    $base_url = variable_get('eml_pasta_base_url', 'https://pasta.lternet.edu');
+    return url($base_url . '/' . $path, $options);
+  }
+
   /**
    * Render a data set into its EML.
    *
@@ -118,16 +123,13 @@ class EmlDataSet {
   public function fetchDOI() {
     $package_id = $this->getPackageID();
 
-    // @todo Remove after testing.
-    $package_id = 'knb-lter-sev.107.313449';
-
     if (!eml_dataset_is_valid_package_id($package_id)) {
       throw new Exception(t("Data set node @nid has an invalid package ID: @packagei.", array('@nid' => $this->node->nid, '@packageid' => $package_id)));
     }
 
     list($scope, $identifier, $revision) = explode('.', $package_id);
 
-    $url = "https://pasta.lternet.edu/package/doi/eml/{$scope}/{$identifier}/{$revision}";
+    $url = static::getApiUrl("package/doi/eml/{$scope}/{$identifier}/{$revision}");
     $request = drupal_http_request($url, array('timeout' => 10));
 
     if (empty($request->error) && $request->code == 200 && !empty($request->data)) {
@@ -165,7 +167,7 @@ class EmlDataSet {
    */
   public function fetchValidationReportTransaction() {
     // First we need to send the EML to the evaluation API.
-    $url = "https://pasta.lternet.edu/package/evaluate/eml";
+    $url = static::getApiUrl('package/evaluate/eml');
     $options = array(
       'method' => 'POST',
       'data' => $this->getEML(),
@@ -201,7 +203,7 @@ class EmlDataSet {
   public static function fetchValidationReport($transaction) {
     // Fetch the evaluation report from the API.
     $transaction = $request->data;
-    $url = "https://pasta.lternet.edu/package/evaluate/report/eml/{$transaction}";
+    $url = static::getApiUrl("package/evaluate/report/eml/{$transaction}");
     $request = drupal_http_request($url, array('timeout' => 10));
 
     // The report API on success returns a 200 response with the report XML

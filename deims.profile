@@ -13,6 +13,24 @@
 function deims_form_install_configure_form_alter(&$form, $form_state) {
   // Pre-populate the site name with the server name.
   $form['site_information']['site_name']['#default_value'] = $_SERVER['SERVER_NAME'];
+
+  $form['site_information']['environment'] = array(
+    '#type' => 'select',
+    '#title' => t('Environment'),
+    '#options' => array(
+      'development' => st('Development'),
+      'production' => st('Production'),
+    ),
+    '#default_value' => variable_get('environment', ''),
+    '#required' => TRUE,
+  );
+
+  $form['#submit'][] = 'deims_form_install_configure_form_submit';
+}
+
+function deims_form_install_configure_form_submit($form, &$form_state) {
+  variable_set('environment', $form_state['values']['environment']);
+  module_invoke_all('environment_switch', $form_state['values']['environment'], NULL);
 }
 
 /**
@@ -201,5 +219,50 @@ function deims_field_widget_inline_entity_form_form_alter(&$element, &$form_stat
   // Add the required marker to the title.
   if ($context['instance']['required']) {
     $element['#title'] .= theme('form_required_marker');
+  }
+}
+
+/**
+ * Implementation of hook_environment_switch().
+ */
+function deims_environment_switch($target_env, $current_env) {
+  // Declare each optional development-related module
+  $devel_modules = array(
+    'context_ui',
+    'devel',
+    'devel_generate',
+    'imagecache_ui',
+    'update',
+    'views_ui',
+  );
+
+  switch ($target_env) {
+    case 'production':
+      module_disable($devel_modules);
+      drupal_set_message('Disabled development modules');
+
+      // Ensure we use the production PASTA API.
+      variable_set('eml_pasta_base_url', 'https://pasta.lternet.edu');
+
+      // Environment indicator settings.
+      variable_set('environment_indicator_enabled', FALSE);
+
+      break;
+    case 'development':
+      module_enable($devel_modules);
+      drupal_set_message('Enabled development modules');
+
+      // Ensure we use the staging PASTA API for development.
+      variable_set('eml_pasta_base_url', 'https://pasta-s.lternet.edu');
+
+      // Debugging mail handler.
+      variable_set('mail_system', array(
+        'default-system' => 'HelperDebugMailLog',
+      ));
+
+      // Environment indicator settings.
+      variable_set('environment_indicator_enabled', TRUE);
+      variable_set('environment_indicator_text', 'DEIMS Development Site');
+      break;
   }
 }
