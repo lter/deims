@@ -222,7 +222,7 @@ projects[select_or_other][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
 projects[strongarm][subdir] = "contrib"
 
-projects[superfish][version] = "1.9-rc1"
+projects[superfish][version] = "1.9"
 projects[superfish][subdir] = "contrib"
 
 projects[taxonomy_csv][version] = "5.10"
