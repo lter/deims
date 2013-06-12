@@ -277,25 +277,33 @@ function deims_install_custom_breadcrumbs() {
       'name' => 'Node: Data set',
       'titles' => 'Data',
       'paths' => 'data',
+      'visibility_php' => NULL,
       'node_type' => 'data_set',
+      'language' => NULL,
     ),
     array(
       'name' => 'Node: Data source',
       'titles' => 'Data' . "\r\n" . '[node:source-data-set]',
       'paths' => 'data' . "\r\n" . '[node:source-data-set:url:path]',
+      'visibility_php' => NULL,
       'node_type' => 'data_source',
+      'language' => NULL,
     ),
     array(
       'name' => 'Node: Article',
       'titles' => '[node:field_section]',
       'paths' => '[node:field-section:url:path]',
+      'visibility_php' => NULL,
       'node_type' => 'article',
+      'language' => NULL,
     ),
     array(
       'name' => 'Node: Research site',
       'titles' => 'About' . "\r\n" . 'Research Sites',
       'paths' => 'about' . "\r\n" . 'about/sites',
-      'node_type' => 'research_site'
+      'visibility_php' => NULL,
+      'node_type' => 'research_site',
+      'language' => NULL,
     ),
   );
 
@@ -303,7 +311,9 @@ function deims_install_custom_breadcrumbs() {
     'name',
     'titles',
     'paths',
+    'visibility_php',
     'node_type',
+    'language',
   ));
 
   foreach ($custom_breadcrumbs as $custom_breadcrumb) {
