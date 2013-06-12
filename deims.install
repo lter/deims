@@ -272,41 +272,43 @@ function deims_install_workbench_access() {
  * Porfile install for custom breadcrumbs.
  */
 function deims_install_custom_breadcrumbs() {
-
-  $custom_breadcrumbs = array();
-  $custom_breadcrumbs[] = array(
-    'name' => 'Node: Data set',
-    'titles' => 'Data',
-    'paths' => 'data',
-    'node_type' => 'data_set',
+  $custom_breadcrumbs = array(
+    array(
+      'name' => 'Node: Data set',
+      'titles' => 'Data',
+      'paths' => 'data',
+      'node_type' => 'data_set',
+    ),
+    array(
+      'name' => 'Node: Data source',
+      'titles' => 'Data' . "\r\n" . '[node:source-data-set]',
+      'paths' => 'data' . "\r\n" . '[node:source-data-set:url:path]',
+      'node_type' => 'data_source',
+    ),
+    array(
+      'name' => 'Node: Article',
+      'titles' => '[node:field_section]',
+      'paths' => '[node:field-section:url:path]',
+      'node_type' => 'article',
+    ),
+    array(
+      'name' => 'Node: Research site',
+      'titles' => 'About' . "\r\n" . 'Research Sites',
+      'paths' => 'about' . "\r\n" . 'about/sites',
+      'node_type' => 'research_site'
+    ),
   );
 
-  $custom_breadcrumbs[] = array(
-    'name' => 'Node: Data source',
-    'titles' => 'Data
-[node:source-data-set]',
-    'paths' => 'data
-[node:source-data-set:url:path]',
-    'node_type' => 'data_source',
-  );
-
-  $custom_breadcrumbs[] = array(
-    'name' => 'Node: Article',
-    'titles' => '[node:field_section]',
-    'paths' => '[node:field-section:url:path]',
-    'node_type' => 'article',
-  );
-
-  $custom_breadcrumbs[] = array(
-    'name' => 'Node: Research site',
-    'titles' => 'About
-Research Sites',
-    'paths' => 'about
-about/sites',
-    'node_type' => 'research_site'
-  );
+  $query = db_insert('custom_breadcrumb')->fields(array(
+    'name',
+    'titles',
+    'paths',
+    'node_type',
+  ));
 
   foreach ($custom_breadcrumbs as $custom_breadcrumb) {
-    drupal_write_record('custom_breadcrumb', $custom_breadcrumb);
+    $query->values($custom_breadcrumb);
   }
+
+  $query->execute();
 }
