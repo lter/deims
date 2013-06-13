@@ -2,10 +2,10 @@
 
 ## Requirements ##
 
-* Base Drupal 7 requirements (http://drupal.org/requirements)
+* [Base Drupal 7 requirements](http://drupal.org/requirements)
 * PHP 5.3+
-* Drush
-* Git
+* [Drush](http://drush.ws/)
+* [Git](http://git-scm.com/)
 
 ## Instructions ##
 
@@ -20,6 +20,14 @@ is _www_.
 * `drush make build-deims.make www --prepare-install --contrib-destination=profiles/deims`
 * `cd www`
 * `drush si deims`
+
+Optionally, you can configure the database during the site installation by running
+the following command *instead* of `drush si deims`:
+
+`drush si deims --db-url=mysql://dbusername:dbpassword@dbhost/databasename`
+
+If you've created a database with the name "databasename" this will install all the
+necessary Drupal tables in that database.
 
 ### Rebuilding an existing site ###
 
