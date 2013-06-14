@@ -34,6 +34,8 @@ projects[context][subdir] = "contrib"
 
 projects[chosen][version] = "2.0-alpha2"
 projects[chosen][subdir] = "contrib"
+; Chosen has a make file for the library, but we're using a fork so ignore it.
+projects[chosen][do_recursion] = 0
 ; Add support for select_or_other with the koenpunt fork of chosen
 projects[chosen][patch][2012900] = "http://drupal.org/files/2012900-chosen-select-or-other.patch"
 
