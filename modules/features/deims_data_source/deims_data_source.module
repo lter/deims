@@ -7,16 +7,137 @@
 include_once 'deims_data_source.features.inc';
 
 /**
+ * Implements hook_init().
+ */
+function deims_data_source_init() {
+  drupal_add_library('system', 'ui.dialog');
+  drupal_add_js(drupal_get_path('module', 'deims_data_source') . '/js/data_source.js');
+}
+
+/**
  * Implements hook_form_alter().
  */
 function deims_data_source_form_alter(&$form, &$form_state, $form_id) {
-  if ($form_id == 'data_source_node_form' && arg(2) == 'edit') {
+  if ($form_id == 'data_source_node_form') {
     // Remove the last variable since it's empty and prevents a save.
     // See: http://drupal.org/node/1239946 for more info.
-    foreach ($form['field_variables'][LANGUAGE_NONE] as $key => $field) {
-      if (is_numeric($key) && empty($field['label']['#default_value'])) {
-        //unset($form['field_variables'][LANGUAGE_NONE][$key]);
+    if (arg(2) == 'edit') {
+      foreach ($form['field_variables'][LANGUAGE_NONE] as $key => $field) {
+        if (is_numeric($key) && empty($field['label']['#default_value'])) {
+          //unset($form['field_variables'][LANGUAGE_NONE][$key]);
+        }
       }
     }
+    // Add the data preview stuff.
+    $form['box'] = array(
+      '#type' => 'markup',
+      '#prefix' => '<div id="source_preview">',
+      '#suffix' => '</div>',
+      '#markup' => ''
+    );
+
+    $form['source_preview_button'] = array(
+      '#type' => 'button',
+      '#ajax' => array(
+        'callback' => 'deims_data_source_preview_source',
+        'wrapper' => 'source_preview'
+      ),
+      '#value' => t('Preview Source'),
+      '#limit_validation_errors' => array(
+        array('field_data_source_file'),
+        array('field_csv_orientation'),
+        array('field_csv_field_delimiter')
+      )
+    );
   }
+}
+
+/**
+ * Generate a datatable from a given CSV source preview.
+ */
+function deims_data_source_preview_source($form, &$form_state) {
+  $file = $header_lines = $orientation = $delimiter = false;
+  $errors = $commands = array();
+
+  if (isset($form_state['values']['field_data_source_file'][LANGUAGE_NONE][0]['fid']) && !empty($form_state['values']['field_data_source_file'][LANGUAGE_NONE][0]['fid'])) {
+    $file = file_load($form_state['values']['field_data_source_file'][LANGUAGE_NONE][0]['fid']);
+  }
+  else {
+    $errors[] = '<p>Please attach or upload a <strong>file</strong>.</p>';
+  }
+
+  if (isset($form_state['values']['field_csv_orientation'][LANGUAGE_NONE][0]['value']) && !empty($form_state['values']['field_csv_orientation'][LANGUAGE_NONE][0]['value'])) {
+    $orientation = $form_state['values']['field_csv_orientation'][LANGUAGE_NONE][0]['value'];
+  }
+  else {
+    $errors[] = '<p>Please select a field <strong>orientation</strong>.</p>';
+  }
+
+  if (isset($form_state['values']['field_csv_field_delimiter'][LANGUAGE_NONE][0]) && !empty($form_state['values']['field_csv_field_delimiter'][LANGUAGE_NONE][0]['value'])) {
+    $delimiter = $form_state['values']['field_csv_field_delimiter'][LANGUAGE_NONE][0];
+  }
+  else {
+    $errors[] = '<p>Please select a field <strong>delimiter</strong>.</p>';
+  }
+
+  $header_lines = (!empty($form_state['values']['field_csv_header_lines'][LANGUAGE_NONE][0]['value'])) ? $form_state['values']['field_csv_header_lines'][LANGUAGE_NONE][0]['value'] : 0;
+
+
+  if (!empty($errors)) {
+    $commands[] = ajax_command_replace('#source_preview', '<div id="source_preview">' . implode('', $errors) . '</div>');
+    return array(
+      '#type' => 'ajax',
+      '#commands' => $commands
+    );
+  }
+
+  $csv = fopen(drupal_realpath($file->uri), 'r');
+  $rows = $headers = $datatable = array();
+
+  $i = 0;
+  while (($line = fgetcsv($csv, 0)) !== FALSE) {
+    $i++;
+
+    if ($orientation == 'column') {
+      if ($header_lines == 1 && $i == 1) {
+        foreach ($line as $field) {
+          $headers[]['data'] = $field;
+        }
+      }
+      else {
+        array_push($rows, $line);
+      }
+    }
+    else {
+      // Each new line represents data for records defined in columns.
+      foreach($line as $key => $field){
+        if($header_lines == 1 && $key == 0){
+          $headers[]['data'] = $field;
+        }
+        else {
+          $rows[$key][] = $field;
+        }
+      }
+    }
+
+    // Sanity check.
+    if ($i >= variable_get('data_source_preview_limit', 500)) {
+      break;
+    }
+  }
+
+  $datatable['header'] = $headers;
+  $datatable['rows'] = $rows;
+
+  $element = $form['box'];
+  $element['#markup'] = theme_datatable($datatable);
+
+  // $commands = array();
+  $commands[] = ajax_command_replace('#source_preview', '<div id="source_preview_modal">' . render($element) . '</div>');
+  $commands[] = ajax_command_invoke(NULL, 'data_source_preview_show_modal');
+
+  return array(
+    '#type' => 'ajax',
+    '#commands' => $commands
+  );
 }

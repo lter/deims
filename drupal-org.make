@@ -42,6 +42,9 @@ projects[chosen][patch][2012900] = "http://drupal.org/files/2012900-chosen-selec
 projects[custom_breadcrumbs][version] = "2.0-alpha3"
 projects[custom_breadcrumbs][subdir] = "contrib"
 
+projects[datatables][version] = "1.2"
+projects[datatables][subdir] = "contrib"
+
 projects[date][version] = "2.6"
 projects[date][subdir] = "contrib"
 
