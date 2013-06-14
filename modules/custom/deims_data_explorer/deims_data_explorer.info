@@ -1,0 +1,6 @@
+name = DEIMS Data Explorer
+description = Provides a way to query, filter and export data in external SQL tables.
+core = 7.x
+dependencies[] = deims_data_source
+dependencies[] = schema
+dependencies[] = elements

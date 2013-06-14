@@ -1,0 +1,263 @@
+<?php
+
+/**
+ * Implements hook_help().
+ */
+function deims_data_explorer_help() {
+
+}
+
+/**
+ * Implements hook_menu().
+ */
+function deims_data_explorer_menu() {
+  $items['node/%node/data'] = array(
+    'title' => 'Data',
+    'page callback' => 'deims_data_explorer_page',
+    'page arguments' => array(1),
+    'access callback' => 'deims_data_explorer_access',
+    'access arguments' => array(1),
+    'type' => MENU_LOCAL_TASK,
+  );
+
+  return $items;
+}
+
+function deims_data_explorer_access($node) {
+  return node_access('view', $node) && $node->type == 'data_source' && field_get_items('node', $node, 'field_variables') && field_get_items('node', $node, 'field_connection');
+}
+
+function deims_data_explorer_page($node) {
+  $variables = field_get_items('node', $node, 'field_variables');
+  $connections = field_get_items('node', $node, 'field_connection');
+  $connection = reset($connections);
+
+  $build['selection'] = drupal_get_form('deims_data_explorer_form', $variables, $connection);
+  return $build;
+}
+
+function deims_data_explorer_form($form, $form_state, $variables, $connection) {
+  $header = array(
+    'label' => array('data' => t('Column')),
+    'filter' => array('data' => t('Filter')),
+    'sort' => array('data' => t('Sort')),
+    'weight' => array('data' => t('Weight')),
+  );
+
+  $form['selection'] = array(
+    '#type' => 'table',
+    '#header' => $header,
+    '#tableselect' => TRUE,
+    '#tabledrag' => array(
+      array('order', 'sibling', 'variable-row-weight'),
+    ),
+    '#attributes' => array(
+      'class' => array(
+        'deims-data-explorer-selection',
+      ),
+    ),
+    '#attached' => array(
+      'css' => array(
+        drupal_get_path('module', 'deims_data_explorer') . '/css/style.css',
+      ),
+    ),
+  );
+
+  $rows = array();
+  foreach ($variables as $delta => $variable) {
+    $row = array();
+    $selectable = ($delta % 2 == 1);
+    $weight = $delta;
+    if (!$selectable) {
+      $row['select'] = array(
+        '#type' => 'checkbox',
+        '#disabled' => TRUE,
+        '#parents' => array('selection', $variable['label']),
+      );
+      //$row['select'] = array('#markup' => '');
+      $weight += count($variables);
+    }
+    $row['label'] = array(
+      '#theme' => 'deims_variable_summary',
+      '#variable' => $variable,
+    );
+    $row['filter'] = array(
+      '#type' => 'container',
+      '#states' => array(
+        'visible' => array(
+          //'input[name="selection[' . $variable['label'] . ']"]' => array('checked' => TRUE),
+        ),
+      ),
+      '#prefix' => '<div class="container-inline">',
+      '#suffix' => '</div>',
+      '#parents' => array('filter', $variable['label']),
+    );
+    $row['filter']['operator'] = array(
+      '#type' => 'select',
+      '#title' => t('Operator'),
+      '#title_display' => 'invisible',
+      '#options' => array(
+        '=' => t('Is equal to'),
+        '<>' => t('Is not equal to'),
+        '<' => t('Is less than'),
+        '>' => t('Is greater than'),
+        'LIKE' => t('Is like'),
+        'BETWEEN' => t('Is between'),
+        'is empty' => t('Is empty'),
+        'not empty' => t('Is not empty'),
+      ),
+      '#empty_option' => t('- Unfiltered -'),
+    );
+    $row['filter']['value'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Filter for variable'),
+      '#title_display' => 'invisible',
+      '#placeholder' => t('Value'),
+      '#size' => 30,
+      '#states' => array(
+        'visible' => array(
+          'select[name="filter[' . $variable['label'] . '][operator]"]' => array(
+            array('value' => '='),
+            array('value' => '<>'),
+            array('value' => '<'),
+            array('value' => '>'),
+            array('value' => 'LIKE'),
+          ),
+        ),
+      ),
+    );
+    $row['filter']['minimum'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Minimum'),
+      '#title_display' => 'invisible',
+      '#placeholder' => 'Min',
+      '#size' => 20,
+      '#states' => array(
+        'visible' => array(
+          'select[name="filter[' . $variable['label'] . '][operator]"]' => array(
+            'value' => 'BETWEEN',
+          ),
+        ),
+      ),
+    );
+    $row['filter']['maximum'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Maximum'),
+      '#title_display' => 'invisible',
+      '#placeholder' => 'Max',
+      '#size' => 20,
+      '#states' => array(
+        'visible' => array(
+          'select[name="filter[' . $variable['label'] . '][operator]"]' => array(
+            'value' => 'BETWEEN',
+          ),
+        ),
+      ),
+    );
+
+    switch ($variable['type']) {
+      case DEIMS_VARIABLE_TYPE_CODES:
+        $row['filter']['operator']['#options'] = array(
+          'IN' => t('Is one of'),
+          'NOT IN' => t('Is not one of'),
+        );
+        $row['filter']['value'] = array(
+          '#type' => 'select',
+          '#options' => $variable['data']['codes'],
+          '#multiple' => TRUE,
+          '#states' => array(
+            'visible' => array(
+              'select[name="filter[' . $variable['label'] . '][operator]"]' => array(
+                array('value' => 'IN'),
+                array('value' => 'NOT IN')
+              ),
+            ),
+          ),
+        );
+        break;
+
+      case DEIMS_VARIABLE_TYPE_PHYSICAL:
+        if (!empty($variable['data']['minimum']) && !empty($variable['data']['maximum'])) {
+          $row['filter']['minimum']['#type'] = 'numberfield';
+          $row['filter']['minimum']['#min'] = $variable['data']['minimum'];
+          $row['filter']['minimum']['#max'] = $variable['data']['maximum'];
+          $row['filter']['maximum']['#type'] = 'numberfield';
+          $row['filter']['maximum']['#min'] = $variable['data']['minimum'];
+          $row['filter']['maximum']['#max'] = $variable['data']['maximum'];
+          if (!empty($variable['data']['step'])) {
+            $row['filter']['minimum']['#step'] = $variable['data']['step'];
+            $row['filter']['maximum']['#step'] = $variable['data']['step'];
+          }
+        }
+        break;
+    }
+
+    $row['sort'] = array(
+      '#type' => 'container',
+      '#states' => array(
+        'visible' => array(
+          //'input[name="selection[' . $variable['label'] . ']"]' => array('checked' => TRUE),
+        ),
+      ),
+      '#prefix' => '<div class="container-inline">',
+      '#suffix' => '</div>',
+      '#parents' => array('sort', $variable['label']),
+    );
+    $row['sort']['sort'] = array(
+      '#type' => 'select',
+      '#title' => t('Sort direction'),
+      '#title_display' => 'invisible',
+      '#options' => array(
+        'asc' => t('Ascending'),
+        'desc' => t('Descending'),
+      ),
+      '#empty_option' => t('- Unsorted -'),
+    );
+    $row['weight'] = array(
+      '#type' => 'weight',
+      '#title' => t('Weight for @title', array('@title' => $variable['label'])),
+      '#title_display' => 'invisible',
+      '#delta' => count($variables) * 2,
+      '#default_value' => $weight,
+      '#attributes' => array('class' => array('variable-row-weight')),
+      '#parents' => array('weight', $variable['label']),
+    );
+    $row['#weight'] = $weight;
+    $row['#attributes']['class'][] = 'draggable';
+    $form['selection'][$variable['label']] = $row;
+  }
+
+  // Sort the rows by weight.
+  //element_children($form['selection'], TRUE);
+
+  $form['actions'] = array('#type' => 'actions');
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Preview data'),
+  );
+
+  return $form;
+}
+
+function deims_data_explorer_form_submit(&$form, &$form_state) {
+  $form_state['rebuild'] = TRUE;
+  dpm($form_state);
+}
+
+/*function deims_sql_view_get_views_data($connection) {
+
+  $schema = schema_reference_get_schema_info($connection->connection, $connection->table);
+  if (empty($schema['fields'])) {
+    return array();
+  }
+
+  $data = array();
+  $data['table']['base'] = array(
+    'field' => key($schema['fields']),
+    'title' => 'External table',
+    'weight' => 100,
+    'database' => $connection->connection,
+  );
+
+  return array($connection->table = $data);
+}*/
