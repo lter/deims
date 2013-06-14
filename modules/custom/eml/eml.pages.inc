@@ -20,15 +20,14 @@ function eml_output_node($node) {
     return MENU_NOT_FOUND;
   }
 
-  try {
-    // Get the EML as a string and output it.
-    $dataset = new EMLDataSet($node);
-    $eml = $dataset->getEML();
-    drupal_add_http_header('Content-Type', 'application/xml; charset=utf-8');
-    print $eml;
-  }
-  catch (Exception $exception) {
-    watchdog_exception('eml', $exception);
-    return MENU_NOT_FOUND;
-  }
+  // Get the EML as a string.
+  $dataset = new EMLDataSet($node);
+  $eml = $dataset->getEML();
+
+  // Check for any changes in the EML output.
+  $dataset->checkIfChanged($eml);
+
+  // Output the EML.
+  drupal_add_http_header('Content-Type', 'application/xml; charset=utf-8');
+  print $eml;
 }

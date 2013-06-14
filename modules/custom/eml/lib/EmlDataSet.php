@@ -1,18 +1,8 @@
 <?php
 
-/**
- * @file
- * Contains EmlDataSet.
- */
-
-/**
- * Utility and API functions for interacting with data sets and their EML.
- */
 class EmlDataSet {
 
   private $node;
-
-  protected $eml = NULL;
 
   public function __construct($node) {
     if ($node->type != 'data_set') {
@@ -33,32 +23,28 @@ class EmlDataSet {
    * @return string
    *   A string containing the data set's EML/XML.
    */
-  public function getEML($reset = FALSE) {
-    if (empty($this->eml) || $reset) {
-      $build = node_view($this->node, 'eml');
-      $output = render($build);
+  public function getEML() {
+    $build = node_view($this->node, 'eml');
+    $output = render($build);
 
-      // Cleanup the XML output using the Tidy library.
-      $config = array(
-        'indent' => TRUE,
-        'input-xml' => TRUE,
-        'output-xml' => TRUE,
-        'wrap' => FALSE,
-      );
-      $tidy = new tidy();
-      $this->eml = $tidy->repairString($output, $config);
-      $this->detectEmlChanges();
-    }
+    // Cleanup the XML output using the Tidy library.
+    $config = array(
+      'indent' => TRUE,
+      'input-xml' => TRUE,
+      'output-xml' => TRUE,
+      'wrap' => FALSE,
+    );
+    $tidy = new tidy();
+    $output = $tidy->repairString($output, $config);
 
-    return $this->eml;
+    return $output;
   }
 
   /**
-   * Get the package ID of the data set.
+   * Calculate the package ID of the data set.
    *
    * @return string
-   *   The package ID of the data set in the format of
-   *   scope.identifier.revision.
+   *   The package ID of the data set in the format of scope.identifier.revision.
    */
   public function getPackageID() {
     $pattern = variable_get('eml_package_id_pattern', 'knb-lter-[site:station-acronym].[node:field_data_set_id].[node:field_eml_revision_id]');
@@ -73,11 +59,12 @@ class EmlDataSet {
     $this->node->field_eml_hash[LANGUAGE_NONE][0]['value'] = $hash;
   }
 
-  public function calculateEMLHash() {
-    $eml = $this->getEML();
+  public function calculateEMLHash($eml = NULL) {
+    if (!isset($eml)) {
+      $eml = $this->getEML();
+    }
 
-    // Remove the package ID (which contains the revision) from the EML so that
-    // we can truly compare it against the previous version.
+    // Remove the revision number from the EML so that we can 'truly' compare it.
     $eml = str_replace($this->getPackageID(), '', $eml);
 
     return hash('md5', $eml);
@@ -102,17 +89,12 @@ class EmlDataSet {
     $this->setEMLRevisionID($revision_id);
   }
 
-  /**
-   * Detect if any of the EML output changed since it was generated last.
-   */
-  protected function detectEmlChanges() {
+  public function checkIfChanged($eml = NULL) {
+    $current_hash = $this->calculateEMLHash($eml);
     $old_hash = $this->getEMLHash();
-    $current_hash = $this->calculateEMLHash();
 
     if ($current_hash != $old_hash) {
-      // Get the current/old package ID so that we can change it in the EML
-      // string after the revision ID has been incremented.
-      $original_package_id = $this->getPackageID();
+      $original = clone $this->node;
 
       // Increment the revision ID and set the new hash.
       $this->incrementEMLRevisionID();
@@ -126,12 +108,6 @@ class EmlDataSet {
         WATCHDOG_INFO,
         l(t('View data set'), 'node/' . $this->node->nid) . ' | ' . l(t('View EML'), 'node/' . $this->node->nid . '/eml')
       );
-
-      // Update the EML output if neccessary.
-      // @todo Should this code move to incrementEMLRevisionID or setEMLRevisionID?
-      if (!empty($this->eml)) {
-        $this->eml = str_replace($original_package_id, $this->getPackageID(), $this->eml);
-      }
     }
   }
 
