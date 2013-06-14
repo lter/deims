@@ -12,8 +12,16 @@ define('DEIMS_ADMIN_THEME', 'deims_admin');
  * Implements hook_install().
  */
 function deims_install() {
+  $modules = array();
+  foreach (system_rebuild_module_data() as $module) {
+    if (!empty($module->status)) {
+      $modules[$module->name] = $module->sort;
+    }
+  }
+  asort($modules);
+
   // Run the install task for each enabled module.
-  foreach (module_list() as $module) {
+  foreach ($modules as $module) {
     module_invoke('deims', 'install_' . $module);
   }
 
