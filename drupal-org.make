@@ -5,7 +5,7 @@ core = "7.x"
 ; Contributed modules
 ; -----------------------------------------------------------------------------
 
-projects[addressfield][version] = "1.0-beta3"
+projects[addressfield][version] = "1.0-beta4"
 projects[addressfield][subdir] = "contrib"
 
 projects[admin_menu][version] = "3.0-rc4"
@@ -54,7 +54,7 @@ projects[devel][subdir] = "contrib"
 projects[diff][version] = "3.2"
 projects[diff][subdir] = "contrib"
 
-projects[ds][version] = "2.2"
+projects[ds][version] = "2.4"
 projects[ds][subdir] = "contrib"
 
 projects[eck][version] = "2.0-rc2"
@@ -173,7 +173,7 @@ projects[migrate_extras][subdir] = "contrib"
 projects[module_filter][version] = "1.7"
 projects[module_filter][subdir] = "contrib"
 
-projects[name][version] = "1.7"
+projects[name][version] = "1.9"
 projects[name][subdir] = "contrib"
 
 projects[noggin][version] = "1.1"
@@ -229,6 +229,9 @@ projects[superfish][subdir] = "contrib"
 
 projects[taxonomy_csv][version] = "5.10"
 projects[taxonomy_csv][subdir] = "contrib"
+
+projects[taxonomy_manager][version] = "1.0"
+projects[taxonomy_manager][subdir] = "contrib"
 
 ; Dave Reid maintains this D8 backport, dev release is ok.
 projects[telephone][version] = "1.x-dev"
