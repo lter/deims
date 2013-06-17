@@ -38,6 +38,7 @@ dependencies[] = chosen
 dependencies[] = ctools
 dependencies[] = context
 dependencies[] = custom_breadcrumbs
+dependencies[] = datatables
 dependencies[] = date
 dependencies[] = date_all_day
 dependencies[] = date_api

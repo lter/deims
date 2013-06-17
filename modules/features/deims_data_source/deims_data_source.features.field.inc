@@ -244,6 +244,7 @@ function deims_data_source_field_default_fields() {
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
+      'description' => '<em>Column</em> is the most typical CSV orientation. If your CSV file\'s lines each contain a header, and all the data for that header, then select <em>Row</em> orientation.',
       'entity_types' => array(),
       'field_name' => 'field_csv_orientation',
       'field_permissions' => array(
