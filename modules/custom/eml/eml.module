@@ -366,7 +366,9 @@ function eml_dataset_is_valid_package_id($package_id) {
  */
 function eml_cleanup_package_id_tokens(array &$replacements, array $data, array $options) {
   foreach ($replacements as &$replacement) {
-    $replacement = ltrim($replacement, '0');
+    if (drupal_strlen($replacement) > 1) {
+      $replacement = ltrim($replacement, '0');
+    }
   }
 }
 
