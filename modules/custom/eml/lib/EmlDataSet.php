@@ -105,7 +105,12 @@ class EmlDataSet {
   /**
    * Detect if any of the EML output changed since it was generated last.
    */
-  protected function detectEmlChanges() {
+  public function detectEmlChanges() {
+    if ($this->node->status != NODE_PUBLISHED) {
+      dpm("Skipping detectEmlChanges since node is not published.");
+      return FALSE;
+    }
+
     $old_hash = $this->getEMLHash();
     $current_hash = $this->calculateEMLHash();
 

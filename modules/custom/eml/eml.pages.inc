@@ -23,6 +23,7 @@ function eml_output_node($node) {
   try {
     // Get the EML as a string and output it.
     $dataset = new EMLDataSet($node);
+    $dataset->detectEmlChanges();
     $eml = $dataset->getEML();
     drupal_add_http_header('Content-Type', 'application/xml; charset=utf-8');
     print $eml;
