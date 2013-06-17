@@ -45,7 +45,7 @@ projects[custom_breadcrumbs][subdir] = "contrib"
 projects[datatables][version] = "1.2"
 projects[datatables][subdir] = "contrib"
 ; Correct the improper use of url() in the install
-projects[datatables][patch][1939570] = "https://drupal.org/files/1939570-specified-database-connection-not-defined.patch"
+projects[datatables][patch][1939570] = "https://drupal.org/files/1939570-specified-database-connection-not-defined-2.patch"
 
 projects[date][version] = "2.6"
 projects[date][subdir] = "contrib"
@@ -319,3 +319,7 @@ libraries[superfish][download][type] = "get"
 libraries[superfish][download][url] = "https://github.com/mehrpadin/Superfish-for-Drupal/archive/1.x.zip"
 libraries[superfish][download][subtree] = "Superfish-for-Drupal-1.x"
 libraries[superfish][directory_name] = "superfish"
+
+libraries[datatables][download][type]= "get"
+libraries[datatables][download][url] = "http://datatables.net/releases/DataTables-1.9.4.zip"
+libraries[datatables][directory_name] = "datatables"
