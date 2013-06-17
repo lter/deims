@@ -12,7 +12,7 @@ define('DEIMS_ADMIN_THEME', 'deims_admin');
  * Implements hook_install().
  */
 function deims_install() {
-  $modules = array();
+  /*$modules = array();
   foreach (system_rebuild_module_data() as $module) {
     if (!empty($module->status)) {
       $modules[$module->name] = $module->sort;
@@ -21,9 +21,24 @@ function deims_install() {
   asort($modules);
 
   // Run the install task for each enabled module.
-  foreach ($modules as $module) {
+  foreach (array_keys($modules) as $module) {
     module_invoke('deims', 'install_' . $module);
-  }
+  }*/
+
+  deims_install_filter();
+
+  deims_install_user();
+
+  deims_install_block();
+
+  deims_install_system();
+
+  // Contrib modules
+  deims_install_admin_menu();
+  deims_install_admin_select();
+  deims_install_custom_breadcrumbs();
+  deims_install_schema();
+  deims_install_workbench_access();
 
   variable_set('menu_rebuild_needed', TRUE);
 
@@ -173,6 +188,9 @@ function deims_install_system() {
   variable_set('theme_default', DEIMS_DEFAULT_THEME);
   variable_set('admin_theme', DEIMS_ADMIN_THEME);
   variable_set('node_admin_theme', '1');
+
+  // Disable Bartik
+  //theme_disable(array('bartik'));
 
   // Set settings for the theme including color scheme.
   $form_state = array();
