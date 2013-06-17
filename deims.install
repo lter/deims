@@ -21,7 +21,7 @@ function deims_install() {
   asort($modules);
 
   // Run the install task for each enabled module.
-  foreach ($modules as $module) {
+  foreach (array_keys($modules) as $module) {
     module_invoke('deims', 'install_' . $module);
   }
 
