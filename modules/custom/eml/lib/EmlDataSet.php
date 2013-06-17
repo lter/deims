@@ -37,20 +37,31 @@ class EmlDataSet {
     if (empty($this->eml) || $reset) {
       $build = node_view($this->node, 'eml');
       $output = render($build);
-
-      // Cleanup the XML output using the Tidy library.
-      $config = array(
-        'indent' => TRUE,
-        'input-xml' => TRUE,
-        'output-xml' => TRUE,
-        'wrap' => FALSE,
-      );
-      $tidy = new tidy();
-      $this->eml = $tidy->repairString($output, $config);
-      $this->detectEmlChanges();
+      $this->eml = $this->tidyXml($output);
     }
-
     return $this->eml;
+  }
+
+  /**
+   * Cleanup XML output using the Tidy library
+   *
+   * @param string $xml
+   *   A string containing XML.
+   * @param array $config
+   *   (optional) An array of configuration to pass into tidy::repairString().
+   *
+   * @return string
+   *   The XML after being repaired with Tidy.
+   */
+  private function tidyXml($xml, array $config = array()) {
+    $config += array(
+      'indent' => TRUE,
+      'input-xml' => TRUE,
+      'output-xml' => TRUE,
+      'wrap' => FALSE,
+    );
+    $tidy = new tidy();
+    return $tidy->repairString($xml, $config);
   }
 
   /**
@@ -63,6 +74,11 @@ class EmlDataSet {
   public function getPackageID() {
     $pattern = variable_get('eml_package_id_pattern', 'knb-lter-[site:station-acronym].[node:field_data_set_id].[node:field_eml_revision_id]');
     return drupal_strtolower(token_replace($pattern, array('node' => $this->node), array('clear' => TRUE, 'callback' => 'eml_cleanup_package_id_tokens')));
+  }
+
+  public function getPackageIDParts() {
+    $package_id = $this->getPackageID();
+    return explode('.', $package_id, 3);
   }
 
   public function getEMLHash() {
@@ -137,6 +153,12 @@ class EmlDataSet {
       if (!empty($this->eml)) {
         $this->eml = str_replace($original_package_id, $this->getPackageID(), $this->eml);
       }
+      dpm("CHANGES in data set {$this->node->nid} detected!");
+      return TRUE;
+    }
+    else {
+      dpm("No changes in data set {$this->node->nid} detected.");
+      return FALSE;
     }
   }
 
@@ -150,13 +172,7 @@ class EmlDataSet {
    * @ingroup eml_data_manager_api
    */
   public function fetchDOI() {
-    $package_id = $this->getPackageID();
-
-    if (!eml_dataset_is_valid_package_id($package_id)) {
-      throw new Exception(t("Data set node @nid has an invalid package ID: @packagei.", array('@nid' => $this->node->nid, '@packageid' => $package_id)));
-    }
-
-    list($scope, $identifier, $revision) = explode('.', $package_id);
+    list($scope, $identifier, $revision) = $this->getPackageIDParts();
 
     $url = static::getApiUrl("package/doi/eml/{$scope}/{$identifier}/{$revision}");
     $request = drupal_http_request($url, array('timeout' => 10));
