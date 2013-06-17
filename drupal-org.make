@@ -44,6 +44,8 @@ projects[custom_breadcrumbs][subdir] = "contrib"
 
 projects[datatables][version] = "1.2"
 projects[datatables][subdir] = "contrib"
+; Correct the improper use of url() in the install
+projects[datatables][patch][1939570] = "https://drupal.org/files/1939570-specified-database-connection-not-defined.patch"
 
 projects[date][version] = "2.6"
 projects[date][subdir] = "contrib"
