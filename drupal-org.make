@@ -262,6 +262,9 @@ projects[views][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.1"
 projects[views_bulk_operations][subdir] = "contrib"
 
+projects[views_content_cache][version] = "3.0-alpha2"
+projects[views_content_cache][subdir] = "contrib"
+
 projects[webform][version] = "3.19"
 projects[webform][subdir] = "contrib"
 
