@@ -75,7 +75,6 @@ features[field_group][] = group_related|node|data_set|form
 features[field_group][] = group_summary|node|data_set|default
 features[field_group][] = group_taxonomy|node|data_set|form
 features[field_validation_rule][] = data_set_id_unique
-features[field_validation_rule][] = instrument_cannot_be_blank
 features[field_validation_rule][] = methods_cannot_be_blank
 features[node][] = data_set
 features[taxonomy][] = core_areas
