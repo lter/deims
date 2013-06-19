@@ -1,0 +1,4 @@
+name = DEIMs Data Explorer
+description = Module to manage DEIMs Data Exploration pages.
+package = DEIMS
+core = 7.x

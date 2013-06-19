@@ -1,0 +1,489 @@
+<?php
+/**
+ * @file deims_data_explorer.module
+ * TODO: Enter file description here.
+ */
+
+require_once dirname(__FILE__) . '/inc/variable_availability.inc';
+
+/**
+ * Implements hook_help().
+ */
+function deims_data_explorer_help($path, $arg) {
+
+  switch ($path) {
+    case 'admin/help#deims_data_explorer':
+      return t("TODO: Create admin help text.");
+
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function deims_data_explorer_menu() {
+
+  $items                    = array();
+  $items['node/%node/data'] = array(
+    'page callback'    => 'deims_data_explorer_page',
+    'page arguments'   => array(1),
+    'access callback'  => 'node_access',
+    'access arguments' => array('view', 1),
+    'type'             => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function deims_data_explorer_permission() {
+
+  return array(
+    'administer my module' => array(
+      'title'       => t('Administer my module'),
+      'description' => t('Perform administration tasks for my module.'),
+    ),
+  );
+}
+
+/**
+ * @todo Document deims_data_explorer_page .
+ *
+ * @param $node
+ *
+ * @return int
+ */
+function deims_data_explorer_page($node) {
+
+  // @todo Determine any other checks we need to do.
+  if ($node->type != 'data_source') {
+    return MENU_NOT_FOUND;
+  }
+  $connection = field_get_items('node', $node, 'field_connection');
+  $variables  = field_get_items('node', $node, 'field_variables');
+  if (!empty($connection) && !empty($variables)) {
+
+    $form = drupal_get_form('deims_data_explorer_form', $variables, $connection[0]);
+
+    return $form;
+  }
+  else {
+    return MENU_NOT_FOUND;
+  }
+}
+
+/**
+ * @todo Document deims_data_explorer_form .
+ *
+ * @param $form
+ * @param $form_state
+ * @param $columns
+ * @param $variables
+ *
+ * @return mixed
+ */
+function deims_data_explorer_form($form, &$form_state, $variables, $connection) {
+
+  // Get the allowed columns from the data source variable definitions.
+  $allowed_column_variables = _deims_de_get_allowed_columns($variables);
+  // Get allowed filters from the data source variable definitions.
+  $allowed_filters_variables = _deims_de_get_allowed_filters($variables);
+
+  // Flatten the array of columns & filters to just the name value.
+  $allowed_columns = _deims_de_flatten_allowed($allowed_column_variables);
+  $allowed_filters = _deims_de_flatten_allowed($allowed_filters_variables);
+
+  // Check if the form has been submitted.
+  if (isset($form_state['values']['op'])) {
+    // Get columns submitted in the form.
+    $submitted_columns = _deims_de_get_submitted_columns($form_state['values']['columns_table']);
+    // Take only the columns submitted AND are allowed.
+    $columns = array_intersect($allowed_columns, $submitted_columns);
+
+    // Get filters submitted in the form.
+    $submitted_filters = _deims_de_get_submitted_filters($form_state['values']['filters_table']);
+    // Take only the filters submitted AND are allowed.
+    $filters = array_intersect($allowed_filters, $submitted_filters);
+
+    // @todo Limit filters further by the filters selected by the user.
+    // If Web Preview was clicked, return the web preview.
+    if ($form_state['values']['op'] == 'Web Preview') {
+      $row_count  = variable_get('deims_preview_count', 20);
+      $rows_array = deims_data_explorer_get_rows($connection, $columns, $filters, FALSE, $row_count);
+
+      $form['results'] = array(
+        '#markup' => deims_data_explorer_generate_preview($columns, $rows_array),
+      );
+      //@todo Add a link for down load and to return to form.
+      return $form;
+
+    }
+    // If Download was clicked, return the download.
+    if ($form_state['values']['op'] == 'Download') {
+      $row_count        = variable_get('deims_download_count', 99999);
+      $keyed_rows_array = deims_data_explorer_get_rows($connection, $columns, $filters, TRUE, $row_count);
+      deims_data_explorer_generate_download($keyed_rows_array);
+    }
+  }
+
+  // START: Create the table to select columns.
+  $form['columns_set'] = array(
+    '#type'  => 'fieldset',
+    '#title' => t('Please select what columns you would like to include.'),
+  );
+
+  $header  = array(
+    'label'      => t('Label'),
+    'name'       => t('Variable Name'),
+    'type'       => t('Variable Type'),
+    'definition' => t('Definition'),
+  );
+  $options = array();
+  foreach ($allowed_column_variables as $variable) {
+    $options[$variable['name']] = array(
+      'label'      => $variable['label'],
+      'name'       => $variable['name'],
+      'type'       => $variable['type'],
+      'definition' => $variable['definition'],
+    );
+  }
+  $form['columns_set']['columns_table'] = array(
+    '#type'    => 'tableselect',
+    '#header'  => $header,
+    '#options' => $options,
+    '#empty'   => t('No columns found'),
+  );
+  // END: Create the table to select columns.
+
+
+  // START: Create the table to select filters.
+  $form['filter_set'] = array(
+    '#type'  => 'fieldset',
+    '#title' => t('Please choose any filters you would like to add.'),
+  );
+
+  $header  = array(
+    'label'      => t('Label'),
+    'name'       => t('Variable Name'),
+    'type'       => t('Variable Type'),
+    'definition' => t('Definition'),
+  );
+  $options = array();
+  foreach ($allowed_filters_variables as $variable) {
+    $options[$variable['name']] = array(
+      'label'      => $variable['label'],
+    );
+  }
+  $form['columns_set']['filters_table'] = array(
+    '#type'    => 'tableselect',
+    '#header'  => $header,
+    '#options' => $options,
+    '#empty'   => t('No filters found'),
+  );
+  // END: Create the table to select filters.
+
+
+  deims_de_prep_variables($variables, $form);
+
+  $form['preview'] = array(
+    '#type'  => 'submit',
+    '#value' => 'Web Preview',
+  );
+
+  $form['download'] = array(
+    '#type'  => 'submit',
+    '#value' => 'Download',
+  );
+
+  return $form;
+}
+
+function deims_data_explorer_form_submit($form, &$form_state) {
+  // Exclude unnecessary elements.
+  //unset($form_state['values']['submit'], $form_state['values']['form_id'], $form_state['values']['op'], $form_state['values']['form_token'], $form_state['values']['form_build_id']);
+
+  foreach ($form_state['values'] as $key => $value) {
+
+    drupal_set_message(t('%name has value %value', array('%name' => $key, '%value' => print_r($value, TRUE))));
+  }
+
+
+  $form_state['rebuild'] = TRUE;
+}
+
+/**
+ * @todo Document
+ *
+ * @param array $item
+ *
+ * @return string
+ */
+function deims_data_explorer_generate_preview($columns_array, $rows_array) {
+
+  $markup = theme('table', array(
+    'header' => $columns_array,
+    'rows'   => $rows_array,
+  ));
+
+  return $markup;
+
+
+}
+
+/**
+ * @todo Document
+ *
+ * @param array $item
+ *
+ * @return string
+ */
+function deims_data_explorer_generate_download($keyed_rows_array) {
+
+  // @todo Switch to drupal_add_http_header.
+  header("Pragma: public");
+  header("Expires: 0");
+  header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+  header("Content-Type: application/force-download");
+  header("Content-Type: application/octet-stream");
+  header("Content-Type: application/download");
+  header("Content-Disposition: attachment;filename=data.csv");
+  header("Content-Transfer-Encoding: binary");
+  echo _deims_de_array2csv($keyed_rows_array);
+  die();
+
+
+}
+
+/**
+ * @todo Document _deims_de_get_allowed_columns .
+ *
+ * @param $variables
+ *
+ * @return array
+ */
+function _deims_de_get_allowed_columns($variables) {
+
+  return $variables;
+
+}
+
+/**
+ * @todo Document _deims_de_get_allowed_filters .
+ *
+ * @param $variables
+ *
+ * @return array
+ */
+function _deims_de_get_allowed_filters($variables) {
+  return $variables;
+
+
+}
+
+
+
+function _deims_de_get_submitted_columns($columns) {
+  $return = array();
+  foreach ($columns as $key => $value) {
+     if ($key == $value) {
+       $return[] = $value;
+     }
+  }
+  return $return;
+}
+
+function _deims_de_get_submitted_filters($columns) {
+  $return = array();
+  foreach ($columns as $key => $value) {
+    if ($key == $value) {
+      $return[] = $value;
+    }
+  }
+  return $return;
+}
+
+
+
+function _deims_de_flatten_allowed($variables) {
+// @todo Change these to return the full variables and use the array map only where needed.
+  // @todo Change to only include checked columns.
+  return array_map(function ($value) {
+
+    return $value['name'];
+  }, $variables);
+
+}
+
+
+/**
+ * @todo Document deims_data_explorer_get_rows .
+ *
+ * @param $connection
+ * @param array $columns
+ * @param array $conditions
+ * @param int $limit
+ *
+ * @return array
+ */
+function deims_data_explorer_get_rows($connection, $columns = array(), $conditions = array(), $keyed = FALSE, $limit = 20) {
+
+  $table          = $connection['table'];
+  $select_columns = implode(",", $columns);
+
+  db_set_active($connection['connection']);
+
+  $result = db_query_range("SELECT $select_columns FROM " . $table, 0, $limit);
+  if ($keyed) {
+    while ($row = $result->fetchAssoc()) {
+      $rows_array[] = $row;
+    }
+    db_set_active();
+
+    return $rows_array;
+  }
+
+  $n          = 0;
+  $rows_array = array();
+  while ($row = $result->fetchAssoc()) {
+    foreach ($row as $key => $value) {
+      $rows_array[$n][] = $value;
+    }
+    $n = $n + 1;
+  }
+  db_set_active();
+
+  return $rows_array;
+}
+
+function _deims_de_prep_variables($variables, &$form) {
+
+  foreach ($variables as $variable) {
+    if ($variable['type'] == '') {
+      $variable['type'] = 'nominal';
+    }
+    $function = '_deims_de_prep_' . $variable['type'];
+    if (function_exists($function)) {
+      //add to form
+      $function($variable, $form);
+
+    }
+    else {
+
+    }
+  }
+
+}
+
+/**
+ * @todo Document _deims_prep_list .
+ *
+ * @param $variable
+ */
+function _deims_de_prep_codes($variable, &$form) {
+
+  $codes     = $variable['data']['codes'];
+  $code_list = array();
+  foreach ($codes as $key => $value) {
+    $code_list[] = $key;
+  }
+  $name                             = $variable['name'];
+  $form['filter_set'][$name]        = array(
+    '#type'  => 'fieldset',
+    '#title' => $name,
+  );
+  $form['filter_set'][$name][$name] = array(
+    '#type'    => 'checkboxes',
+    '#options' => $code_list,
+    '#title'   => t('Limit by search codes:'),
+  );
+}
+
+/**
+ * @todo Document _deims_de_prep_nominal .
+ *
+ * @param $variable
+ */
+function _deims_de_prep_nominal($variable, &$form) {
+
+  $name                      = $variable['name'];
+  $form['filter_set'][$name] = array(
+    '#type'  => 'fieldset',
+    '#title' => $name,
+  );
+
+  $form['filter_set'][$name][$name] = array(
+    '#type'  => 'textfield',
+    '#title' => t('Limit by search term:'),
+  );
+}
+
+/**
+ * @todo Document _deims_de_prep_physical .
+ *
+ * @param $variable
+ */
+function _deims_de_prep_physical($variable, &$form) {
+
+  $name      = $variable['name'];
+  $minimum   = $variable['data']['minimum'];
+  $maximum   = $variable['data']['maximum'];
+  $unit      = $variable['data']['unit'];
+  $precision = $variable['data']['precision'];
+  $options   = array();
+  foreach (range($minimum, $maximum, $precision) as $number) {
+    $options[] = $number;
+  }
+  $form['filter_set'][$name] = array(
+    '#type'  => 'fieldset',
+    '#title' => $name,
+  );
+// @todo Fix
+  $form['filter_set'][$name][$name]['min'] = array(
+    '#type'          => 'select',
+    '#title'         => t("Choose a minimum $unit:"),
+    '#options'       => $options,
+    '#default_value' => $minimum,
+  );
+  $form['filter_set'][$name][$name]['max'] = array(
+    '#type'          => 'select',
+    '#title'         => t("Choose a maximum $unit:"),
+    '#options'       => $options,
+    '#default_value' => 10,
+  );
+}
+
+/**
+ * @todo Document _deims_de_prep_date .
+ *
+ * @param $variable
+ * @param $
+ */
+function _deims_de_prep_date($variable, &$form) {
+
+  dpr($variable);
+}
+
+/**
+ * @todo Document _deims_de_array2csv .
+ *
+ * @param array $array
+ *
+ * @return null|string
+ */
+function _deims_de_array2csv(array &$array) {
+
+  if (count($array) == 0) {
+    return NULL;
+  }
+  ob_start();
+  $df = fopen("php://output", 'w');
+  fputcsv($df, array_keys(reset($array)));
+  foreach ($array as $row) {
+    fputcsv($df, $row);
+  }
+  fclose($df);
+
+  return ob_get_clean();
+}
