@@ -36,7 +36,9 @@ necessary Drupal tables in that database.
 * `drush make ../build-deims.make`
 * `drush si deims`
 
-### Update existing site: ###
+### Update existing site ###
+
+*Note: updating an existing site from the profile is not yet supported. You must rebuild the site not using an existing database install.*
 
 * `git pull`
 * `cd www`
