@@ -7,6 +7,37 @@
 require_once dirname(__FILE__) . '/inc/variable_availability.inc';
 
 /**
+ * Define the maximum number of rows to display in the data preview.
+ */
+define("DEIMS_PREVIEW_COUNT", variable_get('deims_preview_count', 20));
+
+/**
+ * Define the maximum number of rows be downloaded.
+ */
+define("DEIMS_DOWNLOAD_COUNT", variable_get('deims_download_count', 99999));
+
+/**
+ * Implements hook_install().
+ */
+function deims_data_explorer_install() {
+  if (!field_info_field('field_deims_data_explorer')) {
+    $field = array(
+      'field_name' => 'field_deims_data_explorer',
+      'type' => 'schema_reference',
+    );
+    field_create_field($field);
+
+    $instance = array(
+      'field_name' => 'field_deims_data_explorer',
+      'entity_type' => 'node',
+      'label' => 'Remote Data Source',
+      'bundle' => 'data_source',
+    );
+    field_create_instance($instance);
+  }
+}
+
+/**
  * Implements hook_help().
  */
 function deims_data_explorer_help($path, $arg) {
@@ -56,12 +87,11 @@ function deims_data_explorer_permission() {
  * @return int
  */
 function deims_data_explorer_page($node) {
-
   // @todo Determine any other checks we need to do.
   if ($node->type != 'data_source') {
     return MENU_NOT_FOUND;
   }
-  $connection = field_get_items('node', $node, 'field_connection');
+  $connection = field_get_items('node', $node, 'field_deims_data_explorer');
   $variables  = field_get_items('node', $node, 'field_variables');
   if (!empty($connection) && !empty($variables)) {
 
@@ -73,6 +103,7 @@ function deims_data_explorer_page($node) {
     return MENU_NOT_FOUND;
   }
 }
+
 
 /**
  * @todo Document deims_data_explorer_form .
@@ -110,11 +141,12 @@ function deims_data_explorer_form($form, &$form_state, $variables, $connection) 
     // @todo Limit filters further by the filters selected by the user.
     // If Web Preview was clicked, return the web preview.
     if ($form_state['values']['op'] == 'Web Preview') {
-      $row_count  = variable_get('deims_preview_count', 20);
-      $rows_array = deims_data_explorer_get_rows($connection, $columns, $filters, FALSE, $row_count);
+      $rows_array = deims_data_explorer_get_rows($connection, $columns, $filters, FALSE, DEIMS_PREVIEW_COUNT);
+
+      $total_rows = deims_data_explorer_get_row_count($connection, $columns);
 
       $form['results'] = array(
-        '#markup' => deims_data_explorer_generate_preview($columns, $rows_array),
+        '#markup' => deims_data_explorer_generate_preview($columns, $rows_array, $total_rows),
       );
       //@todo Add a link for down load and to return to form.
       return $form;
@@ -122,8 +154,8 @@ function deims_data_explorer_form($form, &$form_state, $variables, $connection) 
     }
     // If Download was clicked, return the download.
     if ($form_state['values']['op'] == 'Download') {
-      $row_count        = variable_get('deims_download_count', 99999);
-      $keyed_rows_array = deims_data_explorer_get_rows($connection, $columns, $filters, TRUE, $row_count);
+      $keyed_rows_array = deims_data_explorer_get_rows($connection, $columns, $filters, TRUE, DEIMS_DOWNLOAD_COUNT);
+
       deims_data_explorer_generate_download($keyed_rows_array);
     }
   }
@@ -166,17 +198,16 @@ function deims_data_explorer_form($form, &$form_state, $variables, $connection) 
 
   $header  = array(
     'label'      => t('Label'),
-    'name'       => t('Variable Name'),
-    'type'       => t('Variable Type'),
-    'definition' => t('Definition'),
+    'choice'       => t('Choice'),
   );
   $options = array();
   foreach ($allowed_filters_variables as $variable) {
     $options[$variable['name']] = array(
       'label'      => $variable['label'],
+      'choice'       => 'Choice',
     );
   }
-  $form['columns_set']['filters_table'] = array(
+  $form['filter_set']['filters_table'] = array(
     '#type'    => 'tableselect',
     '#header'  => $header,
     '#options' => $options,
@@ -185,7 +216,7 @@ function deims_data_explorer_form($form, &$form_state, $variables, $connection) 
   // END: Create the table to select filters.
 
 
-  deims_de_prep_variables($variables, $form);
+  //deims_de_prep_variables($variables, $form);
 
   $form['preview'] = array(
     '#type'  => 'submit',
@@ -196,6 +227,13 @@ function deims_data_explorer_form($form, &$form_state, $variables, $connection) 
     '#type'  => 'submit',
     '#value' => 'Download',
   );
+
+  // Add logic for download button disable and warning.
+  if (deims_data_explorer_get_row_count($connection, $allowed_columns) >= DEIMS_DOWNLOAD_COUNT) {
+    drupal_set_message('This is a very large data set. Please ' . l('contact us', 'contact') .
+      ' to obtain a copy.', 'warning', FALSE);
+    unset($form['download']);
+  }
 
   return $form;
 }
@@ -220,12 +258,18 @@ function deims_data_explorer_form_submit($form, &$form_state) {
  *
  * @return string
  */
-function deims_data_explorer_generate_preview($columns_array, $rows_array) {
+function deims_data_explorer_generate_preview($columns_array, $rows_array, $total_rows = 0) {
 
-  $markup = theme('table', array(
+  $count = null;
+  if ($total_rows >= DEIMS_PREVIEW_COUNT) {
+    $count = '<div class="deims-row-count">Showing <strong>' . DEIMS_PREVIEW_COUNT . '</strong>
+    of <strong>'. $total_rows . '</strong> records';
+  }
+
+  $markup = $count . theme('table', array(
     'header' => $columns_array,
     'rows'   => $rows_array,
-  ));
+  )) . $count;
 
   return $markup;
 
@@ -316,6 +360,12 @@ function _deims_de_flatten_allowed($variables) {
 
 }
 
+function deims_data_explorer_get_row_count($connection) {
+  $query = db_select($connection['table'], 't')
+    ->fields('t')
+    ->execute();
+  return $query->rowCount();
+}
 
 /**
  * @todo Document deims_data_explorer_get_rows .
@@ -355,6 +405,20 @@ function deims_data_explorer_get_rows($connection, $columns = array(), $conditio
   db_set_active();
 
   return $rows_array;
+}
+
+function _deims_de_prep_variable($variable, &$form) {
+
+    if ($variable['type'] == '') {
+      $variable['type'] = 'nominal';
+    }
+    $function = '_deims_de_prep_' . $variable['type'];
+    if (function_exists($function)) {
+      //add to form
+      $function($variable, $form);
+
+    }
+
 }
 
 function _deims_de_prep_variables($variables, &$form) {
