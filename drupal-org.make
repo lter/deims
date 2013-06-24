@@ -116,6 +116,9 @@ projects[file_download_count][subdir] = "contrib"
 projects[file_entity][version] = "2.x-dev"
 projects[file_entity][subdir] = "contrib"
 
+projects[media][version] = "2.x-dev"
+projects[media][subdir] = "contrib"
+
 projects[filefield_sources][version] = "1.8"
 projects[filefield_sources][subdir] = "contrib"
 ; Ensure files that already exist in the files directory are left alone.

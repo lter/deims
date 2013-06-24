@@ -15,21 +15,27 @@ is _www_.
 
 ### Installing ###
 
+Installing the profile involved 4 steps.
+
+1.  Clone the profile.
+2.  Build the profile into your web root.
+3.  Create a database for your site to connect to.
+4.  Navigate to your site in your web browser to complete the install process.
+
+For the example commands below, 'www' represents the complete path to your site's desired webroot.
+
+Clone the repo:
+
 * `git clone --branch 7.x-1.x git@github.com:palantirnet/deims-profile.git`
+
+Build the site into your webroot:
+
 * `cd deims-profile`
-* `drush make build-deims.make www --prepare-install --contrib-destination=profiles/deims`
-* `cd www`
-* `drush si deims`
-
-Optionally, you can configure the database during the site installation by running
-the following command *instead* of `drush si deims`:
-
-`drush si deims --db-url=mysql://dbusername:dbpassword@dbhost/databasename`
-
-If you've created a database with the name "databasename" this will install all the
-necessary Drupal tables in that database.
+* `drush make build-deims.make '/path/to/your-site/www' --prepare-install --contrib-destination=profiles/deims`
 
 ### Rebuilding an existing site ###
+
+### NOTE: Rebuilding has not been implemented yet. ##
 
 * `git pull`
 * `cd www`
