@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * @file
+ * Install, update, and uninstall functions for the DEIMS data explorer module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function deims_data_explorer_install() {
+  if (!field_info_field('field_deims_data_explorer')) {
+    $field = array(
+      'field_name' => 'field_deims_data_explorer',
+      'type' => 'schema_reference',
+    );
+    field_create_field($field);
+
+    $instance = array(
+      'field_name' => 'field_deims_data_explorer',
+      'entity_type' => 'node',
+      'label' => 'Remote Data Source',
+      'bundle' => 'data_source',
+    );
+    field_create_instance($instance);
+  }
+}

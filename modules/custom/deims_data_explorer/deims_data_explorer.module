@@ -1,7 +1,7 @@
 <?php
 /**
- * @file deims_data_explorer.module
- * TODO: Enter file description here.
+ * @file
+ * DEIMS data explorer allows users to view and download remote data sources.
  */
 
 require_once dirname(__FILE__) . '/inc/variable_availability.inc';
@@ -12,46 +12,27 @@ require_once dirname(__FILE__) . '/inc/variable_availability.inc';
 define("DEIMS_PREVIEW_COUNT", variable_get('deims_preview_count', 20));
 
 /**
- * Define the maximum number of rows be downloaded.
+ * Define the maximum number of rows to be downloaded.
  */
 define("DEIMS_DOWNLOAD_COUNT", variable_get('deims_download_count', 99999));
 
 /**
  * Define the maximum number of rows be downloaded.
  */
-define("DEIMS_BATCH_LIMIT", variable_get('deims_batch_limit', 5));
-
+define("DEIMS_BATCH_LIMIT", variable_get('deims_batch_limit', 500));
 
 /**
- * Implements hook_install().
+ * Define the smallest size file that will be compressed (in MB).
  */
-function deims_data_explorer_install() {
-  if (!field_info_field('field_deims_data_explorer')) {
-    $field = array(
-      'field_name' => 'field_deims_data_explorer',
-      'type' => 'schema_reference',
-    );
-    field_create_field($field);
-
-    $instance = array(
-      'field_name' => 'field_deims_data_explorer',
-      'entity_type' => 'node',
-      'label' => 'Remote Data Source',
-      'bundle' => 'data_source',
-    );
-    field_create_instance($instance);
-  }
-}
+define("DEIMS_COMPRESSION_THRESHOLD", variable_get('deims_compression_threshold', 2));
 
 /**
  * Implements hook_help().
  */
 function deims_data_explorer_help($path, $arg) {
-
   switch ($path) {
     case 'admin/help#deims_data_explorer':
       return t("TODO: Create admin help text.");
-
   }
 }
 
@@ -59,16 +40,21 @@ function deims_data_explorer_help($path, $arg) {
  * Implements hook_menu().
  */
 function deims_data_explorer_menu() {
-
-  $items                    = array();
+  $items = array();
   $items['node/%node/data'] = array(
-    'page callback'    => 'deims_data_explorer_page',
-    'page arguments'   => array(1),
+    'page callback' => 'deims_data_explorer_page',
+    'page arguments' => array(1),
     'access callback'  => 'node_access',
     'access arguments' => array('view', 1),
-    'type'             => MENU_CALLBACK,
+    'type' => MENU_CALLBACK,
   );
-
+  $items['explorer/%file/%node'] = array(
+    'page callback' => 'deims_data_explorer_download',
+    'page arguments' => array(1, 2),
+    'access callback' => 'node_access',
+    'access arguments' => array('view', 2),
+    'type' => MENU_CALLBACK,
+  );
   return $items;
 }
 
@@ -76,11 +62,11 @@ function deims_data_explorer_menu() {
  * Implements hook_permission().
  */
 function deims_data_explorer_permission() {
-
+  // @todo Is this permission actually used anywhere?
   return array(
-    'administer my module' => array(
-      'title'       => t('Administer my module'),
-      'description' => t('Perform administration tasks for my module.'),
+    'administer deims data explorer' => array(
+      'title' => t('Administer DEIMS data explorer'),
+      'description' => t('Perform administration tasks for DEIMS data explorer.'),
     ),
   );
 }
@@ -97,12 +83,12 @@ function deims_data_explorer_page($node) {
   if ($node->type != 'data_source') {
     return MENU_NOT_FOUND;
   }
+
   $connection = field_get_items('node', $node, 'field_deims_data_explorer');
   $variables  = field_get_items('node', $node, 'field_variables');
+
   if (!empty($connection) && !empty($variables)) {
-
     $form = drupal_get_form('deims_data_explorer_form', $variables, $connection[0]);
-
     return $form;
   }
   else {
@@ -159,42 +145,33 @@ function deims_data_explorer_form($form, &$form_state, $variables, $connection) 
         break;
 
       case 'Download':
-        // $keyed_rows_array = deims_data_explorer_get_rows($connection, $columns, $filters, DEIMS_DOWNLOAD_COUNT);
-
-        $operations = array();
-        $total_rows = deims_data_explorer_get_row_count($connection, $columns);
-        // $limit = DEIMS_DOWNLOAD_COUNT;
-        $limit = 2;
-        $steps = $total_rows / $limit;
-
-        // Create the file to receive these data.
-        $file = file_save_data('asdf');
+        $file = file_save_data('', file_create_filename($connection['table'], 'public://'));
 
         $options = array(
           'connection' => $connection,
           'columns' => $columns,
           'filters' => $filters,
-          'total_rows' => $total_rows,
-          'limit' => $limit,
+          'total_rows' => deims_data_explorer_get_row_count($connection, $columns),
+          'limit' => DEIMS_BATCH_LIMIT,
           'file' => $file,
         );
-
-        for ($i = 0; $i < $steps; $i++) {
-          $operations[] = array(
-            '_fetch_row_batch',
-            array($options)
-          );
-        }
 
         // Set up the batch process.
         $batch = array(
           'title' => 'Processing Data Set',
-          'operations' => $operations,
+          'operations' => array(
+            array('_fetch_row_batch', array($options)),
+            array('_process_file_for_download', array($file, $connection['table'])),
+          ),
           'finished' => '_show_download_link',
           'file' => drupal_get_path('module', 'deims_data_explorer') . '/deims_data_explorer.batch.inc'
         );
 
         batch_set($batch);
+
+        // @todo: Need to fix this so it's not hard-coded.
+        // Create page callback where download text stands out a little more
+        // and also make sure to link back to the data set.
         batch_process('node/24/data');
 
         break;
@@ -203,69 +180,68 @@ function deims_data_explorer_form($form, &$form_state, $variables, $connection) 
 
   // START: Create the table to select columns.
   $form['columns_set'] = array(
-    '#type'  => 'fieldset',
+    '#type' => 'fieldset',
     '#title' => t('Please select what columns you would like to include.'),
   );
 
   $header  = array(
-    'label'      => t('Label'),
-    'name'       => t('Variable Name'),
-    'type'       => t('Variable Type'),
+    'label' => t('Label'),
+    'name' => t('Variable Name'),
+    'type' => t('Variable Type'),
     'definition' => t('Definition'),
   );
   $options = array();
   foreach ($allowed_column_variables as $variable) {
     $options[$variable['name']] = array(
-      'label'      => $variable['label'],
-      'name'       => $variable['name'],
-      'type'       => $variable['type'],
+      'label' => $variable['label'],
+      'name' => $variable['name'],
+      'type' => $variable['type'],
       'definition' => $variable['definition'],
     );
   }
   $form['columns_set']['columns_table'] = array(
-    '#type'    => 'tableselect',
-    '#header'  => $header,
+    '#type' => 'tableselect',
+    '#header' => $header,
     '#options' => $options,
-    '#empty'   => t('No columns found'),
+    '#empty' => t('No columns found'),
   );
   // END: Create the table to select columns.
 
 
   // START: Create the table to select filters.
   $form['filter_set'] = array(
-    '#type'  => 'fieldset',
+    '#type' => 'fieldset',
     '#title' => t('Please choose any filters you would like to add.'),
   );
 
-  $header  = array(
-    'label'      => t('Label'),
-    'choice'       => t('Choice'),
+  $header = array(
+    'label' => t('Label'),
+    'choice' => t('Choice'),
   );
   $options = array();
   foreach ($allowed_filters_variables as $variable) {
     $options[$variable['name']] = array(
-      'label'      => $variable['label'],
-      'choice'       => 'Choice',
+      'label' => $variable['label'],
+      'choice' => 'Choice',
     );
   }
   $form['filter_set']['filters_table'] = array(
-    '#type'    => 'tableselect',
-    '#header'  => $header,
+    '#type' => 'tableselect',
+    '#header' => $header,
     '#options' => $options,
-    '#empty'   => t('No filters found'),
+    '#empty' => t('No filters found'),
   );
   // END: Create the table to select filters.
-
 
   //deims_de_prep_variables($variables, $form);
 
   $form['preview'] = array(
-    '#type'  => 'submit',
+    '#type' => 'submit',
     '#value' => 'Web Preview',
   );
 
   $form['download'] = array(
-    '#type'  => 'submit',
+    '#type' => 'submit',
     '#value' => 'Download',
   );
 
@@ -275,7 +251,6 @@ function deims_data_explorer_form($form, &$form_state, $variables, $connection) 
       ' to obtain a copy.', 'warning', FALSE);
     unset($form['download']);
   }
-
   return $form;
 }
 
@@ -284,11 +259,8 @@ function deims_data_explorer_form_submit($form, &$form_state) {
   //unset($form_state['values']['submit'], $form_state['values']['form_id'], $form_state['values']['op'], $form_state['values']['form_token'], $form_state['values']['form_build_id']);
 
   foreach ($form_state['values'] as $key => $value) {
-
     // drupal_set_message(t('%name has value %value', array('%name' => $key, '%value' => print_r($value, TRUE))));
   }
-
-
   $form_state['rebuild'] = TRUE;
 }
 
@@ -300,7 +272,6 @@ function deims_data_explorer_form_submit($form, &$form_state) {
  * @return string
  */
 function deims_data_explorer_generate_preview($columns_array, $rows_array, $total_rows = 0) {
-
   $count = null;
   if ($total_rows >= DEIMS_PREVIEW_COUNT) {
     $count = '<div class="deims-row-count">Showing <strong>' . DEIMS_PREVIEW_COUNT . '</strong>
@@ -313,34 +284,6 @@ function deims_data_explorer_generate_preview($columns_array, $rows_array, $tota
   )) . $count;
 
   return $markup;
-
-
-}
-
-/**
- * @todo Document
- *
- * @param array $item
- * @param array $connection The connection information (to generate filename).
- *
- * @return string
- */
-function deims_data_explorer_generate_download($rows, $connection) {
-  $filename = $connection['table'] . '.csv';
-
-  dpm($rows);
-
-  // @todo Switch to drupal_add_http_header.
-  // header("Pragma: public");
-  // header("Expires: 0");
-  // header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-  // header("Content-Type: application/force-download");
-  // header("Content-Type: application/octet-stream");
-  // header("Content-Type: application/download");
-  // header("Content-Disposition: attachment;filename={$filename}");
-  // header("Content-Transfer-Encoding: binary");
-  // echo _deims_de_array2csv($keyed_rows_array);
-  // die();
 }
 
 /**
@@ -351,9 +294,7 @@ function deims_data_explorer_generate_download($rows, $connection) {
  * @return array
  */
 function _deims_de_get_allowed_columns($variables) {
-
   return $variables;
-
 }
 
 /**
@@ -365,11 +306,7 @@ function _deims_de_get_allowed_columns($variables) {
  */
 function _deims_de_get_allowed_filters($variables) {
   return $variables;
-
-
 }
-
-
 
 function _deims_de_get_submitted_columns($columns) {
   $return = array();
@@ -391,18 +328,17 @@ function _deims_de_get_submitted_filters($columns) {
   return $return;
 }
 
-
-
 function _deims_de_flatten_allowed($variables) {
-// @todo Change these to return the full variables and use the array map only where needed.
+  // @todo Change these to return the full variables and use the array map only where needed.
   // @todo Change to only include checked columns.
-  return array_map(function ($value) {
-
-    return $value['name'];
-  }, $variables);
-
+  return array_map(function ($value) { return $value['name']; }, $variables);
 }
 
+/**
+ * [deims_data_explorer_get_row_count description]
+ * @param  [type] $connection [description]
+ * @return [type]             [description]
+ */
 function deims_data_explorer_get_row_count($connection) {
   $query = db_select($connection['table'], 't')
     ->fields('t')
@@ -422,60 +358,41 @@ function deims_data_explorer_get_row_count($connection) {
  */
 function deims_data_explorer_get_rows($connection, $columns = array(), $conditions = array(), $limit = 20, $from = 0) {
 
-  // Sanely switch our database connection if needed.
-  $current_connection = Database::getConnectionInfo();
-  $db_connection_reset = false;
-  if (key($current_connection) !== $connection['connection']) {
-    db_set_active($connection['connection']);
-    $db_connection_reset = true;
-  }
+  $db_connection = Database::getConnection('default', $connection['connection']);
 
-  $result = db_select($connection['table'], 't')
+  $result = $db_connection->select($connection['table'], 't')
     ->fields('t', $columns)
     ->range($from,$limit)
     ->execute();
 
-  $rows = array_map(function($value){ return (array)$value; }, $result->fetchAll());
-
-  // If we switched DB connection, switch it back.
-  if ($db_connection_reset) {
-    db_set_active(key($current_connection));
-  }
-
-  return $rows;
+  return $result->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function _deims_de_prep_variable($variable, &$form) {
-
-    if ($variable['type'] == '') {
-      $variable['type'] = 'nominal';
-    }
-    $function = '_deims_de_prep_' . $variable['type'];
-    if (function_exists($function)) {
-      //add to form
-      $function($variable, $form);
-
-    }
-
+  if ($variable['type'] == '') {
+    $variable['type'] = 'nominal';
+  }
+  $function = '_deims_de_prep_' . $variable['type'];
+  if (function_exists($function)) {
+    // Add to form.
+    $function($variable, $form);
+  }
 }
 
 function _deims_de_prep_variables($variables, &$form) {
-
   foreach ($variables as $variable) {
     if ($variable['type'] == '') {
       $variable['type'] = 'nominal';
     }
     $function = '_deims_de_prep_' . $variable['type'];
     if (function_exists($function)) {
-      //add to form
+      // Add to form.
       $function($variable, $form);
-
     }
     else {
 
     }
   }
-
 }
 
 /**
@@ -484,21 +401,20 @@ function _deims_de_prep_variables($variables, &$form) {
  * @param $variable
  */
 function _deims_de_prep_codes($variable, &$form) {
-
-  $codes     = $variable['data']['codes'];
+  $codes = $variable['data']['codes'];
   $code_list = array();
   foreach ($codes as $key => $value) {
     $code_list[] = $key;
   }
-  $name                             = $variable['name'];
-  $form['filter_set'][$name]        = array(
-    '#type'  => 'fieldset',
+  $name = $variable['name'];
+  $form['filter_set'][$name] = array(
+    '#type' => 'fieldset',
     '#title' => $name,
   );
   $form['filter_set'][$name][$name] = array(
-    '#type'    => 'checkboxes',
+    '#type' => 'checkboxes',
     '#options' => $code_list,
-    '#title'   => t('Limit by search codes:'),
+    '#title' => t('Limit by search codes:'),
   );
 }
 
@@ -508,15 +424,13 @@ function _deims_de_prep_codes($variable, &$form) {
  * @param $variable
  */
 function _deims_de_prep_nominal($variable, &$form) {
-
-  $name                      = $variable['name'];
+  $name = $variable['name'];
   $form['filter_set'][$name] = array(
-    '#type'  => 'fieldset',
+    '#type' => 'fieldset',
     '#title' => $name,
   );
-
   $form['filter_set'][$name][$name] = array(
-    '#type'  => 'textfield',
+    '#type' => 'textfield',
     '#title' => t('Limit by search term:'),
   );
 }
@@ -528,12 +442,12 @@ function _deims_de_prep_nominal($variable, &$form) {
  */
 function _deims_de_prep_physical($variable, &$form) {
 
-  $name      = $variable['name'];
-  $minimum   = $variable['data']['minimum'];
-  $maximum   = $variable['data']['maximum'];
-  $unit      = $variable['data']['unit'];
+  $name = $variable['name'];
+  $minimum = $variable['data']['minimum'];
+  $maximum = $variable['data']['maximum'];
+  $unit = $variable['data']['unit'];
   $precision = $variable['data']['precision'];
-  $options   = array();
+  $options = array();
   foreach (range($minimum, $maximum, $precision) as $number) {
     $options[] = $number;
   }
@@ -557,6 +471,31 @@ function _deims_de_prep_physical($variable, &$form) {
 }
 
 /**
+ * [deims_data_explorer_download description]
+ */
+function deims_data_explorer_download($file, $node) {
+  $uri = file_entity_download_uri($file);
+  $output =  array(
+    'header' => array(
+      '#type' => 'markup',
+      '#markup' => '<h2>File ready for download</h2>',
+    ),
+    'info' => array(
+      '#type' => 'markup',
+      '#markup' => '<p>Your file is ready to be downloaded. It will be available
+      for the next few hours. Please download it now.</p><p>'
+      . l('Click here', $uri['path'], $uri['options']) . ' to download the
+      file.</p>',
+    ),
+    'back' => array(
+      '#type' => 'markup',
+      '#markup' => '<p>' . l('Return to data set', "node/{$node->nid}") . '</p>',
+    ),
+  );
+  return $output;
+}
+
+/**
  * @todo Document _deims_de_prep_date .
  *
  * @param $variable
@@ -575,7 +514,6 @@ function _deims_de_prep_date($variable, &$form) {
  * @return null|string
  */
 function _deims_de_array2csv(array &$array) {
-
   if (count($array) == 0) {
     return NULL;
   }
