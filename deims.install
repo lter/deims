@@ -36,6 +36,7 @@ function deims_install() {
   // Contrib modules
   deims_install_admin_menu();
   deims_install_admin_select();
+  deims_install_chosen();
   deims_install_custom_breadcrumbs();
   deims_install_schema();
   deims_install_workbench_access();
@@ -347,4 +348,12 @@ function deims_install_custom_breadcrumbs() {
   }
 
   $query->execute();
+}
+
+/**
+ * Porfile install for the chosen module.
+ */
+function deims_install_chosen() {
+  variable_set('chosen_minimum_width', 300);
+  variable_set('chosen_jquery_selector', 'select');
 }
