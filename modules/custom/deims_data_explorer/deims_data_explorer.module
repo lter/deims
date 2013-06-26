@@ -9,22 +9,22 @@ require_once dirname(__FILE__) . '/inc/variable_availability.inc';
 /**
  * Define the maximum number of rows to display in the data preview.
  */
-define("DEIMS_PREVIEW_COUNT", variable_get('deims_preview_count', 20));
+define("DEIMS_PREVIEW_COUNT", variable_get('deims_preview_count', 500));
 
 /**
  * Define the maximum number of rows to be downloaded.
  */
-define("DEIMS_DOWNLOAD_COUNT", variable_get('deims_download_count', 99999));
+define("DEIMS_DOWNLOAD_COUNT", variable_get('deims_download_count', 999999));
 
 /**
  * Define the maximum number of rows be downloaded.
  */
-define("DEIMS_BATCH_LIMIT", variable_get('deims_batch_limit', 500));
+define("DEIMS_BATCH_LIMIT", variable_get('deims_batch_limit', 25000));
 
 /**
  * Define the smallest size file that will be compressed (in MB).
  */
-define("DEIMS_COMPRESSION_THRESHOLD", variable_get('deims_compression_threshold', 2));
+define("DEIMS_COMPRESSION_THRESHOLD", variable_get('deims_compression_threshold', 10));
 
 /**
  * Implements hook_help().
