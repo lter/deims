@@ -34,11 +34,11 @@ function _fetch_row_batch($options,&$context) {
  * @param  string $table   The name of the table that was queried.
  * @param  array  $context Context passed back to function.
  */
-function _process_file_for_download($file,$table,&$context) {
+function _process_file_for_download($file,$table,$nid,&$context) {
   // Setting status = 0 marks the file as temporary which means it'll get
   // cleaned up automatically within 6 hours by Drupal.
   $file->status = 0;
-  $file = file_move($file, file_create_filename($table . '.csv', 'public://'));
+  $file = file_move($file, file_create_filename($table . '.csv', variable_get('deims_data_explorer_dir', 'public://data-downloads/')));
 
   // Do we need to compress the file?
   if (($file->filesize / DRUPAL_KILOBYTE) > (DRUPAL_KILOBYTE * DEIMS_COMPRESSION_THRESHOLD)) {
@@ -51,9 +51,11 @@ function _process_file_for_download($file,$table,&$context) {
 
     // Re-save the file to compute size.
     $file->status = 0;
-    $file = file_move($file, file_create_filename($table . '_csv.gz', 'public://'));
+    $file = file_move($file, file_create_filename($table . '_csv.gz', variable_get('deims_data_explorer_dir', 'public://data-downloads/')));
   }
   $context['results']['file'] = $file;
+  $context['results']['nid'] = $nid;
+  $context['results']['forward'] = 'explorer/' . $file->fid . '/' . $nid;
 }
 
 /**
@@ -64,16 +66,16 @@ function _process_file_for_download($file,$table,&$context) {
  * @return [type]             [description]
  */
 function _show_download_link($success, $results, $operations) {
+  $batch = &batch_get();
 
   if ($success) {
-    $uri = file_entity_download_uri($results['file']);
-    $message = 'Your data set has been processed. You can download the file by '
-      . l('clicking here', $uri['path'], $uri['options']) . '.';
+    $batch['redirect'] = $results['forward'];
   }
   else {
     $message = 'There was an error processing your request. Please try again and '
       . l('contact us', '/contact') . ' if you have repeated errors.';
+      drupal_set_message($message);
+    $batch['redirect'] = 'node/' . $results['nid'] . '/data';
   }
 
-  drupal_set_message($message, 'status', FALSE);
 }

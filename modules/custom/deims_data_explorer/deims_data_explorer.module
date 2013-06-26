@@ -88,7 +88,7 @@ function deims_data_explorer_page($node) {
   $variables  = field_get_items('node', $node, 'field_variables');
 
   if (!empty($connection) && !empty($variables)) {
-    $form = drupal_get_form('deims_data_explorer_form', $variables, $connection[0]);
+    $form = drupal_get_form('deims_data_explorer_form', $variables, $connection[0], $node);
     return $form;
   }
   else {
@@ -107,8 +107,7 @@ function deims_data_explorer_page($node) {
  *
  * @return mixed
  */
-function deims_data_explorer_form($form, &$form_state, $variables, $connection) {
-
+function deims_data_explorer_form($form, &$form_state, $variables, $connection, $node) {
   // Get the allowed columns from the data source variable definitions.
   $allowed_column_variables = _deims_de_get_allowed_columns($variables);
   // Get allowed filters from the data source variable definitions.
@@ -145,7 +144,7 @@ function deims_data_explorer_form($form, &$form_state, $variables, $connection) 
         break;
 
       case 'Download':
-        $file = file_save_data('', file_create_filename($connection['table'], 'public://'));
+        $file = file_save_data('', file_create_filename($connection['table'], variable_get('deims_data_explorer_dir', 'public://data-downloads/')));
 
         $options = array(
           'connection' => $connection,
@@ -161,22 +160,24 @@ function deims_data_explorer_form($form, &$form_state, $variables, $connection) 
           'title' => 'Processing Data Set',
           'operations' => array(
             array('_fetch_row_batch', array($options)),
-            array('_process_file_for_download', array($file, $connection['table'])),
+            array('_process_file_for_download', array($file, $connection['table'], $form_state['values']['nid'])),
           ),
           'finished' => '_show_download_link',
           'file' => drupal_get_path('module', 'deims_data_explorer') . '/deims_data_explorer.batch.inc'
         );
 
         batch_set($batch);
-
-        // @todo: Need to fix this so it's not hard-coded.
-        // Create page callback where download text stands out a little more
-        // and also make sure to link back to the data set.
-        batch_process('node/24/data');
-
+        // This can be left blank because we're setting it in the finished
+        // callback hackery magic.
+        batch_process();
         break;
     }
   }
+
+  $form['nid'] = array(
+    '#type' => 'hidden',
+    '#value' => $node->nid,
+  );
 
   // START: Create the table to select columns.
   $form['columns_set'] = array(
@@ -493,6 +494,16 @@ function deims_data_explorer_download($file, $node) {
     ),
   );
   return $output;
+}
+
+/**
+ * Implements hook_file_entity_access().
+ */
+function deims_data_explorer_file_entity_access($op, $file, $account) {
+  if ($op == 'download' && $file->status != FILE_STATUS_PERMANENT && $file->uid == $account->uid && strpos($file->uri, variable_get('deims_data_explorer_dir', 'public://data-downloads/')) !== FALSE) {
+    return FILE_ENTITY_ACCESS_ALLOW;
+  }
+  return FILE_ENTITY_ACCESS_IGNORE;
 }
 
 /**

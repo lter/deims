@@ -25,3 +25,26 @@ function deims_data_explorer_install() {
     field_create_instance($instance);
   }
 }
+
+/**
+ * Implements hook_requirements().
+ */
+function deims_data_explorer_requirements($phase) {
+  $requirements = array();
+
+  // NOTE: this is set in a variable_get elsewhere, so this may need to be
+  // changed if the value is changed in the DB.
+  $directory = 'public://data-downloads';
+
+  // Check to make sure the data-downloads directory is writeable.
+  if (!file_prepare_directory($directory, FILE_CREATE_DIRECTORY)) {
+    $requirements['deims_data_explorer'] = array(
+      'title' => 'Directory must be writeable.',
+      'description' => 'The directory must be writeable by Drupal.',
+      'severity' => REQUIREMENT_WARNING,
+      'value' => 'Not Writable',
+    );
+  }
+
+  return $requirements;
+}
