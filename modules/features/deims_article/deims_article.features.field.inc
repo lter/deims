@@ -198,7 +198,7 @@ function deims_article_field_default_fields() {
       'settings' => array(
         'display_default' => 1,
         'display_field' => 1,
-        'uri_scheme' => 'private',
+        'uri_scheme' => 'public',
       ),
       'translatable' => '0',
       'type' => 'file',
