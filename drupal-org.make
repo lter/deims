@@ -32,12 +32,11 @@ projects[ctools][subdir] = "contrib"
 projects[context][version] = "3.0-beta6"
 projects[context][subdir] = "contrib"
 
-projects[chosen][version] = "2.0-alpha2"
+projects[chosen][type] = module
+projects[chosen][download][type] = "git"
+projects[chosen][download][url] = "http://git.drupal.org/sandbox/davereid/2029921.git"
+projects[chosen][download][branch] = "7.x-1.x"
 projects[chosen][subdir] = "contrib"
-; Chosen has a make file for the library, but we're using a fork so ignore it.
-projects[chosen][do_recursion] = 0
-; Add support for select_or_other with the koenpunt fork of chosen
-projects[chosen][patch][2012900] = "http://drupal.org/files/2012900-chosen-select-or-other.patch"
 
 projects[custom_breadcrumbs][version] = "2.0-alpha3"
 projects[custom_breadcrumbs][subdir] = "contrib"
@@ -77,6 +76,9 @@ projects[elements][subdir] = "contrib"
 projects[email][version] = "1.2"
 projects[email][subdir] = "contrib"
 
+projects[emptyparagraphkiller][version] = "1.0-beta2"
+projects[emptyparagraphkiller][subdir] = "contrib"
+
 projects[entity][version] = "1.1"
 projects[entity][subdir] = "contrib"
 ; Fix for entity_metadata_no_hook_node_access() and new entity objects (required to work with inline_entity_form).
@@ -115,9 +117,6 @@ projects[file_download_count][subdir] = "contrib"
 ; Dave Reid maintains this, ok to use dev for now.
 projects[file_entity][version] = "2.x-dev"
 projects[file_entity][subdir] = "contrib"
-
-projects[media][version] = "2.x-dev"
-projects[media][subdir] = "contrib"
 
 projects[filefield_sources][version] = "1.8"
 projects[filefield_sources][subdir] = "contrib"
@@ -163,6 +162,9 @@ projects[libraries][subdir] = "contrib"
 
 projects[link][version] = "1.1"
 projects[link][subdir] = "contrib"
+
+projects[media][version] = "2.x-dev"
+projects[media][subdir] = "contrib"
 
 projects[menu_block][version] = "2.3"
 projects[menu_block][subdir] = "contrib"
@@ -290,6 +292,9 @@ projects[workbench_email][subdir] = "contrib"
 projects[wysiwyg][version] = "2.x-dev"
 projects[wysiwyg][subdir] = "contrib"
 
+projects[wysiwyg_linebreaks][version] = "1.5"
+projects[wysiwyg_linebreaks][subdir] = "contrib"
+
 ; -----------------------------------------------------------------------------
 ; Contributed themes
 ; -----------------------------------------------------------------------------
@@ -316,10 +321,11 @@ libraries[flexslider][download][url] = "https://github.com/woothemes/FlexSlider/
 libraries[flexslider][download][subtree] = "FlexSlider-master"
 libraries[flexslider][directory_name] = "flexslider"
 
-libraries[chosen][download][type] = "get"
-libraries[chosen][download][url] = "https://github.com/koenpunt/chosen/archive/option_adding.zip"
-libraries[chosen][download][subtree] = "chosen-option_adding"
-libraries[chosen][directory_name] = "chosen"
+; Currently using a fork of the Chosen module that includes the Chosen library.
+;libraries[chosen][download][type] = "get"
+;libraries[chosen][download][url] = "https://github.com/koenpunt/chosen/archive/option_adding.zip"
+;libraries[chosen][download][subtree] = "chosen-option_adding"
+;libraries[chosen][directory_name] = "chosen"
 
 libraries[superfish][download][type] = "get"
 libraries[superfish][download][url] = "https://github.com/mehrpadin/Superfish-for-Drupal/archive/1.x.zip"
@@ -327,5 +333,5 @@ libraries[superfish][download][subtree] = "Superfish-for-Drupal-1.x"
 libraries[superfish][directory_name] = "superfish"
 
 libraries[datatables][download][type]= "get"
-libraries[datatables][download][url] = "http://datatables.net/releases/DataTables-1.9.4.zip"
+libraries[datatables][download][url] = "http://www.datatables.net/releases/DataTables-1.9.4.zip"
 libraries[datatables][directory_name] = "datatables"
