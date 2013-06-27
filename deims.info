@@ -104,6 +104,7 @@ dependencies[] = workbench
 dependencies[] = workbench_access
 dependencies[] = workbench_moderation
 dependencies[] = wysiwyg
+dependencies[] = wysiwyg_linebreaks
 ; DEIMS Base
 dependencies[] = deims_article
 dependencies[] = deims_data_set
