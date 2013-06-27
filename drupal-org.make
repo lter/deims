@@ -327,5 +327,5 @@ libraries[superfish][download][subtree] = "Superfish-for-Drupal-1.x"
 libraries[superfish][directory_name] = "superfish"
 
 libraries[datatables][download][type]= "get"
-libraries[datatables][download][url] = "http://datatables.net/releases/DataTables-1.9.4.zip"
+libraries[datatables][download][url] = "http://www.datatables.net/releases/DataTables-1.9.4.zip"
 libraries[datatables][directory_name] = "datatables"
