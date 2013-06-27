@@ -76,6 +76,9 @@ projects[elements][subdir] = "contrib"
 projects[email][version] = "1.2"
 projects[email][subdir] = "contrib"
 
+projects[emptyparagraphkiller][version] = "1.0-beta2"
+projects[emptyparagraphkiller][subdir] = "contrib"
+
 projects[entity][version] = "1.1"
 projects[entity][subdir] = "contrib"
 ; Fix for entity_metadata_no_hook_node_access() and new entity objects (required to work with inline_entity_form).
@@ -114,9 +117,6 @@ projects[file_download_count][subdir] = "contrib"
 ; Dave Reid maintains this, ok to use dev for now.
 projects[file_entity][version] = "2.x-dev"
 projects[file_entity][subdir] = "contrib"
-
-projects[media][version] = "2.x-dev"
-projects[media][subdir] = "contrib"
 
 projects[filefield_sources][version] = "1.8"
 projects[filefield_sources][subdir] = "contrib"
@@ -162,6 +162,9 @@ projects[libraries][subdir] = "contrib"
 
 projects[link][version] = "1.1"
 projects[link][subdir] = "contrib"
+
+projects[media][version] = "2.x-dev"
+projects[media][subdir] = "contrib"
 
 projects[menu_block][version] = "2.3"
 projects[menu_block][subdir] = "contrib"
@@ -288,6 +291,9 @@ projects[workbench_email][subdir] = "contrib"
 
 projects[wysiwyg][version] = "2.x-dev"
 projects[wysiwyg][subdir] = "contrib"
+
+projects[wysiwyg_linebreaks][version] = "1.5"
+projects[wysiwyg_linebreaks][subdir] = "contrib"
 
 ; -----------------------------------------------------------------------------
 ; Contributed themes

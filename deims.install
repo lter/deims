@@ -149,6 +149,11 @@ function deims_install_filter() {
         'weight' => 10,
         'status' => 1,
       ),
+      // Empty paragraph killer filter.
+      'emptyparagraphkiller' => array(
+        'weight' => 15,
+        'status' => 1,
+      ),
     ),
   );
   $filtered_html_format = (object) $filtered_html_format;
@@ -172,6 +177,11 @@ function deims_install_filter() {
       // HTML corrector filter.
       'filter_htmlcorrector' => array(
         'weight' => 10,
+        'status' => 1,
+      ),
+      // Empty paragraph killer filter.
+      'emptyparagraphkiller' => array(
+        'weight' => 15,
         'status' => 1,
       ),
     ),
