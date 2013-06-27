@@ -53,6 +53,7 @@ dependencies[] = ds_ui
 dependencies[] = eck
 dependencies[] = elements
 dependencies[] = email
+dependencies[] = emptyparagraphkiller
 dependencies[] = entity
 dependencies[] = entity_token
 dependencies[] = entity_view_mode
