@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://dpm.dev/" />
+<title>Verify field list</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Verify field list</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/admin/reports/fields</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_abstract	Long text (module: Text)	Data set, Research project</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_additional_information	Long text (module: Text)	Data set</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_address	Postal address (module: Address Field)	Person</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_article_date	Date (module: Date)	Article</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_associated_biblio_author	Entity Reference (module: Entity Reference)	Person</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_coordinates	Geofield (module: Geofield)	Research site</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_core_areas	Term reference (module: Taxonomy)	Data set, Research project, Research site</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_csv_field_delimiter	Text (module: Text)	Data source</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_csv_footer_lines	Integer (module: Number)	Data source</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_csv_header_lines	Integer (module: Number)	Data source</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_csv_orientation	List (text) (module: List)	Data source</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_csv_quote_character	Text (module: Text)	Data source</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_csv_record_delimiter	Text (module: Text)	Data source</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_data_set_id	Text (module: Text)	Data set</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_data_source_file	File (module: File)	Data source</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_data_sources	Entity Reference (module: Entity Reference)	Data set</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_date_range	Date (module: Date)	Data source, Data set</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_description	Long text (module: Text)	Data source, Research site, Site Detail</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_doi	Text (module: Text)	Data set</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_elevation	Integer (module: Number)	Research site</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_email	Email (module: Email)	Person</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_eml_hash	Text (module: Text)	Data set</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_eml_link	Token Field (module: Token Field)	Data set</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_eml_revision_id	Integer (module: Number)	Data set</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_eml_valid	Boolean (module: List)	Data set</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_fax	Telephone number (module: Telephone)	Person</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_file_image_alt_text	Text (module: Text)	Image</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_file_image_title_text	Text (module: Text)	Image</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_files	File (module: File)	Article, Basic page</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_images	Image (module: Image)	Basic page, Image gallery, Research project, Research site</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_instrumentation	Long text (module: Text)	Data source, Data set</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_keywords	Term reference (module: Taxonomy)	Article, Data set, Image gallery, Research project</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_label	Text (module: Text)	Site Detail</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_list_in_directory	Boolean (module: List)	Person</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_maintenance	Long text (module: Text)	Data set</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_methods	Long text (module: Text)	Data source, Data set</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_name	Name (module: Name Field)	Person</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_ongoing	Boolean (module: List)	Research project</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_organization	Entity Reference (module: Entity Reference)	Person</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_person_contact	Entity Reference (module: Entity Reference)	Data set</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_person_creator	Entity Reference (module: Entity Reference)	Data set</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_person_id	Integer (module: Number)	Person</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_person_metadata_provider	Entity Reference (module: Entity Reference)	Data set</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_person_publisher	Entity Reference (module: Entity Reference)	Data set</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_person_role	List (text) (module: List)	Person</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_person_title	Text (module: Text)	Person</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_phone	Telephone number (module: Telephone)	Person</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_project_role	List (text) (module: List)	Project role</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_project_roles	Entity Reference (module: Entity Reference)	Data set</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_publication_date	Date (module: Date)	Data set</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_purpose	Long text (module: Text)	Data set</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_quality_assurance	Long text (module: Text)	Data source, Data set</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_related_links	Link (module: Link)	Data set, Research project</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_related_people	Entity Reference (module: Entity Reference)	Article, Research project</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_related_person	Entity Reference (module: Entity Reference)	Project role</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_related_projects	Entity Reference (module: Entity Reference)	Research project</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_related_publications	Entity Reference (module: Entity Reference)	Article, Data set</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_related_sites	Entity Reference (module: Entity Reference)	Data source, Data set</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_section	Term reference (module: Taxonomy)	Article</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_short_name	Text (module: Text)	Data set</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_site_details	Entity Reference (module: Entity Reference)	Research site</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_site_id	Integer (module: Number)	Research site</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_url	Link (module: Link)	Person, Organization</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_user_account	Entity Reference (module: Entity Reference)	Person</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>field_variables	Variable (module: DEIMS Variable Field)	Data source</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>body	Long text and summary (module: Text)	Article, Basic page, Biblio, Image gallery, Research project</td>
+</tr>
+</tbody></table>
+</body>
+</html>
