@@ -43,11 +43,7 @@ function deims_data_source_form_alter(&$form, &$form_state, $form_id) {
         'wrapper' => 'source_preview'
       ),
       '#value' => t('Preview Source'),
-      '#limit_validation_errors' => array(
-        array('field_data_source_file'),
-        array('field_csv_orientation'),
-        array('field_csv_field_delimiter')
-      )
+      '#limit_validation_errors' => array()
     );
   }
 }
@@ -64,13 +60,6 @@ function deims_data_source_preview_source($form, &$form_state) {
   }
   else {
     $errors[] = '<p>Please attach or upload a <strong>file</strong>.</p>';
-  }
-
-  if (isset($form_state['values']['field_csv_orientation'][LANGUAGE_NONE][0]['value']) && !empty($form_state['values']['field_csv_orientation'][LANGUAGE_NONE][0]['value'])) {
-    $orientation = $form_state['values']['field_csv_orientation'][LANGUAGE_NONE][0]['value'];
-  }
-  else {
-    $errors[] = '<p>Please select a field <strong>orientation</strong>.</p>';
   }
 
   if (isset($form_state['values']['field_csv_field_delimiter'][LANGUAGE_NONE][0]) && !empty($form_state['values']['field_csv_field_delimiter'][LANGUAGE_NONE][0]['value'])) {
