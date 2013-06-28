@@ -62,8 +62,10 @@ function deims_data_source_preview_source($form, &$form_state) {
     $errors[] = '<p>Please attach or upload a <strong>file</strong>.</p>';
   }
 
-  if (isset($form_state['values']['field_csv_field_delimiter'][LANGUAGE_NONE][0]) && !empty($form_state['values']['field_csv_field_delimiter'][LANGUAGE_NONE][0]['value'])) {
-    $delimiter = $form_state['values']['field_csv_field_delimiter'][LANGUAGE_NONE][0];
+  $delimiter_form_value = $form_state['values']['field_csv_field_delimiter'][LANGUAGE_NONE];
+  if (isset($delimiter_form_value['select']) && !empty($delimiter_form_value['select'])) {
+    $delimiter = ($delimiter_form_value['select'] == 'select_or_other') ?
+      $delimiter_form_value['other'] : $delimiter_form_value['select'];
   }
   else {
     $errors[] = '<p>Please select a field <strong>delimiter</strong>.</p>';
