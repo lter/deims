@@ -48,24 +48,34 @@ function deims_search_default_search_api_index() {
         "status" : { "type" : "boolean" },
         "author" : { "type" : "integer", "entity_type" : "user" },
         "log" : { "type" : "text", "boost" : "2.0" },
-        "field_related_publications" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
         "field_keywords" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
+        "field_related_publications" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
+        "field_related_people" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
         "field_abstract" : { "type" : "text" },
         "field_core_areas" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
-        "field_related_sites" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
-        "field_data_sources" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
+        "field_related_projects" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
         "field_data_set_id" : { "type" : "text", "boost" : "5.0" },
-        "field_short_name" : { "type" : "text" },
-        "field_maintenance" : { "type" : "text" },
-        "field_project_roles" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "project_role" },
+        "field_data_sources" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
         "field_doi" : { "type" : "text", "boost" : "2.0" },
+        "field_person_contact" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
+        "field_person_creator" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
+        "field_person_metadata_provider" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
+        "field_person_publisher" : { "type" : "integer", "entity_type" : "node" },
+        "field_project_roles" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "project_role" },
         "field_publication_date" : { "type" : "date" },
+        "field_related_sites" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
+        "field_short_name" : { "type" : "text" },
+        "field_associated_biblio_author" : { "type" : "integer", "entity_type" : "biblio_contributor" },
         "search_api_language" : { "type" : "string" },
         "search_api_viewed" : { "type" : "text" },
         "search_api_access_node" : { "type" : "list\\u003Cstring\\u003E" },
         "body:value" : { "type" : "text" },
         "field_date_range:value" : { "type" : "date" },
         "field_date_range:value2" : { "type" : "date" },
+        "field_project_roles:id" : { "type" : "list\\u003Cinteger\\u003E" },
+        "field_project_roles:type" : { "type" : "list\\u003Cstring\\u003E" },
+        "field_project_roles:changed" : { "type" : "list\\u003Cdate\\u003E" },
+        "field_project_roles:field_project_role" : { "type" : "list\\u003Cstring\\u003E" },
         "field_project_roles:field_related_person" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" }
       },
       "data_alter_callbacks" : {
@@ -91,13 +101,26 @@ function deims_search_default_search_api_index() {
           "weight" : "0",
           "settings" : { "fields" : {
               "title" : true,
+              "author" : true,
               "log" : true,
+              "field_keywords" : true,
+              "field_related_publications" : true,
+              "field_related_people" : true,
               "field_abstract" : true,
               "field_data_set_id" : true,
-              "field_short_name" : true,
-              "field_maintenance" : true,
+              "field_data_sources" : true,
               "field_doi" : true,
-              "body:value" : true
+              "field_person_contact" : true,
+              "field_person_creator" : true,
+              "field_person_metadata_provider" : true,
+              "field_person_publisher" : true,
+              "field_project_roles" : true,
+              "field_short_name" : true,
+              "field_associated_biblio_author" : true,
+              "search_api_viewed" : true,
+              "body:value" : true,
+              "field_project_roles:field_project_role" : true,
+              "field_project_roles:field_related_person" : true
             }
           }
         },
@@ -110,9 +133,8 @@ function deims_search_default_search_api_index() {
               "log" : true,
               "field_abstract" : true,
               "field_data_set_id" : true,
-              "field_short_name" : true,
-              "field_maintenance" : true,
               "field_doi" : true,
+              "field_short_name" : true,
               "body:value" : true
             },
             "title" : 0,
@@ -127,13 +149,10 @@ function deims_search_default_search_api_index() {
             "fields" : {
               "title" : true,
               "log" : true,
-              "field_keywords" : true,
               "field_abstract" : true,
-              "field_core_areas" : true,
               "field_data_set_id" : true,
-              "field_short_name" : true,
-              "field_maintenance" : true,
               "field_doi" : true,
+              "field_short_name" : true,
               "search_api_viewed" : true,
               "body:value" : true
             },
@@ -150,9 +169,8 @@ function deims_search_default_search_api_index() {
               "log" : true,
               "field_abstract" : true,
               "field_data_set_id" : true,
-              "field_short_name" : true,
-              "field_maintenance" : true,
-              "field_doi" : true
+              "field_doi" : true,
+              "field_short_name" : true
             },
             "file" : "",
             "stopwords" : "but\\r\\ndid\\r\\nthe this that those\\r\\netc"
@@ -201,66 +219,6 @@ function deims_search_default_search_api_server() {
             "type" : "text",
             "boost" : "2.0"
           },
-          "field_related_publications" : {
-            "table" : "search_api_db_data_set_index_field_related_publications",
-            "type" : "list\\u003Cinteger\\u003E",
-            "boost" : "1.0"
-          },
-          "field_keywords" : {
-            "table" : "search_api_db_data_set_index_field_keywords",
-            "type" : "list\\u003Cinteger\\u003E",
-            "boost" : "1.0"
-          },
-          "field_abstract" : {
-            "table" : "search_api_db_data_set_index_field_abstract",
-            "type" : "text",
-            "boost" : "1.0"
-          },
-          "field_core_areas" : {
-            "table" : "search_api_db_data_set_index_field_core_areas",
-            "type" : "list\\u003Cinteger\\u003E",
-            "boost" : "1.0"
-          },
-          "field_related_sites" : {
-            "table" : "search_api_db_data_set_index_field_related_sites",
-            "type" : "list\\u003Cinteger\\u003E",
-            "boost" : "1.0"
-          },
-          "field_data_sources" : {
-            "table" : "search_api_db_data_set_index_field_data_sources",
-            "type" : "list\\u003Cinteger\\u003E",
-            "boost" : "1.0"
-          },
-          "field_data_set_id" : {
-            "table" : "search_api_db_data_set_index_field_data_set_id",
-            "type" : "text",
-            "boost" : "5.0"
-          },
-          "field_short_name" : {
-            "table" : "search_api_db_data_set_index_field_short_name",
-            "type" : "text",
-            "boost" : "1.0"
-          },
-          "field_maintenance" : {
-            "table" : "search_api_db_data_set_index_field_maintenance",
-            "type" : "text",
-            "boost" : "1.0"
-          },
-          "field_project_roles" : {
-            "table" : "search_api_db_data_set_index_field_project_roles",
-            "type" : "list\\u003Cinteger\\u003E",
-            "boost" : "1.0"
-          },
-          "field_doi" : {
-            "table" : "search_api_db_data_set_index_field_doi",
-            "type" : "text",
-            "boost" : "2.0"
-          },
-          "field_publication_date" : {
-            "table" : "search_api_db_data_set_index_field_publication_date",
-            "type" : "date",
-            "boost" : "1.0"
-          },
           "search_api_language" : {
             "table" : "search_api_db_data_set_index_search_api_language",
             "type" : "string",
@@ -281,9 +239,94 @@ function deims_search_default_search_api_server() {
             "type" : "text",
             "boost" : "1.0"
           },
-          "field_project_roles:field_related_person" : {
-            "table" : "search_api_db_data_set_index_field_project_roles_field_related_",
+          "field_keywords" : {
+            "table" : "search_api_db_data_set_index_field_keywords",
             "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "field_related_publications" : {
+            "table" : "search_api_db_data_set_index_field_related_publications",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "field_related_people" : {
+            "table" : "search_api_db_data_set_index_field_related_people",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "field_abstract" : {
+            "table" : "search_api_db_data_set_index_field_abstract",
+            "type" : "text",
+            "boost" : "1.0"
+          },
+          "field_core_areas" : {
+            "table" : "search_api_db_data_set_index_field_core_areas",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "field_related_projects" : {
+            "table" : "search_api_db_data_set_index_field_related_projects",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "field_data_set_id" : {
+            "table" : "search_api_db_data_set_index_field_data_set_id",
+            "type" : "text",
+            "boost" : "5.0"
+          },
+          "field_data_sources" : {
+            "table" : "search_api_db_data_set_index_field_data_sources",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "field_doi" : {
+            "table" : "search_api_db_data_set_index_field_doi",
+            "type" : "text",
+            "boost" : "2.0"
+          },
+          "field_person_contact" : {
+            "table" : "search_api_db_data_set_index_field_person_contact",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "field_person_creator" : {
+            "table" : "search_api_db_data_set_index_field_person_creator",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "field_person_metadata_provider" : {
+            "table" : "search_api_db_data_set_index_field_person_metadata_provider",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "field_person_publisher" : {
+            "table" : "search_api_db_data_set_index_field_person_publisher",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "field_project_roles" : {
+            "table" : "search_api_db_data_set_index_field_project_roles",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "field_publication_date" : {
+            "table" : "search_api_db_data_set_index_field_publication_date",
+            "type" : "date",
+            "boost" : "1.0"
+          },
+          "field_related_sites" : {
+            "table" : "search_api_db_data_set_index_field_related_sites",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "field_short_name" : {
+            "table" : "search_api_db_data_set_index_field_short_name",
+            "type" : "text",
+            "boost" : "1.0"
+          },
+          "field_associated_biblio_author" : {
+            "table" : "search_api_db_data_set_index_field_associated_biblio_author",
+            "type" : "integer",
             "boost" : "1.0"
           },
           "field_date_range:value" : {
@@ -294,6 +337,31 @@ function deims_search_default_search_api_server() {
           "field_date_range:value2" : {
             "table" : "search_api_db_data_set_index_field_date_range_value2",
             "type" : "date",
+            "boost" : "1.0"
+          },
+          "field_project_roles:id" : {
+            "table" : "search_api_db_data_set_index_field_project_roles_id",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "field_project_roles:type" : {
+            "table" : "search_api_db_data_set_index_field_project_roles_type",
+            "type" : "list\\u003Cstring\\u003E",
+            "boost" : "1.0"
+          },
+          "field_project_roles:changed" : {
+            "table" : "search_api_db_data_set_index_field_project_roles_changed",
+            "type" : "list\\u003Cdate\\u003E",
+            "boost" : "1.0"
+          },
+          "field_project_roles:field_project_role" : {
+            "table" : "search_api_db_data_set_index_field_project_roles_field_project_",
+            "type" : "list\\u003Cstring\\u003E",
+            "boost" : "1.0"
+          },
+          "field_project_roles:field_related_person" : {
+            "table" : "search_api_db_data_set_index_field_project_roles_field_related_",
+            "type" : "list\\u003Cinteger\\u003E",
             "boost" : "1.0"
           }
         }
