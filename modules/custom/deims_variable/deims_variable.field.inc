@@ -192,9 +192,15 @@ function deims_variable_field_widget_form(&$form, &$form_state, $field, $instanc
   if ($field['cardinality'] == 1) {
     $element['#type'] = 'fieldset';
   }
+  else {
+    $open = empty($items[$delta]) ? ' open' : '';
+    $element['#prefix'] = '<details class="variable-entry"' . $open . '><summary title="Click to expand or collapse the variable entry form.">' . t('Unnamed variable') . '</summary>';
+    $element['#suffix'] = '</details>';
+  }
 
   $state_parent = $parents[0] . '[' . implode('][', array_slice($parents, 1));
   $element['#attached']['css'][] = drupal_get_path('module', 'deims_variable') . '/deims_variable.field.css';
+  $element['#attached']['js'][] = drupal_get_path('module', 'deims_variable') . '/deims_variable.field.js';
 
   $element['label'] = array(
     '#prefix' => '<div class="variable-left-column form-wrapper">',
@@ -205,6 +211,7 @@ function deims_variable_field_widget_form(&$form, &$form_state, $field, $instanc
     '#required' => FALSE,
     '#maxlength' => 255,
     '#size' => 30,
+    '#attributes' => array('class' => array('variable-label')),
   );
   $element['name'] = array(
     '#type' => 'textfield',
@@ -213,6 +220,7 @@ function deims_variable_field_widget_form(&$form, &$form_state, $field, $instanc
     '#default_value' => isset($items[$delta]['name']) ? $items[$delta]['name'] : '',
     '#required' => FALSE,
     '#maxlength' => 255,
+    '#attributes' => array('class' => array('variable-name')),
   );
   $element['definition'] = array(
     '#type' => 'textarea',
@@ -267,6 +275,7 @@ function deims_variable_field_widget_form(&$form, &$form_state, $field, $instanc
       'wrapper' => 'edit-' . drupal_clean_css_identifier(implode('-', $parents)) . '-data',
       'callback' => 'deims_variable_variable_type_select_callback'
     ),
+    '#attributes' => array('class' => array('variable-type')),
   );
 
   $element['data'] = array(
@@ -304,6 +313,7 @@ function deims_variable_field_widget_form(&$form, &$form_state, $field, $instanc
         $element['data']['unit']['#type'] = 'select_or_other';
         $element['data']['unit']['#options'] = lter_unit_get_unit_options(1);
         $element['data']['unit']['#attributes']['data-create_option_text'] = t('Use other unit');
+        $element['data']['unit']['#size'] = 1;
       }
       $element['data']['maximum'] = array(
         '#type' => 'numberfield',
