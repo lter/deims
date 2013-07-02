@@ -866,7 +866,7 @@ function deims_data_set_field_default_fields() {
         'module' => 'token_field',
         'settings' => array(),
         'type' => 'token_field',
-        'weight' => '78',
+        'weight' => '79',
       ),
       'workbench_access_field' => 0,
     ),
@@ -895,7 +895,7 @@ function deims_data_set_field_default_fields() {
       'bundle' => 'data_set',
       'default_value' => array(
         0 => array(
-          'value' => '1',
+          'value' => '0',
         ),
       ),
       'deleted' => '0',
@@ -939,7 +939,7 @@ function deims_data_set_field_default_fields() {
       'required' => 0,
       'settings' => array(
         'max' => '',
-        'min' => '1',
+        'min' => '0',
         'prefix' => '',
         'suffix' => '',
         'user_register_form' => FALSE,
@@ -964,7 +964,7 @@ function deims_data_set_field_default_fields() {
       'entity_types' => array(),
       'field_name' => 'field_eml_valid',
       'field_permissions' => array(
-        'type' => '2',
+        'type' => '0',
       ),
       'foreign keys' => array(),
       'indexes' => array(
@@ -976,41 +976,39 @@ function deims_data_set_field_default_fields() {
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
-          0 => 'No',
-          1 => 'Yes',
+          '' => '- Unknown -',
+          'yes' => 'Yes',
+          'no' => 'No',
         ),
         'allowed_values_function' => '',
       ),
       'translatable' => '0',
-      'type' => 'list_boolean',
+      'type' => 'list_text',
     ),
     'field_instance' => array(
       'bundle' => 'data_set',
-      'default_value' => array(
-        0 => array(
-          'value' => 0,
-        ),
-      ),
+      'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
       'display' => array(
         'default' => array(
           'label' => 'above',
+          'module' => 'list',
           'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '12',
+          'type' => 'list_default',
+          'weight' => 25,
         ),
         'eml' => array(
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '20',
+          'weight' => 0,
         ),
         'search_result' => array(
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '27',
+          'weight' => 0,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1031,10 +1029,10 @@ function deims_data_set_field_default_fields() {
         'active' => 1,
         'module' => 'options',
         'settings' => array(
-          'display_label' => 1,
+          'apply_chosen' => 0,
         ),
-        'type' => 'options_onoff',
-        'weight' => '79',
+        'type' => 'options_select',
+        'weight' => '78',
       ),
       'workbench_access_field' => 0,
     ),

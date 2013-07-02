@@ -22,6 +22,21 @@ class EmlDataSet {
     $this->node = $node;
   }
 
+  public static function getInstance($node) {
+    $instances = &drupal_static('EmlDataSet_instances', array());
+    if ($node->type != 'data_set') {
+      throw new InvalidArgumentException('Cannot create a EmlDataSet object using a node type != data_set.');
+    }
+    if (empty($node->nid)) {
+      return new self($node);
+    }
+    elseif (!isset($instances[$node->nid])) {
+      $instances[$node->nid] = new self($node);
+    }
+
+    return $instances[$node->nid];
+  }
+
   public static function getApiUrl($path, array $options = array()) {
     $base_url = variable_get('eml_pasta_base_url', 'https://pasta.lternet.edu');
     return url($base_url . '/' . $path, $options);
@@ -121,9 +136,9 @@ class EmlDataSet {
   /**
    * Detect if any of the EML output changed since it was generated last.
    */
-  public function detectEmlChanges() {
-    if ($this->node->status != NODE_PUBLISHED) {
-      dpm("Skipping detectEmlChanges since node is not published.");
+  public function detectEmlChanges($check_unpublished = TRUE) {
+    if ($check_unpublished && $this->node->status != NODE_PUBLISHED) {
+      eml_debug("Skipping detectEmlChanges() since node @nid is not published.", array('@nid' => $this->node->nid));
       return FALSE;
     }
 
@@ -153,11 +168,15 @@ class EmlDataSet {
       if (!empty($this->eml)) {
         $this->eml = str_replace($original_package_id, $this->getPackageID(), $this->eml);
       }
-      dpm("CHANGES in data set {$this->node->nid} detected!");
+
+      // Enqueue the data set to be submitted to PASTA.
+      EmlSubmissionQueue::get()->enqueue($this->node);
+
+      eml_debug("Changes detected in data set @nid.", array('@nid' => $this->node->nid));
       return TRUE;
     }
     else {
-      dpm("No changes in data set {$this->node->nid} detected.");
+      eml_debug("No changes detected in data set @nid.", array('@nid' => $this->node->nid));
       return FALSE;
     }
   }
@@ -185,11 +204,43 @@ class EmlDataSet {
         throw new Exception(t('DOI request to @url returned expected result %doi.', array('@url' => $url, '%doi' => $request->data)));
       }
     }
-    elseif (!empty($response->error)) {
-      throw new Exception(t('Unable to fetch EML DOI from @url: @error.', array('@url' => $url, '@error' => $response->error)));
+    elseif (!empty($request->error)) {
+      throw new Exception(t('Unable to fetch EML DOI from @url: @error.', array('@url' => $url, '@error' => $request->error)));
     }
     else {
       throw new Exception(t('Unable to fetch EML DOI from @url.'));
+    }
+  }
+
+  public static function addApiAuthentication(array &$options) {
+    $auth = token_replace(variable_get('eml_pasta_user', 'uid=[site:station-acronym],o=LTER,dc=ecoinformatics,dc=org'));
+    $options['headers']['Authorization'] = 'Basic ' . base64_encode($auth);
+  }
+
+  public function submitEml() {
+    $url = static::getApiUrl("package/eml");
+    $options = array(
+      'method' => 'POST',
+      'data' => $this->getEML(),
+      'headers' => array(
+        'Content-Type' => 'application/xml',
+      ),
+    );
+    static::addApiAuthentication($options);
+    $request = drupal_http_request($url, $options);
+    dpm($request);
+
+    // The API call to /package/eml returns a 202 on success with a transaction
+    // ID which is used to fetch the actual evalution report from
+    // /error/eml/{transaction}.
+    if ($request->code == 202 && !empty($request->data)) {
+      return $request->data;
+    }
+    elseif (!empty($request->error)) {
+      throw new Exception(t('Unable to submit EML to @url: @error.', array('@url' => $url, '@error' => $request->error)));
+    }
+    else {
+      throw new Exception(t('Unable to submit EML to @url.'));
     }
   }
 

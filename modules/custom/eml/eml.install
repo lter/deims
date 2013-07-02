@@ -41,4 +41,5 @@ function eml_uninstall() {
   variable_del('eml_data_policies');
   variable_del('eml_package_id_pattern');
   variable_del('eml_pasta_base_url');
+  variable_del('eml_pasta_user');
 }

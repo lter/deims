@@ -136,26 +136,54 @@ function theme_eml_tag($variables) {
  */
 function eml_node_presave($node) {
   if ($node->type == 'data_set' && empty($node->nid)) {
-    // For new datasets, set the EML revision ID to 1 and calculate it's hash.
-    $dataset = new EMLDataSet($node);
-    if (!$dataset->getEMLRevisionID()) {
-      $dataset->setEMLRevisionID(1);
+    // For new datasets, set the EML revision ID to 0. This will be incremented
+    // to 1 in eml_node_insert() if the data set is published, or whenever the
+    // data set is transitioned to a published state in
+    // eml_workbench_moderation_transition().
+    if (!field_get_items('node', $node, 'field_eml_revision_id')) {
+      $node->field_eml_revision_id[LANGUAGE_NONE][0] = array('value' => 0);
     }
-    $hash = $dataset->calculateEMLHash();
-    $dataset->setEMLHash($hash);
+  }
+}
+
+/**
+ * Implements hook_node_insert().
+ */
+function eml_node_insert($node) {
+  if ($node->type == 'data_set') {
+    $dataset = new EMLDataSet($node);
+    $dataset->detectEmlChanges();
   }
 }
 
 /**
  * Implements hook_workbench_moderation_transition().
- *
- * @todo Figure out if we should increment the revision automatically
- * when a published revision is created?
  */
-// function eml_workbench_moderation_transition($node, $previous_state, $new_state) {
-//   if ($node->type == 'data_set' && $new_state == 'published') {
-//   }
-// }
+function eml_workbench_moderation_transition($node, $previous_state, $new_state) {
+  if ($node->type == 'data_set' && $new_state == workbench_moderation_state_published()) {
+    // If the node is updated to a published state, force EML generation, which
+    // checks if the EML has changed in any way.
+    $dataset = new EMLDataSet($node);
+    // If an unpublished node is being published from Moderation tab, it still
+    // has $node->status = 0. So the unpublished node checking must be disabled
+    // when run here.
+    $dataset->detectEmlChanges(FALSE);
+  }
+}
+
+/**
+ * Implements hook_node_delete().
+ */
+function eml_node_delete($node) {
+  if ($node->type == 'data_set') {
+    $dataset = new EMLDataSet($node);
+    list($scope, $identifier) = $dataset->getPackageIDParts();
+    $options = array();
+    EMLDataSet::addApiAuthentication($options);
+    $url = EMLDataSet::getApiUrl("eml/$scope/$identifier");
+    $request = drupal_http_request($url, array('method' => 'DELETE'));
+  }
+}
 
 /**
  * Implements hook_node_view().
@@ -240,6 +268,8 @@ function template_preprocess_eml(&$variables, $hook) {
   $variables['pubPlace'] = check_plain(variable_get('site_name', 'Drupal'));
   $variables['station'] = check_plain(variable_get('station_acronym', 'STATION'));
   $variables['data_policies'] = check_plain(strip_tags(variable_get('eml_data_policies', '')));
+  list($pasta_user) = explode(':', token_replace(variable_get('eml_pasta_user', 'uid=[site:station-acronym],o=LTER,dc=ecoinformatics,dc=org')), 2);
+  $variables['pasta_user'] = $pasta_user;
 
   $variables['namespaces_array'] = array(
     'xmlns:eml' => "eml://ecoinformatics.org/eml-2.1.0",
@@ -333,6 +363,12 @@ function eml_form_install_configure_form_submit($form, &$form_state) {
   variable_set('eml_data_policies', $form_state['values']['eml_data_policies']);
 }
 
+function eml_debug($message, array $variables = array()) {
+  if (variable_get('eml_debugging')) {
+    drupal_set_message(format_string('EML DEBUG: ' . $message, $variables));
+    watchdog('eml', $message, $variables, WATCHDOG_DEBUG);
+  }
+}
 
 // ----------------------------------------------------------------------------
 // Package ID API
@@ -384,6 +420,14 @@ function eml_cron_queue_info() {
     'worker callback' => 'eml_validation_report_queue_process',
     'time' => 20,
   );
+  $info['eml_submission'] = array(
+    'worker callback' => 'eml_submission_queue_process',
+    'time' => 30,
+  );
+  /*$info['eml_doi'] = array(
+    'worker callback' => 'eml_doi_queue_process',
+    'time' => 20,
+  );*/
 
   return $info;
 }
@@ -392,7 +436,14 @@ function eml_cron_queue_info() {
  * Implements callback_cron_queue_info_worker().
  */
 function eml_validation_report_queue_process($data) {
-  return EmlValidationReportQueue::process($data);
+  return EmlValidationReportQueue::processData($data);
+}
+
+/**
+ * Implements callback_cron_queue_info_worker().
+ */
+function eml_submission_queue_process($data) {
+  return EmlSubmissionQueue::processData($data);
 }
 
 // ----------------------------------------------------------------------------
@@ -456,15 +507,7 @@ function eml_action_dataset_enqueue_validation_report($node) {
   }
 
   try {
-    $dataset = new EmlDataSet($node);
-    if ($transaction = $dataset->fetchValidationReportTransaction()) {
-      $data = array(
-        'nid' => $node->nid,
-        'transaction' => $transaction,
-        'created' => REQUEST_TIME,
-      );
-      EmlValidationReportQueue::get()->createItem($data);
-    }
+    EmlValidationReportQueue::get()->enqueue($node);
   }
   catch (Exception $exception) {
     watchdog_exception('eml', $exception);

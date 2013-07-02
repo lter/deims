@@ -1,11 +1,23 @@
 <?php
 
-class EmlValidationReportQueue {
-  public static function get() {
-    return new DrupalQueue('eml_validation_report');
+class EmlValidationReportQueue extends SystemQueue {
+  public static function get($name = 'EmlValidationQueue') {
+    return new EmlValidationReportQueue('EmlValidationQueue');
   }
 
-  public static function process($data) {
+  public function enqueue($node) {
+    $dataset = new EmlDataSet($node);
+    if ($transaction = $dataset->fetchValidationReportTransaction()) {
+      $data = array(
+        'nid' => $node->nid,
+        'transaction' => $transaction,
+        'created' => REQUEST_TIME,
+      );
+      $this->createItem($data);
+    }
+  }
+
+  public static function processData($data) {
     $seen_nids = &drupal_static('eml_validation_report_queue_process', array());
 
     // Ensure that on the same request we don't try to fetch the validation
@@ -40,7 +52,7 @@ class EmlValidationReportQueue {
     $node = node_load($data['nid']);
     if (!empty($report)) {
       // Boolean $valid here will convert to a 0 or 1 field value on save.
-      $node->field_eml_valid[LANGUAGE_NONE][0]['value'] = empty($report['error']);
+      $node->field_eml_valid[LANGUAGE_NONE][0]['value'] = empty($report['error']) ? 'yes' : 'no';
       EntityHelper::updateFieldValues('node', $node);
     }
     else {
