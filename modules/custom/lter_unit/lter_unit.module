@@ -265,7 +265,7 @@ function lter_unit_get_units_stmml(array $units) {
   $unitList->setAttribute('xmlns:sch', 'http://www.ascc.net/xml/schematron');
   $unitList->setAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
   $unitList->setAttribute('xmlns', 'http://www.xml-cml.org/schema/stmml');
-  $unitList->setAttribute('xsi:schemaLocation', 'http://www.xml-cml.org/schema/stmml-1.1 stmml.xsd');
+  $unitList->setAttribute('xsi:schemaLocation', 'http://www.xml-cml.org/schema/stmml-1.1  http://nis.lternet.edu/schemas/EML/eml-2.1.0/stmml.xsd');
 
   foreach ($units as $unit) {
     $result = lter_unit_get_unit_stmml($unit);
