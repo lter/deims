@@ -121,6 +121,14 @@ function deims_data_set_views_default_views() {
       'responsive' => '',
     ),
   );
+  $handler->display->display_options['style_options']['empty_table'] = TRUE;
+  /* No results behavior: Global: Text area */
+  $handler->display->display_options['empty']['area']['id'] = 'area';
+  $handler->display->display_options['empty']['area']['table'] = 'views';
+  $handler->display->display_options['empty']['area']['field'] = 'area';
+  $handler->display->display_options['empty']['area']['empty'] = TRUE;
+  $handler->display->display_options['empty']['area']['content'] = 'No data sets available.';
+  $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
   /* Relationship: Content: Author */
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
   $handler->display->display_options['relationships']['uid']['table'] = 'node';
