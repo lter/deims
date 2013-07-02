@@ -7,3 +7,4 @@ dependencies[] = lter_unit
 dependencies[] = helper
 files[] = lib/EmlDataSet.php
 files[] = lib/EmlValidationReportQueue.php
+files[] = lib/EmlSubmissionQueue.php

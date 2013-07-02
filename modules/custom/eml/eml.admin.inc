@@ -20,9 +20,9 @@ function eml_settings_form() {
     '#description' => t('This field supports tokens.'),
     '#default_value' => variable_get('eml_package_id_pattern', 'knb-lter-[site:station-acronym].[node:field_data_set_id].[node:field_eml_revision_id]'),
     '#required' => TRUE,
-    '#size' => 100,
     '#element_validate' => array('token_element_validate'),
     '#token_types' => array('node'),
+    '#attributes' => array('style' => 'width: 100%;'),
   );
   $form['eml_data_policies'] = array(
     '#type' => 'textarea',
@@ -34,6 +34,30 @@ function eml_settings_form() {
   $form['tokens'] = array(
     '#theme' => 'token_tree',
     '#token_types' => array('node'),
+    '#dialog' => TRUE,
+  );
+
+  $form['pasta'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('PASTA API'),
+  );
+
+  $form['pasta']['eml_pasta_user'] = array(
+    '#type' => 'textfield',
+    '#title' => t('PASTA API user'),
+    '#description' => t('This field supports tokens.'),
+    '#default_value' => variable_get('eml_pasta_user', 'uid=[site:station-acronym],o=LTER,dc=ecoinformatics,dc=org:password'),
+    '#required' => TRUE,
+    '#element_validate' => array('token_element_validate'),
+    '#attributes' => array('style' => 'width: 100%;'),
+  );
+  $form['pasta']['eml_paste_base_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('PASTA API URL'),
+    '#default_value' => variable_get('eml_pasta_base_url', 'https://pasta.lternet.edu'),
+  );
+  $form['pasta']['tokens'] = array(
+    '#theme' => 'token_tree',
     '#dialog' => TRUE,
   );
 

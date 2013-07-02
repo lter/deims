@@ -341,9 +341,9 @@ function deims_data_set_field_group_info() {
     'children' => array(
       0 => 'field_doi',
       1 => 'field_eml_link',
-      2 => 'field_eml_valid',
-      3 => 'field_eml_revision_id',
-      4 => 'field_eml_hash',
+      2 => 'field_eml_revision_id',
+      3 => 'field_eml_hash',
+      4 => 'field_eml_valid',
     ),
     'format_type' => 'tab',
     'format_settings' => array(

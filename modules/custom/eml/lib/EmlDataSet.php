@@ -1,8 +1,18 @@
 <?php
 
+/**
+ * @file
+ * Contains EmlDataSet.
+ */
+
+/**
+ * Utility and API functions for interacting with data sets and their EML.
+ */
 class EmlDataSet {
 
   private $node;
+
+  protected $eml = NULL;
 
   public function __construct($node) {
     if ($node->type != 'data_set') {
@@ -10,6 +20,21 @@ class EmlDataSet {
     }
 
     $this->node = $node;
+  }
+
+  public static function getInstance($node) {
+    $instances = &drupal_static('EmlDataSet_instances', array());
+    if ($node->type != 'data_set') {
+      throw new InvalidArgumentException('Cannot create a EmlDataSet object using a node type != data_set.');
+    }
+    if (empty($node->nid)) {
+      return new self($node);
+    }
+    elseif (!isset($instances[$node->nid])) {
+      $instances[$node->nid] = new self($node);
+    }
+
+    return $instances[$node->nid];
   }
 
   public static function getApiUrl($path, array $options = array()) {
@@ -23,32 +48,52 @@ class EmlDataSet {
    * @return string
    *   A string containing the data set's EML/XML.
    */
-  public function getEML() {
-    $build = node_view($this->node, 'eml');
-    $output = render($build);
+  public function getEML($reset = FALSE) {
+    if (empty($this->eml) || $reset) {
+      $build = node_view($this->node, 'eml');
+      $output = render($build);
+      $this->eml = $this->tidyXml($output);
+    }
+    return $this->eml;
+  }
 
-    // Cleanup the XML output using the Tidy library.
-    $config = array(
+  /**
+   * Cleanup XML output using the Tidy library
+   *
+   * @param string $xml
+   *   A string containing XML.
+   * @param array $config
+   *   (optional) An array of configuration to pass into tidy::repairString().
+   *
+   * @return string
+   *   The XML after being repaired with Tidy.
+   */
+  private function tidyXml($xml, array $config = array()) {
+    $config += array(
       'indent' => TRUE,
       'input-xml' => TRUE,
       'output-xml' => TRUE,
       'wrap' => FALSE,
     );
     $tidy = new tidy();
-    $output = $tidy->repairString($output, $config);
-
-    return $output;
+    return $tidy->repairString($xml, $config);
   }
 
   /**
-   * Calculate the package ID of the data set.
+   * Get the package ID of the data set.
    *
    * @return string
-   *   The package ID of the data set in the format of scope.identifier.revision.
+   *   The package ID of the data set in the format of
+   *   scope.identifier.revision.
    */
   public function getPackageID() {
     $pattern = variable_get('eml_package_id_pattern', 'knb-lter-[site:station-acronym].[node:field_data_set_id].[node:field_eml_revision_id]');
     return drupal_strtolower(token_replace($pattern, array('node' => $this->node), array('clear' => TRUE, 'callback' => 'eml_cleanup_package_id_tokens')));
+  }
+
+  public function getPackageIDParts() {
+    $package_id = $this->getPackageID();
+    return explode('.', $package_id, 3);
   }
 
   public function getEMLHash() {
@@ -59,12 +104,11 @@ class EmlDataSet {
     $this->node->field_eml_hash[LANGUAGE_NONE][0]['value'] = $hash;
   }
 
-  public function calculateEMLHash($eml = NULL) {
-    if (!isset($eml)) {
-      $eml = $this->getEML();
-    }
+  public function calculateEMLHash() {
+    $eml = $this->getEML();
 
-    // Remove the revision number from the EML so that we can 'truly' compare it.
+    // Remove the package ID (which contains the revision) from the EML so that
+    // we can truly compare it against the previous version.
     $eml = str_replace($this->getPackageID(), '', $eml);
 
     return hash('md5', $eml);
@@ -89,12 +133,22 @@ class EmlDataSet {
     $this->setEMLRevisionID($revision_id);
   }
 
-  public function checkIfChanged($eml = NULL) {
-    $current_hash = $this->calculateEMLHash($eml);
+  /**
+   * Detect if any of the EML output changed since it was generated last.
+   */
+  public function detectEmlChanges($check_unpublished = TRUE) {
+    if ($check_unpublished && $this->node->status != NODE_PUBLISHED) {
+      eml_debug("Skipping detectEmlChanges() since node @nid is not published.", array('@nid' => $this->node->nid));
+      return FALSE;
+    }
+
     $old_hash = $this->getEMLHash();
+    $current_hash = $this->calculateEMLHash();
 
     if ($current_hash != $old_hash) {
-      $original = clone $this->node;
+      // Get the current/old package ID so that we can change it in the EML
+      // string after the revision ID has been incremented.
+      $original_package_id = $this->getPackageID();
 
       // Increment the revision ID and set the new hash.
       $this->incrementEMLRevisionID();
@@ -108,6 +162,22 @@ class EmlDataSet {
         WATCHDOG_INFO,
         l(t('View data set'), 'node/' . $this->node->nid) . ' | ' . l(t('View EML'), 'node/' . $this->node->nid . '/eml')
       );
+
+      // Update the EML output if neccessary.
+      // @todo Should this code move to incrementEMLRevisionID or setEMLRevisionID?
+      if (!empty($this->eml)) {
+        $this->eml = str_replace($original_package_id, $this->getPackageID(), $this->eml);
+      }
+
+      // Enqueue the data set to be submitted to PASTA.
+      EmlSubmissionQueue::get()->enqueue($this->node);
+
+      eml_debug("Changes detected in data set @nid.", array('@nid' => $this->node->nid));
+      return TRUE;
+    }
+    else {
+      eml_debug("No changes detected in data set @nid.", array('@nid' => $this->node->nid));
+      return FALSE;
     }
   }
 
@@ -121,13 +191,7 @@ class EmlDataSet {
    * @ingroup eml_data_manager_api
    */
   public function fetchDOI() {
-    $package_id = $this->getPackageID();
-
-    if (!eml_dataset_is_valid_package_id($package_id)) {
-      throw new Exception(t("Data set node @nid has an invalid package ID: @packagei.", array('@nid' => $this->node->nid, '@packageid' => $package_id)));
-    }
-
-    list($scope, $identifier, $revision) = explode('.', $package_id);
+    list($scope, $identifier, $revision) = $this->getPackageIDParts();
 
     $url = static::getApiUrl("package/doi/eml/{$scope}/{$identifier}/{$revision}");
     $request = drupal_http_request($url, array('timeout' => 10));
@@ -140,11 +204,43 @@ class EmlDataSet {
         throw new Exception(t('DOI request to @url returned expected result %doi.', array('@url' => $url, '%doi' => $request->data)));
       }
     }
-    elseif (!empty($response->error)) {
-      throw new Exception(t('Unable to fetch EML DOI from @url: @error.', array('@url' => $url, '@error' => $response->error)));
+    elseif (!empty($request->error)) {
+      throw new Exception(t('Unable to fetch EML DOI from @url: @error.', array('@url' => $url, '@error' => $request->error)));
     }
     else {
       throw new Exception(t('Unable to fetch EML DOI from @url.'));
+    }
+  }
+
+  public static function addApiAuthentication(array &$options) {
+    $auth = token_replace(variable_get('eml_pasta_user', 'uid=[site:station-acronym],o=LTER,dc=ecoinformatics,dc=org'));
+    $options['headers']['Authorization'] = 'Basic ' . base64_encode($auth);
+  }
+
+  public function submitEml() {
+    $url = static::getApiUrl("package/eml");
+    $options = array(
+      'method' => 'POST',
+      'data' => $this->getEML(),
+      'headers' => array(
+        'Content-Type' => 'application/xml',
+      ),
+    );
+    static::addApiAuthentication($options);
+    $request = drupal_http_request($url, $options);
+    dpm($request);
+
+    // The API call to /package/eml returns a 202 on success with a transaction
+    // ID which is used to fetch the actual evalution report from
+    // /error/eml/{transaction}.
+    if ($request->code == 202 && !empty($request->data)) {
+      return $request->data;
+    }
+    elseif (!empty($request->error)) {
+      throw new Exception(t('Unable to submit EML to @url: @error.', array('@url' => $url, '@error' => $request->error)));
+    }
+    else {
+      throw new Exception(t('Unable to submit EML to @url.'));
     }
   }
 

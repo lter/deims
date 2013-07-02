@@ -1,7 +1,7 @@
 <eml:eml<?php print $namespaces; ?> <?php print $attributes; ?>>
   <access scope="document" order="allowFirst" authSystem="knb">
     <allow>
-      <principal>uid=<?php print $station; ?>,o=LTER,dc=ecoinformatics,dc=org</principal>
+      <principal><?php print $pasta_user; ?></principal>
       <permission>all</permission>
     </allow>
     <allow>
@@ -30,7 +30,9 @@
 
     <?php if (!empty($content['field_abstract'])): ?>
     <abstract>
-      <?php print render($content['field_abstract']); ?>
+      <section>
+        <?php print render($content['field_abstract']); ?>
+      </section>
     </abstract>
     <?php endif; ?>
 
@@ -74,7 +76,9 @@
 
     <?php if (!empty($content['field_maintenance'])): ?>
     <maintenance>
-      <?php print render($content['field_maintenance']); ?>
+      <description>
+        <?php print render($content['field_maintenance']); ?>
+      </description>
     </maintenance>
     <?php endif; ?>
 
