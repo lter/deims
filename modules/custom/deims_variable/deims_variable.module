@@ -89,7 +89,7 @@ function deims_variable_form_alter(&$form, &$form_state, $form_id) {
     $field_language = $form_state['triggering_element']['#parents'][1];
     $field_delta = $form_state['triggering_element']['#parents'][2];
 
-    if ($form[$field_name][$field_language]['#cardinality'] == FIELD_CARDINALITY_UNLIMITED) {
+    if (isset($form[$field_name][$field_language]['#cardinality']) && $form[$field_name][$field_language]['#cardinality'] == FIELD_CARDINALITY_UNLIMITED) {
       $form['#field_remove_item'] = array(
         'wrapper' => $form[$field_name]['#attributes']['class'][1],
         'field_name' => $field_name,
