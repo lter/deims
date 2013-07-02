@@ -39,7 +39,7 @@
   </physical>
   <?php if (!empty($content['field_date_range'])): ?>
   <coverage>
-    <?php print render($content['field_date_range']); ?>>
+    <?php print render($content['field_date_range']); ?>
   </coverage>
   <?php endif; ?>
   <attributeList>
