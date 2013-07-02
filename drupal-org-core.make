@@ -10,7 +10,7 @@ projects[drupal][patch][1899498] = "http://drupal.org/files/1899498-field-defaul
 ; Add support for formatter weights.
 projects[drupal][patch][1982776] = "http://drupal.org/files/1982776-field-formatter-weight-do-not-test_0.patch"
 ; Uncomment settings.local.php support in settings.php
-projects[drupal][patch][] = "https://raw.github.com/palantirnet/palantir-patches/7.x/allow-settings-local-overrides.patch"
+projects[drupal][patch][] = "http://drupal.org/files/1118520-settings-local-uncommented-do-not-test.patch"
 ; Add the .htaccess.local for running on the dev server
 ; @todo Probably remove this when moving to drupal.org
 projects[drupal][patch][] = "https://raw.github.com/palantirnet/palantir-patches/7.x/uncomment-rewritebase-htaccess.patch"
