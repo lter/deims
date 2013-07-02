@@ -269,7 +269,11 @@ function deims_data_source_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'data_source',
-      'default_value' => NULL,
+      'default_value' => array(
+        0 => array(
+          'value' => 'column',
+        ),
+      ),
       'deleted' => '0',
       'description' => '',
       'display' => array(
