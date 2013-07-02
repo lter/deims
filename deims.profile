@@ -269,3 +269,19 @@ function deims_environment_switch($target_env, $current_env) {
       break;
   }
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function deims_form_field_ui_field_edit_form_alter(&$form, &$form_state) {
+  $field = $form['#field'];
+  $instance = $form['#instance'];
+
+  // Allow entity reference fields using inline entity form widgets to still
+  // select default values.
+  if ($field['type'] == 'entityreference' && strpos($instance['widget']['type'], 'inline_entity_form') !==  FALSE && empty($field['default_values_function'])) {
+    $instance['widget']['type'] = 'options_select';
+    $instance['widget']['module'] = 'options';
+    $form['instance']['default_value_widget'] = field_ui_default_value_widget($field, $instance, $form, $form_state);
+  }
+}
