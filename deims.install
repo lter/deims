@@ -361,7 +361,7 @@ function deims_install_custom_breadcrumbs() {
 }
 
 /**
- * Porfile install for the chosen module.
+ * Profile install for the chosen module.
  */
 function deims_install_chosen() {
   variable_set('chosen_minimum_width', 300);
