@@ -71,6 +71,13 @@ function deims_data_source_preview_source($form, &$form_state) {
     $errors[] = '<p>Please select a field <strong>delimiter</strong>.</p>';
   }
 
+  if (isset($form_state['values']['field_csv_orientation'][LANGUAGE_NONE]) && !empty($form_state['values']['field_csv_orientation'][LANGUAGE_NONE])) {
+    $orientation = $form_state['values']['field_csv_orientation'][LANGUAGE_NONE];
+  }
+  else {
+    $errors[] = 'column';
+  }
+
   $header_lines = (!empty($form_state['values']['field_csv_header_lines'][LANGUAGE_NONE][0]['value'])) ? $form_state['values']['field_csv_header_lines'][LANGUAGE_NONE][0]['value'] : 0;
 
 
