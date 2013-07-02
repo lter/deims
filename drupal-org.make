@@ -44,7 +44,7 @@ projects[custom_breadcrumbs][subdir] = "contrib"
 projects[datatables][version] = "1.2"
 projects[datatables][subdir] = "contrib"
 ; Correct errors blocking the install.
-projects[datatables][patch][2021741] = "https://drupal.org/files/2021741-installation-blocked-database-errors-requirement-errors.patch"
+projects[datatables][patch][2021741] = "http://drupal.org/files/2021741-installation-blocked-database-errors-requirement-errors.patch"
 
 projects[date][version] = "2.6"
 projects[date][subdir] = "contrib"
