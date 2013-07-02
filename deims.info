@@ -109,7 +109,6 @@ dependencies[] = wysiwyg_linebreaks
 ; DEIMS Base
 dependencies[] = deims_article
 dependencies[] = deims_data_set
-dependencies[] = deims_data_explorer
 dependencies[] = deims_data_source
 dependencies[] = deims_image_gallery
 dependencies[] = deims_organization
