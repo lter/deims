@@ -124,6 +124,8 @@ projects[filefield_sources][subdir] = "contrib"
 projects[filefield_sources][patch][1492374] = "http://drupal.org/files/1492374-ffs-attach-file-same-path.patch"
 ; Only show files with relevant extensions in the attach select list.
 projects[filefield_sources][patch][1492374] = "http://drupal.org/files/2006436-file-attach-extension-filter.patch"
+; Show the actual attach upload path using drupal_realpath()
+projects[filefield_sources][patch][2033269] = "http://drupal.org/files/2033269-attach-realpath.patch"
 
 ; The field group module has mannnny updates since 7.x-1.1
 projects[field_group][version] = "1.x-dev"
