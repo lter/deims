@@ -3,5 +3,5 @@ description = Module to manage DEIMs Data Exploration pages.
 package = DEIMS Base
 core = 7.x
 
-dependencies[] = schema
-dependencies[] = schema_reference
+dependencies[] = schema (>1.0-rc1)
+dependencies[] = schema_reference (>1.0-beta3)
