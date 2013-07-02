@@ -26,7 +26,7 @@ function deims_data_set_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'data_set_node_form') {
     global $user;
     // Hide a bunch of cruft from folks who don't need to see it.
-    if (!in_array('system administrator', $user->roles)) {
+    if (!in_array('administrator', $user->roles)) {
       $form['#after_build'][] = 'deims_data_set_after_build';
     }
   }
