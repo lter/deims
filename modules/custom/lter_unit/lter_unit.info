@@ -2,3 +2,5 @@ name = LTER Units
 description = Integration with the LTER Unit directory.
 core = 7.x
 package = DEIMS Base
+files[] = lib/LterUnitHelper.php
+files[] = lib/LterUnitStmmlHelper.php

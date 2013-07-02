@@ -341,21 +341,14 @@ class EmlDataSet {
   }
 
   public function getCustomUnitMetadata() {
-    $nids = array();
-    if ($items = field_get_items('node', $this->node, 'field_data_sources')) {
-      foreach ($items as $item) {
-        if (!empty($item['target_id'])) {
-          $nids[] = $item['target_id'];
-        }
-      }
-    }
+    $nids = FieldHelper::getValues('node', $this->node, 'field_data_sources', 'target_id');
     $sources = node_load_multiple($nids);
 
     $custom_units = array();
     foreach ($sources as $source) {
       if ($items = field_get_items('node', $source, 'field_variables')) {
         foreach ($items as $item) {
-          if ($item['type'] == DEIMS_VARIABLE_TYPE_PHYSICAL && !lter_unit_is_unit_standard($item['data']['unit'])) {
+          if ($item['type'] == DEIMS_VARIABLE_TYPE_PHYSICAL && !LterUnitHelper::isUnitStandard($item['data']['unit'])) {
             $custom_units[] = $item['data']['unit'];
           }
         }
@@ -363,7 +356,7 @@ class EmlDataSet {
     }
 
     $custom_units = array_unique($custom_units);
-    if (!empty($custom_units) && $stmml = lter_unit_get_units_stmml($custom_units)) {
+    if (!empty($custom_units) && $stmml = LterUnitStmmlHelper::getUnitsStmml($custom_units)) {
       return array(
         '#theme' => NULL,
         '#markup' => $stmml,
