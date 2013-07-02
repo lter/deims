@@ -16,6 +16,8 @@ projects[admin_select][subdir] = "contrib"
 
 projects[auto_entitylabel][version] = "1.2"
 projects[auto_entitylabel][subdir] = "contrib"
+; One more patch needed for Inline Entity Form module support
+projects[auto_entitylabel][patch][1980652] = "http://drupal.org/files/1980652-autoentitylabel-field-attach-submit.patch"
 
 projects[autosave][version] = "2.2"
 projects[autosave][subdir] = "contrib"
