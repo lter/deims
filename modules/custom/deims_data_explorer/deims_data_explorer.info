@@ -1,6 +1,6 @@
 name = DEIMS Data Explorer
 description = Module to manage DEIMs Data Exploration pages.
-package = DEIMS Base
+package = DEIMS Enhancements
 core = 7.x
 
 dependencies[] = schema (>=1.0-rc1)
