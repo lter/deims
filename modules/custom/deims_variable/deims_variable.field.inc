@@ -107,12 +107,11 @@ function deims_variable_field_validate($entity_type, $entity, $field, $instance,
 
       case DEIMS_VARIABLE_TYPE_CODES:
         if (empty($items[$delta]['data']['codes'])) {
-          form_set_error(implode('][', array(
-            'field_variables',
-            $langcode,
-            $delta,
-            'type',
-            )), 'Type: Codes table cannot be empty');
+          $errors[$field['field_name']][$langcode][$key][] = array(
+            'error' => 'deims_variable_codes_empty',
+            'message' => 'Code type variables must not have an empty code list.',
+            'element' => array('data', 'codes'),
+          );
         }
         break;
     }
@@ -398,7 +397,11 @@ function deims_variable_variable_type_select_callback($form, $form_state) {
  * Implements hook_field_widget_error().
  */
 function deims_variable_field_widget_error($element, $error, $form, &$form_state) {
-  form_error($element, $error['message']);
+  $error_element = $element;
+  if (!empty($error['element'])) {
+    $error_element = drupal_array_get_nested_value($element, $error['element']);
+  }
+  form_error($error_element, $error['message']);
 }
 
 /**
