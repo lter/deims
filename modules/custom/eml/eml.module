@@ -321,48 +321,6 @@ function template_process_eml(array &$variables) {
   $variables['namespaces'] = $variables['namespaces_array'] ? drupal_attributes($variables['namespaces_array']) : '';
 }
 
-/**
- * Implements hook_form_FORM_ID_alter() for install_configure_form().
- */
-function eml_form_install_configure_form_alter(&$form, $form_state) {
-  $form['eml'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('EML'),
-    '#collapsible' => FALSE,
-  );
-  $form['eml']['station_acronym'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Station acronym'),
-    '#default_value' => variable_get('station_acronym', ''),
-    '#required' => TRUE,
-    '#size' => 10,
-    '#maxlength' => 20,
-  );
-  $form['eml']['eml_package_id_pattern'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Package ID pattern'),
-    '#description' => t('This field supports tokens.'),
-    '#default_value' => variable_get('eml_package_id_pattern', 'knb-lter-[site:station-acronym].[node:field_data_set_id].[node:field_eml_revision_id]'),
-    '#required' => TRUE,
-    '#size' => 100,
-    '#element_validate' => array('token_element_validate'),
-    '#token_types' => array('node'),
-  );
-  $form['eml']['eml_data_policies'] = array(
-    '#type' => 'textarea',
-    '#title' => t('Data policies text'),
-    '#default_value' => variable_get('eml_data_policies', ''),
-  );
-
-  $form['#submit'][] = 'eml_form_install_configure_form_submit';
-}
-
-function eml_form_install_configure_form_submit($form, &$form_state) {
-  variable_set('station_acronym', $form_state['values']['station_acronym']);
-  variable_set('eml_package_id_pattern', $form_state['values']['eml_package_id_pattern']);
-  variable_set('eml_data_policies', $form_state['values']['eml_data_policies']);
-}
-
 function eml_debug($message, array $variables = array()) {
   if (variable_get('eml_debugging')) {
     drupal_set_message(format_string('EML DEBUG: ' . $message, $variables));

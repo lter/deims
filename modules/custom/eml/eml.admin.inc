@@ -23,12 +23,13 @@ function eml_settings_form() {
     '#element_validate' => array('token_element_validate'),
     '#token_types' => array('node'),
     '#attributes' => array('style' => 'width: 100%;'),
+    '#maxlength' => 255,
   );
   $form['eml_data_policies'] = array(
     '#type' => 'textarea',
     '#title' => t('Data policies text'),
     '#default_value' => variable_get('eml_data_policies', ''),
-    '#required' => TRUE,
+    //'#required' => TRUE,
   );
 
   $form['tokens'] = array(
@@ -50,11 +51,13 @@ function eml_settings_form() {
     '#required' => TRUE,
     '#element_validate' => array('token_element_validate'),
     '#attributes' => array('style' => 'width: 100%;'),
+    '#maxlength' => 255,
   );
   $form['pasta']['eml_paste_base_url'] = array(
     '#type' => 'textfield',
     '#title' => t('PASTA API URL'),
     '#default_value' => variable_get('eml_pasta_base_url', 'https://pasta.lternet.edu'),
+    '#description' => t('This URL has been set for you when you selected <em>Development</em> or <em>Production</em> environment.'),
   );
   $form['pasta']['tokens'] = array(
     '#theme' => 'token_tree',
