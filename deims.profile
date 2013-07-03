@@ -233,7 +233,6 @@ function deims_environment_switch($target_env, $current_env) {
     'context_ui',
     'devel',
     'devel_generate',
-    'imagecache_ui',
     'update',
     'views_ui',
   );
