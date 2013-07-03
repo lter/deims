@@ -1,6 +1,6 @@
 name = DEIMS Drupal 6 Migration
 description = Provides a base migration from the DEIMS Drupal 6 install profile.
-package = DEIMS Base
+package = DEIMS Enhancements
 core = 7.x
 dependencies[] = migrate
 dependencies[] = migrate_ui
