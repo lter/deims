@@ -24,7 +24,7 @@ function deims_data_source_form_alter(&$form, &$form_state, $form_id) {
     if (arg(2) == 'edit') {
       foreach ($form['field_variables'][LANGUAGE_NONE] as $key => $field) {
         if (is_numeric($key) && empty($field['label']['#default_value'])) {
-          //unset($form['field_variables'][LANGUAGE_NONE][$key]);
+          // unset($form['field_variables'][LANGUAGE_NONE][$key]);
         }
       }
     }
@@ -33,17 +33,17 @@ function deims_data_source_form_alter(&$form, &$form_state, $form_id) {
       '#type' => 'markup',
       '#prefix' => '<div id="source_preview">',
       '#suffix' => '</div>',
-      '#markup' => ''
+      '#markup' => '',
     );
 
     $form['source_preview_button'] = array(
       '#type' => 'button',
       '#ajax' => array(
         'callback' => 'deims_data_source_preview_source',
-        'wrapper' => 'source_preview'
+        'wrapper' => 'source_preview',
       ),
       '#value' => t('Preview Source'),
-      '#limit_validation_errors' => array()
+      '#limit_validation_errors' => array(),
     );
   }
 }
@@ -52,7 +52,7 @@ function deims_data_source_form_alter(&$form, &$form_state, $form_id) {
  * Generate a datatable from a given CSV source preview.
  */
 function deims_data_source_preview_source($form, &$form_state) {
-  $file = $header_lines = $orientation = $delimiter = false;
+  $file = $header_lines = $orientation = $delimiter = FALSE;
   $errors = $commands = array();
 
   if (isset($form_state['values']['field_data_source_file'][LANGUAGE_NONE][0]['fid']) && !empty($form_state['values']['field_data_source_file'][LANGUAGE_NONE][0]['fid'])) {
@@ -80,51 +80,66 @@ function deims_data_source_preview_source($form, &$form_state) {
 
   $header_lines = (!empty($form_state['values']['field_csv_header_lines'][LANGUAGE_NONE][0]['value'])) ? $form_state['values']['field_csv_header_lines'][LANGUAGE_NONE][0]['value'] : 0;
 
+  $footer_lines = (!empty($form_state['values']['field_csv_footer_lines'][LANGUAGE_NONE][0]['value'])) ? $form_state['values']['field_csv_footer_lines'][LANGUAGE_NONE][0]['value'] : 0;
 
   if (!empty($errors)) {
     $commands[] = ajax_command_replace('#source_preview', '<div id="source_preview">' . implode('', $errors) . '</div>');
     return array(
       '#type' => 'ajax',
-      '#commands' => $commands
+      '#commands' => $commands,
     );
   }
 
   $csv = fopen(drupal_realpath($file->uri), 'r');
   $rows = $headers = $datatable = array();
 
-  $i = 0;
-  while (($line = fgetcsv($csv, 0)) !== FALSE) {
-    $i++;
+  // The numbers of lines to show in the preview.
+  $limit = variable_get('data_source_preview_limit', 100);
 
-    if ($orientation == 'column') {
-      if ($header_lines == 1 && $i == 1) {
-        foreach ($line as $field) {
-          $headers[]['data'] = $field;
+  $row_count = 0;
+  while (($line = fgetcsv($csv, 0, $delimiter)) !== FALSE) {
+    $row_count++;
+
+    // Sanity check.
+    if ($row_count <= ($limit + $header_lines)) {
+      if ($orientation == 'column') {
+        // Are we adding just 1 header line?
+        if ($header_lines == 1 && $row_count == 1) {
+          foreach ($line as $field) {
+            $headers[]['data'] = $field;
+          }
+        }
+        else {
+          array_push($rows, $line);
         }
       }
       else {
-        array_push($rows, $line);
-      }
-    }
-    else {
-      // Each new line represents data for records defined in columns.
-      foreach($line as $key => $field){
-        if($header_lines == 1 && $key == 0){
-          $headers[]['data'] = $field;
-        }
-        else {
-          $rows[$key][] = $field;
+        // Each new line represents data for records defined in columns.
+        foreach ($line as $key => $field) {
+          if ($header_lines == 1 && $key == 0) {
+            $headers[]['data'] = $field;
+          }
+          else {
+            $rows[$key][] = $field;
+          }
         }
       }
     }
 
-    // Sanity check.
-    if ($i >= variable_get('data_source_preview_limit', 500)) {
+    // Super insanity check.
+    if (($row_count - $header_lines - $footer_lines) >= $limit) {
       break;
     }
   }
 
-  $datatable['header'] = $headers;
+  // Do we need to remove any footer lines?
+  $remove = $row_count - $header_lines - $footer_lines;
+  if ($remove < $limit) {
+    array_splice($rows, $remove);
+  }
+
+  // Datatables can only handle 1 header row, so if we have >1 or <1, empty it.
+  $datatable['header'] = (empty($headers)) ? array_fill(0, count($rows[0]), '') : $headers;
   $datatable['rows'] = $rows;
 
   $element = $form['box'];
@@ -136,6 +151,6 @@ function deims_data_source_preview_source($form, &$form_state) {
 
   return array(
     '#type' => 'ajax',
-    '#commands' => $commands
+    '#commands' => $commands,
   );
 }
