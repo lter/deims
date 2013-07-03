@@ -1,7 +1,6 @@
 name = DEIMS Data Explorer
-description = Module to manage DEIMs Data Exploration pages.
+description = "Provides exploration and CSV exporting of data sources that have a linked database table or view."
 package = DEIMS Enhancements
 core = 7.x
-
-dependencies[] = schema (>=1.0-rc1)
-dependencies[] = schema_reference (>=1.0-beta3)
+dependencies[] = schema
+dependencies[] = schema_reference

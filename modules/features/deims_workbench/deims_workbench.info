@@ -1,4 +1,5 @@
 name = DEIMS Workbench
+description = "Provides an advanced workflow for data sets, including e-mail notifications."
 core = 7.x
 package = DEIMS Enhancements
 php = 5.2.4
