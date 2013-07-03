@@ -6,36 +6,6 @@
  */
 
 /**
- * Implements hook_form_FORM_ID_alter() for install_configure_form().
- *
- * Allows the profile to alter the site configuration form.
- */
-function deims_form_install_configure_form_alter(&$form, $form_state) {
-  // Pre-populate the site name with the server name.
-  $form['site_information']['site_name']['#default_value'] = $_SERVER['SERVER_NAME'];
-
-  // Add an environment selector.
-  // @todo Add a helpful #description to this element.
-  $form['site_information']['environment'] = array(
-    '#type' => 'select',
-    '#title' => t('Environment'),
-    '#options' => array(
-      'development' => st('Development'),
-      'production' => st('Production'),
-    ),
-    '#default_value' => variable_get('environment', 'development'),
-    '#required' => TRUE,
-  );
-
-  $form['#submit'][] = 'deims_form_install_configure_form_submit';
-}
-
-function deims_form_install_configure_form_submit($form, &$form_state) {
-  variable_set('environment', $form_state['values']['environment']);
-  module_invoke_all('environment_switch', $form_state['values']['environment'], NULL);
-}
-
-/**
  * Implements hook_date_format_types().
  */
 function deims_date_format_types() {

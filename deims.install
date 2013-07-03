@@ -367,3 +367,79 @@ function deims_install_chosen() {
   variable_set('chosen_minimum_width', 200);
   variable_set('chosen_jquery_selector', 'select');
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter() for install_configure_form().
+ *
+ * Allows the profile to alter the site configuration form.
+ */
+function deims_form_install_configure_form_alter(&$form, $form_state) {
+  // Pre-populate the site name with the server name.
+  $form['site_information']['site_name']['#default_value'] = $_SERVER['SERVER_NAME'];
+
+  // Add an environment selector.
+  // @todo Add a helpful #description to this element.
+  $form['site_information']['environment'] = array(
+    '#type' => 'select',
+    '#title' => t('Environment'),
+    '#options' => array(
+      'development' => st('Development'),
+      'production' => st('Production'),
+    ),
+    '#default_value' => variable_get('environment', 'development'),
+    '#required' => TRUE,
+  );
+
+  $form['#submit'][] = 'deims_form_install_configure_form_submit';
+}
+
+function deims_form_install_configure_form_submit($form, &$form_state) {
+  variable_set('environment', $form_state['values']['environment']);
+  module_invoke_all('environment_switch', $form_state['values']['environment'], NULL);
+}
+
+/**
+ * Implements hook_install_tasks().
+ */
+function deims_install_tasks(&$install_state) {
+  //$tasks['deims_configure_eml_form'] = array(
+  //  'display_name' => st('EML configuration'),
+  //  'type' => 'form',
+  //);
+  $tasks['deims_select_enhancements_form'] = array(
+    'display_name' => st('Optional features'),
+    'type' => 'form',
+  );
+
+  return $tasks;
+}
+
+function deims_select_enhancements_form($form, &$form_state, &$install_state) {
+  $form['modules'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Enable optional DEIMS enhancement modules'),
+    '#options' => array(),
+  );
+  $modules = system_rebuild_module_data();
+  foreach ($modules as $module) {
+    if (empty($module->status) && $module->info['package'] == 'DEIMS Enhancements') {
+      $form['modules']['#options'][$module->name] = check_plain($module->info['name']);
+      $form['modules'][$module->name]['#description'] = check_plain($module->info['description']);
+    }
+  }
+
+  $form['actions'] = array('#type' => 'actions');
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => st('Save and continue'),
+    '#weight' => 15,
+  );
+
+  return $form;
+}
+
+function deims_select_enhancements_form_submit($form, &$form_state) {
+  if ($modules = array_keys(array_filter($form_state['values']['modules']))) {
+    module_enable($modules);
+  }
+}
