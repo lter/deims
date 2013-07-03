@@ -24,7 +24,7 @@ function deims_data_source_form_alter(&$form, &$form_state, $form_id) {
     if (arg(2) == 'edit') {
       foreach ($form['field_variables'][LANGUAGE_NONE] as $key => $field) {
         if (is_numeric($key) && empty($field['label']['#default_value'])) {
-          //unset($form['field_variables'][LANGUAGE_NONE][$key]);
+          // unset($form['field_variables'][LANGUAGE_NONE][$key]);
         }
       }
     }
@@ -33,17 +33,17 @@ function deims_data_source_form_alter(&$form, &$form_state, $form_id) {
       '#type' => 'markup',
       '#prefix' => '<div id="source_preview">',
       '#suffix' => '</div>',
-      '#markup' => ''
+      '#markup' => '',
     );
 
     $form['source_preview_button'] = array(
       '#type' => 'button',
       '#ajax' => array(
         'callback' => 'deims_data_source_preview_source',
-        'wrapper' => 'source_preview'
+        'wrapper' => 'source_preview',
       ),
       '#value' => t('Preview Source'),
-      '#limit_validation_errors' => array()
+      '#limit_validation_errors' => array(),
     );
   }
 }
@@ -52,7 +52,7 @@ function deims_data_source_form_alter(&$form, &$form_state, $form_id) {
  * Generate a datatable from a given CSV source preview.
  */
 function deims_data_source_preview_source($form, &$form_state) {
-  $file = $header_lines = $orientation = $delimiter = false;
+  $file = $header_lines = $orientation = $delimiter = FALSE;
   $errors = $commands = array();
 
   if (isset($form_state['values']['field_data_source_file'][LANGUAGE_NONE][0]['fid']) && !empty($form_state['values']['field_data_source_file'][LANGUAGE_NONE][0]['fid'])) {
@@ -86,7 +86,7 @@ function deims_data_source_preview_source($form, &$form_state) {
     $commands[] = ajax_command_replace('#source_preview', '<div id="source_preview">' . implode('', $errors) . '</div>');
     return array(
       '#type' => 'ajax',
-      '#commands' => $commands
+      '#commands' => $commands,
     );
   }
 
@@ -115,8 +115,8 @@ function deims_data_source_preview_source($form, &$form_state) {
       }
       else {
         // Each new line represents data for records defined in columns.
-        foreach($line as $key => $field){
-          if($header_lines == 1 && $key == 0){
+        foreach ($line as $key => $field) {
+          if ($header_lines == 1 && $key == 0) {
             $headers[]['data'] = $field;
           }
           else {
@@ -151,6 +151,6 @@ function deims_data_source_preview_source($form, &$form_state) {
 
   return array(
     '#type' => 'ajax',
-    '#commands' => $commands
+    '#commands' => $commands,
   );
 }
