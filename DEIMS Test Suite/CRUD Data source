@@ -19,12 +19,12 @@
 <tr>
 	<td>type</td>
 	<td>id=edit-title</td>
-	<td>Data Source Test Name</td>
+	<td>Data Source Test Name 1</td>
 </tr>
 <tr>
 	<td>type</td>
 	<td>id=edit-field-description-und-0-value</td>
-	<td>Data Source Test Description</td>
+	<td>Data Source Test Description 1</td>
 </tr>
 <tr>
 	<td>type</td>
@@ -45,6 +45,342 @@
 	<td>verifyTextPresent</td>
 	<td></td>
 	<td>Please select a field delimiter.</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=edit-field-csv-field-delimiter-und-select</td>
+	<td>label=Comma (,)</td>
+</tr>
+<!--Slow down the test to give clickAt time to process.-->
+<tr>
+	<td>pause</td>
+	<td>2000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>id=edit-source-preview-button</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>2000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>id=source_preview_modal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Errol Dickerson</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=li.horizontal-tab-button.horizontal-tab-button-1 &gt; a &gt; strong</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-field-variables-und-0-label</td>
+	<td>Name</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-field-variables-und-0-name</td>
+	<td>Name</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>2000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>id=edit-field-variables-und-add-more</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>5000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>css=div.error</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>2000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-field-variables-und-0-definition</td>
+	<td>Definition</td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>id=edit-field-variables-und-add-more</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>5000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementNotPresent</td>
+	<td>css=div.error</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>Unlabeled - Nominal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-field-variables-und-1-label</td>
+	<td>Date</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-field-variables-und-1-name</td>
+	<td>Date</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-field-variables-und-1-definition</td>
+	<td>Date Definition 1</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=edit-field-variables-und-1-type</td>
+	<td>Date and/or time</td>
+</tr>
+<tr>
+	<td>c</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>id=edit-field-variables-und-add-more</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>5000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>css=div.error</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>2000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-field-variables-und-1-data-pattern</td>
+	<td>YYYY-MM-DD</td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>id=edit-field-variables-und-add-more</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>5000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementNotPresent</td>
+	<td>css=div.error</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>Unlabeled - Nominal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-field-variables-und-3-label</td>
+	<td>State</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-field-variables-und-3-name</td>
+	<td>State</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-field-variables-und-3-definition</td>
+	<td>State Definition 1</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=edit-field-variables-und-3-type</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=edit-field-variables-und-3-data-codes-options-field</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-field-variables-und-3-data-codes-options-field</td>
+	<td>AL<br />AK<br />AS<br />AZ<br />AR<br />CA<br />CO<br />CT<br />DE<br />DC<br />FM<br />FL<br />GA<br />GU<br />HI<br />ID<br />IL<br />IN<br />IA<br />KS<br />KY<br />LA<br />ME<br />MH<br />MD<br />MA<br />MI<br />MN<br />MS<br />MO<br />MT<br />NE<br />NV<br />NH<br />NJ<br />NM<br />NY<br />NC<br />ND<br />MP<br />OH<br />OK<br />OR<br />PW<br />PA<br />PR<br />RI<br />SC<br />SD<br />TN<br />TX<br />UT<br />VT<br />VI<br />VA<br />WA<br />WV<br />WI<br />WY</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Normal entry</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=edit-field-variables-und-4-label</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-field-variables-und-4-label</td>
+	<td>Value</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-field-variables-und-4-name</td>
+	<td>Value</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=edit-field-variables-und-4-definition</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=edit-field-variables-und-4-definition</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-field-variables-und-4-definition</td>
+	<td>Value Definition 1</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=edit-field-variables-und-4-type</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=b</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=edit-field-variables-und-4-data-maximum</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-field-variables-und-4-data-maximum</td>
+	<td>500</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-field-variables-und-4-data-minimum</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=edit-field-variables-und-4-data-precision</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-field-variables-und-4-data-precision</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=li.horizontal-tab-button.horizontal-tab-button-2 &gt; a &gt; strong</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=edit-field-date-range-und-0-value-datepicker-popup-0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=select.ui-datepicker-year</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=edit-field-date-range-und-0-value2-datepicker-popup-0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=li.horizontal-tab-button.horizontal-tab-button-3 &gt; a &gt; strong</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-field-methods-und-0-value</td>
+	<td>Method 1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-field-instrumentation-und-0-value</td>
+	<td>Instrumentation 1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-field-methods-und-1-value</td>
+	<td>Method 2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-field-methods-und-1-value</td>
+	<td>Method 1.2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-field-quality-assurance-und-0-value</td>
+	<td>QA 1</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//form[@id='data-source-node-form']/div/div[4]/div/ul/li[5]/a/strong</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
+	<td></td>
 </tr>
 </tbody></table>
 </body>

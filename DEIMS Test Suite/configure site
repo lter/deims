@@ -52,19 +52,44 @@
 	<td>test</td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>id=edit-site-default-country</td>
-	<td>label=United States</td>
-</tr>
-<tr>
 	<td>click</td>
 	<td>id=edit-update-status-module-2</td>
 	<td></td>
 </tr>
 <tr>
+	<td>select</td>
+	<td>id=edit-site-default-country</td>
+	<td>label=United States</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
+	<td></td>
+</tr>
+<tr>
 	<td>type</td>
 	<td>id=edit-station-acronym</td>
-	<td>test</td>
+	<td>station test</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-eml-data-policies</td>
+	<td>Data Policy Text</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=edit-modules-deims-data-explorer</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=edit-modules-deims-workbench</td>
+	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -86,7 +111,6 @@
 	<td>Welcome to </td>
 	<td></td>
 </tr>
-
 </tbody></table>
 </body>
 </html>
