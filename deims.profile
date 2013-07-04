@@ -44,6 +44,13 @@ function deims_element_info_alter(&$info) {
 }
 
 /**
+ * Preprocess the install page variables to add our logo.
+ */
+function deims_process_maintenance_page(&$variables) {
+  $variables['logo'] = drupal_get_path('profile', 'deims') . '/logo.png';
+}
+
+/**
  * Implements hook_entity_info().
  */
 function deims_entity_info() {
