@@ -4,6 +4,7 @@ package = DEIMS Base
 php = 5.2.4
 dependencies[] = ctools
 dependencies[] = deims_data_set
+dependencies[] = deims_site_details
 dependencies[] = eml
 dependencies[] = entityreference
 dependencies[] = features
