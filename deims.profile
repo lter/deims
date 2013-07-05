@@ -227,7 +227,7 @@ function deims_inline_entity_form_table_fields_alter(&$fields, $context) {
       }
 
       if (count($context['allowed_bundles']) == 1) {
-        $bundle = reset($bundles);
+        $bundle = reset($context['allowed_bundles']);
         $instances = field_info_instances($context['entity_type'], $bundle);
         foreach ($instances as $instance) {
           $display = field_get_display($instance, 'teaser', NULL);
