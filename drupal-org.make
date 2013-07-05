@@ -89,6 +89,8 @@ projects[entitycache][subdir] = "contrib"
 
 projects[entityreference][version] = "1.0"
 projects[entityreference][subdir] = "contrib"
+; Allow the 'Default' view mode to be selected in formatters
+projects[entityreference][patch][2035699] = "http://drupal.org/files/2035699-formatter-default-view-mode.patch"
 
 projects[entity_view_mode][version] = "1.0-rc1"
 projects[entity_view_mode][subdir] = "contrib"
