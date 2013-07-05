@@ -42,6 +42,11 @@
     <?php print render($content['field_date_range']); ?>
   </coverage>
   <?php endif; ?>
+  <?php if (!empty($content['methods'])): ?>
+  <methods>
+    <?php print render($content['methods']); ?>
+  </methods>
+  <?php endif; ?>
   <attributeList>
     <?php print render($content['field_variables']); ?>
   </attributeList>

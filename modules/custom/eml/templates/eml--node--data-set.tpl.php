@@ -94,7 +94,11 @@
 
     <pubPlace><?php print $pubPlace; ?></pubPlace>
 
-    <!-- @todo <methods /> -->
+    <?php if (!empty($content['methods'])): ?>
+    <methods>
+      <?php print render($content['methods']); ?>
+    </methods>
+    <?php endif; ?>
 
     <?php print render($content['field_data_sources']); ?>
   </dataset>
