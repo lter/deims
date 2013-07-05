@@ -18,7 +18,7 @@ function eml_requirements($phase) {
     $requirements['eml_php_tidy']['severity'] = REQUIREMENT_OK;
   }
   else {
-    $requirements['eml_php_tidy']['description'] = $t('The EML module strongly recommends the <a href="@php-tidy">PHP tidy extension</a> in order to provide EML XML that passes validation.', array('@php-tidy' => 'http://www.php.net/manual/en/tidy.installation.php'));
+    $requirements['eml_php_tidy']['description'] = $t('The EML module strongly recommends the <a href="@php-tidy">PHP tidy extension</a> in order to provide XML that passes validation.', array('@php-tidy' => 'http://www.php.net/manual/en/tidy.installation.php'));
     $requirements['eml_php_tidy']['value'] = $t('Not enabled or missing');
     $requirements['eml_php_tidy']['severity'] = REQUIREMENT_WARNING;
   }

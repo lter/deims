@@ -44,6 +44,7 @@
     </additionalInfo>
     <?php endif; ?>
 
+    <?php if (!empty($data_policies)): ?>
     <intellectualRights>
       <section>
         <title>Data Policies</title>
@@ -54,6 +55,7 @@
         </para>
       </section>
     </intellectualRights>
+    <?php endif; ?>
 
     <distribution>
       <online>

@@ -55,6 +55,18 @@ class EmlDataSet {
       if (extension_loaded('tidy')) {
         $this->eml = $this->tidyXml($this->eml);
       }
+      else {
+        // Poor man's Tidy extension.
+        $dom = new DOMDocument();
+        $dom->preserveWhiteSpace = FALSE;
+        $dom->loadXML($this->eml);
+        $xpath = new DOMXPath($dom);
+        foreach ($xpath->query('//text()') as $domNode) {
+          $domNode->data = trim($domNode->nodeValue);
+        }
+        $dom->formatOutput = TRUE;
+        $this->eml = $dom->saveXML();
+      }
     }
     return $this->eml;
   }
