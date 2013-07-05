@@ -213,6 +213,7 @@ function deims_inline_entity_form_table_fields_alter(&$fields, $context) {
       break;
 
     case $info['module'] == 'eck':
+      // Never show the ID property.
       $id_key = $info['entity keys']['id'];
       if (isset($fields[$id_key])) {
         unset($fields[$id_key]);

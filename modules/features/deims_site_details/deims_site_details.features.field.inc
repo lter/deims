@@ -54,10 +54,12 @@ function deims_site_details_field_default_fields() {
           'weight' => '1',
         ),
         'teaser' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
+          'settings' => array(
+            'trim_length' => '100',
+          ),
+          'type' => 'text_trimmed',
           'weight' => '1',
         ),
       ),
@@ -117,6 +119,13 @@ function deims_site_details_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
+          'label' => 'hidden',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => '0',
+        ),
+        'teaser' => array(
           'label' => 'hidden',
           'module' => 'text',
           'settings' => array(),
