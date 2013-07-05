@@ -207,43 +207,38 @@ function deims_field_widget_inline_entity_form_form_alter(&$element, &$form_stat
 function deims_inline_entity_form_table_fields_alter(&$fields, $context) {
   $info = entity_get_info($context['entity_type']);
 
-  switch ($context['entity_type']) {
-    case 'node':
-      //unset($fields['status']);
-      break;
+  if ($info['module'] == 'eck') {
+    // Never show the ID property.
+    $id_key = $info['entity keys']['id'];
+    if (isset($fields[$id_key])) {
+      unset($fields[$id_key]);
+    }
 
-    case $info['module'] == 'eck':
-      // Never show the ID property.
-      $id_key = $info['entity keys']['id'];
-      if (isset($fields[$id_key])) {
-        unset($fields[$id_key]);
+    // Ensure label is output first.
+    if (isset($info['entity keys']['label'])) {
+      $label_key = $info['entity keys']['label'];
+      if (isset($fields[$label_key])) {
+        $fields[$label_key]['weight'] = -100;
       }
+    }
 
-      if (isset($info['entity keys']['label'])) {
-        $label_key = $info['entity keys']['label'];
-        if (isset($fields[$label_key])) {
-          // Ensure label is output first.
-          $fields[$label_key]['weight'] = -100;
+    // Show any fields in the 'teaser' view mode.
+    if (count($context['allowed_bundles']) == 1) {
+      $bundle = reset($context['allowed_bundles']);
+      $instances = field_info_instances($context['entity_type'], $bundle);
+      foreach ($instances as $instance) {
+        $display = field_get_display($instance, 'teaser', NULL);
+        if ($display['type'] !== 'hidden') {
+          $fields[$instance['field_name']] = array(
+            'type' => 'field',
+            'label' => $instance['label'],
+            'weight' => $display['weight'],
+            'formatter' => $display['type'],
+            'settings' => $display['settings'],
+          );
         }
       }
-
-      if (count($context['allowed_bundles']) == 1) {
-        $bundle = reset($context['allowed_bundles']);
-        $instances = field_info_instances($context['entity_type'], $bundle);
-        foreach ($instances as $instance) {
-          $display = field_get_display($instance, 'teaser', NULL);
-          if ($display['type'] !== 'hidden') {
-            $fields[$instance['field_name']] = array(
-              'type' => 'field',
-              'label' => $instance['label'],
-              'weight' => $display['weight'],
-              'formatter' => $display['type'],
-              'settings' => $display['settings'],
-            );
-          }
-        }
-        //$settings = field_bundle_settings($this->entityType, reset($bundles));
-      }
+    }
   }
 }
 
