@@ -104,7 +104,7 @@ class DeimsContentDataSetMigration extends DrupalNode6Migration {
     $query->addField('c', 'field_data_file_data_set_nid');
     $query->condition('field_data_file_data_set_nid', $row->nid);
     $query->distinct();
-    $resutls = $query->execute()->fetchCol();
+    $results = $query->execute()->fetchCol();
     if (!empty($results)) {
       $row->field_dataset_datafile_ref = $results;
     }
