@@ -13,7 +13,7 @@ function deims_data_explorer_field_widget_deims_variable_default_form_alter(&$el
   );
 
   // Set up default values.
-  if (!empty($context['items'])) {
+  if (!empty($context['items'][$element['#delta']]['data']['data_explorer_settings'])) {
     foreach ($context['items'][$element['#delta']]['data']['data_explorer_settings'] as $field => $value) {
       if ($field == $value) {
         $element['data']['data_explorer_settings']['#default_value'][] = $value;
