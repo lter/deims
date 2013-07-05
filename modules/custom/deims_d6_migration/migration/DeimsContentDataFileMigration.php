@@ -98,6 +98,17 @@ class DeimsContentDataFileMigration extends DrupalNode6Migration {
     }
   }
 
+  /**
+   * Convert code definition strings from a 'key = value' format to 'key|value'.
+   */
+  protected function convertCodeString($code) {
+    // Convert code definitions from '=' to '|' as the key/value separator
+    $code_parts = explode('=', $code);
+    // Remove any surrounding whitespace from the key or value.
+    $code_parts = array_walk($code_parts, 'trim');
+    return implode('|', $code_parts);
+  }
+
   public function getVariables($node, $row) {
     // We already have the array of referenced variable nodes in this row variable.
     // First filter out any NULL or empty values before proceeding.
@@ -134,9 +145,7 @@ class DeimsContentDataFileMigration extends DrupalNode6Migration {
       $query->orderBy('delta');
       $results = $query->execute()->fetchAll();
       foreach ($results as $result) {
-        // Convert code definitions from '=' to '|' as the key/value separator
-        $code = explode('=', $result->field_code_definition_value, 2);
-        $code_values[$result->nid][] = implode('|', $code);
+        $code_values[$result->nid][] = $this->convertCodeString($result->field_code_definition_value);
       }
     }
 
