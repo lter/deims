@@ -374,7 +374,7 @@ function deims_data_set_field_default_fields() {
       'entity_type' => 'node',
       'field_name' => 'field_data_set_id',
       'label' => 'Data set ID',
-      'required' => 0,
+      'required' => 1,
       'settings' => array(
         'text_processing' => '0',
         'user_register_form' => FALSE,
