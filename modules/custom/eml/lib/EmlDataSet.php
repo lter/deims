@@ -52,21 +52,7 @@ class EmlDataSet {
     if (empty($this->eml) || $reset) {
       $build = node_view($this->node, 'eml');
       $this->eml = render($build);
-      if (extension_loaded('tidy')) {
-        $this->eml = $this->tidyXml($this->eml);
-      }
-      else {
-        // Poor man's Tidy extension.
-        $dom = new DOMDocument();
-        $dom->preserveWhiteSpace = FALSE;
-        $dom->loadXML($this->eml);
-        $xpath = new DOMXPath($dom);
-        foreach ($xpath->query('//text()') as $domNode) {
-          $domNode->data = trim($domNode->nodeValue);
-        }
-        $dom->formatOutput = TRUE;
-        $this->eml = $dom->saveXML();
-      }
+      $this->eml = $this->tidyXml($this->eml);
     }
     return $this->eml;
   }
@@ -76,21 +62,34 @@ class EmlDataSet {
    *
    * @param string $xml
    *   A string containing XML.
-   * @param array $config
-   *   (optional) An array of configuration to pass into tidy::repairString().
    *
    * @return string
    *   The XML after being repaired with Tidy.
    */
-  private function tidyXml($xml, array $config = array()) {
-    $config += array(
-      'indent' => TRUE,
-      'input-xml' => TRUE,
-      'output-xml' => TRUE,
-      'wrap' => FALSE,
-    );
-    $tidy = new tidy();
-    return $tidy->repairString($xml, $config);
+  private function tidyXml($xml) {
+    if (extension_loaded('tidy')) {
+      $config = array(
+        'indent' => TRUE,
+        'input-xml' => TRUE,
+        'output-xml' => TRUE,
+        'wrap' => FALSE,
+      );
+      $tidy = new tidy();
+      return $tidy->repairString($xml, $config);
+    }
+    else {
+      // If the Tidy library isn't found, then we can pretty much duplicate
+      // the whitespace and indentation cleanup using the PHP DOM library.
+      $dom = new DOMDocument();
+      $dom->preserveWhiteSpace = FALSE;
+      $dom->loadXML($xml);
+      $xpath = new DOMXPath($dom);
+      foreach ($xpath->query('//text()') as $domNode) {
+        $domNode->data = trim($domNode->nodeValue);
+      }
+      $dom->formatOutput = TRUE;
+      return $dom->saveXML($dom->documentElement, LIBXML_NOEMPTYTAG);
+    }
   }
 
   /**
