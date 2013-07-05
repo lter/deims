@@ -20,13 +20,6 @@ function deims_research_site_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'custom_breadcrumbs_show_form_table_research_site';
-  $strongarm->value = 1;
-  $export['custom_breadcrumbs_show_form_table_research_site'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'field_bundle_settings_node__research_site';
   $strongarm->value = array(
     'view_modes' => array(

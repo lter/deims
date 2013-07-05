@@ -38,7 +38,6 @@ features[field_group][] = group_tabs|node|research_site|form
 features[field_group][] = group_taxonomy|node|research_site|form
 features[node][] = research_site
 features[variable][] = autosave_research_site
-features[variable][] = custom_breadcrumbs_show_form_table_research_site
 features[variable][] = field_bundle_settings_node__research_site
 features[variable][] = menu_options_research_site
 features[variable][] = menu_parent_research_site
