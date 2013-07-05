@@ -51,8 +51,10 @@ class EmlDataSet {
   public function getEML($reset = FALSE) {
     if (empty($this->eml) || $reset) {
       $build = node_view($this->node, 'eml');
-      $output = render($build);
-      $this->eml = $this->tidyXml($output);
+      $this->eml = render($build);
+      if (extension_loaded('tidy')) {
+        $this->eml = $this->tidyXml($this->eml);
+      }
     }
     return $this->eml;
   }
