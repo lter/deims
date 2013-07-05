@@ -55,3 +55,10 @@ textarea.form-textarea {
 .form-required {
   color: #e62600;
 }
+
+/* line 62, ../sass/override.scss */
+.form-options.error {
+  border: 2px solid red;
+  background-image: none;
+  background-color: inherit;
+}

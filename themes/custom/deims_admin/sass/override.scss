@@ -56,3 +56,11 @@ textarea.form-textarea {
 .form-required {
   color: #e62600;
 }
+
+// Provide a border for tables with error messages. This isn't an override
+// but an enhancement.
+.form-options.error {
+  border: 2px solid red;
+  background-image: none;
+  background-color: inherit;
+}
