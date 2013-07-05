@@ -134,7 +134,9 @@ class DeimsContentDataFileMigration extends DrupalNode6Migration {
       $query->orderBy('delta');
       $results = $query->execute()->fetchAll();
       foreach ($results as $result) {
-        $code_values[$result->nid][] = $result->field_code_definition_value;
+        // Convert code definitions from '=' to '|' as the key/value separator
+        $code = explode('=', $result->field_code_definition_value, 2);
+        $code_values[$result->nid][] = implode('|', $code);
       }
     }
 
