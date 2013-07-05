@@ -55,7 +55,7 @@ function deims_project_role_field_default_fields() {
           'weight' => '1',
         ),
         'eml' => array(
-          'label' => 'inline',
+          'label' => 'hidden',
           'module' => 'list',
           'settings' => array(),
           'type' => 'list_key',
