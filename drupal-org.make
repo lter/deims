@@ -69,8 +69,6 @@ projects[eck][subdir] = "contrib"
 projects[eck][patch][1969394] = "http://drupal.org/files/1969394-eck-entity-access-alter.patch"
 ; Add IEF clone button support
 projects[eck][patch][1979686] = "http://drupal.org/files/1979686-eck-ief-clone-button.patch"
-; Temporary patch to make the inline form display actual useful fields.
-projects[eck][patch][] = "https://gist.github.com/davereid/0014f396fed3f20a66ca/raw/e4f54f8a026dbd1ef4d8981e898ed9782b12a826/deims-eck.patch"
 
 projects[elements][version] = "1.x-dev"
 projects[elements][subdir] = "contrib"

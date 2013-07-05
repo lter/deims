@@ -202,6 +202,51 @@ function deims_field_widget_inline_entity_form_form_alter(&$element, &$form_stat
 }
 
 /**
+ * Implements hook_inline_entity_form_table_fields_alter().
+ */
+function deims_inline_entity_form_table_fields_alter(&$fields, $context) {
+  $info = entity_get_info($context['entity_type']);
+
+  switch ($context['entity_type']) {
+    case 'node':
+      //unset($fields['status']);
+      break;
+
+    case $info['module'] == 'eck':
+      $id_key = $info['entity keys']['id'];
+      if (isset($fields[$id_key])) {
+        unset($fields[$id_key]);
+      }
+
+      if (isset($info['entity keys']['label'])) {
+        $label_key = $info['entity keys']['label'];
+        if (isset($fields[$label_key])) {
+          // Ensure label is output first.
+          $fields[$label_key]['weight'] = -100;
+        }
+      }
+
+      if (count($context['allowed_bundles']) == 1) {
+        $bundle = reset($bundles);
+        $instances = field_info_instances($context['entity_type'], $bundle);
+        foreach ($instances as $instance) {
+          $display = field_get_display($instance, 'teaser', NULL);
+          if ($display['type'] !== 'hidden') {
+            $fields[$instance['field_name']] = array(
+              'type' => 'field',
+              'label' => $instance['label'],
+              'weight' => $display['weight'],
+              'formatter' => $display['type'],
+              'settings' => $display['settings'],
+            );
+          }
+        }
+        //$settings = field_bundle_settings($this->entityType, reset($bundles));
+      }
+  }
+}
+
+/**
  * Implementation of hook_environment_switch().
  */
 function deims_environment_switch($target_env, $current_env) {
