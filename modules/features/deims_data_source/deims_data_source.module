@@ -15,19 +15,10 @@ function deims_data_source_init() {
 }
 
 /**
- * Implements hook_form_alter().
+ * Implements hook_field_attach_form().
  */
-function deims_data_source_form_alter(&$form, &$form_state, $form_id) {
-  if ($form_id == 'data_source_node_form') {
-    // Remove the last variable since it's empty and prevents a save.
-    // See: http://drupal.org/node/1239946 for more info.
-    if (arg(2) == 'edit') {
-      foreach ($form['field_variables'][LANGUAGE_NONE] as $key => $field) {
-        if (is_numeric($key) && empty($field['label']['#default_value'])) {
-          // unset($form['field_variables'][LANGUAGE_NONE][$key]);
-        }
-      }
-    }
+function deims_data_source_field_attach_form($entity_type, $entity, &$form, &$form_state, $langcode) {
+  if ($entity_type == 'node' && $form['#bundle'] == 'data_source') {
     // Add the data preview stuff.
     $form['box'] = array(
       '#type' => 'markup',
@@ -44,6 +35,7 @@ function deims_data_source_form_alter(&$form, &$form_state, $form_id) {
       ),
       '#value' => t('Preview Source'),
       '#limit_validation_errors' => array(),
+      '#weight' => 1,
     );
   }
 }
