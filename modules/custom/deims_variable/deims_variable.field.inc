@@ -51,37 +51,31 @@ function deims_variable_field_is_empty($item, $field) {
  */
 function deims_variable_field_validate($entity_type, $entity, $field, $instance, $langcode, $items, &$errors) {
 
-  // Work-around for required fields.
-  // Forcing some fields to be required puts empty rows on nodes when they are
-  // being edited which then throw an error. The empty rows were needing to be
-  // manually removed, so this way we can do a smoke-check for if a row is
-  // sane before passing it on.
-  foreach ($entity->field_variables[LANGUAGE_NONE] as $key => $field_instance) {
-    if (empty($field_instance['label']) || empty($field_instance['name']) || empty($field_instance['definition'])) {
-      $fields = array(
-        'label' => $field_instance['label'],
-        'name' => $field_instance['name'],
-        'definition' => $field_instance['definition']
-      );
-
-      $partial = array();
-
-      foreach ($fields as $field_partial) {
-        if (!empty($field_partial)) {
-          array_push($partial, $field_partial);
-        }
-      }
-
-      foreach (array_intersect($fields, $partial) as $empty_field => $value) {
-        $errors[$field['field_name']][$langcode][$key][] = array(
-          'error' => 'deims_variable_required_field',
-          'message' => 'Please provide a Label, Name, and Definition for each variable.'
-        );
-      }
-    }
-  }
-
   foreach ($items as $delta => $item) {
+    if (empty($item['label'])) {
+      $errors[$field['field_name']][$langcode][$delta][] = array(
+        'error' => 'deims_variable_label_empty',
+        'message' => 'Please provide a <strong>label</strong> for this variable.',
+        'element' => array('label'),
+      );
+    }
+
+    if (empty($item['name'])) {
+      $errors[$field['field_name']][$langcode][$delta][] = array(
+        'error' => 'deims_variable_name_empty',
+        'message' => 'Please provide a <strong>name</strong> for this variable.',
+        'element' => array('name'),
+      );
+    }
+
+    if (empty($item['definition'])) {
+      $errors[$field['field_name']][$langcode][$delta][] = array(
+        'error' => 'deims_variable_definition_empty',
+        'message' => 'Please provide a <strong>definition</strong> for this variable.',
+        'element' => array('definition'),
+      );
+    }
+
     switch ($item['type']) {
       case DEIMS_VARIABLE_TYPE_NOMINAL:
         // Nominal variables have no detailed options.
@@ -107,7 +101,7 @@ function deims_variable_field_validate($entity_type, $entity, $field, $instance,
 
       case DEIMS_VARIABLE_TYPE_CODES:
         if (empty($items[$delta]['data']['codes'])) {
-          $errors[$field['field_name']][$langcode][$key][] = array(
+          $errors[$field['field_name']][$langcode][$delta][] = array(
             'error' => 'deims_variable_codes_empty',
             'message' => 'Code type variables must not have an empty code list.',
             'element' => array('data', 'codes'),
