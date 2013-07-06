@@ -28,6 +28,9 @@ projects[backup_migrate][subdir] = "contrib"
 projects[biblio][version] = "1.0-rc5"
 projects[biblio][subdir] = "contrib"
 
+projects[captcha][version] = "1.0"
+projects[captcha][subdir] = "contrib"
+
 projects[ctools][version] = "1.3"
 projects[ctools][subdir] = "contrib"
 
@@ -206,6 +209,9 @@ projects[pathauto_persist][subdir] = "contrib"
 
 projects[print][version] = "2.x-dev"
 projects[print][subdir] = "contrib"
+
+projects[recaptcha][version] = "1.9"
+projects[recaptcha][subdir] = "contrib"
 
 ; Dave Reid maintains this D8 backport, dev release is ok.
 projects[responsive_tables][version] = "2.x-dev"
