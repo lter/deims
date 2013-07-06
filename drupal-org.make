@@ -37,11 +37,11 @@ projects[ctools][subdir] = "contrib"
 projects[context][version] = "3.0-beta6"
 projects[context][subdir] = "contrib"
 
-projects[chosen][type] = module
-projects[chosen][download][type] = "git"
-projects[chosen][download][url] = "http://git.drupal.org/sandbox/davereid/2029921.git"
-projects[chosen][download][branch] = "7.x-1.x"
-projects[chosen][subdir] = "contrib"
+; We are currently using a fork of the Chosen module located in the install
+; profile to support the select_or_other integration.
+; @see http://drupal.org/sandbox/davereid/2029921
+;projects[chosen][version] = "2.0-alpha2"
+;projects[chosen][subdir] = "contrib"
 
 projects[custom_breadcrumbs][version] = "2.0-alpha3"
 projects[custom_breadcrumbs][subdir] = "contrib"
