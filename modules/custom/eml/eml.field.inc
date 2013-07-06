@@ -222,14 +222,25 @@ function eml_field_formatter_view($entity_type, $entity, $field, $instance, $lan
     case 'addressfield_eml_address':
       foreach ($items as $delta => $item) {
         $address = array();
-        $address['deliveryPoint'] = $item['thoroughfare'];
-        $address['city'] = $item['locality'];
-        $address['administrativeArea'] = $item['administrative_area'];
-        $address['postalCode'] = $item['postal_code'];
-        $element[$delta] = array(
-          '#theme' => 'eml_elements',
-          '#eml' => array('address' => $address),
-        );
+        if (!empty($item['thoroughfare'])) {
+          $address['deliveryPoint'] = $item['thoroughfare'];
+        }
+        if (!empty($item['locality'])) {      
+          $address['city'] = $item['locality'];
+        }
+        if (!empty($item['administrative_area'])) {
+          $address['administrativeArea'] = $item['administrative_area'];
+        }
+        if (!empty($item['postal_code'])) {
+          $address['postalCode'] = $item['postal_code'];
+        }
+        // if all address-related elements, dont print an <address> group
+        if (!empty($address)) {
+           $element[$delta] = array(
+             '#theme' => 'eml_elements',
+             '#eml' => array('address' => $address),
+           );
+        }
       }
       break;
 
