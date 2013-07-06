@@ -13,7 +13,7 @@ projects[drupal][patch][1982776] = "http://drupal.org/files/1982776-field-format
 projects[drupal][patch][] = "http://drupal.org/files/1118520-settings-local-uncommented-do-not-test.patch"
 ; Add the .htaccess.local for running on the dev server
 ; @todo Probably remove this when moving to drupal.org
-projects[drupal][patch][] = "https://raw.github.com/palantirnet/palantir-patches/7.x/uncomment-rewritebase-htaccess.patch"
+;projects[drupal][patch][] = "https://raw.github.com/palantirnet/palantir-patches/7.x/uncomment-rewritebase-htaccess.patch"
 ; Fix install failures if memory limit is set to -1
 projects[drupal][patch][1453984] = "http://drupal.org/files/1453984-drupal-check-memory-limit_0.patch"
 
