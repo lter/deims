@@ -82,6 +82,22 @@ function deims_data_explorer_permission() {
 }
 
 /**
+ * Implements hook_theme().
+ */
+function deims_data_explorer_theme() {
+  $info['deims_data_explorer_file_download_link'] = array(
+    'variables' => array(
+      'file' => NULL,
+      'icon_directory' => NULL,
+      'filesize' => TRUE,
+    ),
+    'file' => 'deims_data_explorer.theme.inc',
+  );
+
+  return $info;
+}
+
+/**
  * Implements hook_field_widget_WIDGET_TYPE_form_alter().
  */
 function deims_data_explorer_field_widget_deims_variable_default_form_alter(&$element, &$form_state, $context) {
@@ -526,18 +542,12 @@ function _deims_de_prep_physical($variable, &$form) {
  * [deims_data_explorer_download description]
  */
 function deims_data_explorer_download($node, $file) {
-  $uri = file_entity_download_uri($file);
   $output =  array(
     'header' => array(
-      '#type' => 'markup',
-      '#markup' => '<h2>File ready for download</h2>',
+      '#markup' => '<h2>' . t('File ready for download') . '</h2>',
     ),
     'info' => array(
-      '#type' => 'markup',
-      '#markup' => '<p>Your file is ready to be downloaded. It will be available
-      for the next few hours. Please download it now.</p><p>'
-      . l('Click here', $uri['path'], $uri['options']) . ' to download the
-      file.</p>',
+      '#markup' => '<p>' . t('Your file is ready to be downloaded. It will be available for the next few hours. Please download it now.') . '</p><p>' . theme('deims_data_explorer_file_download_link', array('file' => $file)) . '</p>',
     ),
     'back' => array(
       '#type' => 'markup',
