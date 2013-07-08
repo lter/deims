@@ -48,15 +48,15 @@ function deims_data_explorer_menu() {
   $items['node/%node/data'] = array(
     'page callback' => 'deims_data_explorer_page',
     'page arguments' => array(1),
-    'access callback'  => 'node_access',
-    'access arguments' => array('view', 1),
+    'access callback'  => 'deims_data_explorer_page_access',
+    'access arguments' => array(1),
     'type' => MENU_CALLBACK,
   );
-  $items['explorer/%file/%node'] = array(
+  $items['node/%node/data/download/%file'] = array(
     'page callback' => 'deims_data_explorer_download',
-    'page arguments' => array(1, 2),
-    'access callback' => 'node_access',
-    'access arguments' => array('view', 2),
+    'page arguments' => array(1, 4),
+    'access callback' => 'deims_data_explorer_download_access',
+    'access arguments' => array(1, 4),
     'type' => MENU_CALLBACK,
   );
   return $items;
@@ -79,22 +79,43 @@ function deims_data_explorer_permission() {
  * Implements hook_field_widget_WIDGET_TYPE_form_alter().
  */
 function deims_data_explorer_field_widget_deims_variable_default_form_alter(&$element, &$form_state, $context) {
+  $item = isset($context['items'][$context['delta']]) ? $context['items'][$context['delta']] : array();
+
   $element['data']['data_explorer_settings'] = array(
     '#type' => 'checkboxes',
     '#title' => 'Data Explorer Settings',
-    '#options' => array('expose' => 'Expose this variable', 'filter' => 'Allow users to filter on this variable'),
-    '#default_value' => array(),
-    '#weight' => '-1',
+    '#options' => array(
+      'expose' => t('Expose this variable'),
+      'filter' => t('Allow users to filter on this variable'),
+    ),
+    '#default_value' => isset($item['data']['data_explorer_settings']) ? $item['data']['data_explorer_settings'] : array(),
+    '#weight' => '100',
   );
+}
 
-  // Set up default values.
-  if (!empty($context['items'][$element['#delta']]['data']['data_explorer_settings'])) {
-    foreach ($context['items'][$element['#delta']]['data']['data_explorer_settings'] as $field => $value) {
-      if ($field == $value) {
-        $element['data']['data_explorer_settings']['#default_value'][] = $value;
-      }
-    }
-  }
+/**
+ * Access callback for the data explorer page.
+ *
+ * @param $node
+ *   The data source node object.
+ */
+function deims_data_explorer_page_access($node) {
+  return $node->type == 'data_source'
+      && node_access('view', $node)
+      && field_get_items('node', $node, 'field_deims_data_explorer')
+      && field_get_items('node', $node, 'field_variables');
+}
+
+/**
+ * Access callback for the data explorer download file page.
+ *
+ * @param $node
+ *   The data source node object.
+ * @param $file
+ *   The exported CSV file object.
+ */
+function deims_data_explorer_download_access($node, $file) {
+  return deims_data_explorer_page_access($node) && file_entity_access('download', $file);
 }
 
 /**
@@ -498,7 +519,7 @@ function _deims_de_prep_physical($variable, &$form) {
 /**
  * [deims_data_explorer_download description]
  */
-function deims_data_explorer_download($file, $node) {
+function deims_data_explorer_download($node, $file) {
   $uri = file_entity_download_uri($file);
   $output =  array(
     'header' => array(

@@ -55,7 +55,7 @@ function _process_file_for_download($file,$table,$nid,&$context) {
   }
   $context['results']['file'] = $file;
   $context['results']['nid'] = $nid;
-  $context['results']['forward'] = 'explorer/' . $file->fid . '/' . $nid;
+  $context['results']['forward'] = "node/{$nid}/data/download/{$file->fid}";
 }
 
 /**
