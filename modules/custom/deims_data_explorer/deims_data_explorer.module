@@ -3,6 +3,11 @@
 /**
  * @file
  * DEIMS data explorer allows users to view and download remote data sources.
+ *
+ * @todo Move all non-hooks and page callbacks out of the module file
+ * @todo Use variable_get() and not constants
+ * @todo Remove permission until we actually have an admin screen for variables.
+ * @todo Add a 'Use the data explorer' permission
  */
 
 /**
