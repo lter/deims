@@ -51,6 +51,8 @@ class DeimsContentDataFileMigration extends DrupalNode6Migration {
     $this->addFieldMapping('field_csv_quote_character', 'field_quote_character');
     $this->addFieldMapping('field_csv_field_delimiter', 'field_delimiter');
     $this->addFieldMapping('field_csv_record_delimiter', 'field_record_delimiter');
+    $this->addFieldMapping('field_date_range', 'field_beg_end_date');
+    $this->addFieldMapping('field_date_range:value2', 'field_beg_end_date:value2');
 
     $this->addUnmigratedSources(array(
       'field_datafile_variable_ref', // Handled in prepare()
@@ -65,6 +67,9 @@ class DeimsContentDataFileMigration extends DrupalNode6Migration {
       'field_data_source_file:file_replace',
       'field_data_source_file:preserve_files',
       'field_data_source_file:source_dir',
+      'field_data_source_file:urlencode',
+      'field_data_source_file:description',
+      'field_data_source_file:display',
       'field_methods:language',
       'field_instrumentation:language',
       'field_quality_assurance:language',
@@ -73,6 +78,7 @@ class DeimsContentDataFileMigration extends DrupalNode6Migration {
       'field_variables:definition',
       'field_variables:data',
       'field_variables:missing_values',
+      'field_description:format',
       'field_description:language',
       'field_csv_quote_character:language',
       'field_csv_field_delimiter:language',
@@ -101,12 +107,12 @@ class DeimsContentDataFileMigration extends DrupalNode6Migration {
   /**
    * Convert code definition strings from a 'key = value' format to 'key|value'.
    */
-  protected function convertCodeString($code) {
+  protected function getKeyValueFromString($code) {
     // Convert code definitions from '=' to '|' as the key/value separator
-    $code_parts = explode('=', $code);
+    $parts = explode('=', $code, 2);
     // Remove any surrounding whitespace from the key or value.
-    $code_parts = array_walk($code_parts, 'trim');
-    return implode('|', $code_parts);
+    array_walk($parts, 'trim');
+    return count($parts) == 2 ? $parts : $parts + array(0 => '', 1 => '');
   }
 
   public function getVariables($node, $row) {
@@ -145,7 +151,8 @@ class DeimsContentDataFileMigration extends DrupalNode6Migration {
       $query->orderBy('delta');
       $results = $query->execute()->fetchAll();
       foreach ($results as $result) {
-        $code_values[$result->nid][] = $this->convertCodeString($result->field_code_definition_value);
+        list($key, $value) = $this->getKeyValueFromString($result->field_code_definition_value);
+        $code_values[$result->nid][$key] = $value;
       }
     }
 
@@ -160,7 +167,8 @@ class DeimsContentDataFileMigration extends DrupalNode6Migration {
       $query->orderBy('delta');
       $results = $query->execute()->fetchAll();
       foreach ($results as $result) {
-        $missing_values[$result->nid][] = $result->field_var_missingvalues_value;
+        list($key, $value) = $this->getKeyValueFromString($result->field_var_missingvalues_value);
+        $missing_values[$result->nid][$key] = $value;
       }
     }
 
