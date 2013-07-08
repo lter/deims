@@ -181,7 +181,7 @@ projects[migrate][subdir] = "contrib"
 ; Rebuild menus when registering or deregistering groups and migrations.
 projects[migrate][patch][2011024] = "http://drupal.org/files/2011024-menu-rebuilds_0.patch"
 ; Register migrations on module enable or disable
-projects[migrate][patch][2037265] = "http://drupal.org/files/2037265-migrate-static-registration-module-enable.patch"
+projects[migrate][patch][2037265] = "http://drupal.org/files/2037265-migrate-static-registration-module-enable_0.patch"
 
 projects[migrate_d2d][version] = "2.x-dev"
 projects[migrate_d2d][subdir] = "contrib"
