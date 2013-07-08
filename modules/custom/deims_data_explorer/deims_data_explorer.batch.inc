@@ -55,7 +55,6 @@ function _process_file_for_download($file,$table,$nid,&$context) {
   }
   $context['results']['file'] = $file;
   $context['results']['nid'] = $nid;
-  $context['results']['forward'] = "node/{$nid}/data/download/{$file->fid}";
 }
 
 /**
@@ -69,7 +68,16 @@ function _show_download_link($success, $results, $operations) {
   $batch = &batch_get();
 
   if ($success) {
-    $batch['redirect'] = $results['forward'];
+    $path = "node/{$results['nid']}/data/download/{$results['file']->fid}";
+    $batch['redirect'] = array(
+      $path,
+      array(
+        'query' => array(
+          'token' => drupal_get_token($path),
+          ),
+        ),
+      )
+    );
   }
   else {
     $message = 'There was an error processing your request. Please try again and '

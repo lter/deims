@@ -542,6 +542,11 @@ function _deims_de_prep_physical($variable, &$form) {
  * [deims_data_explorer_download description]
  */
 function deims_data_explorer_download($node, $file) {
+  if (!isset($_GET['token']) || !drupal_valid_token($_GET['token'], $_GET['q'])) {
+    return MENU_ACCESS_DENIED;
+  }
+
+
   $output =  array(
     'header' => array(
       '#markup' => '<h2>' . t('File ready for download') . '</h2>',
