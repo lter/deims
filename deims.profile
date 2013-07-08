@@ -206,8 +206,8 @@ function deims_field_widget_inline_entity_form_form_alter(&$element, &$form_stat
  */
 function deims_inline_entity_form_table_fields_alter(&$fields, $context) {
   $info = entity_get_info($context['entity_type']);
-
-  if ($info['module'] == 'eck') {
+  
+  if ( isset($info['module']) && ($info['module'] == 'eck')) {
     // Never show the ID property.
     $id_key = $info['entity keys']['id'];
     if (isset($fields[$id_key])) {
