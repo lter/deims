@@ -6,7 +6,6 @@
  *
  * @todo Move all non-hooks and page callbacks out of the module file
  * @todo Use variable_get() and not constants
- * @todo Remove permission until we actually have an admin screen for variables.
  * @todo Add a 'Use the data explorer' permission
  */
 
@@ -66,13 +65,20 @@ function deims_data_explorer_menu() {
  * Implements hook_permission().
  */
 function deims_data_explorer_permission() {
-  // @todo Is this permission actually used anywhere?
-  return array(
-    'administer deims data explorer' => array(
-      'title' => t('Administer DEIMS data explorer'),
-      'description' => t('Perform administration tasks for DEIMS data explorer.'),
-    ),
-  );
+  $info = array();
+
+  // This permission doesn't actually do anything because there are no
+  // administration pages. So it has been commented out for now.
+  //$info['adminster DEIMS data explorer'] = array(
+  //  'title' => t('Administer DEIMS data explorer'),
+  //  'restrict access' => TRUE,
+  //);
+
+  //$info['use DEIMS data explorer'] = array(
+  //  'title' => t('Use the DEIMS data explorer'),
+  //);
+
+  return $info;
 }
 
 /**
