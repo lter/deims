@@ -341,10 +341,8 @@ function _deims_de_flatten_allowed($variables) {
  * @return [type]             [description]
  */
 function deims_data_explorer_get_row_count($connection) {
-  $query = db_select($connection['table'], 't')
-    ->fields('t')
-    ->execute();
-  return $query->rowCount();
+  $db = Database::getConnection('default', $connection['connection']);
+  return $db->select($connection['table'])->countQuery()->execute()->fetchField();
 }
 
 /**
@@ -359,11 +357,11 @@ function deims_data_explorer_get_row_count($connection) {
  */
 function deims_data_explorer_get_rows($connection, $columns = array(), $conditions = array(), $limit = 20, $from = 0) {
 
-  $db_connection = Database::getConnection('default', $connection['connection']);
+  $db = Database::getConnection('default', $connection['connection']);
 
-  $result = $db_connection->select($connection['table'], 't')
+  $result = $db->select($connection['table'], 't')
     ->fields('t', $columns)
-    ->range($from,$limit)
+    ->range($from, $limit)
     ->execute();
 
   return $result->fetchAll(PDO::FETCH_ASSOC);
