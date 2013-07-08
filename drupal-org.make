@@ -176,10 +176,8 @@ projects[media][subdir] = "contrib"
 projects[menu_block][version] = "2.3"
 projects[menu_block][subdir] = "contrib"
 
-projects[migrate][version] = "2.6-beta1"
+projects[migrate][version] = "2.6-rc1"
 projects[migrate][subdir] = "contrib"
-; Rebuild menus when registering or deregistering groups and migrations.
-projects[migrate][patch][2011024] = "http://drupal.org/files/2011024-menu-rebuilds_0.patch"
 ; Register migrations on module enable or disable
 projects[migrate][patch][2037265] = "http://drupal.org/files/2037265-migrate-static-registration-module-enable_0.patch"
 
