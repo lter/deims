@@ -17,7 +17,7 @@ Drupal.behaviors.variableFieldSummary = {
     });
 
     $('details.variable-entry').bind('summaryUpdated', function() {
-      $(this).find('summary').text($(this).drupalGetSummary());
+      $(this).children('summary').text($(this).drupalGetSummary());
     })
     .trigger('summaryUpdated');
 
