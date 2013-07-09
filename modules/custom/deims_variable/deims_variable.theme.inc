@@ -34,14 +34,12 @@ function template_preprocess_deims_variable_summary(array &$variables) {
 
   $variables['label'] = check_plain($variable['label']);
   $variables['name'] = check_plain($variable['name']);
-
-  $types = _deims_variable_types();
-  $variables['type'] = $types[$variable['type']];
+  $variables['type'] = deims_variable_type_label($variable['type']);
 
   $details = array();
   $details[t('Label')] = check_plain($variable['label']);
   $details[t('Definition')] = check_plain($variable['definition']);
-  $details[t('Type')] = check_plain($types[$variable['type']]);
+  $details[t('Type')] = check_plain(deims_variable_type_label($variable['type']));
   $details += deims_variable_get_data_summary($variable);
   $details[t('Missing values')] = !empty($variable['missing_values']) ? theme('deims_variable_codes_list', array('codes' => $variable['missing_values'])) : t('None specified');
 

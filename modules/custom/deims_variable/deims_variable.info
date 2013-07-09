@@ -6,5 +6,5 @@ dependencies[] = field
 dependencies[] = elements
 dependencies[] = list
 dependencies[] = lter_unit
-recommends[] = select_or_other
+dependencies[] = select_or_other
 files[] = DeimsVariableMigrateFieldHandler.php

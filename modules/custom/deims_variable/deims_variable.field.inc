@@ -305,25 +305,20 @@ function deims_variable_field_widget_form(&$form, &$form_state, $field, $instanc
 
     case DEIMS_VARIABLE_TYPE_PHYSICAL:
       $element['data']['unit'] = array(
-        '#type' => 'textfield',
+        '#type' => 'select_or_other',
         '#title' => t('Unit of measure'),
         '#description' => t('The unit reference to quantify a measurement. Usually these are well know standard units with reference to one of the many reference systems (metric systems) such as the centimeter-gram-second (cgs) or the international system (SI), or the units typically used in the US (inch, mile, pound, gallon, etc).'),
         // Use NULL as a default value here instead of an empty string, to
         // prevent 'Illegal choice' errors if this element is converted to a
         // select_or_other type below.
         '#default_value' => isset($items[$delta]['data']['unit']) ? $items[$delta]['data']['unit'] : NULL,
+        '#options' => LterUnitHelper::getUnitOptions(1),
         '#required' => TRUE,
-        '#maxlength' => 128,
-        '#size' => 40,
-        '#autocomplete_path' => 'lter-unit/autocomplete',
+        '#attributes' => array(
+          'data-create_option_text' => t('Use other unit'),
+          'class' => array('chosen-widget'),
+        ),
       );
-      if (module_exists('select_or_other')) {
-        $element['data']['unit']['#type'] = 'select_or_other';
-        $element['data']['unit']['#options'] = LterUnitHelper::getUnitOptions(1);
-        $element['data']['unit']['#attributes']['data-create_option_text'] = t('Use other unit');
-        $element['data']['unit']['#size'] = 1;
-        $element['data']['unit']['#attributes']['class'][] = 'chosen-widget';
-      }
       $element['data']['maximum'] = array(
         '#type' => 'numberfield',
         '#title' => t('Maximum value'),

@@ -84,6 +84,11 @@ function _deims_variable_types() {
   );
 }
 
+function deims_variable_type_label($type) {
+  $types = _deims_variable_types();
+  return $types[$type];
+}
+
 /**
  * Implements hook_migrate_api().
  */
