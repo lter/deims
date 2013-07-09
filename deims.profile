@@ -260,6 +260,15 @@ function deims_environment_switch($target_env, $current_env) {
       module_disable($devel_modules);
       drupal_set_message('Disabled development modules');
 
+      // Hide all error messages.
+      variable_set('error_level', 0);
+
+      // Cache settings.
+      variable_set('cache', 1);
+      variable_set('block_cache', 1);
+      variable_set('preprocess_css', 1);
+      variable_set('preprocess_js', 1);
+
       // Ensure we use the production PASTA API.
       variable_set('eml_pasta_base_url', 'https://pasta.lternet.edu');
 
@@ -271,6 +280,15 @@ function deims_environment_switch($target_env, $current_env) {
     case 'development':
       module_enable($devel_modules);
       drupal_set_message('Enabled development modules');
+
+      // Show all error messages.
+      variable_set('error_level', 2);
+
+      // Cache settings
+      variable_set('cache', 0);
+      variable_set('block_cache', 0);
+      variable_set('preprocess_css', 0);
+      variable_set('preprocess_js', 0);
 
       // Ensure we use the staging PASTA API for development.
       variable_set('eml_pasta_base_url', 'https://pasta-s.lternet.edu');
