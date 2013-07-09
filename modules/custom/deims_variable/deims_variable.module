@@ -34,9 +34,9 @@ define('DEIMS_VARIABLE_TYPE_CODES', 'codes');
  * Implements hook_menu().
  */
 function deims_variable_menu() {
-  $items = array();
+  $info = array();
 
-  $items['deims-variable/field-remove-item/ajax'] = array(
+  $info['deims-variable/field-remove-item/ajax'] = array(
     'title' => 'Remove item callback',
     'page callback' => 'deims_variable_remove_js',
     'delivery callback' => 'ajax_deliver',
@@ -46,7 +46,7 @@ function deims_variable_menu() {
     'file' => 'deims_variable.field.inc',
   );
 
-  return $items;
+  return $info;
 }
 
 /**
