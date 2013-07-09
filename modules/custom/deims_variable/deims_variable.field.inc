@@ -266,7 +266,7 @@ function deims_variable_field_widget_form(&$form, &$form_state, $field, $instanc
     '#default_value' => isset($items[$delta]['type']) ? $items[$delta]['type'] : DEIMS_VARIABLE_TYPE_NOMINAL,
     '#ajax' => array(
       'wrapper' => 'edit-' . drupal_clean_css_identifier(implode('-', $parents)) . '-data',
-      'callback' => 'deims_variable_variable_type_select_callback'
+      'callback' => 'deims_variable_variable_type_select_callback',
     ),
     '#attributes' => array('class' => array('variable-type')),
   );
@@ -279,8 +279,9 @@ function deims_variable_field_widget_form(&$form, &$form_state, $field, $instanc
   );
 
   // Check if the type value has been submitted.
-  $type = drupal_array_get_nested_value($form_state, array_merge(array('values'), $parents, array('type')));
-  if (empty($type) && !empty($element['type']['#default_value'])) {
+  $type_exists = FALSE;
+  $type = drupal_array_get_nested_value($form_state, array_merge(array('values'), $parents, array('type')), $type_exists);
+  if (!$type_exists && !empty($element['type']['#default_value'])) {
     $type = $element['type']['#default_value'];
   }
 
@@ -288,6 +289,7 @@ function deims_variable_field_widget_form(&$form, &$form_state, $field, $instanc
     case DEIMS_VARIABLE_TYPE_NOMINAL:
       // Nominal variables have no detailed options.
       break;
+
     case DEIMS_VARIABLE_TYPE_PHYSICAL:
       $element['data']['unit'] = array(
         '#type' => 'textfield',
@@ -333,6 +335,7 @@ function deims_variable_field_widget_form(&$form, &$form_state, $field, $instanc
         '#step' => 'any',
       );
       break;
+
     case DEIMS_VARIABLE_TYPE_DATE:
       $element['data']['pattern'] = array(
         '#type' => 'textfield',
@@ -344,6 +347,7 @@ function deims_variable_field_widget_form(&$form, &$form_state, $field, $instanc
         '#placeholder' => 'DD/MM/YYYY',
       );
       break;
+
     case DEIMS_VARIABLE_TYPE_CODES:
       $element['data']['codes'] = array(
         '#type' => 'textarea',
