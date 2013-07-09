@@ -188,19 +188,44 @@ function deims_variable_field_widget_form(&$form, &$form_state, $field, $instanc
     }
   }
 
+  $element['#state_parent'] = $parents[0] . '[' . implode('][', array_slice($parents, 1)) . ']';
+  $element['#attached']['css'][] = drupal_get_path('module', 'deims_variable') . '/deims_variable.field.css';
+  $element['#attached']['js'][] = drupal_get_path('module', 'deims_variable') . '/deims_variable.field.js';
+
   if ($field['cardinality'] == 1) {
     $element['#type'] = 'fieldset';
   }
   else {
-    $open = empty($items[$delta]) ? ' open' : '';
-    $element['#prefix'] = '<details class="variable-entry"' . $open . '><summary title="Click to expand or collapse the variable entry form.">' . t('Unnamed variable') . '</summary>';
-    $element['#suffix'] = '</details>';
+    $details_attributes = array('class' => array('variable-entry'));
+    if (empty($items[$delta])) {
+      $details_attributes['open'] = 'open';
+    }
+    $element['details_start'] = array(
+      '#markup' => '<details' . drupal_attributes($details_attributes) . '>',
+      '#weight' => -200,
+    );
+    $element['summary'] = array(
+      '#markup' => '<summary title="' . t('Click to expand or collapse the variable entry form.') . '">' . t('Unnamed variable') . '</summary>',
+      '#weight' => -195,
+    );
+    $element['details_end'] = array(
+      '#markup' => '</details>',
+      '#weight' => 200,
+    );
   }
 
-  $state_parent = $parents[0] . '[' . implode('][', array_slice($parents, 1));
-  $element['#attached']['css'][] = drupal_get_path('module', 'deims_variable') . '/deims_variable.field.css';
-  $element['#attached']['js'][] = drupal_get_path('module', 'deims_variable') . '/deims_variable.field.js';
+  $element['actions'] = array(
+    '#type' => 'actions',
+    // Ensure that the actions element is output inbetween the <details> and
+    // the <summary> elements.
+    '#weight' => -205,
+    '#access' => $field['cardinality'] == FIELD_CARDINALITY_UNLIMITED;
+  );
 
+  $element['id'] = array(
+    '#type' => 'value',
+    '#value' => isset($items[$delta]['id']) ? $items[$delta]['id'] : NULL,
+  );
   $element['label'] = array(
     '#prefix' => '<div class="variable-left-column form-wrapper">',
     '#type' => 'textfield',
@@ -244,18 +269,13 @@ function deims_variable_field_widget_form(&$form, &$form_state, $field, $instanc
     '#states' => array(
       'invisible' => array(
         // Nominal variables do not have missing values, so hide this field.
-        ':input[name="' . $state_parent . '][type]"]' => array('value' => DEIMS_VARIABLE_TYPE_NOMINAL),
+        ':input[name="' . $element['#state_parent'] . '[type]"]' => array('value' => DEIMS_VARIABLE_TYPE_NOMINAL),
       ),
     ),
   );
 
-  $element['id'] = array(
-    '#type' => 'value',
-    '#value' => isset($items[$delta]['id']) ? $items[$delta]['id'] : NULL,
-  );
-
   if ($field['cardinality'] == FIELD_CARDINALITY_UNLIMITED) {
-    $element['remove_button'] = array(
+    $element['actions']['remove_button'] = array(
       '#type' => 'submit',
       '#value' => t('Remove'),
       '#delta' => $delta,
@@ -412,7 +432,7 @@ function deims_variable_remove_js() {
   // Get the information on what we're removing.
   $button = $form_state['triggering_element'];
   // Go two levels up in the form, to the whole widget.
-  $element = drupal_array_get_nested_value($form, array_slice($button['#array_parents'], 0, -3));
+  $element = drupal_array_get_nested_value($form, array_slice($button['#array_parents'], 0, -4));
   // Now send back the proper AJAX command to replace it.
   $return = array(
     '#type' => 'ajax',
@@ -448,7 +468,7 @@ function deims_variable_remove_submit($form, &$form_state) {
   $delta = $button['#delta'];
 
   // Where in the form we'll find the parent element.
-  $address = array_slice($button['#array_parents'], 0, -2);
+  $address = array_slice($button['#array_parents'], 0, -3);
 
   // Go one level up in the form, to the widgets container.
   $parent_element = drupal_array_get_nested_value($form, $address);

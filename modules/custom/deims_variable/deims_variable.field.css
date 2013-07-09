@@ -3,9 +3,12 @@
   white-space: normal;
 }
 
-.field-type-deims-variable .remove-button {
+.field-type-deims-variable .form-actions {
   float: right;
-  margin-top: 1em;
+}
+
+.field-type-deims-variable .form-actions input {
+  margin-bottom: 0;
 }
 
 @media screen and (min-width:60em) {
