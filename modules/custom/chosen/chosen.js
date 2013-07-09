@@ -1,21 +1,21 @@
 (function($) {
   Drupal.behaviors.chosen = {
-    attach: function(context) {
-      var minWidth = Drupal.settings.chosen.minimum_width;
+    attach: function(context, settings) {
+      var minWidth = settings.chosen.minimum_width;
       //define options
       var options = {};
-      options.search_contains = Drupal.settings.chosen.search_contains;
+      options.search_contains = settings.chosen.search_contains;
       options.placeholder_text_multiple = Drupal.t('Choose some options');
       options.placeholder_text_single = Drupal.t('Choose an option');
       options.no_results_text = Drupal.t('No results match');
       options.inherit_select_classes = true;
 
-      if (Drupal.settings.chosen.selector.length) {
-        $(Drupal.settings.chosen.selector, context)
+      if (settings.chosen.selector.length) {
+        $(settings.chosen.selector, context)
           .not('#field-ui-field-overview-form select, #field-ui-display-overview-form select') //disable chosen on field ui
           .not('.chzn-done')
           .filter(function() {
-            return !Drupal.settings.chosen.minimum || $(this).find('option').length >= Drupal.settings.chosen.minimum;
+            return !settings.chosen.minimum || $(this).find('option').length >= settings.chosen.minimum;
           })
           .each(function() {
             var elementOptions = options;
