@@ -4,12 +4,3 @@ package = User interface
 configure = admin/config/user-interface/chosen
 core = 7.x
 recommends[] = libraries
-
-
-
-; Information added by drush on 2013-07-05
-version = "7.x-1.x-dev"
-core = "7.x"
-project = "chosen"
-datestamp = "1373036547"
-
