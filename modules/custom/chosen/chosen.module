@@ -42,7 +42,7 @@ function chosen_library() {
       ),
     ),
     'css' => array(
-      //$module_path . '/css/chosen-drupal.css' => array('scope' => $scope),
+      //$module_path . '/chosen.css' => array(),
     ),
     'dependencies' => array(
       array('chosen', 'chosen'),

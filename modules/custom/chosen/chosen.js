@@ -8,6 +8,7 @@
       options.placeholder_text_multiple = Drupal.t('Choose some options');
       options.placeholder_text_single = Drupal.t('Choose an option');
       options.no_results_text = Drupal.t('No results match');
+      options.inherit_select_classes = true;
 
       if (Drupal.settings.chosen.selector.length) {
         $(Drupal.settings.chosen.selector, context)
@@ -29,7 +30,7 @@
       }
 
       // Enable chosen on for forced widgets.
-      $('.chosen-widget', context)
+      $('select.chosen-widget', context)
         .not('chzn-done')
         .each(function() {
           var elementOptions = options;
