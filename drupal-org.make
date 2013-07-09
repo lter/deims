@@ -144,7 +144,7 @@ projects[flag][subdir] = "contrib"
 projects[flexslider][version] = "2.0-alpha1"
 projects[flexslider][subdir] = "contrib"
 
-projects[geofield][version] = "1.1"
+projects[geofield][version] = "1.2"
 projects[geofield][subdir] = "contrib"
 
 projects[geophp][version] = "1.7"
@@ -226,7 +226,7 @@ projects[schema][subdir] = "contrib"
 projects[schema_reference][version] = "1.0-beta3"
 projects[schema_reference][subdir] = "contrib"
 
-projects[search_api][version] = "1.6"
+projects[search_api][version] = "1.7"
 projects[search_api][subdir] = "contrib"
 
 projects[search_api_db][version] = "1.0-rc1"
