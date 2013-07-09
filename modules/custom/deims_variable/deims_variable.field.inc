@@ -322,6 +322,7 @@ function deims_variable_field_widget_form(&$form, &$form_state, $field, $instanc
         $element['data']['unit']['#options'] = LterUnitHelper::getUnitOptions(1);
         $element['data']['unit']['#attributes']['data-create_option_text'] = t('Use other unit');
         $element['data']['unit']['#size'] = 1;
+        $element['data']['unit']['#attributes']['class'][] = 'chosen-widget';
       }
       $element['data']['maximum'] = array(
         '#type' => 'numberfield',
