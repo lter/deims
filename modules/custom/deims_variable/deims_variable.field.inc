@@ -255,14 +255,16 @@ function deims_variable_field_widget_form(&$form, &$form_state, $field, $instanc
   );
 
   if ($field['cardinality'] == FIELD_CARDINALITY_UNLIMITED) {
-    $element['field_remove_item'] = array(
-      '#type' => 'button',
+    $element['remove_button'] = array(
+      '#type' => 'submit',
       '#value' => t('Remove'),
-      '#ajax' => array(
-        'callback' => 'deims_variable_remove_item_ajax_callback',
-      ),
-      '#execute_submit_handlers' => FALSE,
+      '#delta' => $delta,
+      '#submit' => array('deims_variable_remove_submit'),
       '#limit_validation_errors' => array(),
+      '#ajax' => array(
+        'path' => 'deims-variable/field-remove-item/ajax',
+        'effect' => 'fade',
+      ),
       '#attributes' => array(
         'class' => array('remove-button'),
       ),
@@ -378,21 +380,6 @@ function deims_variable_field_widget_form(&$form, &$form_state, $field, $instanc
   return $element;
 }
 
-/**
- * Ajax callback to remove a variable field item.
- */
-function deims_variable_remove_item_ajax_callback(&$form, $form_state) {
-  $wrapper = '.' . $form['#field_remove_item']['wrapper'];
-  $field_name = $form['#field_remove_item']['field_name'];
-
-  return array(
-    '#type' => 'ajax',
-    '#commands' => array(
-      ajax_command_replace($wrapper, render($form[$field_name])),
-    ),
-  );
-}
-
 function deims_variable_variable_type_select_callback($form, $form_state) {
   $parents = $form_state['triggering_element']['#array_parents'];
   // The type element triggered this, so remove it from parents.
@@ -400,6 +387,129 @@ function deims_variable_variable_type_select_callback($form, $form_state) {
   // We want the data part of the form.
   $parents[] = 'data';
   return drupal_array_get_nested_value($form, $parents);
+}
+
+/**
+ * Page callback to handle AJAX for removing a field collection item.
+ *
+ * Copied from field_collection_remove_js().
+ *
+ * This is a direct page callback. The actual job of deleting the item is
+ * done in the submit handler for the button, so all we really need to
+ * do is process the form and then generate output. We generate this
+ * output by doing a replace command on the id of the entire form element.
+ */
+function deims_variable_remove_js() {
+  require_once DRUPAL_ROOT . '/includes/form.inc';
+
+  // drupal_html_id() very helpfully ensures that all html IDS are unique
+  // on a page. Unfortunately what it doesn't realize is that the IDs
+  // we are generating are going to replace IDs that already exist, so
+  // this actually works against us.
+  if (isset($_POST['ajax_html_ids'])) {
+    unset($_POST['ajax_html_ids']);
+  }
+
+  list($form, $form_state) = ajax_get_form();
+  drupal_process_form($form['#form_id'], $form, $form_state);
+
+  // Get the information on what we're removing.
+  $button = $form_state['triggering_element'];
+  // Go two levels up in the form, to the whole widget.
+  $element = drupal_array_get_nested_value($form, array_slice($button['#array_parents'], 0, -3));
+  // Now send back the proper AJAX command to replace it.
+  $return = array(
+    '#type' => 'ajax',
+    '#commands' => array(
+      ajax_command_replace('#' . $element['#id'], drupal_render($element))
+    ),
+  );
+
+  // Because we're doing this ourselves, messages aren't automatic. We have
+  // to add them.
+  $messages = theme('status_messages');
+  if ($messages) {
+    $return['#commands'][] = ajax_command_prepend('#' . $element['#id'], $messages);
+  }
+
+  return $return;
+}
+
+/**
+ * Submit callback to remove an item from the field UI multiple wrapper.
+ *
+ * Copied from field_collection_remove_submit()
+ *
+ * When a remove button is submitted, we need to find the item that it
+ * referenced and delete it. Since field UI has the deltas as a straight
+ * unbroken array key, we have to renumber everything down. Since we do this
+ * we *also* need to move all the deltas around in the $form_state['values']
+ * and $form_state['input'] so that user changed values follow. This is a bit
+ * of a complicated process.
+ */
+function deims_variable_remove_submit($form, &$form_state) {
+  $button = $form_state['triggering_element'];
+  $delta = $button['#delta'];
+
+  // Where in the form we'll find the parent element.
+  $address = array_slice($button['#array_parents'], 0, -2);
+
+  // Go one level up in the form, to the widgets container.
+  $parent_element = drupal_array_get_nested_value($form, $address);
+  $field_name = $parent_element['#field_name'];
+  $langcode = $parent_element['#language'];
+  $parents = $parent_element['#field_parents'];
+
+  $field_state = field_form_get_state($parents, $field_name, $langcode, $form_state);
+
+  // Go ahead and renumber everything from our delta to the last
+  // item down one. This will overwrite the item being removed.
+  for ($i = $delta; $i <= $field_state['items_count']; $i++) {
+    $old_element_address = array_merge($address, array($i + 1));
+    $new_element_address = array_merge($address, array($i));
+
+    $moving_element = drupal_array_get_nested_value($form, $old_element_address);
+    $moving_element_value = drupal_array_get_nested_value($form_state['values'], $old_element_address);
+    $moving_element_input = drupal_array_get_nested_value($form_state['input'], $old_element_address);
+
+    // Tell the element where it's being moved to.
+    $moving_element['#parents'] = $new_element_address;
+
+    // Move the element around.
+    form_set_value($moving_element, $moving_element_value, $form_state);
+    drupal_array_set_nested_value($form_state['input'], $moving_element['#parents'], $moving_element_input);
+  }
+
+  // Then remove the last item. But we must not go negative.
+  if ($field_state['items_count'] > 0) {
+    $field_state['items_count']--;
+  }
+
+  // Fix the weights. Field UI lets the weights be in a range of
+  // (-1 * item_count) to (item_count). This means that when we remove one,
+  // the range shrinks; weights outside of that range then get set to
+  // the first item in the select by the browser, floating them to the top.
+  // We use a brute force method because we lost weights on both ends
+  // and if the user has moved things around, we have to cascade because
+  // if I have items weight weights 3 and 4, and I change 4 to 3 but leave
+  // the 3, the order of the two 3s now is undefined and may not match what
+  // the user had selected.
+  $input = drupal_array_get_nested_value($form_state['input'], $address);
+  // Sort by weight
+  uasort($input, '_field_sort_items_helper');
+
+  // Reweight everything in the correct order.
+  $weight = -1 * $field_state['items_count'];
+  foreach ($input as $key => $item) {
+    if ($item) {
+      $input[$key]['_weight'] = $weight++;
+    }
+  }
+
+  drupal_array_set_nested_value($form_state['input'], $address, $input);
+  field_form_set_state($parents, $field_name, $langcode, $form_state, $field_state);
+
+  $form_state['rebuild'] = TRUE;
 }
 
 /**
