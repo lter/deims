@@ -50,9 +50,15 @@ function deims_variable_field_schema($field) {
     'serialize' => TRUE,
     'unserialized default' => array(),
   );
+  $schema['columns']['id'] = array(
+    'type' => 'serial',
+    'unsigned' => TRUE,
+    'not null' => TRUE,
+  );
   $schema['indexes']['label'] = array('label');
   $schema['indexes']['name'] = array('name');
   $schema['indexes']['type'] = array('type');
+  $schema['indexes']['id'] = array('id');
 
   return $schema;
 }

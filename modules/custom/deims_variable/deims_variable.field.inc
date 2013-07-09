@@ -122,6 +122,12 @@ function deims_variable_field_presave($entity_type, $entity, $field, $instance, 
       $item['missing_values'] = array();
     }
 
+    if (empty($item['id']) && array_key_exists('id', $item)) {
+      unset($item['id']);
+    }
+
+    unset($item['field_remove_item']);
+
     // Serialize all columns that are flagged as such in hook_field_schema().
     foreach ($item as $column => $value) {
       if (!empty($field['columns'][$column]['serialize'])) {
@@ -241,6 +247,11 @@ function deims_variable_field_widget_form(&$form, &$form_state, $field, $instanc
         ':input[name="' . $state_parent . '][type]"]' => array('value' => DEIMS_VARIABLE_TYPE_NOMINAL),
       ),
     ),
+  );
+
+  $element['id'] = array(
+    '#type' => 'value',
+    '#value' => isset($items[$delta]['id']) ? $items[$delta]['id'] : NULL,
   );
 
   if ($field['cardinality'] == FIELD_CARDINALITY_UNLIMITED) {
