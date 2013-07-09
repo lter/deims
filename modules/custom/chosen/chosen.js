@@ -8,7 +8,6 @@
       options.placeholder_text_multiple = Drupal.t('Choose some options');
       options.placeholder_text_single = Drupal.t('Choose an option');
       options.no_results_text = Drupal.t('No results match');
-      options.inherit_select_classes = true;
 
       if (settings.chosen.selector.length) {
         $(settings.chosen.selector, context)
