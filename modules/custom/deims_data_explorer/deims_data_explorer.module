@@ -30,12 +30,17 @@ define("DEIMS_BATCH_LIMIT", variable_get('deims_batch_limit', 25000));
 define("DEIMS_COMPRESSION_THRESHOLD", variable_get('deims_compression_threshold', 10));
 
 /**
+ * The field machine name created in deims_install().
+ */
+define('DEIMS_DATA_EXPLORER_FIELD', 'field_deims_data_explorer');
+
+/**
  * Implements hook_help().
  */
 function deims_data_explorer_help($path, $arg) {
   switch ($path) {
-    case 'admin/help#deims_data_explorer':
-      return t("TODO: Create admin help text.");
+    case 'node/%/data':
+      break;
   }
 }
 
@@ -300,7 +305,7 @@ function deims_data_explorer_form($form, &$form_state, $variables, $connection, 
   );
 
   // Add logic for download button disable and warning.
-  if (deims_data_explorer_get_row_count($connection, $allowed_columns) >= DEIMS_DOWNLOAD_COUNT) {
+  if (deims_data_explorer_get_row_count($connection) >= DEIMS_DOWNLOAD_COUNT) {
     drupal_set_message('This is a very large data set. Please ' . l('contact us', 'contact') .
       ' to obtain a copy.', 'warning', FALSE);
     unset($form['download']);
@@ -587,4 +592,73 @@ function _deims_de_array2csv(array &$array) {
   fclose($df);
 
   return ob_get_clean();
+}
+
+/**
+ * Get a database query object for the data explorer for a given data source.
+ *
+ * @param object $node
+ *   A data source node object.
+ *
+ * @return SelectQuery|false
+ *   A query object for the database specified in the DEIMS_DATA_EXPLORER_FIELD
+ *   field on the data source.
+ */
+function deims_data_explorer_get_query_from_data_source($node) {
+  if ($node->type == 'data_source' && $connection = field_get_items('node', $node, DEIMS_DATA_EXPLORER_FIELD)) {
+    if (!empty($connection[0]['connection']) && !empty($connection[0]['table'])) {
+      try {
+        // Database::getConnection() could throw an exception so catch it and
+        // fail gracefully.
+        if ($db = Database::getConnection('default', $connection[0]['connection'])) {
+          if ($db->schema()->tableExists($connection[0]['table'])) {
+            return $db->select($connection[0]['table']);
+          }
+        }
+      }
+      catch (Exception $e) {
+        watchdog_exception($e);
+        // Do not rethrow the exception. Fail gracefully by returning nothing.
+      }
+    }
+  }
+
+  return FALSE;
+}
+
+/**
+ * Implements hook_field_attach_validate().
+ *
+ * Add extra validation if the user picks a database, but not a table or view.
+ */
+function deims_data_explorer_field_attach_validate($entity_type, $entity, array &$errors) {
+  if ($entity_type == 'node' && $entity->type == 'data_source' && $items = field_get_items($entity_type, $entity, DEIMS_DATA_EXPLORER_FIELD)) {
+    if (!empty($items[0]['connection']) && empty($items[0]['table'])) {
+      $errors[DEIMS_DATA_EXPLORER_FIELD][LANGUAGE_NONE][0][] = array(
+        'error' => 'field_missing_table',
+        'message' => t('Cannot select a connection without selecting a table or view as well.'),
+        'element' => array('table'),
+      );
+    }
+  }
+}
+
+/**
+ * Implements hook_workbench_block().
+ *
+ * Show a message in the workbench block if the data source has a valid
+ * connection/table for the data explorer, but the data explorer doesn't have
+ * any records.
+ */
+function deims_data_explorer_workbench_block() {
+  // Add editing information to this page (if it's a node).
+  if (($node = menu_get_object()) && $node->type == 'data_source' && node_access('update', $node)) {
+    if ($query = deims_data_explorer_get_query_from_data_source($node)) {
+      $count = $query->countQuery()->execute()->fetchField();
+      if (empty($count)) {
+        $items = field_get_items('node', $node, DEIMS_DATA_EXPLORER_FIELD);
+        return array('<strong>' . t('DEIMS Data Explorer: The table or view %table in the %connection database does not have any records. The data explorer will not be available until there is at least one record.', array('%table' => $items[0]['table'], '%connection' => $items[0]['connection'])) . '</strong>');
+      }
+    }
+  }
 }
