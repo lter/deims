@@ -219,7 +219,7 @@ function deims_variable_field_widget_form(&$form, &$form_state, $field, $instanc
     // Ensure that the actions element is output inbetween the <details> and
     // the <summary> elements.
     '#weight' => -205,
-    '#access' => $field['cardinality'] == FIELD_CARDINALITY_UNLIMITED;
+    '#access' => $field['cardinality'] == FIELD_CARDINALITY_UNLIMITED,
   );
 
   $element['id'] = array(
