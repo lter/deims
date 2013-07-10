@@ -4,3 +4,4 @@ package = DEIMS Enhancements
 core = 7.x
 dependencies[] = schema
 dependencies[] = schema_reference
+dependencies[] = file_entity

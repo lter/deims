@@ -105,6 +105,21 @@ function deims_data_explorer_field_widget_deims_variable_default_form_alter(&$el
 }
 
 /**
+ * Implements hook_node_load().
+ */
+function deims_data_explorer_node_load(array $nodes) {
+  foreach ($nodes as $node) {
+    if ($node->type == 'data_source' && $query = deims_data_explorer_get_query_from_data_source($node)) {
+      $count = $query->countQuery()->execute()->fetchField();
+      // Store the row count of the external database in the field value so
+      // it can be checked later.
+      $langcode = field_language('node', $node, DEIMS_DATA_EXPLORER_FIELD);
+      $node->{DEIMS_DATA_EXPLORER_FIELD}[$langcode][0]['row_count'] = $count;
+    }
+  }
+}
+
+/**
  * Access callback for the data explorer page.
  *
  * @param $node
@@ -113,8 +128,8 @@ function deims_data_explorer_field_widget_deims_variable_default_form_alter(&$el
 function deims_data_explorer_page_access($node) {
   return $node->type == 'data_source'
       && node_access('view', $node)
-      && field_get_items('node', $node, 'field_deims_data_explorer')
-      && field_get_items('node', $node, 'field_variables');
+      && ($items = field_get_items('node', $node, DEIMS_DATA_EXPLORER_FIELD))
+      && !empty($items[0]['row_count']);
 }
 
 /**
@@ -192,7 +207,7 @@ function deims_data_explorer_form($form, &$form_state, $variables, $connection, 
     switch ($form_state['values']['op']) {
       case 'Web Preview':
         $data = deims_data_explorer_get_rows($connection, $columns, $filters, DEIMS_PREVIEW_COUNT);
-        $total_rows = deims_data_explorer_get_row_count($connection, $columns);
+        $total_rows = deims_data_explorer_get_row_count($connection);
 
         $form['results'] = array(
           '#markup' => deims_data_explorer_generate_preview($columns, $data, $total_rows),
@@ -208,7 +223,7 @@ function deims_data_explorer_form($form, &$form_state, $variables, $connection, 
           'connection' => $connection,
           'columns' => $columns,
           'filters' => $filters,
-          'total_rows' => deims_data_explorer_get_row_count($connection, $columns),
+          'total_rows' => deims_data_explorer_get_row_count($connection),
           'limit' => DEIMS_BATCH_LIMIT,
           'file' => $file,
         );
@@ -553,6 +568,10 @@ function deims_data_explorer_download($node, $file) {
 
 /**
  * Implements hook_file_entity_access().
+ *
+ * By default temporary files are not downloadable. Because data explorer
+ * exported files are saved as temporary, we need to manually allow those
+ * files to be downloaded.
  */
 function deims_data_explorer_file_entity_access($op, $file, $account) {
   if ($op == 'download' && $file->status != FILE_STATUS_PERMANENT && $file->uid == $account->uid && strpos($file->uri, variable_get('deims_data_explorer_dir', 'public://data-downloads/')) !== FALSE) {
@@ -653,11 +672,9 @@ function deims_data_explorer_field_attach_validate($entity_type, $entity, array 
 function deims_data_explorer_workbench_block() {
   // Add editing information to this page (if it's a node).
   if (($node = menu_get_object()) && $node->type == 'data_source' && node_access('update', $node)) {
-    if ($query = deims_data_explorer_get_query_from_data_source($node)) {
-      $count = $query->countQuery()->execute()->fetchField();
-      if (empty($count)) {
-        $items = field_get_items('node', $node, DEIMS_DATA_EXPLORER_FIELD);
-        return array('<strong>' . t('DEIMS Data Explorer: The table or view %table in the %connection database does not have any records. The data explorer will not be available until there is at least one record.', array('%table' => $items[0]['table'], '%connection' => $items[0]['connection'])) . '</strong>');
+    if ($items = field_get_items('node', $node, DEIMS_DATA_EXPLORER_FIELD)) {
+      if (empty($items[0]['row_count'])) {
+        return array('<strong>' . t('DEIMS Data Explorer: The table or view %table in the %connection database does not have any records. The data explorer will not be available until there is at least one record and caches are cleared.', array('%table' => $items[0]['table'], '%connection' => $items[0]['connection'])) . '</strong>');
       }
     }
   }

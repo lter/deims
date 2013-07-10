@@ -278,6 +278,7 @@ function deims_variable_field_widget_form(&$form, &$form_state, $field, $instanc
     $element['actions']['remove_button'] = array(
       '#type' => 'submit',
       '#value' => t('Remove'),
+      '#name' => implode('_', $parents) . '_remove_button',
       '#delta' => $delta,
       '#submit' => array('deims_variable_remove_submit'),
       '#limit_validation_errors' => array(),
