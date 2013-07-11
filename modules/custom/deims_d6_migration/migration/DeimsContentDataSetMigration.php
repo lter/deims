@@ -33,29 +33,36 @@ class DeimsContentDataSetMigration extends DrupalNode6Migration {
       ->description('Possibly overridden in prepareRow().');
     $this->addFieldMapping('field_data_set_id', 'field_dataset_id');
     $this->addFieldMapping('field_abstract', 'field_dataset_abstract');
-    $this->addFieldMapping('field_abstract:format', 'field_dataset_abstract:format');
+    $this->addFieldMapping('field_abstract:format', 'field_dataset_abstract:format')
+      ->callbacks(array($this, 'mapFormat'));
     //$this->addFieldMapping('field_core_areas', '1');
     $this->addFieldMapping('field_short_name', 'field_dataset_short_name');
     //$this->addFieldMapping('field_keywords', '9');
     $this->addFieldMapping('field_purpose', 'field_dataset_purpose');
-    $this->addFieldMapping('field_purpose:format', 'field_dataset_purpose:format');
+    $this->addFieldMapping('field_purpose:format', 'field_dataset_purpose:format')
+      ->callbacks(array($this, 'mapFormat'));
     $this->addFieldMapping('field_additional_information', 'field_dataset_add_info');
-    $this->addFieldMapping('field_additional_information:format', 'field_dataset_add_info:format');
+    $this->addFieldMapping('field_additional_information:format', 'field_dataset_add_info:format')
+      ->callbacks(array($this, 'mapFormat'));
     $this->addFieldMapping('field_related_links', 'field_dataset_related_links');
     $this->addFieldMapping('field_related_links:title', 'field_dataset_related_links:title');
     $this->addFieldMapping('field_related_links:attributes', 'field_dataset_related_links:attributes');
     //$this->addFieldMapping('field_related_publications', 'field_dataset_biblio_ref')
     //  ->sourceMigration(array('DeimsContentBiblioMigration'));
     $this->addFieldMapping('field_maintenance', 'field_dataset_maintenance');
-    $this->addFieldMapping('field_maintenance:format', 'field_dataset_maintenance:format');
+    $this->addFieldMapping('field_maintenance:format', 'field_dataset_maintenance:format')
+      ->callbacks(array($this, 'mapFormat'));
     $this->addFieldMapping('field_related_sites', 'field_dataset_site_ref')
       ->sourceMigration(array('DeimsContentResearchSite'));
     $this->addFieldMapping('field_methods', 'field_methods');
-    $this->addFieldMapping('field_methods:format', 'field_methods:format');
+    $this->addFieldMapping('field_methods:format', 'field_methods:format')
+      ->callbacks(array($this, 'mapFormat'));
     $this->addFieldMapping('field_instrumentation', 'field_instrumentation');
-    $this->addFieldMapping('field_instrumentation:format', 'field_instrumentation:format');
+    $this->addFieldMapping('field_instrumentation:format', 'field_instrumentation:format')
+      ->callbacks(array($this, 'mapFormat'));
     $this->addFieldMapping('field_quality_assurance', 'field_quality');
-    $this->addFieldMapping('field_quality_assurance:format', 'field_quality:format');
+    $this->addFieldMapping('field_quality_assurance:format', 'field_quality:format')
+      ->callbacks(array($this, 'mapFormat'));
     $this->addFieldMapping('field_project_roles')
       ->description('Handled in prepare().');
     $this->addFieldMapping('field_date_range', 'field_beg_end_date');

@@ -35,11 +35,14 @@ class DeimsContentDataFileMigration extends DrupalNode6Migration {
           'preserve_files' => TRUE,
         ));*/
     $this->addFieldMapping('field_methods', 'field_methods');
-    $this->addFieldMapping('field_methods:format', 'field_methods:format');
+    $this->addFieldMapping('field_methods:format', 'field_methods:format')
+      ->callbacks(array($this, 'mapFormat'));
     $this->addFieldMapping('field_instrumentation', 'field_instrumentation');
-    $this->addFieldMapping('field_instrumentation:format', 'field_instrumentation:format');
+    $this->addFieldMapping('field_instrumentation:format', 'field_instrumentation:format')
+      ->callbacks(array($this, 'mapFormat'));
     $this->addFieldMapping('field_quality_assurance', 'field_quality');
-    $this->addFieldMapping('field_quality_assurance:format', 'field_quality:format');
+    $this->addFieldMapping('field_quality_assurance:format', 'field_quality:format')
+      ->callbacks(array($this, 'mapFormat'));
     $this->addFieldMapping('field_related_sites', 'field_datafile_site_ref')
       ->sourceMigration(array('DeimsContentResearchSite'));
     $this->addFieldMapping('field_variables')

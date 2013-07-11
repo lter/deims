@@ -7,8 +7,7 @@
   <?php endif; ?>
   <physical>
     <objectName><?php print check_plain($entity->field_data_source_file[LANGUAGE_NONE][0]['filename']); ?></objectName>
-    <size><?php print check_plain($entity->field_data_source_file[LANGUAGE_NONE][0]['filesize']); ?>
-    </size>
+    <size><?php print check_plain($entity->field_data_source_file[LANGUAGE_NONE][0]['filesize']); ?></size>
     <dataFormat>
       <textFormat>
         <?php if (!empty($content['field_csv_header_lines'])): ?>
@@ -26,7 +25,7 @@
         <simpleDelimited>
           <fieldDelimiter><?php print render($content['field_csv_field_delimiter']); ?></fieldDelimiter>
           <?php if (!empty($content['field_csv_quote_character'])): ?>
-            <quoteCharacter><?php print render($content['field_csv_quote_character']); ?></quoteCharacter>
+          <quoteCharacter><?php print render($content['field_csv_quote_character']); ?></quoteCharacter>
           <?php endif; ?>
         </simpleDelimited>
       </textFormat>
