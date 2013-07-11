@@ -170,11 +170,11 @@ class DeimsContentPersonMigration extends DrupalNode6Migration {
   public function getCountryCode($country_name) {
     include_once DRUPAL_ROOT . '/includes/locale.inc';
     $countries = country_get_list();
-    if (isset($countries[$row->field_person_country])) {
+    if (isset($countries[$country_name])) {
       // Do nothing. Country is already a valid code.
       return $country_name;
     }
-    elseif ($code = array_search($row->field_person_country, $countries)) {
+    elseif ($code = array_search($country_name, $countries)) {
       return $code;
     }
     else {
