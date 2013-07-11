@@ -180,11 +180,13 @@ projects[migrate][version] = "2.6-rc1"
 projects[migrate][subdir] = "contrib"
 ; Register migrations on module enable or disable
 projects[migrate][patch][2037265] = "http://drupal.org/files/2037265-migrate-static-registration-module-enable_0.patch"
+; Fix page titles and breadcrumbs in the UI
+projects[migrate][patch][2040101] = "http://drupal.org/files/2040101-breadcrumb-titles.patch"
 
 projects[migrate_d2d][version] = "2.x-dev"
 projects[migrate_d2d][subdir] = "contrib"
 ; Fix a PHP notice in migrations
-projects[migrate_d2d][patch][2026233] = "https://drupal.org/files/2026233-d6-php-notice-revision-id.patch"
+projects[migrate_d2d][patch][2026233] = "http://drupal.org/files/2026233-d6-php-notice-revision-id.patch"
 
 projects[migrate_extras][version] = "2.x-dev"
 projects[migrate_extras][subdir] = "contrib"

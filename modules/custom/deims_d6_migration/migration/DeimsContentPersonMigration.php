@@ -112,14 +112,14 @@ class DeimsContentPersonMigration extends DrupalNode6Migration {
       if (!$country_code) {
         $country_code = $this->getDefaultCountryCode();
         // Default the country to the US to ensure that this field is saved.
-        $this->queueMessage('Invalid country value ' . $row->field_person_country . ' for person node ' . $row->nid . '. Country has been set to ' . $country_code . ' so that the address field will save.', MigrationBase::MESSAGE_INFORMATIONAL);
+        $this->queueMessage("Invalid country value '{$row->field_person_country}' has been changed to default {$country_code} so the address field will save.", MigrationBase::MESSAGE_INFORMATIONAL);
       }
       $row->field_person_country = $country_code;
     }
     elseif (!empty($row->field_person_address) || !empty($row->field_person_city) || !empty($row->field_person_state)) {
       // Default the country to the US to ensure that this field is saved.
       $row->field_person_country = $this->getDefaultCountryCode();
-      $this->queueMessage('Empty country value with non-empty address for person node ' . $row->nid . '. Country has been set to ' . $row->field_person_country . ' so that the address field will save.', MigrationBase::MESSAGE_INFORMATIONAL);
+      $this->queueMessage("Empty country value with non-empty address has been changed to default {$row->field_person_country} so the address field will save.", MigrationBase::MESSAGE_INFORMATIONAL);
     }
 
     if ($row->field_person_zipcode == 0) {
