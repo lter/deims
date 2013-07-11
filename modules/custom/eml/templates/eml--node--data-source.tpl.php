@@ -6,8 +6,10 @@
   </entityDescription>
   <?php endif; ?>
   <physical>
+    <?php if (!empty($entity->field_data_source_file[LANGUAGE_NONE][0])): ?>
     <objectName><?php print check_plain($entity->field_data_source_file[LANGUAGE_NONE][0]['filename']); ?></objectName>
     <size><?php print check_plain($entity->field_data_source_file[LANGUAGE_NONE][0]['filesize']); ?></size>
+    <?php endif; ?>
     <dataFormat>
       <textFormat>
         <?php if (!empty($content['field_csv_header_lines'])): ?>

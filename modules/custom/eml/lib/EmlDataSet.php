@@ -168,13 +168,17 @@ class EmlDataSet {
       $this->setEMLHash($current_hash);
       EntityHelper::updateFieldValues('node', $this->node);
 
-      watchdog(
-        'eml',
-        'EML data set change detected. Updated EML revision ID and hash for !title.',
-        array('!title' => $this->node->title),
-        WATCHDOG_INFO,
-        l(t('View data set'), 'node/' . $this->node->nid) . ' | ' . l(t('View EML'), 'node/' . $this->node->nid . '/eml')
-      );
+      // Only trigger a watchdog message if the node isn't new. In cases of
+      // migrations this would flood the message log with unnecessary noise.
+      if (empty($this->node->is_new)) {
+        watchdog(
+          'eml',
+          'EML data set change detected. Updated EML revision ID and hash for !title.',
+          array('!title' => $this->node->title),
+          WATCHDOG_INFO,
+          l(t('View data set'), 'node/' . $this->node->nid) . ' | ' . l(t('View EML'), 'node/' . $this->node->nid . '/eml')
+        );
+      }
 
       // Update the EML output if neccessary.
       // @todo Should this code move to incrementEMLRevisionID or setEMLRevisionID?
