@@ -117,11 +117,11 @@ function deims_person_field_default_fields() {
         'type' => '0',
       ),
       'foreign keys' => array(
-        'node' => array(
+        'biblio_contributor_data' => array(
           'columns' => array(
-            'target_id' => 'nid',
+            'target_id' => 'cid',
           ),
-          'table' => 'node',
+          'table' => 'biblio_contributor_data',
         ),
       ),
       'indexes' => array(
@@ -434,6 +434,7 @@ function deims_person_field_default_fields() {
       'locked' => '0',
       'module' => 'name',
       'settings' => array(
+        'allow_family_or_given' => 0,
         'autocomplete_separator' => array(
           'credentials' => ', ',
           'family' => ' -',
@@ -588,6 +589,7 @@ Prof.',
           'title' => '',
         ),
         'override_format' => 'default',
+        'show_component_required_marker' => 0,
         'size' => array(
           'credentials' => '35',
           'family' => '20',
@@ -664,6 +666,7 @@ Prof.',
     ),
     'field_instance' => array(
       'bundle' => 'person',
+      'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -710,6 +713,7 @@ Prof.',
           'fields' => array(),
           'type_settings' => array(
             'allow_existing' => 1,
+            'clone_button' => 0,
             'delete_references' => 0,
             'match_operator' => 'CONTAINS',
           ),
@@ -717,6 +721,7 @@ Prof.',
         'type' => 'inline_entity_form',
         'weight' => '4',
       ),
+      'workbench_access_field' => 0,
     ),
   );
 
@@ -1114,11 +1119,11 @@ Prof.',
       'entity_types' => array(),
       'field_name' => 'field_user_account',
       'foreign keys' => array(
-        'node' => array(
+        'users' => array(
           'columns' => array(
-            'target_id' => 'nid',
+            'target_id' => 'uid',
           ),
-          'table' => 'node',
+          'table' => 'users',
         ),
       ),
       'indexes' => array(

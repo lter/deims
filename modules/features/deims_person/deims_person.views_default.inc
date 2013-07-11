@@ -109,6 +109,23 @@ function deims_person_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'person' => 'person',
   );
+  $translatables['entity_reference_selection'] = array(
+    t('Master'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
+    t('People'),
+  );
   $export['entity_reference_selection'] = $view;
 
   return $export;
