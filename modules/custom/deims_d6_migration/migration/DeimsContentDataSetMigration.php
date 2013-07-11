@@ -101,7 +101,7 @@ class DeimsContentDataSetMigration extends DrupalNode6Migration {
     // backreference field has a value, use it instead.
     $connection = Database::getConnection('default', $this->sourceConnection);
     $query = $connection->select('content_type_data_file', 'c');
-    $query->addField('c', 'field_data_file_data_set_nid');
+    $query->addField('c', 'nid');
     $query->condition('field_data_file_data_set_nid', $row->nid);
     $query->distinct();
     $results = $query->execute()->fetchCol();
