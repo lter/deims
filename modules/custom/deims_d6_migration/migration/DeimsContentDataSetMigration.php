@@ -66,6 +66,7 @@ class DeimsContentDataSetMigration extends DrupalNode6Migration {
     $this->addFieldMapping('field_project_roles')
       ->description('Handled in prepare().');
     $this->addFieldMapping('field_date_range', 'field_beg_end_date');
+    $this->addFieldMapping('field_date_range:value2', 'field_beg_end_date:value2');
     $this->addFieldMapping('field_publication_date', 'field_dataset_publication_date');
     $this->addFieldMapping('field_person_creator', 'field_dataset_owner_ref')
       ->sourceMigration(array('DeimsContentPerson'));
@@ -73,10 +74,10 @@ class DeimsContentDataSetMigration extends DrupalNode6Migration {
       ->sourceMigration(array('DeimsContentPerson'));
 
     $this->addUnmigratedSources(array(
-      'field_dataset_issignature',
-      'field_dataset_station_acronym',
-      'field_dataset_sevid',
-      'field_dataset_restricted',
+      'field_dataset_datamanager_ref', // Handled in prepare()
+      'field_dataset_fieldcrew_ref', // Handled in prepare()
+      'field_dataset_labcrew_ref', // Handled in prepare()
+      'field_dataset_ext_assoc_ref', // Handled in prepare()
     ));
 
     $this->addUnmigratedDestinations(array(
@@ -92,7 +93,10 @@ class DeimsContentDataSetMigration extends DrupalNode6Migration {
       'field_quality_assurance:language',
       'field_doi',
       'field_doi:language',
+      'field_eml_hash',
+      'field_eml_hash:language',
       'field_eml_link',
+      'field_eml_revision_id',
       'field_eml_valid',
       'field_person_metadata_provider',
       'field_person_publisher',
@@ -118,8 +122,42 @@ class DeimsContentDataSetMigration extends DrupalNode6Migration {
   }
 
   public function prepare($node, $row) {
+    // Fetch and prepare the variables field.
+    $node->field_project_roles[LANGUAGE_NONE] = $this->getProjectRoles($node, $row);
+
     // Remove any empty or illegal delta field values.
     EntityHelper::removeInvalidFieldDeltas('node', $node);
     EntityHelper::removeEmptyFieldValues('node', $node);
+  }
+
+  public function getProjectRoles($node, $row) {
+    $field_values = array();
+
+    $roles = array(
+      'field_dataset_datamanager_ref' => 'data manager',
+      'field_dataset_fieldcrew_ref' => 'field crew',
+      'field_dataset_labcrew_ref' => 'lab crew',
+      'field_dataset_ext_assoc_ref' => 'associated researcher',
+    );
+
+    foreach ($roles as $field => $role) {
+      if (!empty($row->{$field}) && $source_ids = array_filter($row->{$field})) {
+        if ($user_ids = $this->handleSourceMigration('DeimsContentPerson', $source_ids)) {
+          if (!is_array($user_ids)) {
+            $user_ids = array($user_ids);
+          }
+          foreach ($user_ids as $user_id) {
+            $entity = entity_create('project_role', array('type' => 'project_role', 'language' => $node->language));
+            $wrapper = entity_metadata_wrapper('project_role', $entity);
+            $wrapper->field_project_role = $role;
+            $wrapper->field_related_person = $user_id;
+            entity_save('project_role', $entity);
+            $field_values[] = array('target_id' => $entity->id);
+          }
+        }
+      }
+    }
+
+    return $field_values;
   }
 }
