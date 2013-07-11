@@ -459,6 +459,7 @@ function deims_data_set_field_default_fields() {
           'module' => 'eml',
           'settings' => array(
             'element' => '',
+            'multiple' => 0,
           ),
           'type' => 'entityreference_eml_element',
           'weight' => '16',
@@ -1002,7 +1003,7 @@ function deims_data_set_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => 0,
+          'weight' => '0',
         ),
         'search_result' => array(
           'label' => 'above',
@@ -1484,7 +1485,8 @@ function deims_data_set_field_default_fields() {
           'label' => 'above',
           'module' => 'eml',
           'settings' => array(
-            'element' => '',
+            'element' => 'contact',
+            'multiple' => 1,
           ),
           'type' => 'entityreference_eml_element',
           'weight' => '11',
@@ -1594,7 +1596,8 @@ function deims_data_set_field_default_fields() {
           'label' => 'above',
           'module' => 'eml',
           'settings' => array(
-            'element' => '',
+            'element' => 'creator',
+            'multiple' => 1,
           ),
           'type' => 'entityreference_eml_element',
           'weight' => '0',
@@ -1704,7 +1707,8 @@ function deims_data_set_field_default_fields() {
           'label' => 'above',
           'module' => 'eml',
           'settings' => array(
-            'element' => '',
+            'element' => 'metadataProvider',
+            'multiple' => 1,
           ),
           'type' => 'entityreference_eml_element',
           'weight' => '1',
@@ -1815,6 +1819,7 @@ function deims_data_set_field_default_fields() {
           'module' => 'eml',
           'settings' => array(
             'element' => '',
+            'multiple' => 0,
           ),
           'type' => 'entityreference_eml_element',
           'weight' => '12',
@@ -1925,6 +1930,7 @@ function deims_data_set_field_default_fields() {
           'module' => 'eml',
           'settings' => array(
             'element' => '',
+            'multiple' => 0,
           ),
           'type' => 'entityreference_eml_element',
           'weight' => '2',
@@ -2556,6 +2562,7 @@ function deims_data_set_field_default_fields() {
           'module' => 'eml',
           'settings' => array(
             'element' => '',
+            'multiple' => 0,
           ),
           'type' => 'entityreference_eml_element',
           'weight' => '7',

@@ -22,6 +22,7 @@ function eml_field_formatter_info() {
     'field types' => array('entityreference'),
     'settings' => array(
       'element' => '',
+      'multiple' => 0,
     ),
   );
   $info['name_eml_individualName'] = array(
@@ -86,6 +87,7 @@ function eml_field_formatter_settings_summary($field, $instance, $view_mode) {
 
     case 'entityreference_eml_element':
       $summary[] = t('Element name: @value', array('@value' => !empty($settings['element']) ? $settings['element'] : t('None')));
+      $summary[] = empty($settings['multiple']) ? t('Output multiple values inside one tag.') : t('Output multiple values as individual tags.');
       break;
 
     case 'telephone_eml_phone':
@@ -131,6 +133,11 @@ function eml_field_formatter_settings_form($field, $instance, $view_mode, $form,
         '#type' => 'textfield',
         '#default_value' => $settings['element'],
         '#description' => t('If blank, will not output a root XML element and only output the contents from the template.'),
+      );
+      $element['multiple'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Output multiple values as individual tags.'),
+        '#default_value' => $settings['multiple'],
       );
       break;
 
@@ -189,18 +196,26 @@ function eml_field_formatter_view($entity_type, $entity, $field, $instance, $lan
       if (!empty($ids) && $entities = entity_load($field['settings']['target_type'], $ids)) {
         $entities = entity_load($field['settings']['target_type'], $ids);
         $results = entity_view($field['settings']['target_type'], $entities, 'eml', $langcode, FALSE);
-        foreach ($results[$field['settings']['target_type']] as $delta => $result) {
-          if (!empty($settings['element'])) {
-            $element[$delta] = array(
-              '#theme' => 'eml_tag',
-              '#tag' => $settings['element'],
-              '#value' => render($result),
-            );
-          }
-          else {
-            $element[$delta] = array(
-              '#markup' => render($result),
-            );
+        if (!empty($settings['element']) && !empty($settings['multiple'])) {
+          $element = array(
+            '#theme' => 'eml_tags',
+            '#tag' => $settings['element'],
+          ) + $results[$field['settings']['target_type']];
+        }
+        else {
+          foreach ($results[$field['settings']['target_type']] as $delta => $result) {
+            if (!empty($settings['element'])) {
+              $element[$delta] = array(
+                '#theme' => 'eml_tag',
+                '#tag' => $settings['element'],
+                '#value' => render($result),
+              );
+            }
+            else {
+              $element[$delta] = array(
+                '#markup' => render($result),
+              );
+            }
           }
         }
       }

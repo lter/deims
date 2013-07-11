@@ -12,15 +12,9 @@
   <dataset>
     <title><?php print $label; ?></title>
 
-    <creator>
-      <?php print render($content['field_person_creator']); ?>
-    </creator>
+    <?php print render($content['field_person_creator']); ?>
 
-    <?php if (!empty($content['field_person_metadata_provider'])): ?>
-    <metadataProvider>
-      <?php print render($content['field_person_metadata_provider']); ?>
-    </metadataProvider>
-    <?php endif; ?>
+    <?php print render($content['field_person_metadata_provider']); ?>
 
     <?php print render($content['field_project_roles']); ?>
 
@@ -84,9 +78,7 @@
     </maintenance>
     <?php endif; ?>
 
-    <contact>
-      <?php print render($content['field_person_contact']); ?>
-    </contact>
+    <?php print render($content['field_person_contact']); ?>
 
     <?php if (!empty($content['field_person_publisher'])): ?>
     <publisher>
