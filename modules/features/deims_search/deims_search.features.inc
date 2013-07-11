@@ -41,7 +41,7 @@ function deims_search_default_search_api_index() {
     "server" : "database_server",
     "item_type" : "node",
     "options" : {
-      "index_directly" : 1,
+      "index_directly" : 0,
       "cron_limit" : "50",
       "fields" : {
         "title" : { "type" : "text", "boost" : "5.0" },
