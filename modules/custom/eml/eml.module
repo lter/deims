@@ -103,6 +103,9 @@ function eml_theme($existing, $type, $theme, $path) {
   $info['eml_tag'] = array(
     'render element' => 'element',
   );
+  $info['eml_tags'] = array(
+    'render element' => 'element',
+  );
 
   // A theme wrapper for format_xml_elements().
   $info['eml_elements'] = array(
@@ -129,6 +132,21 @@ function theme_eml_tag($variables) {
     }
   }
   return theme_html_tag($variables);
+}
+
+function theme_eml_tags($variables) {
+  $output = '';
+  $element = &$variables['element'];
+  foreach (element_children($element) as $key) {
+    $sub_element = array('element' => array());
+    $sub_element['element']['#tag'] = $element['#tag'];
+    if (isset($element['#attributes'])) {
+      $sub_element['element']['#attributes'] = $element['#attributes'];
+    }
+    $sub_element['element']['#value'] = drupal_render($element[$key]);
+    $output .= theme_html_tag($sub_element);
+  }
+  return $output;
 }
 
 /**
