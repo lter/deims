@@ -186,6 +186,9 @@ class EmlDataSet {
         $this->eml = str_replace($original_package_id, $this->getPackageID(), $this->eml);
       }
 
+      // Allow other modules to respond to the changed EML.
+      module_invoke_all('eml_changed', $this);
+
       // Enqueue the data set to be submitted to PASTA.
       EmlSubmissionQueue::get()->enqueue($this->node);
 
