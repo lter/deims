@@ -110,16 +110,16 @@ class DeimsContentPersonMigration extends DrupalNode6Migration {
     if (!empty($row->field_person_country)) {
       $country_code = $this->getCountryCode($row->field_person_country);
       if (!$country_code) {
+        $country_code = $this->getDefaultCountryCode();
         // Default the country to the US to ensure that this field is saved.
-        $this->queueMessage('Invalid country value ' . $row->field_person_country . ' for person node ' . $row->nid . '. Country has been set to US so that the address field will save.', MigrationBase::MESSAGE_INFORMATIONAL);
-        $country_code = 'US';
+        $this->queueMessage('Invalid country value ' . $row->field_person_country . ' for person node ' . $row->nid . '. Country has been set to ' . $country_code . ' so that the address field will save.', MigrationBase::MESSAGE_INFORMATIONAL);
       }
       $row->field_person_country = $country_code;
     }
     elseif (!empty($row->field_person_address) || !empty($row->field_person_city) || !empty($row->field_person_state)) {
       // Default the country to the US to ensure that this field is saved.
-      $this->queueMessage('Empty country value with non-empty address for person node ' . $row->nid . '. Country has been set to US so that the address field will save.', MigrationBase::MESSAGE_INFORMATIONAL);
-      $row->field_person_country = 'US';
+      $row->field_person_country = $this->getDefaultCountryCode();
+      $this->queueMessage('Empty country value with non-empty address for person node ' . $row->nid . '. Country has been set to ' . $row->field_person_country . ' so that the address field will save.', MigrationBase::MESSAGE_INFORMATIONAL);
     }
 
     if ($row->field_person_zipcode == 0) {
@@ -180,5 +180,21 @@ class DeimsContentPersonMigration extends DrupalNode6Migration {
     else {
       return FALSE;
     }
+  }
+
+  public function getDefaultCountryCode() {
+    static $default = NULL;
+
+    if (!isset($default)) {
+      $instance = field_info_instance('node', 'field_address', 'person');
+      if (!empty($instance['default_value'][0]['country'])) {
+        $default = $instance['default_value'][0]['country'];
+      }
+      else {
+        $default = variable_get('site_default_country', 'US');
+      }
+    }
+
+    return $default;
   }
 }
