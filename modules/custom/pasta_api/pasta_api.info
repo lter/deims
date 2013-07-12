@@ -1,0 +1,6 @@
+name = PASTA API
+description = @todo
+package = DEIMS Enhancements
+core = 7.x
+dependencies[] = eml
+dependencies[] = helper

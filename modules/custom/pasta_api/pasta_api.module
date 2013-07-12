@@ -1,0 +1,124 @@
+<?php
+
+// @todo Move the DOI and 'EML is valid' fields to this module?
+// @todo The 'EML is valid' field should be renamed to 'EML PASTA Compliance status'?
+
+/**
+ * Implements hook_node_delete().
+ */
+function pasta_api_node_delete($node) {
+  if ($node->type == 'data_set') {
+    $dataset = new EMLDataSet($node);
+    list($scope, $identifier) = $dataset->getPackageIDParts();
+    $options = array();
+    EMLDataSet::addApiAuthentication($options);
+    $url = EMLDataSet::getApiUrl("eml/$scope/$identifier");
+    $request = drupal_http_request($url, array('method' => 'DELETE'));
+  }
+}
+
+// ----------------------------------------------------------------------------
+// Cron queues
+// ----------------------------------------------------------------------------
+
+/**
+ * Implements hook_cron_queue_info().
+ */
+function pasta_api_cron_queue_info() {
+  $info['pasta_api_validation_report'] = array(
+    'worker callback' => 'eml_validation_report_queue_process',
+    'time' => 20,
+  );
+  $info['pasta_api_submission'] = array(
+    'worker callback' => 'eml_submission_queue_process',
+    'time' => 30,
+  );
+  /*$info['pasta_api_doi'] = array(
+    'worker callback' => 'pasta_api_doi_queue_process',
+    'time' => 20,
+  );*/
+
+  return $info;
+}
+
+/**
+ * Implements callback_cron_queue_info_worker().
+ */
+function pasta_api_validation_report_queue_process($data) {
+  return EmlValidationReportQueue::processData($data);
+}
+
+/**
+ * Implements callback_cron_queue_info_worker().
+ */
+function pasta_api_submission_queue_process($data) {
+  return EmlSubmissionQueue::processData($data);
+}
+
+// ----------------------------------------------------------------------------
+// Actions
+// ----------------------------------------------------------------------------
+
+/**
+ * Implements hook_action_info().
+ */
+function pasta_api_action_info() {
+  $info['pasta_api_action_dataset_update_doi'] = array(
+    'type' => 'node',
+    'label' => t('Fetch DOI from PASTA'),
+    'configurable' => FALSE,
+    'triggers' => array(),
+  );
+  $info['pasta_api_action_dataset_enqueue_validation_report'] = array(
+    'type' => 'node',
+    'label' => t('Enqueue to fetch EML validation report'),
+    'configurable' => FALSE,
+    'triggers' => array(),
+  );
+
+  return $info;
+}
+
+/**
+ * Implements callback_action_info().
+ *
+ * Action callback to retrieve a data set's DOI and save it in field_doi.
+ */
+function pasta_api_action_dataset_update_doi($node) {
+  if ($node->type != 'data_set') {
+    return;
+  }
+
+  try {
+    $dataset = new EmlDataSet($node);
+    if ($doi = $dataset->fetchDOI()) {
+      $node->field_doi[LANGUAGE_NONE][0]['value'] = $doi;
+      EntityHelper::updateFieldValues('node', $node);
+      $uri = entity_uri('node', $node);
+      $link = l(t('View data set'), $uri['path'], $uri['options']);
+      watchdog('pasta', 'Updated DOI for %title to @doi.', array('%title' => $node->title, '@doi' => $doi), WATCHDOG_INFO, $link);
+    }
+  }
+  catch (Exception $exception) {
+    // @todo Should we set the DOI field to be empty here?
+    watchdog_exception('pasta', $exception);
+  }
+}
+
+/**
+ * Implements callback_action_info().
+ *
+ * Enqueues a data set node to fetch its validation report.
+ */
+function pasta_api_action_dataset_enqueue_validation_report($node) {
+  if ($node->type != 'data_set') {
+    return;
+  }
+
+  try {
+    EmlValidationReportQueue::get()->enqueue($node);
+  }
+  catch (Exception $exception) {
+    watchdog_exception('pasta', $exception);
+  }
+}

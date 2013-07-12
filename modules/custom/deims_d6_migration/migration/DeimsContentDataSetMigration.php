@@ -98,6 +98,8 @@ class DeimsContentDataSetMigration extends DrupalNode6Migration {
       'field_eml_link',
       'field_eml_revision_id',
       'field_eml_valid',
+      // No actual source field for these destinations. It is assumed that
+      // individual sites will add support for these.
       'field_person_metadata_provider',
       'field_person_publisher',
     ));
