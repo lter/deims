@@ -7,14 +7,6 @@
 include_once 'deims_data_source.features.inc';
 
 /**
- * Implements hook_init().
- */
-function deims_data_source_init() {
-  drupal_add_library('system', 'ui.dialog');
-  drupal_add_js(drupal_get_path('module', 'deims_data_source') . '/js/data_source.js');
-}
-
-/**
  * Implements hook_field_attach_form().
  */
 function deims_data_source_field_attach_form($entity_type, $entity, &$form, &$form_state, $langcode) {
@@ -36,6 +28,14 @@ function deims_data_source_field_attach_form($entity_type, $entity, &$form, &$fo
       '#value' => t('Preview Source'),
       '#limit_validation_errors' => array(),
       '#weight' => 1,
+      '#attached' => array(
+        'library' => array(
+          array('system', 'ui.dialog'),
+        ),
+        'js' => array(
+          drupal_get_path('module', 'deims_data_source') . '/js/data_source.js' => array(),
+        ),
+      ),
     );
   }
 }
