@@ -43,71 +43,71 @@ function deims_variable_field_load($entity_type, $entities, $field, $instances, 
  * Implements hook_field_is_empty().
  */
 function deims_variable_field_is_empty($item, $field) {
-  return !isset($item['label']) || $item['label'] === '';
+  return empty($item['label'])
+      && empty($item['name'])
+      && empty($item['definition'])
+      && empty($item['missing_values'])
+      && empty($item['type'])
+      && empty($item['data']['unit'])
+      && empty($item['data']['pattern'])
+      && empty($item['data']['codes']);
 }
 
 /**
  * Implements hook_field_validate().
  */
 function deims_variable_field_validate($entity_type, $entity, $field, $instance, $langcode, $items, &$errors) {
-
   foreach ($items as $delta => $item) {
-    if (empty($item['label'])) {
-      $errors[$field['field_name']][$langcode][$delta][] = array(
-        'error' => 'deims_variable_label_empty',
-        'message' => 'Please provide a <strong>label</strong> for this variable.',
-        'element' => array('label'),
-      );
-    }
+    if (!deims_variable_field_is_empty($item, $field)) {
+      if (empty($item['label'])) {
+        $errors[$field['field_name']][$langcode][$delta][] = array(
+          'error' => 'deims_variable_label_empty',
+          'message' => 'Please provide a <strong>label</strong> for this variable.',
+          'element' => array('label'),
+        );
+      }
 
-    if (empty($item['name'])) {
-      $errors[$field['field_name']][$langcode][$delta][] = array(
-        'error' => 'deims_variable_name_empty',
-        'message' => 'Please provide a <strong>name</strong> for this variable.',
-        'element' => array('name'),
-      );
-    }
+      if (empty($item['definition'])) {
+        $errors[$field['field_name']][$langcode][$delta][] = array(
+          'error' => 'deims_variable_definition_empty',
+          'message' => 'Please provide a <strong>definition</strong> for this variable.',
+          'element' => array('definition'),
+        );
+      }
 
-    if (empty($item['definition'])) {
-      $errors[$field['field_name']][$langcode][$delta][] = array(
-        'error' => 'deims_variable_definition_empty',
-        'message' => 'Please provide a <strong>definition</strong> for this variable.',
-        'element' => array('definition'),
-      );
-    }
+      switch ($item['type']) {
+        case DEIMS_VARIABLE_TYPE_NOMINAL:
+          // Nominal variables have no detailed options.
+          break;
 
-    switch ($item['type']) {
-      case DEIMS_VARIABLE_TYPE_NOMINAL:
-        // Nominal variables have no detailed options.
-        break;
+        case DEIMS_VARIABLE_TYPE_PHYSICAL:
+          /*if ($item['data']['minimum'] >= $item['data']['maximum']) {
+            $errors[$field['field_name']][$langcode][$delta][] = array(
+              'error' => 'deims_variable_minimum_error',
+              'message' => t('%name: the minimum value must be smaller than the maximum value.', array('%name' => $instance['label'])),
+            );
+          }
+          if ($item['data']['maximum'] <= $item['data']['minimum']) {
+            $errors[$field['field_name']][$langcode][$delta][] = array(
+              'error' => 'deims_variable_maximum_error',
+              'message' => t('%name: the maximum value must be larger than the minimum value.', array('%name' => $instance['label'])),
+            );
+          }*/
+          break;
 
-      case DEIMS_VARIABLE_TYPE_PHYSICAL:
-        /*if ($item['data']['minimum'] >= $item['data']['maximum']) {
-          $errors[$field['field_name']][$langcode][$delta][] = array(
-            'error' => 'deims_variable_minimum_error',
-            'message' => t('%name: the minimum value must be smaller than the maximum value.', array('%name' => $instance['label'])),
-          );
-        }
-        if ($item['data']['maximum'] <= $item['data']['minimum']) {
-          $errors[$field['field_name']][$langcode][$delta][] = array(
-            'error' => 'deims_variable_maximum_error',
-            'message' => t('%name: the maximum value must be larger than the minimum value.', array('%name' => $instance['label'])),
-          );
-        }*/
-        break;
+        case DEIMS_VARIABLE_TYPE_DATE:
+          break;
 
-      case DEIMS_VARIABLE_TYPE_DATE:
-        break;
-
-      case DEIMS_VARIABLE_TYPE_CODES:
-        if (empty($items[$delta]['data']['codes'])) {
-          $errors[$field['field_name']][$langcode][$delta][] = array(
-            'error' => 'deims_variable_codes_empty',
-            'message' => 'Code type variables must not have an empty code list.',
-            'element' => array('data', 'codes'),
-          );
-        }
-        break;
+        case DEIMS_VARIABLE_TYPE_CODES:
+          if (empty($items[$delta]['data']['codes'])) {
+            $errors[$field['field_name']][$langcode][$delta][] = array(
+              'error' => 'deims_variable_codes_empty',
+              'message' => 'Code type variables must not have an empty code list.',
+              'element' => array('data', 'codes'),
+            );
+          }
+          break;
+      }
     }
   }
 }
@@ -164,30 +164,6 @@ function deims_variable_field_widget_form(&$form, &$form_state, $field, $instanc
   $langcode = $element['#language'];
   $parents = array_merge($element['#field_parents'], array($field_name, $langcode, $delta));
 
-  if ($field['cardinality'] == FIELD_CARDINALITY_UNLIMITED) {
-    // Do not add an 'extra' field value if this is not the first delta field
-    // item and we assume the user has not clicked on the 'Add another item'
-    // button by checking for an empty form state.
-    if (empty($form_state['input']) && !isset($items[$delta]) && $delta > 0) {
-      //$field_state = field_form_get_state($form['#parents'], $field_name, $langcode, $form_state);
-      //$field_state = count($items);
-      //field_form_set_state($form['#parents'], $field_name, $langcode, $form_state, $field_state);
-      //$form_state['field'][$field_name][$langcode]['items_count'] = count($items);
-      return FALSE;
-    }
-
-    // Field API always tries to add an 'extra' field to the existing values.
-    // Since in the above code we return FALSE for that 'extra' empty delta
-    // value form, ensure that when the user clicks the 'Add another item'
-    // button that we only show one more item, and not two on the first click.
-    if (!empty($form_state['input']) && count($items) > 0) {
-      $field_state = field_form_get_state($form['#parents'], $field_name, $langcode, $form_state);
-      if ($delta == $field_state['items_count']) {
-        return FALSE;
-      }
-    }
-  }
-
   $element['#state_parent'] = $parents[0] . '[' . implode('][', array_slice($parents, 1)) . ']';
   $element['#attached']['css'][] = drupal_get_path('module', 'deims_variable') . '/deims_variable.field.css';
   $element['#attached']['js'][] = drupal_get_path('module', 'deims_variable') . '/deims_variable.field.js';
@@ -229,29 +205,28 @@ function deims_variable_field_widget_form(&$form, &$form_state, $field, $instanc
   $element['label'] = array(
     '#prefix' => '<div class="variable-left-column form-wrapper">',
     '#type' => 'textfield',
-    '#title' => t('Label') . ' <span class="form-required">*</span>',
+    '#title' => t('Label'),
     '#description' => t('The label of the actual column in the source file.'),
     '#default_value' => isset($items[$delta]['label']) ? $items[$delta]['label'] : '',
-    '#required' => FALSE,
+    '#required' => $instance['required'],
     '#maxlength' => 255,
     '#size' => 30,
     '#attributes' => array('class' => array('variable-label')),
   );
   $element['name'] = array(
     '#type' => 'textfield',
-    '#title' => t('Name') . ' <span class="form-required">*</span>',
+    '#title' => t('Name'),
     '#description' => t('The human-readable name of the variable.'),
     '#default_value' => isset($items[$delta]['name']) ? $items[$delta]['name'] : '',
-    '#required' => FALSE,
     '#maxlength' => 255,
     '#attributes' => array('class' => array('variable-name')),
   );
   $element['definition'] = array(
     '#type' => 'textarea',
-    '#title' => t('Definition') . ' <span class="form-required">*</span>',
+    '#title' => t('Definition'),
     '#description' => t('The definition of the variable (column). Example: The air temperature collected at 2 meters above the ground. Other example: The set of codes used to categorize the sub-plots where the census studies were conducted.'),
     '#default_value' => isset($items[$delta]['definition']) ? $items[$delta]['definition'] : '',
-    '#required' => FALSE,
+    '#required' => $instance['required'],
     '#rows' => 2,
   );
 
