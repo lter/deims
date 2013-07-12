@@ -1,0 +1,6 @@
+name = DEIMS Variable Field Search
+description = Provides support for searching and easily copying pre-existing variables in the variable entry form.
+package = DEIMS Enhancements
+core = 7.x
+dependencies[] = deims_variable
+dependnecies[] = search

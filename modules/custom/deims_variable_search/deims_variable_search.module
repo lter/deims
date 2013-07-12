@@ -1,0 +1,177 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+function deims_variable_search_menu() {
+  $info = array();
+
+  $info['deims-variable-search/autocomplete/%/%'] = array(
+    'page callback' => 'deims_variable_search_autocomplete',
+    'page arguments' => array(2, 3),
+    'access callback' => 'deims_variable_search_autocomplete_access',
+    'access arguments' => array(2, 3),
+    'type' => MENU_CALLBACK,
+    'file' => 'deims_variable_search.pages.inc',
+  );
+
+  return $info;
+}
+
+/**
+ * Implements hook_cron().
+ *
+ * Perform indexing on variables that have not been indexed, or have been
+ * requested to re-index.
+ */
+function deims_variable_search_cron() {
+  $limit = (int) variable_get('deims_variable_search_cron_limit', 100);
+  $fields = deims_variable_get_variable_fields();
+
+  foreach ($fields as $field_name => $field) {
+    $table = db_escape_table(_field_sql_storage_tablename($field));
+    $id_column = db_escape_field(_field_sql_storage_columnname($field_name, 'id'));
+    $sql = "SELECT v.$id_column FROM {" . $table . "} v LEFT JOIN search_dataset d ON d.type = :field_name AND d.sid = v.$id_column WHERE v.deleted = 0 AND (d.sid IS NULL OR d.reindex <> 0) ORDER BY d.reindex ASC, v.$id_column ASC";
+    if ($ids = db_query_range($sql, 0, $limit, array(':field_name' => $field_name), array('target' => 'slave'))->fetchCol()) {
+      if ($items = deims_variable_load_multiple($field_name, $ids)) {
+        deims_variable_search_index_variables($field_name, $items);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_field_attach_update().
+ */
+function deims_variable_search_field_attach_update($entity_type, $entity) {
+  list(, , $bundle) = entity_extract_ids($entity_type, $entity);
+
+  foreach (field_info_instances($entity_type, $bundle) as $field_name => $instance) {
+    $field = field_info_field_by_id($instance['field_id']);
+    if ($field['type'] == 'deims_variable' && $items = field_get_items($entity_type, $entity, $field_name)) {
+      deims_variable_search_touch_variables($field_name, $items);
+    }
+  }
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ */
+function deims_variable_search_field_widget_deims_variable_default_form_alter(&$element, &$form_state, $context) {
+  $item = isset($context['items'][$context['delta']]) ? $context['items'][$context['delta']] : array();
+
+  $element['actions']['search'] = array(
+    '#type' => 'button',
+    '#value' => t('Clone existing variable'),
+    '#execute_submit_handlers' => FALSE,
+    '#limit_validation_errors' => array(),
+    '#weight' => -10,
+    '#access' => FALSE,
+  );
+
+  $search_uri = array(
+    'path' => 'deims-variable-search/autocomplete/' . $context['field']['field_name'] . '/' . $context['instance']['entity_type'],
+    'options' => array(),
+  );
+  if (!empty($item['id'])) {
+    $search_uri['options']['query']['exclude-variable-id'] = $item['id'];
+  }
+  $element['search'] = array(
+    '#type' => 'searchfield',
+    '#title' => t('Search existing variables'),
+    '#title_display' => 'invisible',
+    '#attributes' => array(
+      'class' => array('deims-variable-search-autocomplete'),
+      'data-source' => url($search_uri['path'], $search_uri['options']),
+      'data-form-parent' => $element['#state_parent'],
+      'placeholder' => t('Re-use an existing variable'),
+    ),
+    '#access' => deims_variable_search_autocomplete_access($context['field']['field_name'], $context['instance']['entity_type']),
+    '#input' => FALSE,
+    '#attached' => array(
+      'library' => array(
+        array('system', 'ui.autocomplete'),
+      ),
+      'js' => array(
+        drupal_get_path('module', 'deims_variable_search') . '/js/field.js',
+      ),
+    ),
+    '#weight' => -150,
+  );
+}
+
+/**
+ * Access callback for accessing the variable search results.
+ */
+function deims_variable_search_autocomplete_access($field_name, $entity_type) {
+  $field = field_info_field($field_name);
+  return !empty($field) && $field['storage']['type'] == 'field_sql_storage' && field_access('edit', $field, $entity_type) && field_has_data($field_name);
+}
+
+function deims_variable_load_multiple($field_name, array $ids) {
+  $field = field_info_field($field_name);
+  if ($field['storage']['type'] != 'field_sql_storage') {
+    throw new \DomainException('Cannot load DEIMS variables for field ' . $field_name . ' because it does not use SQL storage.');
+  }
+
+  if (empty($ids)) {
+    return array();
+  }
+
+  $items = array();
+  $table = db_escape_table(_field_sql_storage_tablename($field));
+  $id_column = db_escape_field(_field_sql_storage_columnname($field_name, 'id'));
+  $results = db_query("SELECT * FROM {" . $table . "} WHERE $id_column IN (:ids) AND deleted = 0", array(':ids' => $ids));
+
+  foreach ($results as $row) {
+    $item = array();
+    foreach ($field['columns'] as $column => $attributes) {
+      $column_name = _field_sql_storage_columnname($field_name, $column);
+      $item[$column] = $row->$column_name;
+    }
+    // @todo Unseralize item values? Possibly by somehow running through deims_variable_field_load()?
+    $item['data'] = unserialize($item['data']);
+    $item['missing_values'] = unserialize($item['missing_values']);
+    $items[$item['id']] = $item;
+  }
+
+  return $items;
+}
+
+function deims_variable_get_variable_fields() {
+  $fields = array();
+
+  foreach (field_info_field_map() as $field_name => $field) {
+    if ($field['type'] == 'deims_variable') {
+      $info = field_info_field($field_name);
+      if ($info['storage']['type'] == 'field_sql_storage') {
+        $fields[$field_name] = $info;
+      }
+    }
+  }
+
+  return $fields;
+}
+
+function deims_variable_search_touch_variables($field_name, $items) {
+  if ($ids = ArrayHelper::extractNestedValuesToArray($items, array('id'))) {
+    db_update('search_dataset')
+      ->fields(array('reindex' => REQUEST_TIME))
+      ->condition('type', $field_name)
+      ->condition('sid', $ids, 'IN')
+      ->execute();
+  }
+}
+
+function deims_variable_search_index_variables($field_name, array $items) {
+  foreach ($items as $item) {
+    $id_column = _field_sql_storage_columnname($field_name, 'id');
+
+    $text = '<h1>' . $item['label'] . '</h1>';
+    $text .= '<h2>' . $item['name'] . '</h2>';
+    $text .= '<h3>' . $item['definition'] . '</h3>';
+    //$text .= '<h3>' . $item['type'] . '</h3>';
+
+    search_index($item['id'], $field_name, $text);
+  }
+}
