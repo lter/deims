@@ -19,6 +19,14 @@ function deims_variable_search_menu() {
 }
 
 /**
+ * Access callback for accessing the variable search results.
+ */
+function deims_variable_search_autocomplete_access($field_name, $entity_type) {
+  $field = field_info_field($field_name);
+  return !empty($field) && $field['storage']['type'] == 'field_sql_storage' && field_access('edit', $field, $entity_type) && field_has_data($field_name);
+}
+
+/**
  * Implements hook_cron().
  *
  * Perform indexing on variables that have not been indexed, or have been
@@ -60,14 +68,13 @@ function deims_variable_search_field_attach_update($entity_type, $entity) {
 function deims_variable_search_field_widget_deims_variable_default_form_alter(&$element, &$form_state, $context) {
   $item = isset($context['items'][$context['delta']]) ? $context['items'][$context['delta']] : array();
 
-  $element['actions']['search'] = array(
-    '#type' => 'button',
-    '#value' => t('Clone existing variable'),
-    '#execute_submit_handlers' => FALSE,
-    '#limit_validation_errors' => array(),
-    '#weight' => -10,
-    '#access' => FALSE,
-  );
+  //$element['actions']['search'] = array(
+  //  '#type' => 'button',
+  //  '#value' => t('Clone existing variable'),
+  //  '#execute_submit_handlers' => FALSE,
+  //  '#limit_validation_errors' => array(),
+  //  '#weight' => -10,
+  //);
 
   $search_uri = array(
     'path' => 'deims-variable-search/autocomplete/' . $context['field']['field_name'] . '/' . $context['instance']['entity_type'],
@@ -98,14 +105,6 @@ function deims_variable_search_field_widget_deims_variable_default_form_alter(&$
     ),
     '#weight' => -150,
   );
-}
-
-/**
- * Access callback for accessing the variable search results.
- */
-function deims_variable_search_autocomplete_access($field_name, $entity_type) {
-  $field = field_info_field($field_name);
-  return !empty($field) && $field['storage']['type'] == 'field_sql_storage' && field_access('edit', $field, $entity_type) && field_has_data($field_name);
 }
 
 function deims_variable_load_multiple($field_name, array $ids) {

@@ -79,8 +79,8 @@ function _deims_variable_types() {
   return array(
     DEIMS_VARIABLE_TYPE_NOMINAL => t('Nominal'),
     DEIMS_VARIABLE_TYPE_PHYSICAL => t('Physical quantity'),
-    DEIMS_VARIABLE_TYPE_DATE => t('Date and/or time'),
-    DEIMS_VARIABLE_TYPE_CODES => t('Codes / list'),
+    DEIMS_VARIABLE_TYPE_DATE => t('Date/time'),
+    DEIMS_VARIABLE_TYPE_CODES => t('Code list'),
   );
 }
 

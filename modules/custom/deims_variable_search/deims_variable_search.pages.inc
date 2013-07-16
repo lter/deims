@@ -26,20 +26,20 @@ function deims_variable_search_autocomplete($field_name, $entity_type) {
     $matches = array_keys($results);
   }
 
-  if (empty($matches) || count($matches) < $limit) {
-    $query = db_select($table, 'v');
-    $query->addField('v', $id_column);
-    if (!empty($matches)) {
-      $query->condition($id_column, $matches, 'NOT IN');
-    }
-    $or = db_or();
-    $or->condition(_field_sql_storage_columnname($field_name, 'label'), '%' . db_like($term) . '%', 'LIKE');
-    $or->condition(_field_sql_storage_columnname($field_name, 'name'), '%' . db_like($term) . '%', 'LIKE');
-    $or->condition(_field_sql_storage_columnname($field_name, 'definition'), '%' . db_like($term) . '%', 'LIKE');
-    $query->condition($or);
-    $results = $query->execute()->fetchCol();
-    $matches = array_merge($matches, $results);
-  }
+  //if (empty($matches) || count($matches) < $limit) {
+  //  $query = db_select($table, 'v');
+  //  $query->addField('v', $id_column);
+  //  if (!empty($matches)) {
+  //    $query->condition($id_column, $matches, 'NOT IN');
+  //  }
+  //  $or = db_or();
+  //  $or->condition(_field_sql_storage_columnname($field_name, 'label'), '%' . db_like($term) . '%', 'LIKE');
+  //  $or->condition(_field_sql_storage_columnname($field_name, 'name'), '%' . db_like($term) . '%', 'LIKE');
+  //  $or->condition(_field_sql_storage_columnname($field_name, 'definition'), '%' . db_like($term) . '%', 'LIKE');
+  //  $query->condition($or);
+  //  $results = $query->execute()->fetchCol();
+  //  $matches = array_merge($matches, $results);
+  //}
 
   // Load and output results.
   $items = deims_variable_load_multiple($field_name, $matches);
@@ -63,7 +63,12 @@ function _deims_variable_search_prepare_summary(&$item) {
       $summary .= ' (' . check_plain($item['data']['pattern']) . ')';
       break;
     case DEIMS_VARIABLE_TYPE_CODES:
-      $item['data']['codes'] = list_allowed_values_string($item['data']['codes']);
+      //$item['data']['codes'] = list_allowed_values_string($item['data']['codes']);
+      $summary .= ' (' . implode(', ', array_slice(array_keys($item['data']['codes']), 0, 3));
+      if (count($item['data']['codes']) > 3) {
+        $summary .= ', ...';
+      }
+      $summary .= ')';
       break;
   }
   $item['missing_values'] = list_allowed_values_string($item['missing_values']);

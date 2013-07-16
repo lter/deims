@@ -3,4 +3,4 @@ description = Provides support for searching and easily copying pre-existing var
 package = DEIMS Enhancements
 core = 7.x
 dependencies[] = deims_variable
-dependnecies[] = search
+dependencies[] = search
