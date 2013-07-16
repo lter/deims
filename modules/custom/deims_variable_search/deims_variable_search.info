@@ -4,3 +4,4 @@ package = DEIMS Enhancements
 core = 7.x
 dependencies[] = deims_variable
 dependencies[] = search
+dependencies[] = helper

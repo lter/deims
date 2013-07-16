@@ -53,11 +53,23 @@ function deims_variable_search_cron() {
  */
 function deims_variable_search_field_attach_update($entity_type, $entity) {
   list(, , $bundle) = entity_extract_ids($entity_type, $entity);
+  $instances = array_intersect_key(field_info_instances($entity_type, $bundle), deims_variable_get_variable_fields());
+  foreach ($instances as $field_name => $instance) {
+    if ($original_items = field_get_items($entity_type, $entity->original, $field_name)) {
+      deims_variable_search_delete_variables($field_name, $items);
+    }
+  }
+}
 
-  foreach (field_info_instances($entity_type, $bundle) as $field_name => $instance) {
-    $field = field_info_field_by_id($instance['field_id']);
-    if ($field['type'] == 'deims_variable' && $items = field_get_items($entity_type, $entity, $field_name)) {
-      deims_variable_search_touch_variables($field_name, $items);
+/**
+ * Implements hook_field_attach_delete().
+ */
+function deims_variable_search_field_attach_delete($entity_type, $entity) {
+  list(, , $bundle) = entity_extract_ids($entity_type, $entity);
+  $instances = array_intersect_key(field_info_instances($entity_type, $bundle), deims_variable_get_variable_fields());
+  foreach ($instances as $field_name => $instance) {
+    if ($items = field_get_items($entity_type, $entity, $field_name)) {
+      deims_variable_search_delete_variables($field_name, $items);
     }
   }
 }
@@ -152,13 +164,21 @@ function deims_variable_get_variable_fields() {
   return $fields;
 }
 
-function deims_variable_search_touch_variables($field_name, $items) {
+function deims_variable_search_reindex_variables($field_name, array $items) {
   if ($ids = ArrayHelper::extractNestedValuesToArray($items, array('id'))) {
     db_update('search_dataset')
       ->fields(array('reindex' => REQUEST_TIME))
       ->condition('type', $field_name)
       ->condition('sid', $ids, 'IN')
       ->execute();
+  }
+}
+
+function deims_variable_search_delete_variables($field_name, array $items) {
+  if ($ids = ArrayHelper::extractNestedValuesToArray($items, array('id'))) {
+    foreach ($ids as $id) {
+      search_reindex($id, $field_name);
+    }
   }
 }
 
