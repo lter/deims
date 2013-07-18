@@ -128,8 +128,10 @@ function deims_data_explorer_node_load(array $nodes) {
 function deims_data_explorer_page_access($node) {
   return $node->type == 'data_source'
       && node_access('view', $node)
-      && ($items = field_get_items('node', $node, DEIMS_DATA_EXPLORER_FIELD))
-      && !empty($items[0]['row_count']);
+      && ($connection = field_get_items('node', $node, DEIMS_DATA_EXPLORER_FIELD))
+      && !empty($connection[0]['row_count'])
+      && ($variables = field_get_items('node', $node, 'field_variables'))
+      && _deims_de_get_allowed_columns($variables);
 }
 
 /**
@@ -259,17 +261,17 @@ function deims_data_explorer_form($form, &$form_state, $variables, $connection, 
   );
 
   $header  = array(
-    'label' => t('Label'),
-    'name' => t('Variable Name'),
-    'type' => t('Variable Type'),
+    'label' => t('Column'),
+    'name' => t('Variable'),
+    'type' => t('Type'),
     'definition' => t('Definition'),
   );
   $options = array();
   foreach ($allowed_column_variables as $variable) {
-    $options[$variable['name']] = array(
+    $options[$variable['label']] = array(
       'label' => $variable['label'],
       'name' => $variable['name'],
-      'type' => $variable['type'],
+      'type' => deims_variable_type_label($variable['type']),
       'definition' => $variable['definition'],
     );
   }
@@ -278,6 +280,7 @@ function deims_data_explorer_form($form, &$form_state, $variables, $connection, 
     '#header' => $header,
     '#options' => $options,
     '#empty' => t('No columns found'),
+    '#required' => TRUE,
   );
   // END: Create the table to select columns.
 
@@ -289,15 +292,22 @@ function deims_data_explorer_form($form, &$form_state, $variables, $connection, 
   );
 
   $header = array(
-    'label' => t('Label'),
-    'choice' => t('Choice'),
+    'label' => t('Column'),
+    'choice' => t('Filter'),
   );
   $options = array();
   foreach ($allowed_filters_variables as $variable) {
-    $options[$variable['name']] = array(
-      'label' => $variable['label'],
-      'choice' => 'Choice',
-    );
+    if ($element = _deims_de_prep_variable($variable)) {
+      $element += array(
+        '#type' => 'value',
+        '#parents' => array('filter'),
+        '#name' => $variable['label'],
+      );
+      $options[$variable['label']] = array(
+        'label' => $variable['label'],
+        'choice' => drupal_render($element),
+      );
+    }
   }
   $form['filter_set']['filters_table'] = array(
     '#type' => 'tableselect',
@@ -326,6 +336,12 @@ function deims_data_explorer_form($form, &$form_state, $variables, $connection, 
     unset($form['download']);
   }
   return $form;
+}
+
+function deims_data_explorer_form_validate($form, &$form_state) {
+  if (!array_filter($form_state['values']['columns_table'])) {
+    drupal_set_message(t('You must select at least one column.'), 'error');
+  }
 }
 
 function deims_data_explorer_form_submit($form, &$form_state) {
@@ -368,7 +384,9 @@ function deims_data_explorer_generate_preview($columns_array, $rows_array, $tota
  * @return array
  */
 function _deims_de_get_allowed_columns($variables) {
-  return $variables;
+  return array_filter($variables, function($variable) {
+    return !empty($variable['data']['data_explorer_settings']['expose']);
+  });
 }
 
 /**
@@ -379,7 +397,9 @@ function _deims_de_get_allowed_columns($variables) {
  * @return array
  */
 function _deims_de_get_allowed_filters($variables) {
-  return $variables;
+  return array_filter($variables, function($variable) {
+    return !empty($variable['data']['data_explorer_settings']['filter']);
+  });
 }
 
 function _deims_de_get_submitted_columns($columns) {
@@ -405,7 +425,7 @@ function _deims_de_get_submitted_filters($columns) {
 function _deims_de_flatten_allowed($variables) {
   // @todo Change these to return the full variables and use the array map only where needed.
   // @todo Change to only include checked columns.
-  return array_map(function ($value) { return $value['name']; }, $variables);
+  return array_map(function ($value) { return $value['label']; }, $variables);
 }
 
 /**
@@ -440,30 +460,14 @@ function deims_data_explorer_get_rows($connection, $columns = array(), $conditio
   return $result->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function _deims_de_prep_variable($variable, &$form) {
+function _deims_de_prep_variable($variable) {
   if ($variable['type'] == '') {
     $variable['type'] = 'nominal';
   }
   $function = '_deims_de_prep_' . $variable['type'];
   if (function_exists($function)) {
     // Add to form.
-    $function($variable, $form);
-  }
-}
-
-function _deims_de_prep_variables($variables, &$form) {
-  foreach ($variables as $variable) {
-    if ($variable['type'] == '') {
-      $variable['type'] = 'nominal';
-    }
-    $function = '_deims_de_prep_' . $variable['type'];
-    if (function_exists($function)) {
-      // Add to form.
-      $function($variable, $form);
-    }
-    else {
-
-    }
+    return $function($variable);
   }
 }
 
@@ -472,21 +476,11 @@ function _deims_de_prep_variables($variables, &$form) {
  *
  * @param $variable
  */
-function _deims_de_prep_codes($variable, &$form) {
-  $codes = $variable['data']['codes'];
-  $code_list = array();
-  foreach ($codes as $key => $value) {
-    $code_list[] = $key;
-  }
-  $name = $variable['name'];
-  $form['filter_set'][$name] = array(
-    '#type' => 'fieldset',
-    '#title' => $name,
-  );
-  $form['filter_set'][$name][$name] = array(
-    '#type' => 'checkboxes',
-    '#options' => $code_list,
+function _deims_de_prep_codes($variable) {
+  return array(
+    '#type' => 'select',
     '#title' => t('Limit by search codes:'),
+    '#options' => $variable['data']['codes'],
   );
 }
 
@@ -495,13 +489,8 @@ function _deims_de_prep_codes($variable, &$form) {
  *
  * @param $variable
  */
-function _deims_de_prep_nominal($variable, &$form) {
-  $name = $variable['name'];
-  $form['filter_set'][$name] = array(
-    '#type' => 'fieldset',
-    '#title' => $name,
-  );
-  $form['filter_set'][$name][$name] = array(
+function _deims_de_prep_nominal($variable) {
+  return array(
     '#type' => 'textfield',
     '#title' => t('Limit by search term:'),
   );
@@ -512,7 +501,7 @@ function _deims_de_prep_nominal($variable, &$form) {
  *
  * @param $variable
  */
-function _deims_de_prep_physical($variable, &$form) {
+function _deims_de_prep_physical($variable) {
 
   $name = $variable['name'];
   $minimum = $variable['data']['minimum'];
@@ -523,23 +512,21 @@ function _deims_de_prep_physical($variable, &$form) {
   foreach (range($minimum, $maximum, $precision) as $number) {
     $options[] = $number;
   }
-  $form['filter_set'][$name] = array(
-    '#type'  => 'fieldset',
-    '#title' => $name,
-  );
 // @todo Fix
-  $form['filter_set'][$name][$name]['min'] = array(
+  $element = array();
+  $element['min'] = array(
     '#type'          => 'select',
     '#title'         => t("Choose a minimum $unit:"),
     '#options'       => $options,
     '#default_value' => $minimum,
   );
-  $form['filter_set'][$name][$name]['max'] = array(
+  $element['max'] = array(
     '#type'          => 'select',
     '#title'         => t("Choose a maximum $unit:"),
     '#options'       => $options,
     '#default_value' => 10,
   );
+  return $element;
 }
 
 /**
@@ -672,6 +659,7 @@ function deims_data_explorer_field_attach_validate($entity_type, $entity, array 
 function deims_data_explorer_workbench_block() {
   // Add editing information to this page (if it's a node).
   if (($node = menu_get_object()) && $node->type == 'data_source' && node_access('update', $node)) {
+    // @todo Add more helpful validation for conditions in deims_data_explorer_page_access() that could fail.
     if ($items = field_get_items('node', $node, DEIMS_DATA_EXPLORER_FIELD)) {
       if (empty($items[0]['row_count'])) {
         return array('<strong>' . t('DEIMS Data Explorer: The table or view %table in the %connection database does not have any records. The data explorer will not be available until there is at least one record and caches are cleared.', array('%table' => $items[0]['table'], '%connection' => $items[0]['connection'])) . '</strong>');
