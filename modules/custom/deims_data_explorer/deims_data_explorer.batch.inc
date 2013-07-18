@@ -74,9 +74,8 @@ function _show_download_link($success, $results, $operations) {
       array(
         'query' => array(
           'token' => drupal_get_token($path),
-          ),
         ),
-      )
+      ),
     );
   }
   else {
