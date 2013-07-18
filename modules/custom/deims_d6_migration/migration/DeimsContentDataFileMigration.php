@@ -28,12 +28,12 @@ class DeimsContentDataFileMigration extends DrupalNode6Migration {
     $this->removeFieldMapping('body:format');
     $this->addUnmigratedSources(array('body', 'teaser', 'format'));
 
-    /*$this->addFieldMapping('field_data_source_file', 'field_data_file')
+    $this->addFieldMapping('field_data_source_file', 'field_data_file')
       ->sourceMigration('DeimsFile')
       ->arguments(array(
           'file_class' => 'MigrateFileFid',
           'preserve_files' => TRUE,
-        ));*/
+        ));
     $this->addFieldMapping('field_methods', 'field_methods');
     $this->addFieldMapping('field_methods:format', 'field_methods:format')
       ->callbacks(array($this, 'mapFormat'));
