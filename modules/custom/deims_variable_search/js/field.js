@@ -7,6 +7,8 @@ Drupal.behaviors.variableFieldSearch = {
   attach: function (context) {
 
     $('select.variable-type.autocomplete-item-process').each(function() {
+      $(this).removeClass('autocomplete-item-process');
+
       var base = $(this).attr('name');
       base = base.substr(0, base.length - 6);
       var item = $(this).data('autocomplete-item');
@@ -30,65 +32,23 @@ Drupal.behaviors.variableFieldSearch = {
           break;
 
         case 'codes':
-          $(this).parents('.variable-entry').find('textarea[name="' + base + '[data][codes][options_field]"]').val(item.data.codes).change();
-
-          //console.log(Drupal.optionElements);
-
-          //Drupal.optionElements['edit-field-variables-und-8-data-codes-options-field-widget'].updateWidgetElements();
-          // @todo Fill in code values.
+          $(this).parents('.variable-entry').find('textarea[name="' + base + '[data][codes][options_field]"]').val(item.data.codes_text).trigger('manual-change');
           break;
       }
-    }).removeClass('autocomplete-item-process').removeData('autocomplete-item');
+    }).removeData('autocomplete-item');
 
     $('input.deims-variable-search-autocomplete', context).once('deims-variable-search-autocomplete', function() {
-      var base = $(this).data('form-parent');
-      /*$(this).parents('.variable-entry').find('select[name="' + base + '[type]"]').bind('autocomplete_change', function(event, item) {
-        switch (item.type) {
-          case 'physical':
-            $(this).parents('.variable-entry').find('select[name="' + base + '[data][unit][select]"]').val(item.data.unit).change();
-            break;
-
-          case 'date':
-            $(this).parents('.variable-entry').find('input[name="' + base + '[data][pattern]"]').val(item.data.pattern).change();
-            break;
-
-          case 'codes':
-            // @todo Fill in code values.
-            break;
-        }
-      });*/
-
+      //var base = $(this).data('form-parent');
       $(this).autocomplete({
         source: $(this).data('source'),
         minLength: 3,
         select: function(event, ui) {
-          //var base = $(this).data('form-parent');
-
+          var base = $(this).data('form-parent');
           $(this).parents('.variable-entry').find('input[name="' + base + '[name]"]').val(ui.item.name).change();
           $(this).parents('.variable-entry').find('input[name="' + base + '[label]"]').val(ui.item.label).change();
           $(this).parents('.variable-entry').find('textarea[name="' + base + '[definition]"]').val(ui.item.definition).change();
+          $(this).parents('.variable-entry').find('textarea[name="' + base + '[missing_values][options_field]"]').val(ui.item.missing_values_text).trigger('manual-change');
           $(this).parents('.variable-entry').find('select[name="' + base + '[type]"]').val(ui.item.type).change().data('autocomplete-item', ui.item).addClass('autocomplete-item-process');
-
-          /*setTimeout(function() {
-            console.log('FIRE!');
-            switch (ui.item.type) {
-              case 'physical':
-                console.log(ui.item.data.unit);
-                $(this).parents('.variable-entry').find('select[name="' + base + '[data][unit][select]"]').val(ui.item.data.unit).change();
-                break;
-
-              case 'date':
-                $(this).parents('.variable-entry').find('input[name="' + base + '[data][pattern]"]').val(ui.item.data.pattern).change();
-                break;
-
-              case 'codes':
-                // @todo Fill in code values.
-                break;
-            }
-          }, 5000);*/
-
-          // @todo Fill in missing code values.
-
           $(this).val('').blur();
           return false;
         }

@@ -69,9 +69,10 @@ function _deims_variable_search_prepare_summary(&$item) {
         $summary .= ', ...';
       }
       $summary .= ')';
+      $item['data']['codes_text'] = list_allowed_values_string($item['data']['codes']);
       break;
   }
-  $item['missing_values'] = list_allowed_values_string($item['missing_values']);
+  $item['missing_values_text'] = list_allowed_values_string($item['missing_values']);
   if (!empty($item['definition'])) {
     $summary .= ' - ' . truncate_utf8($item['definition'], 48, TRUE, TRUE);
   }

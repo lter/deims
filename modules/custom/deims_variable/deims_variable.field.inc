@@ -247,6 +247,7 @@ function deims_variable_field_widget_form(&$form, &$form_state, $field, $instanc
         ':input[name="' . $element['#state_parent'] . '[type]"]' => array('value' => DEIMS_VARIABLE_TYPE_NOMINAL),
       ),
     ),
+    '#attributes' => array('class' => array('variable-missing-values')),
   );
 
   if ($field['cardinality'] == FIELD_CARDINALITY_UNLIMITED) {
@@ -365,6 +366,7 @@ function deims_variable_field_widget_form(&$form, &$form_state, $field, $instanc
         '#element_validate' => array('list_allowed_values_setting_validate'),
         '#field_has_data' => FALSE,
         '#field' => array('type' => 'list_text'),
+        '#attributes' => array('class' => array('variable-data-codes')),
       );
       break;
   }
@@ -512,7 +514,9 @@ function deims_variable_field_widget_error($element, $error, $form, &$form_state
   if (!empty($error['element'])) {
     $error_element = drupal_array_get_nested_value($element, $error['element']);
   }
-  form_error($error_element, $error['message']);
+  if ($error_element) {
+    form_error($error_element, $error['message']);
+  }
 }
 
 /**

@@ -204,6 +204,8 @@ projects[options_element][version] = "1.9"
 projects[options_element][subdir] = "contrib"
 ; For empty values, only show two key/value fields instead of three
 projects[options_element][patch][2012198] = "http://drupal.org/files/2012198-options-element-only-two-blank-values-do-not-test.patch"
+; Add a JS event trigger for updating the options from the manual entry
+projects[options_element][patch][2045091] = "http://drupal.org/files/2045091-manual-entry-js-trigger.patch"
 
 projects[pathauto][version] = "1.2"
 projects[pathauto][subdir] = "contrib"
