@@ -1,5 +1,5 @@
 name = DEIMS Drupal 6 Migration
-description = Provides a base migration from the DEIMS Drupal 6 install profile.
+description = "Provides a base migration from the DEIMS Drupal 6 install profile. Before enabling, you should ensure you have a \$databases['drupal6'] in your settings.local.php configuration file."
 package = DEIMS Enhancements
 core = 7.x
 dependencies[] = migrate
