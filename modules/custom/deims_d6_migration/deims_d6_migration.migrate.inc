@@ -44,15 +44,6 @@ function deims_d6_migration_migrate_api() {
       'DeimsContentBook' => array(
         'class_name' => 'DeimsContentBookMigration',
       ),
-      'DeimsTaxonomyCategories' => array(
-        'class_name' => 'DrupalTerm6Migration',
-        'description' => "Taxonomy migration for the 'Categories' vocabulary.",
-        'source_connection' => 'drupal6',
-        'source_version' => 6,
-        // @todo Make this vocabulary source ID automatic from the D6 database.
-        'source_vocabulary' => '5',
-        'destination_vocabulary' => 'categories',
-      ),
       'DeimsTaxonomyCoreAreas' => array(
         'class_name' => 'DrupalTerm6Migration',
         'description' => "Taxonomy migration for the 'Core areas' vocabulary.",
@@ -86,9 +77,9 @@ function deims_d6_migration_migrate_api() {
 
   // Allow other modules to alter our migration classes.
   $overrides = module_invoke_all('deims_migration_overrides');
-  foreach ($overrides as $machine_name => $class_name) {
+  foreach ($overrides as $machine_name => $override) {
     if (isset($info['migrations'][$machine_name])) {
-      $info['migrations'][$machine_name]['class_name'] = $class_name;
+      $info['migrations'][$machine_name] = $override + $info['migrations'][$machine_name];
     }
   }
 
