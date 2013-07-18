@@ -33,6 +33,8 @@ function deims_install() {
 
   deims_install_system();
 
+  deims_install_taxonomy();
+
   // Contrib modules
   deims_install_admin_menu();
   deims_install_admin_select();
@@ -366,6 +368,26 @@ function deims_install_custom_breadcrumbs() {
 function deims_install_chosen() {
   variable_set('chosen_minimum_width', 250);
   variable_set('chosen_jquery_selector', 'select:visible, .filefield-source-attach select, .field-widget-addressfield-standard select');
+}
+
+/**
+ * Profile install for taxonomy.
+ */
+function deims_install_taxonomy() {
+  $path = drupal_get_path('profile', 'deims') . '/exports/taxonomy-core-areas.csv';
+  $file = new SplFileObject($path);
+  while (!$file->eof()) {
+    $term = new stdClass();
+    list(
+        $term->name,
+        $term->vocabulary_machine_name,
+        $term->description,
+        $term->format,
+        $term->weight,
+        $term->parent,
+      ) = $file->fgetcsv();
+    taxonomy_term_save($term);
+  }
 }
 
 /**
