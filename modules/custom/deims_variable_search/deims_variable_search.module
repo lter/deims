@@ -52,6 +52,9 @@ function deims_variable_search_cron() {
  * Implements hook_field_attach_submit().
  */
 function deims_variable_search_field_attach_submit($entity_type, $entity, $form, &$form_state) {
+  // Because this field is invoked when an entity is submitted via a form, we
+  // can set an internal indicator that we can index the variable fields on
+  // this entity on the same request.
   $entity->deims_variable_search_can_index = TRUE;
 }
 
@@ -75,6 +78,8 @@ function deims_variable_search_field_attach_update($entity_type, $entity) {
   list(, , $bundle) = entity_extract_ids($entity_type, $entity);
   $instances = array_intersect_key(field_info_instances($entity_type, $bundle), deims_variable_get_variable_fields());
   foreach ($instances as $field_name => $instance) {
+    // Because some variables may have been removed, we should just clear out
+    // the original items in the search index, and then re-index the new items.
     if ($original_items = field_get_items($entity_type, $entity->original, $field_name)) {
       deims_variable_search_delete_variables($field_name, $original_items);
     }
