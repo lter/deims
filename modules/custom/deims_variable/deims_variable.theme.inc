@@ -32,8 +32,8 @@ function deims_variable_get_data_summary(array $variable) {
 function template_preprocess_deims_variable_summary(array &$variables) {
   $variable = $variables['variable'];
 
-  $variables['label'] = check_plain($variable['label']);
   $variables['name'] = check_plain($variable['name']);
+  $variables['label'] = check_plain($variable['label']);
   $variables['type'] = deims_variable_type_label($variable['type']);
 
   $details = array();

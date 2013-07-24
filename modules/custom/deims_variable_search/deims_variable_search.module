@@ -201,8 +201,8 @@ function deims_variable_get_variable_fields() {
  */
 function deims_variable_search_index_variables($field_name, array $items) {
   foreach ($items as $item) {
-    $text = '<h1>' . $item['label'] . '</h1>';
-    $text .= '<h2>' . $item['name'] . '</h2>';
+    $text = '<h1>' . $item['name'] . '</h1>';
+    $text .= '<h2>' . $item['label'] . '</h2>';
     $text .= '<h3>' . $item['definition'] . '</h3>';
     search_index($item['id'], $field_name, $text);
   }

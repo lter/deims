@@ -43,8 +43,8 @@ function deims_variable_field_load($entity_type, $entities, $field, $instances, 
  * Implements hook_field_is_empty().
  */
 function deims_variable_field_is_empty($item, $field) {
-  return empty($item['label'])
-      && empty($item['name'])
+  return empty($item['name'])
+      && empty($item['label'])
       && empty($item['definition'])
       && empty($item['missing_values'])
       && empty($item['type'])
@@ -59,11 +59,11 @@ function deims_variable_field_is_empty($item, $field) {
 function deims_variable_field_validate($entity_type, $entity, $field, $instance, $langcode, $items, &$errors) {
   foreach ($items as $delta => $item) {
     if (!deims_variable_field_is_empty($item, $field)) {
-      if (empty($item['label'])) {
+      if (empty($item['name'])) {
         $errors[$field['field_name']][$langcode][$delta][] = array(
-          'error' => 'deims_variable_label_empty',
-          'message' => 'Please provide a <strong>label</strong> for this variable.',
-          'element' => array('label'),
+          'error' => 'deims_variable_name_empty',
+          'message' => 'Please provide a <strong>name</strong> for this variable.',
+          'element' => array('name'),
         );
       }
 
@@ -202,24 +202,24 @@ function deims_variable_field_widget_form(&$form, &$form_state, $field, $instanc
     '#type' => 'value',
     '#value' => isset($items[$delta]['id']) ? $items[$delta]['id'] : NULL,
   );
-  $element['label'] = array(
+  $element['name'] = array(
     '#prefix' => '<div class="variable-left-column form-wrapper">',
     '#type' => 'textfield',
-    '#title' => t('Label'),
-    '#description' => t('The label of the actual column in the source file.'),
-    '#default_value' => isset($items[$delta]['label']) ? $items[$delta]['label'] : '',
+    '#title' => t('Name'),
+    '#description' => t('The name of the actual column in the source file.'),
+    '#default_value' => isset($items[$delta]['name']) ? $items[$delta]['name'] : '',
     '#required' => $instance['required'],
     '#maxlength' => 255,
     '#size' => 30,
-    '#attributes' => array('class' => array('variable-label')),
-  );
-  $element['name'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Name'),
-    '#description' => t('The human-readable name of the variable.'),
-    '#default_value' => isset($items[$delta]['name']) ? $items[$delta]['name'] : '',
-    '#maxlength' => 255,
     '#attributes' => array('class' => array('variable-name')),
+  );
+  $element['label'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Label'),
+    '#description' => t('The human-readable label of the variable.'),
+    '#default_value' => isset($items[$delta]['label']) ? $items[$delta]['label'] : '',
+    '#maxlength' => 255,
+    '#attributes' => array('class' => array('variable-label')),
   );
   $element['definition'] = array(
     '#type' => 'textarea',

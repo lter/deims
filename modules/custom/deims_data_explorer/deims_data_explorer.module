@@ -261,16 +261,16 @@ function deims_data_explorer_form($form, &$form_state, $variables, $connection, 
   );
 
   $header  = array(
-    'label' => t('Column'),
-    'name' => t('Variable'),
+    'name' => t('Column'),
+    'label' => t('Label'),
     'type' => t('Type'),
     'definition' => t('Definition'),
   );
   $options = array();
   foreach ($allowed_column_variables as $variable) {
-    $options[$variable['label']] = array(
-      'label' => $variable['label'],
+    $options[$variable['name']] = array(
       'name' => $variable['name'],
+      'label' => $variable['label'],
       'type' => deims_variable_type_label($variable['type']),
       'definition' => $variable['definition'],
     );
@@ -292,7 +292,7 @@ function deims_data_explorer_form($form, &$form_state, $variables, $connection, 
   );
 
   $header = array(
-    'label' => t('Column'),
+    'name' => t('Column'),
     'choice' => t('Filter'),
   );
   $options = array();
@@ -301,10 +301,10 @@ function deims_data_explorer_form($form, &$form_state, $variables, $connection, 
       $element += array(
         '#type' => 'value',
         '#parents' => array('filter'),
-        '#name' => $variable['label'],
+        '#name' => $variable['name'],
       );
-      $options[$variable['label']] = array(
-        'label' => $variable['label'],
+      $options[$variable['name']] = array(
+        'name' => $variable['name'],
         'choice' => drupal_render($element),
       );
     }
@@ -425,7 +425,7 @@ function _deims_de_get_submitted_filters($columns) {
 function _deims_de_flatten_allowed($variables) {
   // @todo Change these to return the full variables and use the array map only where needed.
   // @todo Change to only include checked columns.
-  return array_map(function ($value) { return $value['label']; }, $variables);
+  return array_map(function ($value) { return $value['name']; }, $variables);
 }
 
 /**

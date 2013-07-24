@@ -9,9 +9,9 @@ Drupal.behaviors.variableFieldSummary = {
     // Construct the text for the variable entry form.
     $('details.variable-entry', context).drupalSetSummary(function (context) {
       var summary = [];
-      var label = $('input.variable-label', context).val() || Drupal.t('Unlabeled');
+      var name = $('input.variable-name', context).val() || Drupal.t('Unnamed');
       var type = $('select.variable-type option:selected', context).text();
-      summary.push(label);
+      summary.push(name);
       summary.push(type);
 
       return Drupal.checkPlain(summary.join(' - '));

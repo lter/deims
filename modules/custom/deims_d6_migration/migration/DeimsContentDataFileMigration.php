@@ -186,8 +186,8 @@ class DeimsContentDataFileMigration extends DrupalNode6Migration {
       $value = array();
 
       // The label value is not required, but node title is.
-      $value['label'] = isset($variable->field_attribute_label_value) ? $variable->field_attribute_label_value : $variable->title;
-      $value['name'] = $variable->title;
+      $value['name'] = isset($variable->field_attribute_label_value) ? $variable->field_attribute_label_value : $variable->title;
+      $value['label'] = $variable->title;
       $value['definition'] = $variable->field_var_definition_value;
       $value['data'] = array();
       if (!empty($variable->field_attribute_unit_value)) {
