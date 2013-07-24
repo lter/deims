@@ -2,6 +2,7 @@ name = DEIMS Data Explorer
 description = "Provides exploration and CSV exporting of data sources that have a linked database table or view."
 package = DEIMS Enhancements
 core = 7.x
+php = 5.3
 dependencies[] = schema
 dependencies[] = schema_reference
 dependencies[] = file_entity
