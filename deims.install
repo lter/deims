@@ -384,9 +384,11 @@ function deims_install_taxonomy() {
         $term->description,
         $term->format,
         $term->weight,
-        $term->parent,
+        //(int) $term->parent,
       ) = $file->fgetcsv();
-    taxonomy_term_save($term);
+    if (!empty($term->vocabulary_machine_name)) {
+      taxonomy_term_save($term);
+    }
   }
 }
 
