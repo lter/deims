@@ -5,19 +5,19 @@
  * @param  array $options Array of options passed by the init.
  * @param  array $context Context passed back to the function.
  */
-function _fetch_row_batch($options, &$context) {
+function _fetch_row_batch($query, $file, &$context) {
   // Set up our batch configuration information.
   if (empty($context['sandbox'])) {
     $context['sandbox']['progress'] = 0;
-    $context['sandbox']['max'] = $options['total_rows'];
+    $context['sandbox']['max'] = $query->countQuery()->execute()->fetchField();
   }
 
-  // Get the batched rows.
-  $rows = deims_data_explorer_get_rows($options['connection'],$options['columns'],$options['filters'],$options['limit'],$context['sandbox']['progress']);
+  $query->range($context['sandbox']['progress'], 5); //DEIMS_BATCH_LIMIT);
+  $result = $query->execute();
 
   // Write out the CSV.
-  $fp = fopen(drupal_realpath($options['file']->uri), 'a');
-  foreach ($rows as $row) {
+  $fp = fopen(drupal_realpath($file->uri), 'a');
+  while ($row = $result->fetchAssoc()) {
     fputcsv($fp, $row);
     $context['sandbox']['progress']++;
   }

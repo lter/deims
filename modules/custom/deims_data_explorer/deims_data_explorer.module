@@ -211,10 +211,13 @@ function deims_data_explorer_form($form, &$form_state, $variables, $connection, 
       }
     }
 
+    $query = deims_data_explorer_get_query_from_data_source($node, $columns, $filters);
+
     switch ($form_state['values']['op']) {
       case 'Web Preview':
-        $data = deims_data_explorer_get_rows($connection, $columns, $filters, DEIMS_PREVIEW_COUNT);
-        $total_rows = deims_data_explorer_get_row_count($connection);
+        $total_rows = $query->countQuery()->execute()->fetchField();
+        $query->range(0, DEIMS_PREVIEW_COUNT);
+        $data = $query->execute()->fetchAll(PDO::FETCH_ASSOC);
 
         $form['results'] = array(
           '#markup' => deims_data_explorer_generate_preview($columns, $data, $total_rows),
@@ -239,7 +242,7 @@ function deims_data_explorer_form($form, &$form_state, $variables, $connection, 
         $batch = array(
           'title' => 'Processing Data Set',
           'operations' => array(
-            array('_fetch_row_batch', array($options)),
+            array('_fetch_row_batch', array($query, $file)),
             array('_process_file_for_download', array($file, $connection['table'], $form_state['values']['nid'])),
           ),
           'finished' => '_show_download_link',
@@ -251,6 +254,9 @@ function deims_data_explorer_form($form, &$form_state, $variables, $connection, 
         // callback hackery magic.
         batch_process();
         break;
+
+      default:
+        return MENU_ACCESS_DENIED;
     }
   }
 
@@ -651,7 +657,7 @@ function _deims_de_array2csv(array &$array) {
  *   A query object for the database specified in the DEIMS_DATA_EXPLORER_FIELD
  *   field on the data source.
  */
-function deims_data_explorer_get_query_from_data_source($node) {
+function deims_data_explorer_get_query_from_data_source($node, array $columns = array(), array $filters = array()) {
   if ($node->type == 'data_source' && $connection = field_get_items('node', $node, DEIMS_DATA_EXPLORER_FIELD)) {
     if (!empty($connection[0]['connection']) && !empty($connection[0]['table'])) {
       try {
@@ -659,7 +665,14 @@ function deims_data_explorer_get_query_from_data_source($node) {
         // fail gracefully.
         if ($db = Database::getConnection('default', $connection[0]['connection'])) {
           if ($db->schema()->tableExists($connection[0]['table'])) {
-            return $db->select($connection[0]['table']);
+            $query = $db->select($connection[0]['table'], 'data');
+            if (!empty($columns)) {
+              $query->fields('data', $columns);
+            }
+            if (!empty($filters)) {
+              deims_data_explorer_filters_apply($query, $filters);
+            }
+            return $query;
           }
         }
       }
