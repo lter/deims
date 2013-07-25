@@ -5,7 +5,7 @@
  * @param  array $options Array of options passed by the init.
  * @param  array $context Context passed back to the function.
  */
-function _fetch_row_batch($options,&$context) {
+function _fetch_row_batch($options, &$context) {
   // Set up our batch configuration information.
   if (empty($context['sandbox'])) {
     $context['sandbox']['progress'] = 0;
@@ -37,8 +37,6 @@ function _fetch_row_batch($options,&$context) {
 function _process_file_for_download($file,$table,$nid,&$context) {
   // Setting status = 0 marks the file as temporary which means it'll get
   // cleaned up automatically within 6 hours by Drupal.
-  $file->status = 0;
-  $file = file_move($file, file_create_filename($table . '.csv', variable_get('deims_data_explorer_dir', 'public://data-downloads/')));
 
   // Do we need to compress the file?
   if (($file->filesize / DRUPAL_KILOBYTE) > (DRUPAL_KILOBYTE * DEIMS_COMPRESSION_THRESHOLD)) {
@@ -52,6 +50,10 @@ function _process_file_for_download($file,$table,$nid,&$context) {
     // Re-save the file to compute size.
     $file->status = 0;
     $file = file_move($file, file_create_filename($table . '_csv.gz', variable_get('deims_data_explorer_dir', 'public://data-downloads/')));
+  }
+  else {
+    $file->status = 0;
+    file_save($file);
   }
   $context['results']['file'] = $file;
   $context['results']['nid'] = $nid;

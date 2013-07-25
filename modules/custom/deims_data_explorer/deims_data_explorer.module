@@ -224,7 +224,7 @@ function deims_data_explorer_form($form, &$form_state, $variables, $connection, 
         break;
 
       case 'Download':
-        $file = file_save_data('', file_create_filename($connection['table'], variable_get('deims_data_explorer_dir', 'public://data-downloads/')));
+        $file = file_save_data('', file_create_filename($connection['table'] . '.csv', variable_get('deims_data_explorer_dir', 'public://data-downloads/')));
 
         $options = array(
           'connection' => $connection,
