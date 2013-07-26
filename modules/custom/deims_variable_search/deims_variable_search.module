@@ -55,7 +55,7 @@ function deims_variable_search_field_attach_submit($entity_type, $entity, $form,
   // Because this field is invoked when an entity is submitted via a form, we
   // can set an internal indicator that we can index the variable fields on
   // this entity on the same request.
-  $entity->deims_variable_search_can_index = TRUE;
+  $entity->deims_variable_search_can_index = variable_get('deims_variable_search_index_immediately', TRUE);
 }
 
 /**
@@ -67,6 +67,7 @@ function deims_variable_search_field_attach_insert($entity_type, $entity) {
   foreach ($instances as $field_name => $instance) {
     if (!empty($entity->deims_variable_search_can_index) && $items = field_get_items($entity_type, $entity, $field_name)) {
       drupal_register_shutdown_function('deims_variable_search_index_variables', $field_name, $items);
+      drupal_register_shutdown_function('search_update_totals');
     }
   }
 }
@@ -86,6 +87,7 @@ function deims_variable_search_field_attach_update($entity_type, $entity) {
 
     if (!empty($entity->deims_variable_search_can_index) && $items = field_get_items($entity_type, $entity, $field_name)) {
       drupal_register_shutdown_function('deims_variable_search_index_variables', $field_name, $items);
+      drupal_register_shutdown_function('search_update_totals');
     }
   }
 }
@@ -229,5 +231,6 @@ function deims_variable_search_delete_variables($field_name, array $items) {
     foreach ($ids as $id) {
       search_reindex($id, $field_name);
     }
+    drupal_register_shutdown_function('search_update_totals');
   }
 }

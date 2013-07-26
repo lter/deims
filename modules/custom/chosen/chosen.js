@@ -1,7 +1,7 @@
 (function($) {
   Drupal.behaviors.chosen = {
     attach: function(context, settings) {
-      var minWidth = settings.chosen.minimum_width;
+      var minWidth = settings.chosen.minimum_width || Drupal.settings.chosen.minimum_width;
       //define options
       var options = {};
       options.search_contains = settings.chosen.search_contains;
