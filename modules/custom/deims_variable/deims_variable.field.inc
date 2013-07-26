@@ -31,7 +31,10 @@ function deims_variable_field_load($entity_type, $entities, $field, $instances, 
             $items[$id][$delta][$column] = isset($field['columns'][$column]['unserialized default']) ? $field['columns'][$column]['unserialized default'] : NULL;
           }
           else {
-            $items[$id][$delta][$column] = unserialize($value);
+            $unserialized_value = @unserialize($value);
+            if ($unserialized_value !== FALSE || $value == 'b:0;') {
+              $items[$id][$delta][$column] = $unserialized_value;
+            }
           }
         }
       }
