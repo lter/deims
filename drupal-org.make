@@ -25,7 +25,7 @@ projects[autosave][subdir] = "contrib"
 projects[backup_migrate][version] = "2.7"
 projects[backup_migrate][subdir] = "contrib"
 
-projects[biblio][version] = "1.0-rc5"
+projects[biblio][version] = "1.0-rc7"
 projects[biblio][subdir] = "contrib"
 
 projects[captcha][version] = "1.0"
