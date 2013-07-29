@@ -32,7 +32,7 @@ class DeimsContentPersonMigration extends DrupalNode6Migration {
     $this->addFieldMapping('field_email', 'field_person_email');
     $this->addFieldMapping('field_fax', 'field_person_fax');
     $this->addFieldMapping('field_user_account', 'field_person_uid')
-      ->sourceMigration(array('Users'));
+      ->sourceMigration('Users');
     $this->addFieldMapping('field_list_in_directory', 'field_person_list');
     $this->addFieldMapping('field_person_id', 'field_person_personid');
     $this->addFieldMapping('field_person_role', 'field_person_role');

@@ -28,7 +28,7 @@ class DeimsContentDataSetMigration extends DrupalNode6Migration {
     $this->addUnmigratedSources(array('body', 'teaser', 'format'));
 
     $this->addFieldMapping('field_data_sources', 'field_dataset_datafile_ref')
-      ->sourceMigration(array('DeimsContentDataFile'))
+      ->sourceMigration('DeimsContentDataFile')
       ->description('Possibly overridden in prepareRow().');
     $this->addFieldMapping('field_data_set_id', 'field_dataset_id');
     $this->addFieldMapping('field_abstract', 'field_dataset_abstract');
@@ -47,12 +47,12 @@ class DeimsContentDataSetMigration extends DrupalNode6Migration {
     $this->addFieldMapping('field_related_links:title', 'field_dataset_related_links:title');
     $this->addFieldMapping('field_related_links:attributes', 'field_dataset_related_links:attributes');
     //$this->addFieldMapping('field_related_publications', 'field_dataset_biblio_ref')
-    //  ->sourceMigration(array('DeimsContentBiblioMigration'));
+    //  ->sourceMigration('DeimsContentBiblioMigration');
     $this->addFieldMapping('field_maintenance', 'field_dataset_maintenance');
     $this->addFieldMapping('field_maintenance:format', 'field_dataset_maintenance:format')
       ->callbacks(array($this, 'mapFormat'));
     $this->addFieldMapping('field_related_sites', 'field_dataset_site_ref')
-      ->sourceMigration(array('DeimsContentResearchSite'));
+      ->sourceMigration('DeimsContentResearchSite');
     $this->addFieldMapping('field_methods', 'field_methods');
     $this->addFieldMapping('field_methods:format', 'field_methods:format')
       ->callbacks(array($this, 'mapFormat'));
@@ -68,9 +68,9 @@ class DeimsContentDataSetMigration extends DrupalNode6Migration {
     $this->addFieldMapping('field_date_range:to', 'field_beg_end_date:value2');
     $this->addFieldMapping('field_publication_date', 'field_dataset_publication_date');
     $this->addFieldMapping('field_person_creator', 'field_dataset_owner_ref')
-      ->sourceMigration(array('DeimsContentPerson'));
+      ->sourceMigration('DeimsContentPerson');
     $this->addFieldMapping('field_person_contact', 'field_dataset_contact_ref')
-      ->sourceMigration(array('DeimsContentPerson'));
+      ->sourceMigration('DeimsContentPerson');
 
     $this->addUnmigratedSources(array(
       'field_dataset_datamanager_ref', // Handled in prepare()

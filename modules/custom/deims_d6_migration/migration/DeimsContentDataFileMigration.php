@@ -41,7 +41,7 @@ class DeimsContentDataFileMigration extends DrupalNode6Migration {
     $this->addFieldMapping('field_quality_assurance:format', 'field_quality:format')
       ->callbacks(array($this, 'mapFormat'));
     $this->addFieldMapping('field_related_sites', 'field_datafile_site_ref')
-      ->sourceMigration(array('DeimsContentResearchSite'));
+      ->sourceMigration('DeimsContentResearchSite');
     $this->addFieldMapping('field_variables')
       ->description('Handled in prepare().');
     $this->addFieldMapping('field_description', 'field_datafile_description');
