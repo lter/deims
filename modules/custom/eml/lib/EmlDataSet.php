@@ -80,6 +80,10 @@ class EmlDataSet {
     else {
       // If the Tidy library isn't found, then we can pretty much duplicate
       // the whitespace and indentation cleanup using the PHP DOM library.
+
+      // Need to convert encoded spaces to character encoding.
+      $xml = str_replace('&nbsp;', '&#160;', $xml);
+
       $dom = new DOMDocument();
       $dom->preserveWhiteSpace = FALSE;
       $dom->loadXML($xml);
