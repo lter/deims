@@ -11,7 +11,6 @@ class DeimsContentStoryMigration extends DrupalNode6Migration {
   public function __construct(array $arguments) {
     $arguments += array(
       'description' => '',
-      'group_name' => t('Content'),
       'source_connection' => 'drupal6',
       'source_version' => 6,
       'source_type' => 'story',
