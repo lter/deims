@@ -34,12 +34,12 @@ class DeimsContentResearchSiteMigration extends DrupalNode6Migration {
     $this->addFieldMapping('field_site_id', 'field_research_site_siteid');
     $this->addFieldMapping('field_elevation', 'field_research_site_elevation');
 
-    /*$this->addFieldMapping('field_images')
+    $this->addFieldMapping('field_images')
       ->sourceMigration('DeimsFile')
       ->arguments(array(
           'file_class' => 'MigrateFileFid',
           'preserve_files' => TRUE,
-        ));*/
+        ));
 
     $this->addFieldMapping('field_site_details')
       ->description('Handled in prepare().');
