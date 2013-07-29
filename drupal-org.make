@@ -53,6 +53,8 @@ projects[datatables][patch][2021741] = "http://drupal.org/files/2021741-installa
 
 projects[date][version] = "2.6"
 projects[date][subdir] = "contrib"
+; Patch required for migration to work.
+projects[date][patch][2034231] = "http://drupal.org/files/date-consolidated_migrate-2.patch"
 
 projects[date_facets][version] = "1.x-dev"
 projects[date_facets][subdir] = "contrib"
