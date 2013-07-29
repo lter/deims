@@ -29,6 +29,9 @@ function deims_d6_migration_migrate_api() {
       'DeimsContentResearchSite' => array(
         'class_name' => 'DeimsContentResearchSiteMigration',
       ),
+      'DeimsContentResearchProject' => array(
+        'class_name' => 'DeimsContentResearchProjectMigration',
+      ),
       'DeimsContentPerson' => array(
         'class_name' => 'DeimsContentPersonMigration',
       ),
