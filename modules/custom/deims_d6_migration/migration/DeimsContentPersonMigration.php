@@ -38,40 +38,27 @@ class DeimsContentPersonMigration extends DrupalNode6Migration {
     $this->addFieldMapping('field_person_role', 'field_person_role');
     $this->addFieldMapping('field_person_title', 'field_person_title');
 
-    $this->addFieldMapping('field_name', 'field_person_first_name')
-      ->arguments(array(
-        'family' => array('source_field' => 'field_person_last_name'),
-      ));
+    $this->addFieldMapping('field_name', 'field_person_first_name');
+    $this->addFieldMapping('field_name:family', 'field_person_last_name');
 
-    $this->addFieldMapping('field_address', 'field_person_country')
-      ->arguments(array(
-        'administrative_area' => array('source_field' => 'field_person_state'),
-        'locality' => array('source_field' => 'field_person_city'),
-        'postal_code' => array('source_field' => 'field_person_zipcode'),
-        'thoroughfare' => array('source_field' => 'field_person_address'),
-      ));
+    $this->addFieldMapping('field_address', 'field_person_country');
+    $this->addFieldMapping('field_address:administrative_area', 'field_person_state');
+    $this->addFieldMapping('field_address:locality', 'field_person_city');
+    $this->addFieldMapping('field_address:postal_code', 'field_person_zipcode');
+    $this->addFieldMapping('field_address:thoroughfare', 'field_person_address');
 
     // Values for field_organization provided in prepare()).
     $this->addFieldMapping('field_organization', NULL)
       ->description('Provided in prepare().');
 
     $this->addUnmigratedSources(array(
-      'field_person_last_name', // Migrated with field_name.
       'field_person_organization', // Migrated in prepare().
-      'field_person_address', // Migrated with field_address
-      'field_person_city', // Migrated with field_address
-      'field_person_state', // Migrated with field_address
-      'field_person_zipcode', // Migrated with field_address
       'field_person_fullname',
       'field_person_pubs',
     ));
     $this->addUnmigratedDestinations(array(
-      'field_address:administrative_area', // Migrated with field_address
       'field_address:sub_administrative_area',
-      'field_address:locality', // Migrated with field_address
       'field_address:dependent_locality',
-      'field_address:postal_code', // Migrated with field_address
-      'field_address:thoroughfare', // Migrated with field_address
       'field_address:premise',
       'field_address:sub_premise',
       'field_address:organisation_name',
@@ -79,6 +66,10 @@ class DeimsContentPersonMigration extends DrupalNode6Migration {
       'field_address:first_name',
       'field_address:last_name',
       'field_address:data',
+      'field_name:given',
+      'field_name:middle',
+      'field_name:generational',
+      'field_name:credentials',
       'field_person_title:language',
     ));
   }
