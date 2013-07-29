@@ -6,7 +6,6 @@ dependencies[] = migrate
 dependencies[] = migrate_ui
 dependencies[] = migrate_extras
 dependencies[] = migrate_d2d
-dependencies[] = date_migrate
 ; Migration classes
 files[] = migration/DeimsContentPageMigration.php
 files[] = migration/DeimsContentStoryMigration.php
