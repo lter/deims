@@ -55,7 +55,7 @@ class DeimsContentDataFileMigration extends DrupalNode6Migration {
     $this->addFieldMapping('field_csv_field_delimiter', 'field_delimiter');
     $this->addFieldMapping('field_csv_record_delimiter', 'field_record_delimiter');
     $this->addFieldMapping('field_date_range', 'field_beg_end_date');
-    $this->addFieldMapping('field_date_range:value2', 'field_beg_end_date:value2');
+    $this->addFieldMapping('field_date_range:to', 'field_beg_end_date:value2');
 
     $this->addUnmigratedSources(array(
       'field_datafile_variable_ref', // Handled in prepare()

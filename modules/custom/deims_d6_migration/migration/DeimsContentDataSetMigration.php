@@ -66,7 +66,7 @@ class DeimsContentDataSetMigration extends DrupalNode6Migration {
     $this->addFieldMapping('field_project_roles')
       ->description('Handled in prepare().');
     $this->addFieldMapping('field_date_range', 'field_beg_end_date');
-    $this->addFieldMapping('field_date_range:value2', 'field_beg_end_date:value2');
+    $this->addFieldMapping('field_date_range:to', 'field_beg_end_date:value2');
     $this->addFieldMapping('field_publication_date', 'field_dataset_publication_date');
     $this->addFieldMapping('field_person_creator', 'field_dataset_owner_ref')
       ->sourceMigration(array('DeimsContentPerson'));
