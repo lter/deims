@@ -47,14 +47,19 @@ function deims_data_source_preview_source($form, &$form_state) {
   $file = $header_lines = $orientation = $delimiter = FALSE;
   $errors = $commands = array();
 
-  if (isset($form_state['values']['field_data_source_file'][LANGUAGE_NONE][0]['fid']) && !empty($form_state['values']['field_data_source_file'][LANGUAGE_NONE][0]['fid'])) {
-    $file = file_load($form_state['values']['field_data_source_file'][LANGUAGE_NONE][0]['fid']);
+  $parents = $form_state['clicked_button']['#parents'];
+  array_pop($parents);
+
+  $values = drupal_array_get_nested_value($form_state['values'], $parents);
+
+  if (isset($values['field_data_source_file'][LANGUAGE_NONE][0]['fid']) && !empty($values['field_data_source_file'][LANGUAGE_NONE][0]['fid'])) {
+    $file = file_load($values['field_data_source_file'][LANGUAGE_NONE][0]['fid']);
   }
   else {
     $errors[] = '<p>Please attach or upload a <strong>file</strong>.</p>';
   }
 
-  $delimiter_form_value = $form_state['values']['field_csv_field_delimiter'][LANGUAGE_NONE];
+  $delimiter_form_value = $values['field_csv_field_delimiter'][LANGUAGE_NONE];
   if (isset($delimiter_form_value['select']) && !empty($delimiter_form_value['select'])) {
     $delimiter = ($delimiter_form_value['select'] == 'select_or_other') ?
       $delimiter_form_value['other'] : $delimiter_form_value['select'];
@@ -63,16 +68,16 @@ function deims_data_source_preview_source($form, &$form_state) {
     $errors[] = '<p>Please select a field <strong>delimiter</strong>.</p>';
   }
 
-  if (isset($form_state['values']['field_csv_orientation'][LANGUAGE_NONE]) && !empty($form_state['values']['field_csv_orientation'][LANGUAGE_NONE])) {
-    $orientation = $form_state['values']['field_csv_orientation'][LANGUAGE_NONE];
+  if (isset($values['field_csv_orientation'][LANGUAGE_NONE]) && !empty($values['field_csv_orientation'][LANGUAGE_NONE])) {
+    $orientation = $values['field_csv_orientation'][LANGUAGE_NONE];
   }
   else {
     $errors[] = 'column';
   }
 
-  $header_lines = (!empty($form_state['values']['field_csv_header_lines'][LANGUAGE_NONE][0]['value'])) ? $form_state['values']['field_csv_header_lines'][LANGUAGE_NONE][0]['value'] : 0;
+  $header_lines = (!empty($values['field_csv_header_lines'][LANGUAGE_NONE][0]['value'])) ? $values['field_csv_header_lines'][LANGUAGE_NONE][0]['value'] : 0;
 
-  $footer_lines = (!empty($form_state['values']['field_csv_footer_lines'][LANGUAGE_NONE][0]['value'])) ? $form_state['values']['field_csv_footer_lines'][LANGUAGE_NONE][0]['value'] : 0;
+  $footer_lines = (!empty($values['field_csv_footer_lines'][LANGUAGE_NONE][0]['value'])) ? $values['field_csv_footer_lines'][LANGUAGE_NONE][0]['value'] : 0;
 
   if (!empty($errors)) {
     $commands[] = ajax_command_replace('#source_preview', '<div id="source_preview">' . implode('', $errors) . '</div>');
