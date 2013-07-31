@@ -271,6 +271,7 @@ function deims_data_explorer_filters_apply(QueryAlterableInterface $query, array
         break;
 
       case 'physical':
+      case 'date':
         if (drupal_strlen($filter['min'])) {
           $query->condition($key, $filter['min'], '>=');
         }

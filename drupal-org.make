@@ -353,3 +353,8 @@ libraries[superfish][directory_name] = "superfish"
 libraries[datatables][download][type]= "get"
 libraries[datatables][download][url] = "http://www.datatables.net/releases/DataTables-1.9.4.zip"
 libraries[datatables][directory_name] = "datatables"
+
+libraries[jquery-ui-timepicker][download][type] = "get"
+libraries[jquery-ui-timepicker][download][url] = "https://github.com/trentrichardson/jQuery-Timepicker-Addon/archive/v1.3.1.zip"
+libraries[jquery-ui-timepicker][download][subtree] = "jQuery-Timepicker-Addon-1.3.1"
+libraries[jquery-ui-timepicker][directory_name] = "jquery-ui-timepicker"

@@ -93,10 +93,17 @@ function deims_data_explorer_form($form, &$form_state, $variables, $connection, 
     }
 
     $query = deims_data_explorer_get_query_from_data_source($node, $columns, $filters);
+    $total_rows = $query->countQuery()->execute()->fetchField();
+
+    if (empty($total_rows)) {
+      $form['results'] = array(
+        '#markup' => t('No results found.'),
+      );
+      return $form;
+    }
 
     switch ($form_state['values']['op']) {
       case 'Web Preview':
-        $total_rows = $query->countQuery()->execute()->fetchField();
         $query->range(0, DEIMS_PREVIEW_COUNT);
         $data = $query->execute()->fetchAll(PDO::FETCH_ASSOC);
 
@@ -109,15 +116,6 @@ function deims_data_explorer_form($form, &$form_state, $variables, $connection, 
 
       case 'Download':
         $file = file_save_data('', file_create_filename($connection['table'] . '.csv', variable_get('deims_data_explorer_dir', 'public://data-downloads/')));
-
-        /*$options = array(
-          'connection' => $connection,
-          'columns' => $columns,
-          'filters' => $filters,
-          'total_rows' => deims_data_explorer_get_row_count($connection, $filters),
-          'limit' => DEIMS_BATCH_LIMIT,
-          'file' => $file,
-        );*/
 
         // Set up the batch process.
         $batch = array(
@@ -189,7 +187,7 @@ function deims_data_explorer_form($form, &$form_state, $variables, $connection, 
   );
   $options = array();
   foreach ($allowed_filters_variables as $variable) {
-    if ($element = _deims_de_prep_variable($variable)) {
+    if ($element = _deims_de_prep_variable($variable, $form_state)) {
       $options[$variable['name']] = array(
         'name' => $variable['name'],
         'choice' => drupal_render($element),
@@ -346,14 +344,14 @@ function deims_data_explorer_get_rows($connection, array $columns = array(), arr
   return $query->execute()->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function _deims_de_prep_variable($variable) {
+function _deims_de_prep_variable($variable, $form_state) {
   if ($variable['type'] == '') {
     $variable['type'] = 'nominal';
   }
   $function = '_deims_de_prep_' . $variable['type'];
   if (function_exists($function)) {
     // Add to form.
-    return $function($variable);
+    return $function($variable, $form_state);
   }
 }
 
@@ -401,32 +399,48 @@ function _deims_de_prep_nominal($variable) {
  * @param $variable
  */
 function _deims_de_prep_physical($variable) {
-
-  $name = $variable['name'];
-  $minimum = $variable['data']['minimum'];
-  $maximum = $variable['data']['maximum'];
-  $unit = $variable['data']['unit'];
-  $precision = $variable['data']['precision'];
-  $options = array();
-  foreach (range($minimum, $maximum, $precision) as $number) {
-    $options[] = $number;
-  }
-// @todo Fix
   $element = array();
-  $element['min'] = array(
-    '#type'          => 'select',
-    '#title'         => t("Choose a minimum $unit:"),
-    '#options'       => array('' => t('- NA -')) + $options,
-    '#default_value' => $minimum,
-    '#name' => 'filters[' . $variable['name'] . '][min]',
-  );
-  $element['max'] = array(
-    '#type'          => 'select',
-    '#title'         => t("Choose a maximum $unit:"),
-    '#options'       => array('' => t('- NA -')) + $options,
-    '#default_value' => $maximum,
-    '#name' => 'filters[' . $variable['name'] . '][max]',
-  );
+  $name = $variable['name'];
+  $unit = $variable['data']['unit'];
+
+  if (drupal_strlen($variable['data']['minimum']) && drupal_strlen($variable['data']['maximum'])) {
+    $minimum = $variable['data']['minimum'];
+    $maximum = $variable['data']['maximum'];
+    $precision = $variable['data']['precision'];
+    $options = array();
+    foreach (range($minimum, $maximum, $precision) as $number) {
+      $options[$number] = $number;
+    }
+    $element['min'] = array(
+      '#type'          => 'select',
+      '#title'         => t("Choose a minimum $unit:"),
+      '#options'       => array('' => t('- NA -')) + $options,
+      '#default_value' => $minimum,
+      '#name' => 'filters[' . $variable['name'] . '][min]',
+    );
+    $element['max'] = array(
+      '#type'          => 'select',
+      '#title'         => t("Choose a maximum $unit:"),
+      '#options'       => array('' => t('- NA -')) + $options,
+      '#default_value' => $maximum,
+      '#name' => 'filters[' . $variable['name'] . '][max]',
+    );
+  }
+  else {
+    $element['min'] = array(
+      '#type'          => 'textfield',
+      '#title'         => t("Choose a minimum $unit:"),
+      '#name' => 'filters[' . $variable['name'] . '][min]',
+      '#size' => 10,
+    );
+    $element['max'] = array(
+      '#type'          => 'textfield',
+      '#title'         => t("Choose a maximum $unit:"),
+      '#name' => 'filters[' . $variable['name'] . '][max]',
+      '#size' => 10,
+    );
+  }
+
   return $element;
 }
 
@@ -436,9 +450,23 @@ function _deims_de_prep_physical($variable) {
  * @param $variable
  * @param $
  */
-function _deims_de_prep_date($variable, &$form) {
+function _deims_de_prep_date($variable) {
+  $element['min'] = array(
+    '#prefix' => '<div class="form-item form-type-datetime"><label>' . t('Choose a minimum date') . '</label>',
+    '#markup' => '<input type="datetime" name="filters[' . $variable['name'] . '][min]" />',
+    '#suffix' => '</div>',
+  );
+  $element['max'] = array(
+    '#prefix' => '<div class="form-item form-type-datetime"><label>' . t('Choose a maximum date') . '</label>',
+    '#markup' => '<input type="datetime" name="filters[' . $variable['name'] . '][max]" />',
+    '#suffix' => '</div>',
+  );
+  $element['#attached']['library'][] = array('system', 'ui.datepicker');
+  $element['#attached']['js'][] = libraries_get_path('jquery-ui-timepicker') . '/jquery-ui-timepicker-addon.js';
+  $element['#attached']['css'][] = libraries_get_path('jquery-ui-timepicker') . '/jquery-ui-timepicker-addon.css';
+  $element['#attached']['js'][] = drupal_get_path('module', 'deims_data_explorer') . '/deims_data_explorer.js';
 
-  dpr($variable);
+  return $element;
 }
 
 /**
