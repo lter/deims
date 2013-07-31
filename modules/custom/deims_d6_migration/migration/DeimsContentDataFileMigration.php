@@ -60,12 +60,10 @@ class DeimsContentDataFileMigration extends DrupalNode6Migration {
     ));
 
     $this->addUnmigratedDestinations(array(
-      'field_data_source_file:file_class',
       'field_data_source_file:language',
       'field_data_source_file:destination_dir',
       'field_data_source_file:destination_file',
       'field_data_source_file:file_replace',
-      'field_data_source_file:preserve_files',
       'field_data_source_file:source_dir',
       'field_data_source_file:urlencode',
       'field_data_source_file:description',

@@ -56,12 +56,10 @@ class DeimsContentResearchSiteMigration extends DrupalNode6Migration {
     ));
 
     $this->addUnmigratedDestinations(array(
-      'field_images:file_class',
       'field_images:language',
       'field_images:destination_dir',
       'field_images:destination_file',
       'field_images:file_replace',
-      'field_images:preserve_files',
       'field_images:source_dir',
       'field_description:language',
     ));
