@@ -80,7 +80,7 @@ function deims_data_source_preview_source($form, &$form_state) {
   $footer_lines = (!empty($values['field_csv_footer_lines'][LANGUAGE_NONE][0]['value'])) ? $values['field_csv_footer_lines'][LANGUAGE_NONE][0]['value'] : 0;
 
   if (!empty($errors)) {
-    $commands[] = ajax_command_replace('#source_preview', '<div id="source_preview">' . implode('', $errors) . '</div>');
+    $commands[] = ajax_command_replace('#source_preview', '<div id="source_preview"><div class="messages error">' . implode('', $errors) . '</div></div>');
     return array(
       '#type' => 'ajax',
       '#commands' => $commands,
@@ -139,11 +139,12 @@ function deims_data_source_preview_source($form, &$form_state) {
   $datatable['header'] = (empty($headers)) ? array_fill(0, count($rows[0]), '') : $headers;
   $datatable['rows'] = $rows;
 
-  $element = $form['box'];
-  $element['#markup'] = theme_datatable($datatable);
+  $element = array(
+    '#markup' => theme_datatable($datatable),
+  );
 
   // $commands = array();
-  $commands[] = ajax_command_replace('#source_preview', '<div id="source_preview_modal">' . render($element) . '</div>');
+  $commands[] = ajax_command_replace('#source_preview', '<div id="source_preview"><div id="source_preview_modal">' . render($element) . '</div></div>');
   $commands[] = ajax_command_invoke(NULL, 'data_source_preview_show_modal');
 
   return array(
