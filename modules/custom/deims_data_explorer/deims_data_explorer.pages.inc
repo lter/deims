@@ -453,12 +453,12 @@ function _deims_de_prep_physical($variable) {
 function _deims_de_prep_date($variable) {
   $element['min'] = array(
     '#prefix' => '<div class="form-item form-type-datetime"><label>' . t('Choose a minimum date') . '</label>',
-    '#markup' => '<input type="datetime" name="filters[' . $variable['name'] . '][min]" />',
+    '#markup' => '<input type="date" name="filters[' . $variable['name'] . '][min]" />',
     '#suffix' => '</div>',
   );
   $element['max'] = array(
     '#prefix' => '<div class="form-item form-type-datetime"><label>' . t('Choose a maximum date') . '</label>',
-    '#markup' => '<input type="datetime" name="filters[' . $variable['name'] . '][max]" />',
+    '#markup' => '<input type="date" name="filters[' . $variable['name'] . '][max]" />',
     '#suffix' => '</div>',
   );
   $element['#attached']['library'][] = array('system', 'ui.datepicker');
