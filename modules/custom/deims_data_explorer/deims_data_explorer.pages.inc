@@ -73,6 +73,17 @@ function deims_data_explorer_form($form, &$form_state, $variables, $connection, 
   $allowed_columns = _deims_de_flatten_allowed($allowed_column_variables);
   $allowed_filters = _deims_de_flatten_allowed($allowed_filters_variables);
 
+  // Validate these columns actually exist.
+  $schema = schema_reference_get_schema_info($connection['connection']);
+  $allowed_columns = array_intersect($allowed_columns, array_keys($schema[$connection['table']]));
+  $allowed_filters = array_intersect($allowed_columns, array_keys($schema[$connection['table']]));
+
+  foreach ($allowed_filters_variables as $index => $variable) {
+    if (!empty($schema[$connection['table']]['fields'][$variable['name']])) {
+      $allowed_filters_variables[$index]['schema'] = $schema[$connection['table']]['fields'][$variable['name']];
+    }
+  }
+
   // Check if the form has been submitted.
   if (isset($form_state['values']['op'])) {
     // Get columns submitted in the form.
@@ -450,20 +461,28 @@ function _deims_de_prep_physical($variable) {
  * @param $variable
  * @param $
  */
-function _deims_de_prep_date($variable) {
+function _deims_de_prep_date($variable, $form_state) {
+  switch ($variable['schema']['type']) {
+    case 'date':
+    case 'datetime':
+      $type = $variable['schema']['type'];
+      break;
+  }
   $element['min'] = array(
     '#prefix' => '<div class="form-item form-type-datetime"><label>' . t('Choose a minimum date') . '</label>',
-    '#markup' => '<input type="date" name="filters[' . $variable['name'] . '][min]" />',
+    '#markup' => '<input type="' . $type . '" name="filters[' . $variable['name'] . '][min]" />',
     '#suffix' => '</div>',
   );
   $element['max'] = array(
     '#prefix' => '<div class="form-item form-type-datetime"><label>' . t('Choose a maximum date') . '</label>',
-    '#markup' => '<input type="date" name="filters[' . $variable['name'] . '][max]" />',
+    '#markup' => '<input type="' . $type . '" name="filters[' . $variable['name'] . '][max]" />',
     '#suffix' => '</div>',
   );
   $element['#attached']['library'][] = array('system', 'ui.datepicker');
-  $element['#attached']['js'][] = libraries_get_path('jquery-ui-timepicker') . '/jquery-ui-timepicker-addon.js';
-  $element['#attached']['css'][] = libraries_get_path('jquery-ui-timepicker') . '/jquery-ui-timepicker-addon.css';
+  //if ($type == 'datetime') {
+    $element['#attached']['js'][] = libraries_get_path('jquery-ui-timepicker') . '/jquery-ui-timepicker-addon.js';
+    $element['#attached']['css'][] = libraries_get_path('jquery-ui-timepicker') . '/jquery-ui-timepicker-addon.css';
+  //}
   $element['#attached']['js'][] = drupal_get_path('module', 'deims_data_explorer') . '/deims_data_explorer.js';
 
   return $element;
