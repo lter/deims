@@ -17,7 +17,8 @@ projects[admin_select][subdir] = "contrib"
 projects[auto_entitylabel][version] = "1.2"
 projects[auto_entitylabel][subdir] = "contrib"
 ; One more patch needed for Inline Entity Form module support
-projects[auto_entitylabel][patch][1980652] = "http://drupal.org/files/1980652-autoentitylabel-field-attach-submit.patch"
+; @see https://drupal.org/node/1980652
+projects[auto_entitylabel][patch][] = "http://drupal.org/files/1980652-autoentitylabel-field-attach-submit.patch"
 
 projects[autosave][version] = "2.2"
 projects[autosave][subdir] = "contrib"
@@ -49,12 +50,14 @@ projects[custom_breadcrumbs][subdir] = "contrib"
 projects[datatables][version] = "1.2"
 projects[datatables][subdir] = "contrib"
 ; Correct errors blocking the install.
-projects[datatables][patch][2021741] = "http://drupal.org/files/2021741-installation-blocked-database-errors-requirement-errors.patch"
+; @see https://drupal.org/node/2021741
+projects[datatables][patch][] = "http://drupal.org/files/2021741-installation-blocked-database-errors-requirement-errors.patch"
 
 projects[date][version] = "2.6"
 projects[date][subdir] = "contrib"
 ; Patch required for migration to work.
-projects[date][patch][2034231] = "http://drupal.org/files/date-consolidated_migrate-2.patch"
+; @see https://drupal.org/node/2034231
+projects[date][patch][] = "http://drupal.org/files/date-consolidated_migrate-2.patch"
 
 projects[date_facets][version] = "1.x-dev"
 projects[date_facets][subdir] = "contrib"
@@ -71,9 +74,11 @@ projects[ds][subdir] = "contrib"
 projects[eck][version] = "2.0-rc2"
 projects[eck][subdir] = "contrib"
 ; Add entity access alter for ECK entities.
-projects[eck][patch][1969394] = "http://drupal.org/files/1969394-eck-entity-access-alter.patch"
+; @see https://drupal.org/node/1969394
+projects[eck][patch][] = "http://drupal.org/files/1969394-eck-entity-access-alter.patch"
 ; Add IEF clone button support
-projects[eck][patch][1979686] = "http://drupal.org/files/1979686-eck-ief-clone-button.patch"
+; @see https://drupal.org/node/1979686
+projects[eck][patch][] = "http://drupal.org/files/1979686-eck-ief-clone-button.patch"
 
 projects[elements][version] = "1.x-dev"
 projects[elements][subdir] = "contrib"
@@ -87,7 +92,8 @@ projects[emptyparagraphkiller][subdir] = "contrib"
 projects[entity][version] = "1.1"
 projects[entity][subdir] = "contrib"
 ; Fix for entity_metadata_no_hook_node_access() and new entity objects (required to work with inline_entity_form).
-projects[entity][patch][1780646] = "http://drupal.org/files/entity-entity_access-1780646-107.patch"
+; @see https://drupal.org/node/1780646
+projects[entity][patch][] = "http://drupal.org/files/entity-entity_access-1780646-107.patch"
 
 projects[entitycache][version] = "1.x-dev"
 projects[entitycache][subdir] = "contrib"
@@ -95,7 +101,8 @@ projects[entitycache][subdir] = "contrib"
 projects[entityreference][version] = "1.0"
 projects[entityreference][subdir] = "contrib"
 ; Allow the 'Default' view mode to be selected in formatters
-projects[entityreference][patch][2035699] = "http://drupal.org/files/2035699-formatter-default-view-mode.patch"
+; @see https://drupal.org/node/2035699
+projects[entityreference][patch][] = "http://drupal.org/files/2035699-formatter-default-view-mode.patch"
 
 projects[entity_view_mode][version] = "1.0-rc1"
 projects[entity_view_mode][subdir] = "contrib"
@@ -128,17 +135,21 @@ projects[file_entity][subdir] = "contrib"
 projects[filefield_sources][version] = "1.8"
 projects[filefield_sources][subdir] = "contrib"
 ; Ensure files that already exist in the files directory are left alone.
-projects[filefield_sources][patch][1492374] = "http://drupal.org/files/1492374-ffs-attach-file-same-path.patch"
+; @see https://drupal.org/node/1492374
+projects[filefield_sources][patch][] = "http://drupal.org/files/1492374-ffs-attach-file-same-path.patch"
 ; Only show files with relevant extensions in the attach select list.
-projects[filefield_sources][patch][1492374] = "http://drupal.org/files/2006436-file-attach-extension-filter.patch"
+; @see https://drupal.org/node/2006436
+projects[filefield_sources][patch][] = "http://drupal.org/files/2006436-file-attach-extension-filter.patch"
 ; Show the actual attach upload path using drupal_realpath()
-projects[filefield_sources][patch][2033269] = "http://drupal.org/files/2033269-attach-realpath.patch"
+; @see https://drupal.org/node/2033269
+projects[filefield_sources][patch][] = "http://drupal.org/files/2033269-attach-realpath.patch"
 
 ; The field group module has mannnny updates since 7.x-1.1
 projects[field_group][version] = "1.x-dev"
 projects[field_group][subdir] = "contrib"
 ; Fix nested vertical/horizontal tabs cause unwanted fieldset labels.
-projects[field_group][patch][1945848] = "http://drupal.org/files/1945848-field-group-nested-fieldset-unwanted-labels.patch"
+; @see https://drupal.org/node/1945848
+projects[field_group][patch][] = "http://drupal.org/files/1945848-field-group-nested-fieldset-unwanted-labels.patch"
 
 projects[flag][version] = "3.0-rc1"
 projects[flag][subdir] = "contrib"
@@ -162,9 +173,11 @@ projects[helper][subdir] = "contrib"
 projects[inline_entity_form][version] = "1.x-dev"
 projects[inline_entity_form][subdir] = "contrib"
 ; Add a 'Clone' button to the widget
-projects[inline_entity_form][patch][1590146] = "http://drupal.org/files/ief_clone_button-1590146-18-default-off.patch"
+; @see https://drupal.org/node/1590146
+projects[inline_entity_form][patch][] = "http://drupal.org/files/ief_clone_button-1590146-18-default-off.patch"
 ; Limit 'Add new' bundle options when entityreference uses a view for selection
-projects[inline_entity_form][patch][1872316] = "http://drupal.org/files/1872316-ief-bundle-selection-node-view_0.patch"
+; @see https://drupal.org/node/1872316
+projects[inline_entity_form][patch][] = "http://drupal.org/files/1872316-ief-bundle-selection-node-view_0.patch"
 
 projects[libraries][version] = "2.1"
 projects[libraries][subdir] = "contrib"
@@ -181,14 +194,17 @@ projects[menu_block][subdir] = "contrib"
 projects[migrate][version] = "2.6-rc1"
 projects[migrate][subdir] = "contrib"
 ; Register migrations on module enable or disable
-projects[migrate][patch][2037265] = "http://drupal.org/files/2037265-migrate-static-registration-module-enable_0.patch"
+; @see https://drupal.org/node/2037265
+projects[migrate][patch][] = "http://drupal.org/files/2037265-migrate-static-registration-module-enable_0.patch"
 ; Fix page titles and breadcrumbs in the UI
-projects[migrate][patch][2040101] = "http://drupal.org/files/2040101-breadcrumb-titles.patch"
+; @see https://drupal.org/node/2040101
+projects[migrate][patch][] = "http://drupal.org/files/2040101-breadcrumb-titles.patch"
 
 projects[migrate_d2d][version] = "2.x-dev"
 projects[migrate_d2d][subdir] = "contrib"
 ; Fix a PHP notice in migrations
-projects[migrate_d2d][patch][2026233] = "http://drupal.org/files/2026233-d6-php-notice-revision-id.patch"
+; @see https://drupal.org/node/2026233
+projects[migrate_d2d][patch][] = "http://drupal.org/files/2026233-d6-php-notice-revision-id.patch"
 
 projects[migrate_extras][version] = "2.x-dev"
 projects[migrate_extras][subdir] = "contrib"
@@ -205,9 +221,11 @@ projects[noggin][subdir] = "contrib"
 projects[options_element][version] = "1.9"
 projects[options_element][subdir] = "contrib"
 ; For empty values, only show two key/value fields instead of three
-projects[options_element][patch][2012198] = "http://drupal.org/files/2012198-options-element-only-two-blank-values-do-not-test.patch"
+; @see https://drupal.org/node/2012198
+projects[options_element][patch][] = "http://drupal.org/files/2012198-options-element-only-two-blank-values-do-not-test.patch"
 ; Add a JS event trigger for updating the options from the manual entry
-projects[options_element][patch][2045091] = "http://drupal.org/files/2045091-manual-entry-js-trigger.patch"
+; @see https://drupal.org/node/2045091
+projects[options_element][patch][] = "http://drupal.org/files/2045091-manual-entry-js-trigger.patch"
 
 projects[pathauto][version] = "1.2"
 projects[pathauto][subdir] = "contrib"
@@ -268,7 +286,8 @@ projects[telephone][subdir] = "contrib"
 projects[term_reference_tree][version] = "1.10"
 projects[term_reference_tree][subdir] = "contrib"
 ; Add filtering to the widget
-projects[term_reference_tree][patch][2007164] = "http://drupal.org/files/2007164-filter.patch"
+; @see https://drupal.org/node/2007164
+projects[term_reference_tree][patch][] = "http://drupal.org/files/2007164-filter.patch"
 
 projects[token][version] = "1.5"
 projects[token][subdir] = "contrib"
@@ -297,9 +316,11 @@ projects[workbench][subdir] = "contrib"
 projects[workbench_moderation][version] = "1.3"
 projects[workbench_moderation][subdir] = "contrib"
 ; Show revision log message in the workbench message menu_block
-projects[workbench_moderation][patch][1972888] = "http://drupal.org/files/1972888-workbench-show-revision-log-message.patch"
+; @see https://drupal.org/node/1972888
+projects[workbench_moderation][patch][] = "http://drupal.org/files/1972888-workbench-show-revision-log-message.patch"
 ; Add features support
-projects[workbench_moderation][patch][1314508] = "http://drupal.org/files/1314508-workbench-moderation-features.patch"
+; @see https://drupal.org/node/1314508
+projects[workbench_moderation][patch][] = "http://drupal.org/files/1314508-workbench-moderation-features.patch"
 
 projects[workbench_access][version] = "1.2"
 projects[workbench_access][subdir] = "contrib"
