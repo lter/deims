@@ -75,8 +75,8 @@ function deims_data_explorer_form($form, &$form_state, $variables, $connection, 
 
   // Validate these columns actually exist.
   $schema = schema_reference_get_schema_info($connection['connection']);
-  $allowed_columns = array_intersect($allowed_columns, array_keys($schema[$connection['table']]));
-  $allowed_filters = array_intersect($allowed_columns, array_keys($schema[$connection['table']]));
+  //$allowed_columns = array_intersect($allowed_columns, array_keys($schema[$connection['table']]));
+  //$allowed_filters = array_intersect($allowed_columns, array_keys($schema[$connection['table']]));
 
   foreach ($allowed_filters_variables as $index => $variable) {
     if (!empty($schema[$connection['table']]['fields'][$variable['name']])) {
