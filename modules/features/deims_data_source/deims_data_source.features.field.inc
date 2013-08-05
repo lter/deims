@@ -44,7 +44,11 @@ function deims_data_source_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'data_source',
-      'default_value' => NULL,
+      'default_value' => array(
+        0 => array(
+          'value' => ',',
+        ),
+      ),
       'deleted' => '0',
       'description' => 'How are the columns separated? are the columns comma-delimited, Tab-delimited, or some other character, as a vertical bar, etc? We call the used delimiter a "field delimiter".',
       'display' => array(
@@ -186,7 +190,11 @@ function deims_data_source_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'data_source',
-      'default_value' => NULL,
+      'default_value' => array(
+        0 => array(
+          'value' => '1',
+        ),
+      ),
       'deleted' => '0',
       'description' => 'The number of lines at the top of the spreadsheet not containing any actual data. Example: When the first line contains column labels, the number of header lines is one.',
       'display' => array(
