@@ -15,6 +15,7 @@ class DeimsFileMigration extends DrupalFile6Migration {
       'source_version' => 6,
       'source_dir' => 'public://',
       'user_migration' => 'DeimsUser',
+      'file_class' => 'MigrateFileUriAsIs',
     );
 
     parent::__construct($arguments);
