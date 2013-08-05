@@ -496,7 +496,7 @@ function deims_data_set_field_default_fields() {
       'entity_type' => 'node',
       'field_name' => 'field_data_sources',
       'label' => 'Data sources',
-      'required' => 0,
+      'required' => 1,
       'settings' => array(
         'user_register_form' => FALSE,
       ),
@@ -507,6 +507,7 @@ function deims_data_set_field_default_fields() {
           'fields' => array(),
           'type_settings' => array(
             'allow_existing' => 0,
+            'clone_button' => 1,
             'delete_references' => 0,
             'match_operator' => 'CONTAINS',
           ),

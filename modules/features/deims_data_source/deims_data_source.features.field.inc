@@ -1117,6 +1117,9 @@ function deims_data_source_field_default_fields() {
       'field_name' => 'field_variables',
       'foreign keys' => array(),
       'indexes' => array(
+        'id' => array(
+          0 => 'id',
+        ),
         'label' => array(
           0 => 'label',
         ),
