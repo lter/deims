@@ -11,6 +11,7 @@
 function deims_date_format_types() {
   return array(
     'iso_8601' => t('ISO 8601'),
+    'year' => t('Year'),
   );
 }
 
@@ -22,6 +23,11 @@ function deims_date_formats() {
     array(
       'type' => 'iso_8601',
       'format' => 'Y-m-d\TH:i:sO',
+      'locales' => array(),
+    ),
+    array(
+      'type' => 'year',
+      'format' => 'Y',
       'locales' => array(),
     ),
   );
