@@ -52,6 +52,9 @@ function deims_data_source_field_attach_form($entity_type, $entity, &$form, &$fo
           drupal_get_path('module', 'deims_data_source') . '/js/data_source.js' => array(),
         ),
       ),
+      '#attributes' => array(
+        'class' => array('data-source-preview-button'),
+      ),
       // Provide a div for the source preview.
       '#prefix' => '<div id="data-source-preview"></div>',
     );
@@ -175,6 +178,10 @@ function deims_data_source_preview_source_submit(&$form, &$form_state) {
   $options['footer lines'] = !empty($values['field_csv_footer_lines'][LANGUAGE_NONE][0]['value']) ? $values['field_csv_footer_lines'][LANGUAGE_NONE][0]['value'] : 0;
 
   $result = deims_data_source_get_csv_table($fid, $options);
+
+  // Disable deafult sorting in the datatable to show the records in order.
+  $result['attributes']['datatable_options']['aaSorting'] = array();
+
   $output = theme('datatable', $result);
   $element['source_preview_button']['#prefix'] = '<div id="data-source-preview"><div class="data-source-preview-modal">' . $output . '</div>';
 }

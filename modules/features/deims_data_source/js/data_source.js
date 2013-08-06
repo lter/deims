@@ -5,7 +5,6 @@
  */
 Drupal.behaviors.dataSourcePreview = {
   attach: function (context) {
-    console.log('ATTACHED!');
     $('#data-source-preview .data-source-preview-modal', context).dialog({
       title: Drupal.t('Data Source Preview'),
       height: 682,
@@ -14,12 +13,12 @@ Drupal.behaviors.dataSourcePreview = {
       open: function(event, ui) {
         // Disable the 'Preview source' button from being clicked again while
         // the modal is open.
-        $('input#edit-source-preview-button').attr('disabled', 'disabled');
+        $('input.data-source-preview-button').attr('disabled', 'disabled');
       },
       close: function(event, ui) {
         $(this).dialog('destroy').remove();
         // Enable the 'Preview source' button now that the modal is closed.
-        $('input#edit-source-preview-button').removeAttr('disabled');
+        $('input.data-source-preview-button').removeAttr('disabled');
       }
     });
   }
