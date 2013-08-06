@@ -54,7 +54,7 @@ projects[datatables][subdir] = "contrib"
 projects[datatables][patch][] = "http://drupal.org/files/2021741-installation-blocked-database-errors-requirement-errors.patch"
 ; Fix errors when headers are only strings
 ; @see https://drupal.org/node/1904140#comment-7724631
-proejcts[datatables][patch][] = "http://drupal.org/files/1904140-datatables-fix-errors-when-headers-are-strings.patch"
+projects[datatables][patch][] = "http://drupal.org/files/1904140-datatables-fix-errors-when-headers-are-strings.patch"
 
 projects[date][version] = "2.6"
 projects[date][subdir] = "contrib"
