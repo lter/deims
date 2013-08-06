@@ -72,50 +72,75 @@ function deims_data_source_field_attach_form($entity_type, $entity, &$form, &$fo
   }
 }
 
-function deims_data_source_get_csv_preview($fid, $header_lines, $footer_lines, $orientation, $delimiter) {
-  $preview = array(
-    'headers' => array(),
+/**
+ * Read a CSV file and return output that could be used in theme_table().
+ *
+ * @param int $fid
+ *   A file ID.
+ * @param array $options
+ *   An optional array of options:
+ *   - header lines: The number of header lines to expect in the CSV file
+ *   - footer lines: The number of footer lines to expect in the CSV file
+ *   - orientation: The orientation of the data in the CSV file, either 'column'
+ *     for normal CSV files where each column is a field, or...
+ *   - delimiter: The field delimiter to use when calling fgetcsv()
+ *   - default headers: If the headers are empty, provide a default header in
+ *     the format of 'Column 1' and 'Column 2'.
+ *   - limit: The maximum number of rows to return.
+ *
+ * @return array
+ *   An array that can be passed directly into theme('table').
+ */
+function deims_data_source_get_csv_table($fid, array $options = array()) {
+  $options += array(
+    'header lines' => 1,
+    'footer lines' => 0,
+    'orientation' => 'column',
+    'delimiter' => ',',
+    'default headers' => TRUE,
+    'limit' => variable_get('data_source_preview_limit', 100),
+  );
+
+  $result = array(
+    'header' => array(),
     'rows' => array(),
   );
 
   if ($file = file_load($fid)) {
     $csv = fopen(drupal_realpath($file->uri), 'r');
 
-    // The numbers of lines to show in the preview.
-    $limit = variable_get('data_source_preview_limit', 100);
-
     $row_count = 0;
-    while (($line = fgetcsv($csv, 0, $delimiter)) !== FALSE) {
+    while (($line = fgetcsv($csv, 0, $options['delimiter'])) !== FALSE) {
       $row_count++;
 
       // Sanity check.
-      if ($row_count <= ($limit + $header_lines)) {
-        if ($orientation == 'column') {
+      if ($row_count <= ($options['limit'] + $options['header lines'])) {
+        if ($options['orientation'] == 'column') {
           // Are we adding just 1 header line?
-          if ($header_lines == 1 && $row_count == 1) {
+          if ($options['header lines'] == 1 && $row_count == 1) {
             foreach ($line as $field) {
-              $preview['headers'][] = $field;
+              $result['header'][] = $field;
             }
           }
           else {
-            array_push($preview['rows'], $line);
+            array_push($result['rows'], $line);
           }
         }
         else {
           // Each new line represents data for records defined in columns.
           foreach ($line as $key => $field) {
-            if ($header_lines == 1 && $key == 0) {
-              $preview['headers'][] = $field;
+            if ($options['header lines'] == 1 && $key == 0) {
+              $result['header'][] = $field;
             }
             else {
-              $preview['rows'][$key][] = $field;
+              $result['rows'][$key][] = $field;
             }
           }
         }
       }
 
       // Super insanity check.
-      if (($row_count - $header_lines) >= $limit) {
+      if (($row_count - $options['header lines']) >= $options['limit']) {
         break;
       }
     }
@@ -124,12 +149,20 @@ function deims_data_source_get_csv_preview($fid, $header_lines, $footer_lines, $
   }
 
   // Do we need to remove any footer lines?
-  $remove = count($preview['rows']) - $header_lines - $footer_lines;
-  if ($remove < $limit) {
-    array_splice($preview['rows'], $remove);
+  $remove = count($result['rows']) - $options['header lines'] - $options['footer lines'];
+  if ($remove < $options['limit']) {
+    array_splice($result['rows'], $remove);
   }
 
-  return $preview;
+  // If the headers are not available, then fill in a 'default' header for each
+  // column.
+  if (!empty($options['default headers']) && empty($result['header'])) {
+    for ($i = 1; $i <= count($result['rows'][0]); $i++) {
+      $result['header'][] = array('data' => t('Column @num', array('@num' => $i)));
+    }
+  }
+
+  return $result;
 }
 
 function deims_data_source_parse_csv_to_variables_submit($form, &$form_state) {
@@ -149,26 +182,34 @@ function deims_data_source_parse_csv_to_variables_submit($form, &$form_state) {
   $field_parents = $variable_element['#field_parents'];
 
   $fid = drupal_array_get_nested_value($form_state['values'], array_merge($entity_parents, array('field_data_source_file', LANGUAGE_NONE, 0, 'fid')));
-  $orientation = drupal_array_get_nested_value($form_state['values'], array_merge($entity_parents, array('field_csv_orientation', LANGUAGE_NONE, 0, 'value')));
-  $delimiter = drupal_array_get_nested_value($form_state['values'], array_merge($entity_parents, array('field_csv_field_delimiter', LANGUAGE_NONE, 0, 'value')));
 
-  $preview = deims_data_source_get_csv_preview($fid, 1, 0, $orientation, $delimiter);
-  if (!empty($preview['headers'])) {
+  $options = array(
+    'orientation' => drupal_array_get_nested_value($form_state['values'], array_merge($entity_parents, array('field_csv_orientation', LANGUAGE_NONE, 0, 'value'))),
+    'delimiter' => drupal_array_get_nested_value($form_state['values'], array_merge($entity_parents, array('field_csv_field_delimiter', LANGUAGE_NONE, 0, 'value'))),
+    'default headers' => FALSE,
+    // We don't care about actual data, so don't return me any actual rows.
+    'limit' => 0,
+  );
+
+  $result = deims_data_source_get_csv_table($fid, $options);
+  if (!empty($result['header'])) {
+    $headers = $result['header'];
+
     // First we need to set the correct amount of field values in the field
     // form state.
     $field_state = field_form_get_state($field_parents, $field_name, $langcode, $form_state);
-    $field_state['items_count'] = count($preview['headers']);
+    $field_state['items_count'] = count($headers);
     field_form_set_state($field_parents, $field_name, $langcode, $form_state, $field_state);
 
     // Next build the form state values and save them to both form values and
     // form input so that the form rebuild will display our custom values now.
     $values = array();
-    foreach ($preview['headers'] as $delta => $header) {
+    foreach ($headers as $delta => $header) {
       $values[] = array(
         'id' => NULL,
         'name' => $header,
         'label' => '',
-        'definition' => '',
+        'definition' => $header,
         'type' => '',
         //'_weight' => $delta,
       );
@@ -206,16 +247,16 @@ function deims_data_source_parse_csv_to_variables_submit_js($form, $form_state) 
  * Generate a datatable from a given CSV source preview.
  */
 function deims_data_source_preview_source($form, &$form_state) {
-  $file = $header_lines = $orientation = $delimiter = FALSE;
-  $errors = $commands = array();
+  $fid = $header_lines = $orientation = $delimiter = FALSE;
+  $options = $errors = $commands = array();
 
   $parents = $form_state['clicked_button']['#parents'];
   array_pop($parents);
 
   $values = drupal_array_get_nested_value($form_state['values'], $parents);
 
-  if (isset($values['field_data_source_file'][LANGUAGE_NONE][0]['fid']) && !empty($values['field_data_source_file'][LANGUAGE_NONE][0]['fid'])) {
-    $file = file_load($values['field_data_source_file'][LANGUAGE_NONE][0]['fid']);
+  if (!empty($values['field_data_source_file'][LANGUAGE_NONE][0]['fid'])) {
+    $fid = $values['field_data_source_file'][LANGUAGE_NONE][0]['fid'];
   }
   else {
     $errors[] = '<p>Please attach or upload a <strong>file</strong>.</p>';
@@ -223,24 +264,23 @@ function deims_data_source_preview_source($form, &$form_state) {
 
   $delimiter_form_value = $values['field_csv_field_delimiter'][LANGUAGE_NONE];
   if (isset($delimiter_form_value['select']) && !empty($delimiter_form_value['select'])) {
-    $delimiter = ($delimiter_form_value['select'] == 'select_or_other') ?
-      $delimiter_form_value['other'] : $delimiter_form_value['select'];
+    if ($delimiter_form_value['select'] == 'select_or_other') {
+      $options['delimiter'] = $delimiter_form_value['other'];
+    }
+    else {
+      $options['delimiter'] = $delimiter_form_value['select'];
+    }
   }
   else {
     $errors[] = '<p>Please select a field <strong>delimiter</strong>.</p>';
   }
 
   if (isset($values['field_csv_orientation'][LANGUAGE_NONE]) && !empty($values['field_csv_orientation'][LANGUAGE_NONE])) {
-    $orientation = $values['field_csv_orientation'][LANGUAGE_NONE];
+    $options['orientation'] = $values['field_csv_orientation'][LANGUAGE_NONE];
   }
   else {
     $errors[] = 'column';
   }
-
-  $header_lines = (!empty($values['field_csv_header_lines'][LANGUAGE_NONE][0]['value'])) ? $values['field_csv_header_lines'][LANGUAGE_NONE][0]['value'] : 0;
-
-  $footer_lines = (!empty($values['field_csv_footer_lines'][LANGUAGE_NONE][0]['value'])) ? $values['field_csv_footer_lines'][LANGUAGE_NONE][0]['value'] : 0;
-
   if (!empty($errors)) {
     $commands[] = ajax_command_replace('#source_preview', '<div id="source_preview"><div class="messages error">' . implode('', $errors) . '</div></div>');
     return array(
@@ -249,19 +289,14 @@ function deims_data_source_preview_source($form, &$form_state) {
     );
   }
 
-  $preview = deims_data_source_get_csv_preview($file->fid, $header_lines, $footer_lines, $orientation, $delimiter);
+  $options['header lines'] = (!empty($values['field_csv_header_lines'][LANGUAGE_NONE][0]['value'])) ? $values['field_csv_header_lines'][LANGUAGE_NONE][0]['value'] : 0;
+  $options['footer lines'] = (!empty($values['field_csv_footer_lines'][LANGUAGE_NONE][0]['value'])) ? $values['field_csv_footer_lines'][LANGUAGE_NONE][0]['value'] : 0;
 
-  // Datatables can only handle 1 header row, so if we have >1 or <1, empty it.
-  $datatable = array();
-  $datatable['header'] = (empty($preview['headers'])) ? array_fill(0, count($preview['rows'][0]), '') : $preview['headers'];
-  $datatable['rows'] = $preview['rows'];
-
-  $element = array(
-    '#markup' => theme('datatable', $datatable),
-  );
+  $result = deims_data_source_get_csv_table($fid, $options);
+  $output = theme('datatable', $result);
 
   // $commands = array();
-  $commands[] = ajax_command_replace('#source_preview', '<div id="source_preview"><div id="source_preview_modal">' . render($element) . '</div></div>');
+  $commands[] = ajax_command_replace('#source_preview', '<div id="source_preview"><div id="source_preview_modal">' . $output . '</div></div>');
   $commands[] = ajax_command_invoke(NULL, 'data_source_preview_show_modal');
 
   return array(
