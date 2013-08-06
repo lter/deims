@@ -110,7 +110,7 @@ projects[entityreference][patch][] = "http://drupal.org/files/2035699-formatter-
 projects[entity_view_mode][version] = "1.0-rc1"
 projects[entity_view_mode][subdir] = "contrib"
 
-projects[extlink][version] = "1.12"
+projects[extlink][version] = "1.13"
 projects[extlink][subdir] = "contrib"
 
 projects[facetapi][version] = "1.3"
@@ -258,7 +258,7 @@ projects[schema_reference][subdir] = "contrib"
 projects[search_api][version] = "1.7"
 projects[search_api][subdir] = "contrib"
 
-projects[search_api_db][version] = "1.0-rc1"
+projects[search_api_db][version] = "1.0-rc2"
 projects[search_api_db][subdir] = "contrib"
 
 projects[search_api_ranges][version] = "1.4"
@@ -267,8 +267,11 @@ projects[search_api_ranges][subdir] = "contrib"
 projects[search_api_page][version] = "1.x-dev"
 projects[search_api_page][subdir] = "contrib"
 
-projects[select_or_other][version] = "2.17"
+projects[select_or_other][version] = "2.18"
 projects[select_or_other][subdir] = "contrib"
+; Fix required select_or_other fields
+; @see https://drupal.org/node/2030249#comment-7590279
+projects[select_or_other][patch][] = "http://drupal.org/files/select_or_other_required-2030249-1.patch"
 
 projects[strongarm][version] = "2.0"
 projects[strongarm][subdir] = "contrib"
@@ -347,7 +350,7 @@ projects[adaptivetheme][subdir] = "contrib"
 projects[pixture_reloaded][version] = "3.x-dev"
 projects[pixture_reloaded][subdir] = "contrib"
 
-projects[shiny][version] = "1.2"
+projects[shiny][version] = "1.3"
 projects[shiny][subdir] = "contrib"
 
 ; -----------------------------------------------------------------------------
