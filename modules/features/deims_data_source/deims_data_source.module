@@ -7,18 +7,26 @@
 include_once 'deims_data_source.features.inc';
 
 /**
+ * Implements hook_field_extra_fields().
+ */
+function deims_data_source_field_extra_fields() {
+  $info['node']['data_source']['form']['source_preview_button'] = array(
+    'label' => t('Preview source button'),
+    'weight' => 0,
+  );
+  $info['node']['data_source']['form']['parse_csv_to_variables'] = array(
+    'label' => t('Parse CSV file into variables'),
+    'weight' => 0,
+  );
+
+  return $info;
+}
+
+/**
  * Implements hook_field_attach_form().
  */
 function deims_data_source_field_attach_form($entity_type, $entity, &$form, &$form_state, $langcode) {
   if ($entity_type == 'node' && $form['#bundle'] == 'data_source') {
-    // Add the data preview stuff.
-    $form['box'] = array(
-      '#type' => 'markup',
-      '#prefix' => '<div id="source_preview">',
-      '#suffix' => '</div>',
-      '#markup' => '',
-    );
-
     $form['source_preview_button'] = array(
       '#type' => 'button',
       '#ajax' => array(
@@ -26,8 +34,11 @@ function deims_data_source_field_attach_form($entity_type, $entity, &$form, &$fo
         'wrapper' => 'source_preview',
       ),
       '#value' => t('Preview Source'),
-      '#limit_validation_errors' => array(),
-      '#weight' => 1,
+      '#limit_validation_errors' => array(
+        /*array_merge($form['#parents'], array('field_data_source_file', LANGUAGE_NONE)),
+        array_merge($form['#parents'], array('field_csv_orientation', LANGUAGE_NONE)),
+        array_merge($form['#parents'], array('field_csv_field_delimiter', LANGUAGE_NONE)),*/
+      ),
       '#attached' => array(
         'library' => array(
           array('system', 'ui.dialog'),
@@ -36,8 +47,159 @@ function deims_data_source_field_attach_form($entity_type, $entity, &$form, &$fo
           drupal_get_path('module', 'deims_data_source') . '/js/data_source.js' => array(),
         ),
       ),
+      '#prefix' => '<div id="source_preview"></div>',
+    );
+
+    $wrapper_parents = $form['#parents'];
+    $wrapper_parents[] = 'field-variables-add-more-wrapper';
+    $wrapper_id = drupal_html_class(implode('-', $wrapper_parents));
+    $form['parse_csv_to_variables'] = array(
+      '#type' => 'submit',
+      '#value' => t('Parse CSV file into variables'),
+      '#limit_validation_errors' => array(
+        array_merge($form['#parents'], array('field_data_source_file', $form['field_data_source_file']['#language'])),
+        array_merge($form['#parents'], array('field_csv_orientation', $form['field_csv_orientation']['#language'])),
+        array_merge($form['#parents'], array('field_csv_field_delimiter', $form['field_csv_field_delimiter']['#language'])),
+      ),
+      '#submit' => array('deims_data_source_parse_csv_to_variables_submit'),
+      '#ajax' => array(
+        'callback' => 'deims_data_source_parse_csv_to_variables_submit_js',
+        'wrapper' => $wrapper_id,
+        'effect' => 'fade',
+      ),
+      '#access' => $form['field_variables'][$form['field_variables']['#language']]['#cardinality'] == FIELD_CARDINALITY_UNLIMITED && empty($form_state['programmed']),
     );
   }
+}
+
+function deims_data_source_get_csv_preview($fid, $header_lines, $footer_lines, $orientation, $delimiter) {
+  $preview = array(
+    'headers' => array(),
+    'rows' => array(),
+  );
+
+  if ($file = file_load($fid)) {
+    $csv = fopen(drupal_realpath($file->uri), 'r');
+
+    // The numbers of lines to show in the preview.
+    $limit = variable_get('data_source_preview_limit', 100);
+
+    $row_count = 0;
+    while (($line = fgetcsv($csv, 0, $delimiter)) !== FALSE) {
+      $row_count++;
+
+      // Sanity check.
+      if ($row_count <= ($limit + $header_lines)) {
+        if ($orientation == 'column') {
+          // Are we adding just 1 header line?
+          if ($header_lines == 1 && $row_count == 1) {
+            foreach ($line as $field) {
+              $preview['headers'][] = $field;
+            }
+          }
+          else {
+            array_push($preview['rows'], $line);
+          }
+        }
+        else {
+          // Each new line represents data for records defined in columns.
+          foreach ($line as $key => $field) {
+            if ($header_lines == 1 && $key == 0) {
+              $preview['headers'][] = $field;
+            }
+            else {
+              $preview['rows'][$key][] = $field;
+            }
+          }
+        }
+      }
+
+      // Super insanity check.
+      if (($row_count - $header_lines) >= $limit) {
+        break;
+      }
+    }
+
+    fclose($csv);
+  }
+
+  // Do we need to remove any footer lines?
+  $remove = count($preview['rows']) - $header_lines - $footer_lines;
+  if ($remove < $limit) {
+    array_splice($preview['rows'], $remove);
+  }
+
+  return $preview;
+}
+
+function deims_data_source_parse_csv_to_variables_submit($form, &$form_state) {
+  $button = $form_state['triggering_element'];
+
+  // Go one level up in the form, to the widgets container.
+  $entity_parents = $button['#array_parents'];
+  array_pop($entity_parents);
+  $variable_parents = $entity_parents;
+
+  $variable_parents[] = 'field_variables';
+  $variable_parents[] = LANGUAGE_NONE;
+  $variable_element = drupal_array_get_nested_value($form, $variable_parents);
+
+  $field_name = $variable_element['#field_name'];
+  $langcode = $variable_element['#language'];
+  $field_parents = $variable_element['#field_parents'];
+
+  $fid = drupal_array_get_nested_value($form_state['values'], array_merge($entity_parents, array('field_data_source_file', LANGUAGE_NONE, 0, 'fid')));
+  $orientation = drupal_array_get_nested_value($form_state['values'], array_merge($entity_parents, array('field_csv_orientation', LANGUAGE_NONE, 0, 'value')));
+  $delimiter = drupal_array_get_nested_value($form_state['values'], array_merge($entity_parents, array('field_csv_field_delimiter', LANGUAGE_NONE, 0, 'value')));
+
+  $preview = deims_data_source_get_csv_preview($fid, 1, 0, $orientation, $delimiter);
+  if (!empty($preview['headers'])) {
+    // First we need to set the correct amount of field values in the field
+    // form state.
+    $field_state = field_form_get_state($field_parents, $field_name, $langcode, $form_state);
+    $field_state['items_count'] = count($preview['headers']);
+    field_form_set_state($field_parents, $field_name, $langcode, $form_state, $field_state);
+
+    // Next build the form state values and save them to both form values and
+    // form input so that the form rebuild will display our custom values now.
+    $values = array();
+    foreach ($preview['headers'] as $delta => $header) {
+      $values[] = array(
+        'id' => NULL,
+        'name' => $header,
+        'label' => '',
+        'definition' => '',
+        'type' => '',
+        //'_weight' => $delta,
+      );
+    }
+    drupal_array_set_nested_value($form_state['values'], $variable_parents, $values);
+    drupal_array_set_nested_value($form_state['input'], $variable_parents, $values);
+
+    // Next make sure that the form gets rebuilt so that our form values are
+    // displayed.
+    $form_state['rebuild'] = TRUE;
+  }
+  else {
+    drupal_set_message(t('Unable to fetch CSV headers.'), 'error');
+  }
+}
+
+function deims_data_source_parse_csv_to_variables_submit_js($form, $form_state) {
+  $button = $form_state['triggering_element'];
+
+  $parents = $button['#array_parents'];
+  array_pop($parents);
+  $parents[] = 'field_variables';
+  $parents[] = LANGUAGE_NONE;
+
+  // Go one level up in the form, to the widgets container.
+  $element = drupal_array_get_nested_value($form, $parents);
+  $field_name = 'field_variables'; //$element['#field_name'];
+  $langcode = LANGUAGE_NONE; //$element['#language'];
+  $parents = array(); //$element['#field_parents'];
+
+  return $element;
 }
 
 /**
@@ -87,60 +249,15 @@ function deims_data_source_preview_source($form, &$form_state) {
     );
   }
 
-  $csv = fopen(drupal_realpath($file->uri), 'r');
-  $rows = $headers = $datatable = array();
-
-  // The numbers of lines to show in the preview.
-  $limit = variable_get('data_source_preview_limit', 100);
-
-  $row_count = 0;
-  while (($line = fgetcsv($csv, 0, $delimiter)) !== FALSE) {
-    $row_count++;
-
-    // Sanity check.
-    if ($row_count <= ($limit + $header_lines)) {
-      if ($orientation == 'column') {
-        // Are we adding just 1 header line?
-        if ($header_lines == 1 && $row_count == 1) {
-          foreach ($line as $field) {
-            $headers[]['data'] = $field;
-          }
-        }
-        else {
-          array_push($rows, $line);
-        }
-      }
-      else {
-        // Each new line represents data for records defined in columns.
-        foreach ($line as $key => $field) {
-          if ($header_lines == 1 && $key == 0) {
-            $headers[]['data'] = $field;
-          }
-          else {
-            $rows[$key][] = $field;
-          }
-        }
-      }
-    }
-
-    // Super insanity check.
-    if (($row_count - $header_lines - $footer_lines) >= $limit) {
-      break;
-    }
-  }
-
-  // Do we need to remove any footer lines?
-  $remove = $row_count - $header_lines - $footer_lines;
-  if ($remove < $limit) {
-    array_splice($rows, $remove);
-  }
+  $preview = deims_data_source_get_csv_preview($file->fid, $header_lines, $footer_lines, $orientation, $delimiter);
 
   // Datatables can only handle 1 header row, so if we have >1 or <1, empty it.
-  $datatable['header'] = (empty($headers)) ? array_fill(0, count($rows[0]), '') : $headers;
-  $datatable['rows'] = $rows;
+  $datatable = array();
+  $datatable['header'] = (empty($preview['headers'])) ? array_fill(0, count($preview['rows'][0]), '') : $preview['headers'];
+  $datatable['rows'] = $preview['rows'];
 
   $element = array(
-    '#markup' => theme_datatable($datatable),
+    '#markup' => theme('datatable', $datatable),
   );
 
   // $commands = array();
