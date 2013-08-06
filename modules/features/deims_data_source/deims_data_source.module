@@ -27,17 +27,22 @@ function deims_data_source_field_extra_fields() {
  */
 function deims_data_source_field_attach_form($entity_type, $entity, &$form, &$form_state, $langcode) {
   if ($entity_type == 'node' && $form['#bundle'] == 'data_source') {
+    list($id) = entity_extract_ids($entity_type, $entity);
+
     $form['source_preview_button'] = array(
-      '#type' => 'button',
-      '#ajax' => array(
-        'callback' => 'deims_data_source_preview_source',
-        'wrapper' => 'source_preview',
-      ),
+      '#type' => 'submit',
       '#value' => t('Preview Source'),
       '#limit_validation_errors' => array(
-        /*array_merge($form['#parents'], array('field_data_source_file', LANGUAGE_NONE)),
-        array_merge($form['#parents'], array('field_csv_orientation', LANGUAGE_NONE)),
-        array_merge($form['#parents'], array('field_csv_field_delimiter', LANGUAGE_NONE)),*/
+        array_merge($form['#parents'], array('field_data_source_file', $form['field_data_source_file']['#language'])),
+        array_merge($form['#parents'], array('field_csv_orientation', $form['field_csv_orientation']['#language'])),
+        array_merge($form['#parents'], array('field_csv_field_delimiter', $form['field_csv_field_delimiter']['#language'])),
+        array_merge($form['#parents'], array('field_csv_header_lines', $form['field_csv_header_lines']['#language'])),
+        array_merge($form['#parents'], array('field_csv_footer_lines', $form['field_csv_footer_lines']['#language'])),
+      ),
+      '#submit' => array('deims_data_source_preview_source_submit'),
+      '#ajax' => array(
+        'callback' => 'deims_data_source_preview_source_js',
+        'wrapper' => 'data-source-preview',
       ),
       '#attached' => array(
         'library' => array(
@@ -47,7 +52,8 @@ function deims_data_source_field_attach_form($entity_type, $entity, &$form, &$fo
           drupal_get_path('module', 'deims_data_source') . '/js/data_source.js' => array(),
         ),
       ),
-      '#prefix' => '<div id="source_preview"></div>',
+      // Provide a div for the source preview.
+      '#prefix' => '<div id="data-source-preview"></div>',
     );
 
     $wrapper_parents = $form['#parents'];
@@ -67,9 +73,124 @@ function deims_data_source_field_attach_form($entity_type, $entity, &$form, &$fo
         'wrapper' => $wrapper_id,
         'effect' => 'fade',
       ),
-      '#access' => $form['field_variables'][$form['field_variables']['#language']]['#cardinality'] == FIELD_CARDINALITY_UNLIMITED && empty($form_state['programmed']),
+      '#access' => empty($id) && $form['field_variables'][$form['field_variables']['#language']]['#cardinality'] == FIELD_CARDINALITY_UNLIMITED && empty($form_state['programmed']),
     );
   }
+}
+
+function deims_data_source_parse_csv_to_variables_submit($form, &$form_state) {
+  $button = $form_state['triggering_element'];
+
+  // Go one level up in the form, to the widgets container.
+  $entity_parents = $button['#array_parents'];
+  array_pop($entity_parents);
+  $variable_parents = $entity_parents;
+
+  $variable_parents[] = 'field_variables';
+  $variable_parents[] = LANGUAGE_NONE;
+  $variable_element = drupal_array_get_nested_value($form, $variable_parents);
+
+  $field_name = $variable_element['#field_name'];
+  $langcode = $variable_element['#language'];
+  $field_parents = $variable_element['#field_parents'];
+
+  $fid = drupal_array_get_nested_value($form_state['values'], array_merge($entity_parents, array('field_data_source_file', LANGUAGE_NONE, 0, 'fid')));
+
+  $options = array(
+    'orientation' => drupal_array_get_nested_value($form_state['values'], array_merge($entity_parents, array('field_csv_orientation', LANGUAGE_NONE, 0, 'value'))),
+    'delimiter' => drupal_array_get_nested_value($form_state['values'], array_merge($entity_parents, array('field_csv_field_delimiter', LANGUAGE_NONE, 0, 'value'))),
+    'default headers' => FALSE,
+    // We don't care about actual data, so don't return me any actual rows.
+    'limit' => 0,
+  );
+
+  $result = deims_data_source_get_csv_table($fid, $options);
+  if (!empty($result['header'])) {
+    $headers = $result['header'];
+
+    // First we need to set the correct amount of field values in the field
+    // form state.
+    $field_state = field_form_get_state($field_parents, $field_name, $langcode, $form_state);
+    $field_state['items_count'] = count($headers);
+    field_form_set_state($field_parents, $field_name, $langcode, $form_state, $field_state);
+
+    // Next build the form state values and save them to both form values and
+    // form input so that the form rebuild will display our custom values now.
+    $values = array();
+    foreach ($headers as $delta => $header) {
+      $values[] = array(
+        'id' => NULL,
+        'name' => $header,
+        'label' => '',
+        'definition' => $header,
+        'type' => '',
+        //'_weight' => $delta,
+      );
+    }
+    drupal_array_set_nested_value($form_state['values'], $variable_parents, $values);
+    drupal_array_set_nested_value($form_state['input'], $variable_parents, $values);
+
+    // Next make sure that the form gets rebuilt so that our form values are
+    // displayed.
+    $form_state['rebuild'] = TRUE;
+  }
+  else {
+    drupal_set_message(t('Unable to fetch CSV headers.'), 'error');
+  }
+}
+
+function deims_data_source_parse_csv_to_variables_submit_js($form, $form_state) {
+  $button = $form_state['triggering_element'];
+
+  $parents = $button['#array_parents'];
+  array_pop($parents);
+  $parents[] = 'field_variables';
+  $parents[] = LANGUAGE_NONE;
+
+  // Go one level up in the form, to the widgets container.
+  $element = drupal_array_get_nested_value($form, $parents);
+  $field_name = 'field_variables'; //$element['#field_name'];
+  $langcode = LANGUAGE_NONE; //$element['#language'];
+  $parents = array(); //$element['#field_parents'];
+
+  return $element;
+}
+
+function deims_data_source_preview_source_submit(&$form, &$form_state) {
+  $button = $form_state['triggering_element'];
+
+  // Go one level up in the form, to the widgets container.
+  $parents = $button['#array_parents'];
+  array_pop($parents);
+
+  $element = &drupal_array_get_nested_value($form, $parents);
+  $values = drupal_array_get_nested_value($form_state['values'], $parents);
+
+  $fid = $values['field_data_source_file'][LANGUAGE_NONE][0]['fid'];
+
+  $options = array();
+  $options['delimiter'] = $values['field_csv_field_delimiter'][LANGUAGE_NONE][0]['value'];
+  $options['orientation'] = $values['field_csv_orientation'][LANGUAGE_NONE][0]['value'];
+  $options['header lines'] = !empty($values['field_csv_header_lines'][LANGUAGE_NONE][0]['value']) ? $values['field_csv_header_lines'][LANGUAGE_NONE][0]['value'] : 0;
+  $options['footer lines'] = !empty($values['field_csv_footer_lines'][LANGUAGE_NONE][0]['value']) ? $values['field_csv_footer_lines'][LANGUAGE_NONE][0]['value'] : 0;
+
+  $result = deims_data_source_get_csv_table($fid, $options);
+  $output = theme('datatable', $result);
+  $element['source_preview_button']['#prefix'] = '<div id="data-source-preview"><div class="data-source-preview-modal">' . $output . '</div>';
+}
+
+/**
+ * Generate a datatable from a given CSV source preview.
+ */
+function deims_data_source_preview_source_js($form, &$form_state) {
+  $button = $form_state['triggering_element'];
+
+  // Go one level up in the form, to the entity container.
+  $parents = $button['#array_parents'];
+  array_pop($parents);
+
+  $element = drupal_array_get_nested_value($form, $parents);
+  return $element['source_preview_button']['#prefix'];
 }
 
 /**
@@ -163,144 +284,4 @@ function deims_data_source_get_csv_table($fid, array $options = array()) {
   }
 
   return $result;
-}
-
-function deims_data_source_parse_csv_to_variables_submit($form, &$form_state) {
-  $button = $form_state['triggering_element'];
-
-  // Go one level up in the form, to the widgets container.
-  $entity_parents = $button['#array_parents'];
-  array_pop($entity_parents);
-  $variable_parents = $entity_parents;
-
-  $variable_parents[] = 'field_variables';
-  $variable_parents[] = LANGUAGE_NONE;
-  $variable_element = drupal_array_get_nested_value($form, $variable_parents);
-
-  $field_name = $variable_element['#field_name'];
-  $langcode = $variable_element['#language'];
-  $field_parents = $variable_element['#field_parents'];
-
-  $fid = drupal_array_get_nested_value($form_state['values'], array_merge($entity_parents, array('field_data_source_file', LANGUAGE_NONE, 0, 'fid')));
-
-  $options = array(
-    'orientation' => drupal_array_get_nested_value($form_state['values'], array_merge($entity_parents, array('field_csv_orientation', LANGUAGE_NONE, 0, 'value'))),
-    'delimiter' => drupal_array_get_nested_value($form_state['values'], array_merge($entity_parents, array('field_csv_field_delimiter', LANGUAGE_NONE, 0, 'value'))),
-    'default headers' => FALSE,
-    // We don't care about actual data, so don't return me any actual rows.
-    'limit' => 0,
-  );
-
-  $result = deims_data_source_get_csv_table($fid, $options);
-  if (!empty($result['header'])) {
-    $headers = $result['header'];
-
-    // First we need to set the correct amount of field values in the field
-    // form state.
-    $field_state = field_form_get_state($field_parents, $field_name, $langcode, $form_state);
-    $field_state['items_count'] = count($headers);
-    field_form_set_state($field_parents, $field_name, $langcode, $form_state, $field_state);
-
-    // Next build the form state values and save them to both form values and
-    // form input so that the form rebuild will display our custom values now.
-    $values = array();
-    foreach ($headers as $delta => $header) {
-      $values[] = array(
-        'id' => NULL,
-        'name' => $header,
-        'label' => '',
-        'definition' => $header,
-        'type' => '',
-        //'_weight' => $delta,
-      );
-    }
-    drupal_array_set_nested_value($form_state['values'], $variable_parents, $values);
-    drupal_array_set_nested_value($form_state['input'], $variable_parents, $values);
-
-    // Next make sure that the form gets rebuilt so that our form values are
-    // displayed.
-    $form_state['rebuild'] = TRUE;
-  }
-  else {
-    drupal_set_message(t('Unable to fetch CSV headers.'), 'error');
-  }
-}
-
-function deims_data_source_parse_csv_to_variables_submit_js($form, $form_state) {
-  $button = $form_state['triggering_element'];
-
-  $parents = $button['#array_parents'];
-  array_pop($parents);
-  $parents[] = 'field_variables';
-  $parents[] = LANGUAGE_NONE;
-
-  // Go one level up in the form, to the widgets container.
-  $element = drupal_array_get_nested_value($form, $parents);
-  $field_name = 'field_variables'; //$element['#field_name'];
-  $langcode = LANGUAGE_NONE; //$element['#language'];
-  $parents = array(); //$element['#field_parents'];
-
-  return $element;
-}
-
-/**
- * Generate a datatable from a given CSV source preview.
- */
-function deims_data_source_preview_source($form, &$form_state) {
-  $fid = $header_lines = $orientation = $delimiter = FALSE;
-  $options = $errors = $commands = array();
-
-  $parents = $form_state['clicked_button']['#parents'];
-  array_pop($parents);
-
-  $values = drupal_array_get_nested_value($form_state['values'], $parents);
-
-  if (!empty($values['field_data_source_file'][LANGUAGE_NONE][0]['fid'])) {
-    $fid = $values['field_data_source_file'][LANGUAGE_NONE][0]['fid'];
-  }
-  else {
-    $errors[] = '<p>Please attach or upload a <strong>file</strong>.</p>';
-  }
-
-  $delimiter_form_value = $values['field_csv_field_delimiter'][LANGUAGE_NONE];
-  if (isset($delimiter_form_value['select']) && !empty($delimiter_form_value['select'])) {
-    if ($delimiter_form_value['select'] == 'select_or_other') {
-      $options['delimiter'] = $delimiter_form_value['other'];
-    }
-    else {
-      $options['delimiter'] = $delimiter_form_value['select'];
-    }
-  }
-  else {
-    $errors[] = '<p>Please select a field <strong>delimiter</strong>.</p>';
-  }
-
-  if (isset($values['field_csv_orientation'][LANGUAGE_NONE]) && !empty($values['field_csv_orientation'][LANGUAGE_NONE])) {
-    $options['orientation'] = $values['field_csv_orientation'][LANGUAGE_NONE];
-  }
-  else {
-    $errors[] = 'column';
-  }
-  if (!empty($errors)) {
-    $commands[] = ajax_command_replace('#source_preview', '<div id="source_preview"><div class="messages error">' . implode('', $errors) . '</div></div>');
-    return array(
-      '#type' => 'ajax',
-      '#commands' => $commands,
-    );
-  }
-
-  $options['header lines'] = (!empty($values['field_csv_header_lines'][LANGUAGE_NONE][0]['value'])) ? $values['field_csv_header_lines'][LANGUAGE_NONE][0]['value'] : 0;
-  $options['footer lines'] = (!empty($values['field_csv_footer_lines'][LANGUAGE_NONE][0]['value'])) ? $values['field_csv_footer_lines'][LANGUAGE_NONE][0]['value'] : 0;
-
-  $result = deims_data_source_get_csv_table($fid, $options);
-  $output = theme('datatable', $result);
-
-  // $commands = array();
-  $commands[] = ajax_command_replace('#source_preview', '<div id="source_preview"><div id="source_preview_modal">' . $output . '</div></div>');
-  $commands[] = ajax_command_invoke(NULL, 'data_source_preview_show_modal');
-
-  return array(
-    '#type' => 'ajax',
-    '#commands' => $commands,
-  );
 }
