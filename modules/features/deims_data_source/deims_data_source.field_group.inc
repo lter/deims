@@ -147,7 +147,6 @@ function deims_data_source_field_group_info() {
       4 => 'field_csv_quote_character',
       5 => 'field_csv_record_delimiter',
       6 => 'field_data_source_file',
-      7 => 'source_preview_button',
     ),
     'format_type' => 'htab',
     'format_settings' => array(
@@ -203,7 +202,8 @@ function deims_data_source_field_group_info() {
     'weight' => '6',
     'children' => array(
       0 => 'field_variables',
-      1 => 'parse_csv_to_variables',
+      1 => 'deims_data_source_preview_csv',
+      2 => 'deims_data_source_parse_csv_to_variables',
     ),
     'format_type' => 'htab',
     'format_settings' => array(

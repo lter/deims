@@ -167,7 +167,7 @@ function deims_data_source_field_default_fields() {
         'module' => 'number',
         'settings' => array(),
         'type' => 'number',
-        'weight' => '10',
+        'weight' => '9',
       ),
     ),
   );
@@ -241,7 +241,7 @@ function deims_data_source_field_default_fields() {
         'module' => 'number',
         'settings' => array(),
         'type' => 'number',
-        'weight' => '9',
+        'weight' => '8',
       ),
     ),
   );
@@ -322,7 +322,7 @@ function deims_data_source_field_default_fields() {
           'apply_chosen' => 0,
         ),
         'type' => 'options_select',
-        'weight' => '11',
+        'weight' => '10',
       ),
       'workbench_access_field' => 0,
     ),
@@ -408,7 +408,7 @@ function deims_data_source_field_default_fields() {
           'sort_options' => 0,
         ),
         'type' => 'select_or_other',
-        'weight' => '12',
+        'weight' => '11',
       ),
     ),
   );
@@ -1184,7 +1184,7 @@ function deims_data_source_field_default_fields() {
         'module' => 'deims_variable',
         'settings' => array(),
         'type' => 'deims_variable_default',
-        'weight' => '8',
+        'weight' => '2',
       ),
     ),
   );
