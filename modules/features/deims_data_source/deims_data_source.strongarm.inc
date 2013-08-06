@@ -56,6 +56,12 @@ function deims_data_source_strongarm() {
         'path' => array(
           'weight' => '4',
         ),
+        'deims_data_source_preview_csv' => array(
+          'weight' => '0',
+        ),
+        'deims_data_source_parse_csv_to_variables' => array(
+          'weight' => '1',
+        ),
       ),
       'display' => array(),
     ),
