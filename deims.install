@@ -296,6 +296,7 @@ function deims_install_admin_menu() {
  */
 function deims_install_schema() {
   variable_set('schema_suppress_type_warnings', TRUE);
+  variable_set('schema_status_report', FALSE);
 }
 
 /**
