@@ -128,7 +128,7 @@ projects[field_referenced_delete][subdir] = "contrib"
 projects[field_validation][version] = "2.3"
 projects[field_validation][subdir] = "contrib"
 
-projects[file_download_count][version] = "1.0-beta2"
+projects[file_download_count][version] = "1.0-rc1"
 projects[file_download_count][subdir] = "contrib"
 
 ; Dave Reid maintains this, ok to use dev for now.
