@@ -304,6 +304,10 @@ projects[token_field][subdir] = "contrib"
 projects[token_formatters][version] = "1.2"
 projects[token_formatters][subdir] = "contrib"
 
+; @todo Change this to 1.1 once that version is released.
+projects[url][version] = "1.x-dev"
+projects[url][subdir] = "contrib"
+
 projects[views][version] = "3.7"
 projects[views][subdir] = "contrib"
 
