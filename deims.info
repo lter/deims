@@ -1,6 +1,7 @@
 name = "DEIMS Platform"
 description = "Drupal Ecological Information Management System"
 core = 7.x
+exclusive = TRUE
 ; -----------------------------------------------------------------------------
 ; Dependencies
 ; -----------------------------------------------------------------------------
