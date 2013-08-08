@@ -35,8 +35,8 @@ function deims_d6_migration_migrate_api() {
       'DeimsContentPerson' => array(
         'class_name' => 'DeimsContentPersonMigration',
       ),
-      'DeimsEntityOrganization' => array(
-        'class_name' => 'DeimsEntityOrganizationMigration',
+      'DeimsContentOrganization' => array(
+        'class_name' => 'DeimsContentOrganizationMigration',
       ),
       'DeimsContentDataSet' => array(
         'class_name' => 'DeimsContentDataSetMigration',

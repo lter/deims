@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Definition of DeimsEntityOrganizationMigration.
+ * Definition of DeimsContentOrganizationMigration.
  */
 
-class DeimsEntityOrganizationMigration extends Migration {
+class DeimsContentOrganizationMigration extends Migration {
 
   public function __construct($arguments) {
     parent::__construct($arguments);
@@ -22,7 +22,7 @@ class DeimsEntityOrganizationMigration extends Migration {
 
     $this->source = new MigrateSourceSQL($query);
 
-    $this->destination = new MigrateDestinationEntityAPI('organization', 'organization');
+    $this->destination = new MigrateDestinationNode('organization');
 
     // Tell Migrate where the IDs for this migration live, and
     // where they should go.

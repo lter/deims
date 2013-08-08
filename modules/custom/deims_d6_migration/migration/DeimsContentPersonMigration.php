@@ -6,7 +6,7 @@
  */
 
 class DeimsContentPersonMigration extends DrupalNode6Migration {
-  protected $dependencies = array('DeimsEntityOrganization');
+  protected $dependencies = array('DeimsContentOrganization');
 
   public function __construct(array $arguments) {
     $arguments += array(
@@ -135,12 +135,12 @@ class DeimsContentPersonMigration extends DrupalNode6Migration {
     // and link value.
     if (!empty($row->field_person_organization)) {
       $query = new EntityFieldQuery();
-      $query->entityCondition('entity_type', 'organization');
+      $query->entityCondition('entity_type', 'node');
+      $query->entityCondition('bundle', 'organization');
       $query->propertyCondition('title', $row->field_person_organization);
-      //}
       $results = $query->execute();
-      if (!empty($results['organization'])) {
-        $field_values[] = array('target_id' => reset($results['organization'])->id);
+      if (!empty($results['node'])) {
+        $field_values[] = array('target_id' => reset($results['organization'])->nid);
       }
     }
 
