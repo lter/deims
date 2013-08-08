@@ -30,7 +30,7 @@ class DeimsFileMigration extends DrupalFile6Migration {
     $file->value = 'public://' . $file->value;
 
     if (!file_exists($file->value)) {
-      throw new MigrationException("The file at {$file->value} does not exist.");
+      throw new MigrateException("The file at {$file->value} does not exist.");
     }
   }
 }
