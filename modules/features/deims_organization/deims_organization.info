@@ -20,3 +20,4 @@ features[variable][] = node_options_organization
 features[variable][] = node_preview_organization
 features[variable][] = node_submitted_organization
 features[variable][] = pathauto_node_organization_pattern
+features[variable][] = workbench_access_node_type_organization

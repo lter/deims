@@ -1,0 +1,10 @@
+name = DEIMS Workbench Access
+core = 7.x
+package = DEIMS Enhancements
+dependencies[] = strongarm
+dependencies[] = workbench_access
+features[ctools][] = strongarm:strongarm:1
+features[features_api][] = api:1
+features[variable][] = workbench_access
+features[variable][] = workbench_access_custom_form
+features[variable][] = workbench_access_taxonomy

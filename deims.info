@@ -103,7 +103,6 @@ dependencies[] = token_formatters
 dependencies[] = views
 dependencies[] = views_bulk_operations
 dependencies[] = workbench
-dependencies[] = workbench_access
 dependencies[] = workbench_moderation
 dependencies[] = wysiwyg
 dependencies[] = wysiwyg_linebreaks

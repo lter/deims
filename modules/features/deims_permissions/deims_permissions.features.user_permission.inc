@@ -2140,23 +2140,5 @@ function deims_permissions_user_default_permissions() {
     'module' => 'system',
   );
 
-  // Exported permission: view workbench access information.
-  $permissions['view workbench access information'] = array(
-    'name' => 'view workbench access information',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'workbench_access',
-  );
-
-  // Exported permission: view workbench taxonomy pages.
-  $permissions['view workbench taxonomy pages'] = array(
-    'name' => 'view workbench taxonomy pages',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'workbench_access',
-  );
-
   return $permissions;
 }

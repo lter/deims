@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the DEIMS Workbench Access feature.
+ */
+
+include_once 'deims_workbench_access.features.inc';
