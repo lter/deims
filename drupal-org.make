@@ -169,8 +169,7 @@ projects[geophp][subdir] = "contrib"
 projects[google_analytics][version] = "1.3"
 projects[google_analytics][subdir] = "contrib"
 
-; Dave maintains this module, dev is ok.
-projects[helper][version] = "1.0"
+projects[helper][version] = "1.1"
 projects[helper][subdir] = "contrib"
 
 projects[inline_entity_form][version] = "1.x-dev"
