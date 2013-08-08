@@ -54,7 +54,7 @@ function eml_field_formatter_info() {
   );
   $info['eml_onlineUrl'] = array(
     'label' => t('EML onlineUrl'),
-    'field types' => array('link_field'),
+    'field types' => array('link_field', 'url'),
   );
   $info['eml_text'] = array(
     'label' => t('EML text'),
@@ -328,7 +328,7 @@ function eml_field_formatter_view($entity_type, $entity, $field, $instance, $lan
         $element[$delta] = array(
           '#theme' => 'eml_elements',
           '#eml' => array(
-            'onlineUrl' => $item['url'],
+            'onlineUrl' => $field['type'] == 'url' ? $item['value'] : $item['url'],
           ),
         );
       }

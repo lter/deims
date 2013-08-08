@@ -19,6 +19,7 @@ dependencies[] = options
 dependencies[] = strongarm
 dependencies[] = telephone
 dependencies[] = token_formatters
+dependencies[] = url
 dependencies[] = views
 features[ctools][] = field_group:field_group:1
 features[ctools][] = strongarm:strongarm:1

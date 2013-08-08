@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Definition of DeimsEntityOrganizationMigration.
+ * Definition of DeimsContentOrganizationMigration.
  */
 
-class DeimsEntityOrganizationMigration extends Migration {
+class DeimsContentOrganizationMigration extends Migration {
 
   public function __construct($arguments) {
     parent::__construct($arguments);
@@ -22,7 +22,7 @@ class DeimsEntityOrganizationMigration extends Migration {
 
     $this->source = new MigrateSourceSQL($query);
 
-    $this->destination = new MigrateDestinationEntityAPI('organization', 'organization');
+    $this->destination = new MigrateDestinationNode('organization');
 
     // Tell Migrate where the IDs for this migration live, and
     // where they should go.
@@ -38,14 +38,25 @@ class DeimsEntityOrganizationMigration extends Migration {
     $this->addFieldMapping('title', 'field_person_organization');
 
     $this->addUnmigratedDestinations(array(
-      'id',
-      'type',
+      'uid',
+      'created',
       'changed',
+      'status',
+      'promote',
+      'sticky',
+      'revision',
+      'log',
       'language',
+      'tnid',
+      'translate',
+      'revision_uid',
+      'is_new',
       'field_url',
       'field_url:title',
       'field_url:attributes',
-      'field_url:language',
+      'path',
+      'comment',
+      'pathauto',
     ));
   }
 }

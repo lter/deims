@@ -15,46 +15,18 @@ function deims_organization_ctools_plugin_api() {
 }
 
 /**
- * Implements hook_eck_bundle_info().
+ * Implements hook_node_info().
  */
-function deims_organization_eck_bundle_info() {
+function deims_organization_node_info() {
   $items = array(
-  'organization_organization' => array(
-  'machine_name' => 'organization_organization',
-  'entity_type' => 'organization',
-  'name' => 'organization',
-  'label' => 'Organization',
-),
-  );
-  return $items;
-}
-
-/**
- * Implements hook_eck_entity_type_info().
- */
-function deims_organization_eck_entity_type_info() {
-$items = array(
-       'organization' => array(
-  'name' => 'organization',
-  'label' => 'Organization',
-  'properties' => array(
-    'title' => array(
-      'label' => 'Title',
-      'type' => 'text',
-      'behavior' => 'title',
+    'organization' => array(
+      'name' => t('Organization'),
+      'base' => 'node_content',
+      'description' => '',
+      'has_title' => '1',
+      'title_label' => t('Title'),
+      'help' => '',
     ),
-    'changed' => array(
-      'label' => 'Changed',
-      'type' => 'integer',
-      'behavior' => 'changed',
-    ),
-    'language' => array(
-      'label' => 'Entity language',
-      'type' => 'language',
-      'behavior' => 'language',
-    ),
-  ),
-),
   );
   return $items;
 }

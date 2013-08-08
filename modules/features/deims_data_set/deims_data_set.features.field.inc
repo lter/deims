@@ -1458,7 +1458,7 @@ function deims_data_set_field_default_fields() {
           ),
           'view' => array(
             'args' => array(),
-            'display_name' => 'entityreference_node_person',
+            'display_name' => 'entityreference_node_person_and_organization',
             'view_name' => 'entity_reference_selection',
           ),
         ),
@@ -1569,7 +1569,7 @@ function deims_data_set_field_default_fields() {
           ),
           'view' => array(
             'args' => array(),
-            'display_name' => 'entityreference_node_person',
+            'display_name' => 'entityreference_node_person_and_organization',
             'view_name' => 'entity_reference_selection',
           ),
         ),
@@ -1680,7 +1680,7 @@ function deims_data_set_field_default_fields() {
           ),
           'view' => array(
             'args' => array(),
-            'display_name' => 'entityreference_node_person',
+            'display_name' => 'entityreference_node_person_and_organization',
             'view_name' => 'entity_reference_selection',
           ),
         ),
@@ -1791,7 +1791,7 @@ function deims_data_set_field_default_fields() {
           ),
           'view' => array(
             'args' => array(),
-            'display_name' => 'entityreference_node_person',
+            'display_name' => 'entityreference_node_person_and_organization',
             'view_name' => 'entity_reference_selection',
           ),
         ),

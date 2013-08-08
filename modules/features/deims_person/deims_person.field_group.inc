@@ -24,9 +24,9 @@ function deims_person_field_group_info() {
     'weight' => '16',
     'children' => array(
       0 => 'field_address',
-      1 => 'field_phone',
+      1 => 'field_email',
       2 => 'field_fax',
-      3 => 'field_email',
+      3 => 'field_phone',
       4 => 'field_url',
     ),
     'format_type' => 'htab',
@@ -54,9 +54,9 @@ function deims_person_field_group_info() {
     'label' => 'Details',
     'weight' => '5',
     'children' => array(
-      0 => 'group_records',
-      1 => 'group_contact',
-      2 => 'group_organization',
+      0 => 'group_contact',
+      1 => 'group_organization',
+      2 => 'group_records',
     ),
     'format_type' => 'htabs',
     'format_settings' => array(
@@ -108,9 +108,9 @@ function deims_person_field_group_info() {
     'label' => 'Records',
     'weight' => '18',
     'children' => array(
-      0 => 'field_user_account',
+      0 => 'field_associated_biblio_author',
       1 => 'field_person_id',
-      2 => 'field_associated_biblio_author',
+      2 => 'field_user_account',
     ),
     'format_type' => 'htab',
     'format_settings' => array(
