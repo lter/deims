@@ -24,4 +24,13 @@ class DeimsFileMigration extends DrupalFile6Migration {
       'origname',
     ));
   }
+
+  public function prepare($file, $row) {
+    // Hack to make migration work as we expect.
+    $file->value = 'public://' . $file->value;
+
+    if (!file_exists($file->value)) {
+      throw new MigrationException("The file at {$file->value} does not exist.");
+    }
+  }
 }
