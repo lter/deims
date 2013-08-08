@@ -1128,20 +1128,6 @@ function deims_permissions_user_default_permissions() {
     'module' => 'eck',
   );
 
-  // Exported permission: eck add organization bundles.
-  $permissions['eck add organization bundles'] = array(
-    'name' => 'eck add organization bundles',
-    'roles' => array(),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck add organization organization entities.
-  $permissions['eck add organization organization entities'] = array(
-    'name' => 'eck add organization organization entities',
-    'roles' => array(),
-    'module' => 'eck',
-  );
-
   // Exported permission: eck add project_role bundles.
   $permissions['eck add project_role bundles'] = array(
     'name' => 'eck add project_role bundles',
@@ -1194,20 +1180,6 @@ function deims_permissions_user_default_permissions() {
     'roles' => array(
       0 => 'administrator',
     ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck administer organization bundles.
-  $permissions['eck administer organization bundles'] = array(
-    'name' => 'eck administer organization bundles',
-    'roles' => array(),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck administer organization organization entities.
-  $permissions['eck administer organization organization entities'] = array(
-    'name' => 'eck administer organization organization entities',
-    'roles' => array(),
     'module' => 'eck',
   );
 
@@ -1266,20 +1238,6 @@ function deims_permissions_user_default_permissions() {
     'module' => 'eck',
   );
 
-  // Exported permission: eck delete organization bundles.
-  $permissions['eck delete organization bundles'] = array(
-    'name' => 'eck delete organization bundles',
-    'roles' => array(),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck delete organization organization entities.
-  $permissions['eck delete organization organization entities'] = array(
-    'name' => 'eck delete organization organization entities',
-    'roles' => array(),
-    'module' => 'eck',
-  );
-
   // Exported permission: eck delete project_role bundles.
   $permissions['eck delete project_role bundles'] = array(
     'name' => 'eck delete project_role bundles',
@@ -1332,20 +1290,6 @@ function deims_permissions_user_default_permissions() {
     'roles' => array(
       0 => 'administrator',
     ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck edit organization bundles.
-  $permissions['eck edit organization bundles'] = array(
-    'name' => 'eck edit organization bundles',
-    'roles' => array(),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck edit organization organization entities.
-  $permissions['eck edit organization organization entities'] = array(
-    'name' => 'eck edit organization organization entities',
-    'roles' => array(),
     'module' => 'eck',
   );
 
@@ -1404,20 +1348,6 @@ function deims_permissions_user_default_permissions() {
     'module' => 'eck',
   );
 
-  // Exported permission: eck list organization bundles.
-  $permissions['eck list organization bundles'] = array(
-    'name' => 'eck list organization bundles',
-    'roles' => array(),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck list organization organization entities.
-  $permissions['eck list organization organization entities'] = array(
-    'name' => 'eck list organization organization entities',
-    'roles' => array(),
-    'module' => 'eck',
-  );
-
   // Exported permission: eck list project_role bundles.
   $permissions['eck list project_role bundles'] = array(
     'name' => 'eck list project_role bundles',
@@ -1452,13 +1382,6 @@ function deims_permissions_user_default_permissions() {
     'roles' => array(
       0 => 'administrator',
     ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck view organization organization entities.
-  $permissions['eck view organization organization entities'] = array(
-    'name' => 'eck view organization organization entities',
-    'roles' => array(),
     'module' => 'eck',
   );
 
@@ -1844,13 +1767,6 @@ function deims_permissions_user_default_permissions() {
       0 => 'administrator',
     ),
     'module' => 'features',
-  );
-
-  // Exported permission: manage organization properties.
-  $permissions['manage organization properties'] = array(
-    'name' => 'manage organization properties',
-    'roles' => array(),
-    'module' => 'eck',
   );
 
   // Exported permission: manage project_role properties.
