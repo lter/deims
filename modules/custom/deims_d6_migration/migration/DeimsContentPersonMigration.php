@@ -140,7 +140,7 @@ class DeimsContentPersonMigration extends DrupalNode6Migration {
       $query->propertyCondition('title', $row->field_person_organization);
       $results = $query->execute();
       if (!empty($results['node'])) {
-        $field_values[] = array('target_id' => reset($results['organization'])->nid);
+        $field_values[] = array('target_id' => reset($results['node'])->nid);
       }
     }
 

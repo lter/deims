@@ -38,14 +38,25 @@ class DeimsContentOrganizationMigration extends Migration {
     $this->addFieldMapping('title', 'field_person_organization');
 
     $this->addUnmigratedDestinations(array(
-      'id',
-      'type',
+      'uid',
+      'created',
       'changed',
+      'status',
+      'promote',
+      'sticky',
+      'revision',
+      'log',
       'language',
+      'tnid',
+      'translate',
+      'revision_uid',
+      'is_new',
       'field_url',
       'field_url:title',
       'field_url:attributes',
-      'field_url:language',
+      'path',
+      'comment',
+      'pathauto',
     ));
   }
 }
