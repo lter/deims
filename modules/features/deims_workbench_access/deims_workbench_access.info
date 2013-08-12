@@ -1,4 +1,5 @@
 name = DEIMS Workbench Access
+description = "Enables access control to restirct certain users or roles to post Articles in certain sections only."
 core = 7.x
 package = DEIMS Enhancements
 dependencies[] = strongarm
