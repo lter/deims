@@ -60,7 +60,7 @@ projects[date][version] = "2.6"
 projects[date][subdir] = "contrib"
 ; Patch required for migration to work.
 ; @see https://drupal.org/node/2034231
-projects[date][patch][] = "http://drupal.org/files/date-consolidated_migrate-2.patch"
+projects[date][patch][] = "http://drupal.org/files/2034231-date-migration-consolidated-do-not-test.patch"
 
 projects[date_facets][version] = "1.x-dev"
 projects[date_facets][subdir] = "contrib"
