@@ -574,7 +574,7 @@ function deims_variable_field_formatter_view($entity_type, $entity, $field, $ins
       foreach ($items as $delta => $item) {
         $attribute = array();
         $attribute['attributeName'] = $item['name'];
-        $attribute['attributeLabel'] = $item['label'];
+        $attribute['attributeLabel'] = !empty($item['label']) ? $item['label'] : $item['name']; 
         $attribute['attributeDefinition'] = $item['definition'];
 
         switch ($item['type']) {
