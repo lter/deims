@@ -65,7 +65,7 @@ function deims_variable_field_validate($entity_type, $entity, $field, $instance,
       if (empty($item['name'])) {
         $errors[$field['field_name']][$langcode][$delta][] = array(
           'error' => 'deims_variable_name_empty',
-          'message' => 'Please provide a <strong>name</strong> for this variable.',
+          'message' => t('Please provide a <strong>name</strong> for this variable.'),
           'element' => array('name'),
         );
       }
@@ -73,7 +73,7 @@ function deims_variable_field_validate($entity_type, $entity, $field, $instance,
       if (empty($item['definition'])) {
         $errors[$field['field_name']][$langcode][$delta][] = array(
           'error' => 'deims_variable_definition_empty',
-          'message' => 'Please provide a <strong>definition</strong> for this variable.',
+          'message' => t('Please provide a <strong>definition</strong> for this variable.'),
           'element' => array('definition'),
         );
       }
@@ -105,7 +105,7 @@ function deims_variable_field_validate($entity_type, $entity, $field, $instance,
           if (empty($items[$delta]['data']['codes'])) {
             $errors[$field['field_name']][$langcode][$delta][] = array(
               'error' => 'deims_variable_codes_empty',
-              'message' => 'Code type variables must not have an empty code list.',
+              'message' => t('Code type variables must not have an empty code list.'),
               'element' => array('data', 'codes'),
             );
           }
