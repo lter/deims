@@ -53,7 +53,7 @@ function eml_settings_form() {
     '#attributes' => array('style' => 'width: 100%;'),
     '#maxlength' => 255,
   );
-  $form['pasta']['eml_paste_base_url'] = array(
+  $form['pasta']['eml_pasta_base_url'] = array(
     '#type' => 'textfield',
     '#title' => t('PASTA API URL'),
     '#default_value' => variable_get('eml_pasta_base_url', 'https://pasta.lternet.edu'),
