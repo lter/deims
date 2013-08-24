@@ -252,7 +252,6 @@ class EmlDataSet {
     );
     static::addApiAuthentication($options);
     $request = drupal_http_request($url, $options);
-    dpm($request);
 
     // The API call to /package/eml returns a 202 on success with a transaction
     // ID which is used to fetch the actual evalution report from
