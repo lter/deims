@@ -30,8 +30,7 @@ class EmlSubmissionQueue extends SystemQueue {
       else {
         // Fetch the evaluation report from the API.
         $transaction = $data['transaction'];
-        $url = static::getApiUrl("error/eml/{$transaction}");
-        dpm($url);
+        $url = EmlDataSet::getApiUrl("error/eml/{$transaction}");
         $request = drupal_http_request($url, array('timeout' => 10));
 
         // The report API on success returns a 200 response with the report XML

@@ -405,18 +405,14 @@ function eml_cleanup_package_id_tokens(array &$replacements, array $data, array 
  * Implements hook_cron_queue_info().
  */
 function eml_cron_queue_info() {
-  $info['eml_validation_report'] = array(
+  $info['EmlValidationReportQueue'] = array(
     'worker callback' => 'eml_validation_report_queue_process',
     'time' => 20,
   );
-  $info['eml_submission'] = array(
+  $info['EmlSubmissionQueue'] = array(
     'worker callback' => 'eml_submission_queue_process',
     'time' => 30,
   );
-  /*$info['eml_doi'] = array(
-    'worker callback' => 'eml_doi_queue_process',
-    'time' => 20,
-  );*/
 
   return $info;
 }
