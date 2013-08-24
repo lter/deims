@@ -5,7 +5,7 @@
  */
 function pasta_eml_changed(EmlDataSet $dataSet) {
   // Enqueue the data set to be submitted to PASTA.
-  PastaSubmissionQueue::get()->enqueue($dataSet->node);
+  PastaSubmissionQueue::get()->enqueue($dataSet->getNode());
 }
 
 /**

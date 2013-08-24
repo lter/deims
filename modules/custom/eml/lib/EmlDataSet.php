@@ -22,6 +22,10 @@ class EmlDataSet {
     $this->node = $node;
   }
 
+  public function getNode() {
+    return $this->node;
+  }
+
   public static function getInstance($node) {
     $instances = &drupal_static('EmlDataSet_instances', array());
     if ($node->type != 'data_set') {
