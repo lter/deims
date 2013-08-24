@@ -1,0 +1,8 @@
+name = PASTA
+description = Saves data sets to the LTER network PASTA API service.
+package = DEIMS Enhancements
+core = 7.x
+dependencies[] = eml
+files[] = lib/PastaApi.php
+files[] = lib/PastaValidationReportQueue.php
+files[] = lib/PastaSubmissionQueue.php

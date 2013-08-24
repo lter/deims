@@ -1,0 +1,142 @@
+<?php
+
+/**
+ * Implements hook_eml_changed().
+ */
+function pasta_eml_changed(EmlDataSet $dataSet) {
+  // Enqueue the data set to be submitted to PASTA.
+  PastaSubmissionQueue::get()->enqueue($dataSet->node);
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function pasta_form_eml_settings_form_alter(&$form, &$form_state) {
+  $form['pasta'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('PASTA API'),
+  );
+
+  $form['pasta']['eml_pasta_user'] = array(
+    '#type' => 'textfield',
+    '#title' => t('PASTA API user'),
+    '#description' => t('This field supports tokens.'),
+    '#default_value' => variable_get('eml_pasta_user', 'uid=[site:station-acronym],o=LTER,dc=ecoinformatics,dc=org:password'),
+    '#required' => TRUE,
+    '#element_validate' => array('token_element_validate'),
+    '#attributes' => array('style' => 'width: 100%;'),
+    '#maxlength' => 255,
+  );
+  $form['pasta']['eml_pasta_base_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('PASTA API URL'),
+    '#default_value' => variable_get('eml_pasta_base_url', 'https://pasta.lternet.edu'),
+    '#description' => t('This URL has been set for you when you selected <em>Development</em> or <em>Production</em> environment.'),
+  );
+  $form['pasta']['tokens'] = array(
+    '#theme' => 'token_tree',
+    '#dialog' => TRUE,
+  );
+}
+
+// ----------------------------------------------------------------------------
+// Cron queues
+// ----------------------------------------------------------------------------
+
+/**
+ * Implements hook_cron_queue_info().
+ */
+function pasta_cron_queue_info() {
+  $info['PastaValidationQueue'] = array(
+    'worker callback' => 'pasta_validation_queue_process',
+    'time' => 20,
+  );
+  $info['PastaSubmissionQueue'] = array(
+    'worker callback' => 'pasta_submission_queue_process',
+    'time' => 30,
+  );
+
+  return $info;
+}
+
+/**
+ * Implements callback_cron_queue_info_worker().
+ */
+function pasta_validation_queue_process($data) {
+  return PastaValidationQueue::processData($data);
+}
+
+/**
+ * Implements callback_cron_queue_info_worker().
+ */
+function pasta_submission_queue_process($data) {
+  return PastaSubmissionQueue::processData($data);
+}
+
+// ----------------------------------------------------------------------------
+// Actions
+// ----------------------------------------------------------------------------
+
+/**
+ * Implements hook_action_info().
+ */
+function pasta_action_info() {
+  $info['pasta_action_dataset_update_doi'] = array(
+    'type' => 'node',
+    'label' => t('Fetch DOI from PASTA'),
+    'configurable' => FALSE,
+    'triggers' => array(),
+  );
+  $info['pasta_action_dataset_enqueue_validation'] = array(
+    'type' => 'node',
+    'label' => t('Enqueue to fetch EML validation report'),
+    'configurable' => FALSE,
+    'triggers' => array(),
+  );
+
+  return $info;
+}
+
+/**
+ * Implements callback_action_info().
+ *
+ * Action callback to retrieve a data set's DOI and save it in field_doi.
+ */
+function pasta_action_dataset_update_doi($node) {
+  if ($node->type != 'data_set') {
+    return;
+  }
+
+  try {
+    $pasta = new PastaApi(new EmlDataSet($node));
+    if ($doi = $pasta->fetchDOI()) {
+      $node->field_doi[LANGUAGE_NONE][0]['value'] = $doi;
+      EntityHelper::updateFieldValues('node', $node);
+      $uri = entity_uri('node', $node);
+      $link = l(t('View data set'), $uri['path'], $uri['options']);
+      watchdog('pasta', 'Updated DOI for %title to @doi.', array('%title' => $node->title, '@doi' => $doi), WATCHDOG_INFO, $link);
+    }
+  }
+  catch (Exception $exception) {
+    // @todo Should we set the DOI field to be empty here?
+    watchdog_exception('pasta', $exception);
+  }
+}
+
+/**
+ * Implements callback_action_info().
+ *
+ * Enqueues a data set node to fetch its validation report.
+ */
+function pasta_action_dataset_enqueue_validation($node) {
+  if ($node->type != 'data_set') {
+    return;
+  }
+
+  try {
+    PastaValidationQueue::get()->enqueue($node);
+  }
+  catch (Exception $exception) {
+    watchdog_exception('pasta', $exception);
+  }
+}

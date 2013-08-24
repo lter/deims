@@ -220,7 +220,7 @@ function deims_data_set_views_default_views() {
       'override_label' => 0,
       'label' => '',
     ),
-    'action::eml_action_dataset_update_doi' => array(
+    'action::pasta_action_dataset_update_doi' => array(
       'selected' => 1,
       'postpone_processing' => 0,
       'skip_confirmation' => 0,
@@ -262,7 +262,7 @@ function deims_data_set_views_default_views() {
       'override_label' => 0,
       'label' => '',
     ),
-    'action::eml_action_dataset_update_is_eml_valid' => array(
+    'action::pasta_action_dataset_enqueue_validation' => array(
       'selected' => 1,
       'postpone_processing' => 0,
       'skip_confirmation' => 0,

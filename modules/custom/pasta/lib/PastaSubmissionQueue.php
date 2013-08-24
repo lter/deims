@@ -1,8 +1,8 @@
 <?php
 
-class EmlSubmissionQueue extends SystemQueue {
-  public static function get($name = 'EmlSubmissionQueue') {
-    return new EmlSubmissionQueue('EmlSubmissionQueue');
+class PastaSubmissionQueue extends SystemQueue {
+  public static function get($name = 'PastaSubmissionQueue') {
+    return new PastaSubmissionQueue($name);
   }
 
   public function enqueue($node) {
@@ -21,8 +21,8 @@ class EmlSubmissionQueue extends SystemQueue {
       // First we need to make sure we've performed the submission request and
       // have gotten back a valid transaction ID.
       if (empty($data['transaction'])) {
-        $dataset = new EmlDataSet($node);
-        if ($transaction = $dataset->submitEml()) {
+        $pasta = new PastaApi(new EmlDataSet($node));
+        if ($transaction = $pasta->submitEml()) {
           $data['transaction'] = $transaction;
         }
         static::get()->createItem($data);
@@ -30,13 +30,13 @@ class EmlSubmissionQueue extends SystemQueue {
       else {
         // Fetch the evaluation report from the API.
         $transaction = $data['transaction'];
-        $url = EmlDataSet::getApiUrl("error/eml/{$transaction}");
+        $url = PastaApi::getApiUrl("error/eml/{$transaction}");
         $request = drupal_http_request($url, array('timeout' => 10));
 
         // The report API on success returns a 200 response with the report XML
         // in the response body.
         if ($request->code == 200 && !empty($request->data)) {
-          watchdog('eml', $request->data);
+          watchdog('pasta', $request->data);
           // Do not requeue.
         }
         elseif ($request->code == 401) {
@@ -48,12 +48,12 @@ class EmlSubmissionQueue extends SystemQueue {
         }
         elseif ($request->code == 404) {
           // No errors were found. Do not requeue.
-          eml_action_dataset_update_doi($node);
+          pasta_action_dataset_update_doi($node);
         }
       }
     }
     catch (Exception $e) {
-      watchdog_exception('eml', $e);
+      watchdog_exception('pasta', $e);
       static::get()->createItem($data);
     }
   }

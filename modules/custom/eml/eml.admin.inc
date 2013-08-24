@@ -38,31 +38,5 @@ function eml_settings_form() {
     '#dialog' => TRUE,
   );
 
-  $form['pasta'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('PASTA API'),
-  );
-
-  $form['pasta']['eml_pasta_user'] = array(
-    '#type' => 'textfield',
-    '#title' => t('PASTA API user'),
-    '#description' => t('This field supports tokens.'),
-    '#default_value' => variable_get('eml_pasta_user', 'uid=[site:station-acronym],o=LTER,dc=ecoinformatics,dc=org:password'),
-    '#required' => TRUE,
-    '#element_validate' => array('token_element_validate'),
-    '#attributes' => array('style' => 'width: 100%;'),
-    '#maxlength' => 255,
-  );
-  $form['pasta']['eml_pasta_base_url'] = array(
-    '#type' => 'textfield',
-    '#title' => t('PASTA API URL'),
-    '#default_value' => variable_get('eml_pasta_base_url', 'https://pasta.lternet.edu'),
-    '#description' => t('This URL has been set for you when you selected <em>Development</em> or <em>Production</em> environment.'),
-  );
-  $form['pasta']['tokens'] = array(
-    '#theme' => 'token_tree',
-    '#dialog' => TRUE,
-  );
-
   return system_settings_form($form);
 }
