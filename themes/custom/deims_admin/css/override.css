@@ -22,7 +22,6 @@ textarea.form-textarea {
   background: -webkit-linear-gradient(top, #fefefe 0%, #e0e0e0 100%);
   background: -moz-linear-gradient(top, #fefefe 0%, #e0e0e0 100%);
   background: -o-linear-gradient(top, #fefefe 0%, #e0e0e0 100%);
-  background: -ms-linear-gradient(top, #fefefe 0%, #e0e0e0 100%);
   background: linear-gradient(top, #fefefe 0%, #e0e0e0 100%);
   border: 1px solid #cccccc;
   -webkit-border-radius: 4px;
@@ -61,4 +60,9 @@ textarea.form-textarea {
   border: 2px solid red;
   background-image: none;
   background-color: inherit;
+}
+
+/* line 70, ../sass/override.scss */
+.data-source-preview-modal table {
+  clear: both;
 }

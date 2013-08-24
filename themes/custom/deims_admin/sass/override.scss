@@ -64,3 +64,9 @@ textarea.form-textarea {
   background-image: none;
   background-color: inherit;
 }
+
+// Fix a bug with Datatables and Firefox.
+// @see http://datatables.net/forums/discussion/10582/firefox-renders-datatable-off-to-the-right/p1
+.data-source-preview-modal table {
+  clear: both;
+}
