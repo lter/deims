@@ -224,4 +224,26 @@ class EmlDataSet {
       );
     }
   }
+
+  public function setEmlValidationStatus($status = NULL) {
+    if (isset($status)) {
+      // Boolean $valid here will convert to a 0 or 1 field value on save.
+      $this->node->field_eml_valid[LANGUAGE_NONE][0]['value'] = $status ? 'yes' : 'no';
+      EntityHelper::updateFieldValues('node', $this->node);
+    }
+    else {
+      // A NULL value means we were unable to fetch validation results. Set
+      // the validation field to empty.
+      $this->node->field_eml_valid = array();
+      EntityHelper::updateFieldValues('node', $this->node);
+    }
+  }
+
+  public function saveDOI($doi) {
+    $this->node->field_doi[LANGUAGE_NONE][0]['value'] = $doi;
+    EntityHelper::updateFieldValues('node', $this->node);
+    $uri = entity_uri('node', $this->node);
+    $link = l(t('View data set'), $uri['path'], $uri['options']);
+    watchdog('pasta', 'Updated DOI for %title to @doi.', array('%title' => $this->node->title, '@doi' => $doi), WATCHDOG_INFO, $link);
+  }
 }

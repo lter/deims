@@ -108,13 +108,10 @@ function pasta_action_dataset_update_doi($node) {
   }
 
   try {
-    $pasta = new PastaApi(new EmlDataSet($node));
+    $dataSet = new EmlDataSet($node);
+    $pasta = new PastaApi($dataSet);
     if ($doi = $pasta->fetchDOI()) {
-      $node->field_doi[LANGUAGE_NONE][0]['value'] = $doi;
-      EntityHelper::updateFieldValues('node', $node);
-      $uri = entity_uri('node', $node);
-      $link = l(t('View data set'), $uri['path'], $uri['options']);
-      watchdog('pasta', 'Updated DOI for %title to @doi.', array('%title' => $node->title, '@doi' => $doi), WATCHDOG_INFO, $link);
+      $dataSet->saveDOI($doi);
     }
   }
   catch (Exception $exception) {

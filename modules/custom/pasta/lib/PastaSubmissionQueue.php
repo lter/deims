@@ -17,38 +17,49 @@ class PastaSubmissionQueue extends SystemQueue {
 
   public static function processData(&$data) {
     try {
-      $node = node_load($data['nid']);
-      // First we need to make sure we've performed the submission request and
-      // have gotten back a valid transaction ID.
-      if (empty($data['transaction'])) {
-        $pasta = new PastaApi(new EmlDataSet($node));
-        if ($transaction = $pasta->submitEml()) {
-          $data['transaction'] = $transaction;
-        }
-        static::get()->createItem($data);
-      }
-      else {
-        // Fetch the evaluation report from the API.
-        $transaction = $data['transaction'];
-        $url = PastaApi::getApiUrl("error/eml/{$transaction}");
-        $request = drupal_http_request($url, array('timeout' => 10));
-
-        // The report API on success returns a 200 response with the report XML
-        // in the response body.
-        if ($request->code == 200 && !empty($request->data)) {
-          watchdog('pasta', $request->data);
-          // Do not requeue.
-        }
-        elseif ($request->code == 401) {
-          // A 401 respose means the report is not found, or is still being
-          // generated. Requeue.
-          $data['attempts']++;
-          $data['last_attempt'] = time();
+      if ($node = node_load($data['nid'])) {
+        $dataset = new EmlDataSet($node);
+        $pasta = new PastaApi($dataset);
+        // First we need to make sure we've performed the submission request and
+        // have gotten back a valid transaction ID.
+        if (empty($data['transaction'])) {
+          if ($transaction = $pasta->submitEml()) {
+            $data['transaction'] = $transaction;
+          }
           static::get()->createItem($data);
+          // At this point we are unsure if the EML is valid or not, so update
+          // the field to reflect that.
+          $dataset->setEmlValidationStatus(NULL);
         }
-        elseif ($request->code == 404) {
-          // No errors were found. Do not requeue.
-          pasta_action_dataset_update_doi($node);
+        else {
+          // Fetch the evaluation report from the API.
+          $transaction = $data['transaction'];
+          $url = PastaApi::getApiUrl("error/eml/{$transaction}");
+          $request = drupal_http_request($url, array('timeout' => 10));
+
+          // The report API on success returns a 200 response with the report XML
+          // in the response body.
+          if ($request->code == 200 && !empty($request->data)) {
+            // EML was not valid if there were errors.
+            $dataset->setEmlValidationStatus(FALSE);
+            watchdog('pasta', $request->data);
+            // Do not requeue.
+          }
+          elseif ($request->code == 401) {
+            // A 401 respose means the report is not found, or is still being
+            // generated. Requeue.
+            $data['attempts']++;
+            $data['last_attempt'] = time();
+            static::get()->createItem($data);
+          }
+          elseif ($request->code == 404) {
+            // No errors were found, so assumed that this EML is valid.
+            $dataset->setEmlValidationStatus(TRUE);
+            // Fetch the (possibly) new DOI.
+            if ($doi = $pasta->fetchDOI()) {
+              $dataset->saveDOI($doi);
+            }
+          }
         }
       }
     }
