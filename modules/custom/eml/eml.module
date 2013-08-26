@@ -190,20 +190,6 @@ function eml_workbench_moderation_transition($node, $previous_state, $new_state)
 }
 
 /**
- * Implements hook_node_delete().
- */
-function eml_node_delete($node) {
-  if ($node->type == 'data_set') {
-    $dataset = new EMLDataSet($node);
-    list($scope, $identifier) = $dataset->getPackageIDParts();
-    $options = array();
-    EMLDataSet::addApiAuthentication($options);
-    $url = EMLDataSet::getApiUrl("eml/$scope/$identifier");
-    $request = drupal_http_request($url, array('method' => 'DELETE'));
-  }
-}
-
-/**
  * Implements hook_node_view().
  */
 function eml_node_view($node, $view_mode, $langcode) {

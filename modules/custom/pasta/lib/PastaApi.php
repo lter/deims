@@ -47,6 +47,15 @@ class PastaApi {
     }
   }
 
+  public function deleteEml() {
+    list($scope, $identifier) = $this->dataSet->getPackageIDParts();
+    $options = array();
+    static::addApiAuthentication($options);
+    $url = static::getApiUrl("eml/$scope/$identifier");
+    $request = drupal_http_request($url, array('method' => 'DELETE'));
+    // @todo Add some kind of exception handling here if the request did not succeed.
+  }
+
   /**
    * Fetch a data set's DOI (data object ID) from the LTER Data Manager API.
    *

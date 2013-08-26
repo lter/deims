@@ -239,6 +239,10 @@ class EmlDataSet {
     }
   }
 
+  public function getDOI() {
+    return FieldHelper::getValue('node', $this->node, 'field_doi', 'value');
+  }
+
   public function saveDOI($doi) {
     $this->node->field_doi[LANGUAGE_NONE][0]['value'] = $doi;
     EntityHelper::updateFieldValues('node', $this->node);
