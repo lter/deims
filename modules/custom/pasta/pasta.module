@@ -13,7 +13,7 @@ function pasta_eml_changed(EmlDataSet $dataSet) {
  */
 function pasta_node_delete($node) {
   if ($node->type == 'data_set') {
-    $dataSet = new EMLDataSet($node);
+    $dataSet = new EmlDataSet($node);
     if ($dataSet->getDOI()) {
       // Do not bother making a request to remove the EML from PASTA if there is
       // is no recorded DOI associated with this data set.
