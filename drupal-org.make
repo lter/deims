@@ -147,12 +147,8 @@ projects[filefield_sources][patch][] = "http://drupal.org/files/2006436-file-att
 ; @see https://drupal.org/node/2033269
 projects[filefield_sources][patch][] = "http://drupal.org/files/2033269-attach-realpath.patch"
 
-; The field group module has mannnny updates since 7.x-1.1
-projects[field_group][version] = "1.x-dev"
+projects[field_group][version] = "1.2"
 projects[field_group][subdir] = "contrib"
-; Fix nested vertical/horizontal tabs cause unwanted fieldset labels.
-; @see https://drupal.org/node/1945848
-projects[field_group][patch][] = "http://drupal.org/files/1945848-field-group-nested-fieldset-unwanted-labels.patch"
 
 projects[flag][version] = "3.0-rc1"
 projects[flag][subdir] = "contrib"
