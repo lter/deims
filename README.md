@@ -26,7 +26,7 @@ For the example commands below, 'www' represents the complete path to your site'
 
 Clone the repo:
 
-* `git clone --branch 7.x-1.x git@github.com:palantirnet/deims-profile.git`
+* `git clone --branch 7.x-1.x git@github.com:lter/deims.git`
 
 Build the site into your webroot:
 
