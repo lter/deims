@@ -1,0 +1,14 @@
+name = DEIMS EML Harvest List
+description = A List of EML documents hosted in DEIMS, expressed in the "EML Harvest List" XML Format
+core = 7.x
+package = DEIMs Base
+dependencies[] = ds
+dependencies[] = eml
+dependencies[] = eml_harvest_list
+dependencies[] = strongarm
+dependencies[] = views
+features[ctools][] = strongarm:strongarm:1
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:1
+features[variable][] = harvest_list_doc_type
+features[views_view][] = eml_harvest_list
