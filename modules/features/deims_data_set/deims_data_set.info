@@ -93,3 +93,4 @@ features[variable][] = workbench_access_node_type_data_set
 features[variable][] = workbench_moderation_default_state_data_set
 features[views_view][] = data_set_admin
 features[views_view][] = data_sets
+features[views_view][] = eml_harvest_list

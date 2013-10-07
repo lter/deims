@@ -50,6 +50,12 @@ function deims_data_set_strongarm() {
       'print' => array(
         'custom_settings' => FALSE,
       ),
+      'eml_hl' => array(
+        'custom_settings' => TRUE,
+      ),
+      'diff_standard' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(

@@ -57,6 +57,12 @@ function deims_data_set_field_default_fields() {
           'type' => 'eml_text',
           'weight' => '3',
         ),
+        'eml_hl' => array(
+          'label' => 'inline',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '9',
+        ),
         'full' => array(
           'label' => 'inline',
           'module' => 'text',
@@ -150,6 +156,12 @@ function deims_data_set_field_default_fields() {
           'settings' => array(),
           'type' => 'eml_text',
           'weight' => '6',
+        ),
+        'eml_hl' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '11',
         ),
         'full' => array(
           'label' => 'above',
@@ -254,6 +266,12 @@ function deims_data_set_field_default_fields() {
           'type' => 'taxonomy_eml_keywordset',
           'weight' => '4',
         ),
+       'eml_hl' => array(
+          'label' => 'inline',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '4',
+        ),
         'full' => array(
           'label' => 'inline',
           'module' => 'taxonomy',
@@ -347,6 +365,13 @@ function deims_data_set_field_default_fields() {
           'settings' => array(),
           'type' => 'hidden',
           'weight' => '24',
+        ),
+        'eml_hl' => array(
+          'label' => 'inline',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => '11',
         ),
         'full' => array(
           'label' => 'inline',
@@ -464,6 +489,12 @@ function deims_data_set_field_default_fields() {
           'type' => 'entityreference_eml_element',
           'weight' => '16',
         ),
+        'eml_hl' => array(
+          'label' => 'inline',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '6',
+        ),
         'full' => array(
           'label' => 'inline',
           'module' => 'entityreference',
@@ -576,6 +607,12 @@ function deims_data_set_field_default_fields() {
           'type' => 'date_eml_temporalCoverage',
           'weight' => '8',
         ),
+        'eml_hl' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '13',
+        ),
         'search_result' => array(
           'label' => 'inline',
           'module' => 'date',
@@ -678,6 +715,12 @@ function deims_data_set_field_default_fields() {
           'type' => 'hidden',
           'weight' => '22',
         ),
+        'eml_hl' => array(
+          'label' => 'inline',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '10',
+        ),
         'search_result' => array(
           'label' => 'inline',
           'module' => 'text',
@@ -765,6 +808,12 @@ function deims_data_set_field_default_fields() {
           'type' => 'hidden',
           'weight' => '17',
         ),
+        'eml_hl' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '24',
+        ),
         'search_result' => array(
           'label' => 'above',
           'settings' => array(),
@@ -841,6 +890,13 @@ function deims_data_set_field_default_fields() {
           'settings' => array(),
           'type' => 'hidden',
           'weight' => '21',
+        ),
+        'eml_hl' => array(
+          'label' => 'inline',
+          'module' => 'token_field',
+          'settings' => array(),
+          'type' => 'token_field_default',
+          'weight' => '5',
         ),
         'search_result' => array(
           'label' => 'inline',
@@ -920,6 +976,18 @@ function deims_data_set_field_default_fields() {
           'settings' => array(),
           'type' => 'hidden',
           'weight' => '18',
+        ),
+        'eml_hl' => array(
+          'label' => 'above',
+          'module' => 'number',
+          'settings' => array(
+            'decimal_separator' => '.',
+            'prefix_suffix' => 1,
+            'scale' => 0,
+            'thousand_separator' => '',
+          ),
+          'type' => 'number_integer',
+          'weight' => '23',
         ),
         'search_result' => array(
           'label' => 'above',
@@ -1006,7 +1074,13 @@ function deims_data_set_field_default_fields() {
           'type' => 'hidden',
           'weight' => '0',
         ),
-        'search_result' => array(
+        'eml_hl' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '25',
+        ), 
+       'search_result' => array(
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
@@ -1087,7 +1161,13 @@ function deims_data_set_field_default_fields() {
           'type' => 'text_default',
           'weight' => '14',
         ),
-        'full' => array(
+        'eml_hl' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '8',
+        ), 
+       'full' => array(
           'label' => 'above',
           'module' => 'text',
           'settings' => array(),
@@ -1187,6 +1267,12 @@ function deims_data_set_field_default_fields() {
             'thesaurus_value' => '[term:vocabulary]',
           ),
           'type' => 'taxonomy_eml_keywordset',
+          'weight' => '5',
+        ),
+       'eml_hl' => array(
+          'label' => 'inline',
+          'settings' => array(),
+          'type' => 'hidden',
           'weight' => '5',
         ),
         'full' => array(
@@ -1290,6 +1376,12 @@ function deims_data_set_field_default_fields() {
           'type' => 'eml_text',
           'weight' => '10',
         ),
+        'eml_hl' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '9',
+        ),
         'full' => array(
           'label' => 'above',
           'module' => 'text',
@@ -1379,6 +1471,12 @@ function deims_data_set_field_default_fields() {
           'settings' => array(),
           'type' => 'text_default',
           'weight' => '13',
+        ),
+        'eml_hl' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '7',
         ),
         'full' => array(
           'label' => 'above',
@@ -1492,6 +1590,12 @@ function deims_data_set_field_default_fields() {
           'type' => 'entityreference_eml_element',
           'weight' => '11',
         ),
+        'eml_hl' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '20',
+        ),
         'search_result' => array(
           'label' => 'above',
           'settings' => array(),
@@ -1602,6 +1706,12 @@ function deims_data_set_field_default_fields() {
           ),
           'type' => 'entityreference_eml_element',
           'weight' => '0',
+        ),
+        'eml_hl' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '19',
         ),
         'search_result' => array(
           'label' => 'above',
@@ -1714,6 +1824,12 @@ function deims_data_set_field_default_fields() {
           'type' => 'entityreference_eml_element',
           'weight' => '1',
         ),
+        'eml_hl' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '21',
+        ),
         'search_result' => array(
           'label' => 'above',
           'settings' => array(),
@@ -1825,6 +1941,12 @@ function deims_data_set_field_default_fields() {
           'type' => 'entityreference_eml_element',
           'weight' => '12',
         ),
+        'eml_hl' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '22',
+        ),
         'search_result' => array(
           'label' => 'above',
           'settings' => array(),
@@ -1935,6 +2057,12 @@ function deims_data_set_field_default_fields() {
           ),
           'type' => 'entityreference_eml_element',
           'weight' => '2',
+        ),
+        'eml_hl' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '1',
         ),
         'full' => array(
           'label' => 'inline',
@@ -2053,6 +2181,12 @@ function deims_data_set_field_default_fields() {
           'type' => 'hidden',
           'weight' => '19',
         ),
+       'eml_hl' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '14',
+        ),
         'search_result' => array(
           'label' => 'inline',
           'module' => 'date',
@@ -2151,6 +2285,12 @@ function deims_data_set_field_default_fields() {
           'type' => 'eml_text',
           'weight' => '9',
         ),
+        'eml_hl' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '6',
+        ),
         'full' => array(
           'label' => 'above',
           'module' => 'text',
@@ -2238,6 +2378,12 @@ function deims_data_set_field_default_fields() {
           'settings' => array(),
           'type' => 'text_default',
           'weight' => '15',
+        ),
+        'eml_hl' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '10',
         ),
         'full' => array(
           'label' => 'above',
@@ -2328,6 +2474,12 @@ function deims_data_set_field_default_fields() {
           'settings' => array(),
           'type' => 'hidden',
           'weight' => '26',
+        ),
+        'eml_hl' => array(
+          'label' => 'inline',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '5',
         ),
         'full' => array(
           'label' => 'inline',
@@ -2447,6 +2599,12 @@ function deims_data_set_field_default_fields() {
           'settings' => array(),
           'type' => 'hidden',
           'weight' => '23',
+        ),
+        'eml_hl' => array(
+          'label' => 'inline',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '4',
         ),
         'full' => array(
           'label' => 'inline',
@@ -2568,6 +2726,12 @@ function deims_data_set_field_default_fields() {
           'type' => 'entityreference_eml_element',
           'weight' => '7',
         ),
+        'eml_hl' => array(
+          'label' => 'inline',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '6',
+        ),
         'full' => array(
           'label' => 'inline',
           'module' => 'entityreference',
@@ -2666,6 +2830,12 @@ function deims_data_set_field_default_fields() {
           'settings' => array(),
           'type' => 'hidden',
           'weight' => '25',
+        ),
+        'eml_hl' => array(
+          'label' => 'inline',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '8',
         ),
         'full' => array(
           'label' => 'inline',
