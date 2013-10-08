@@ -1,3 +1,11 @@
 fieldset {
   margin: 5px;
 }
+
+#menu-bar ul li.menuparent {
+  padding-right: 15px;
+}
+
+.sf-sub-indicator {
+  right: 0;
+}
