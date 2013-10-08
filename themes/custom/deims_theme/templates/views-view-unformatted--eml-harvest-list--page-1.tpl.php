@@ -7,7 +7,7 @@
  * @ingroup views_templates
  */
 
- drupal_add_http_header("Content-Type", "$content_type; charset=utf-8");
+ drupal_add_http_header("Content-Type", "application/xml; charset=utf-8");
  $baseurl = $GLOBALS['base_url'];
  $xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";  
  $xml .= "<hrv:harvestList xmlns:hrv=\"eml://ecoinformatics.org/harvestList\">\n";
