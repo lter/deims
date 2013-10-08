@@ -5,7 +5,7 @@
  * @param  array $options Array of options passed by the init.
  * @param  array $context Context passed back to the function.
  */
-function _fetch_row_batch($query, $file, &$context) {
+function _fetch_row_batch($query, $file, $columns, &$context) {
   // Set up our batch configuration information.
   if (empty($context['sandbox'])) {
     $context['sandbox']['progress'] = 0;
@@ -17,6 +17,12 @@ function _fetch_row_batch($query, $file, &$context) {
 
   // Write out the CSV.
   $fp = fopen(drupal_realpath($file->uri), 'a');
+
+  // Add the header row if we're on our first pass.
+  if ($context['sandbox']['progress'] == 0 && !empty($columns)) {
+    fputcsv($fp,$columns);
+  }
+
   while ($row = $result->fetchAssoc()) {
     fputcsv($fp, $row);
     $context['sandbox']['progress']++;

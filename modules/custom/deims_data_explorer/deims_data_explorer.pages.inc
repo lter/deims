@@ -132,7 +132,7 @@ function deims_data_explorer_form($form, &$form_state, $variables, $connection, 
         $batch = array(
           'title' => 'Processing Data Set',
           'operations' => array(
-            array('_fetch_row_batch', array($query, $file)),
+            array('_fetch_row_batch', array($query, $file, $columns)),
             array('_process_file_for_download', array($file, $connection['table'], $form_state['values']['nid'])),
           ),
           'finished' => '_show_download_link',
