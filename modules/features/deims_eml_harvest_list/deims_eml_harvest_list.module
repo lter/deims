@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the DEIMS EML Harvest List feature.
+ */
+
+include_once 'deims_eml_harvest_list.features.inc';

@@ -1,0 +1,7 @@
+name = EML Harvest List
+description = Provides a Harvest List consumable by Metacat servers
+core = 7.x
+package = DEIMS Base
+dependencies[] = field
+dependencies[] = helper
+files[] = lib/EmlHarvestList.php

@@ -1,0 +1,213 @@
+<?php
+
+/**
+ * @file
+ * EML Harvest List generation.
+ *
+ * Major features
+ *
+ * - EMLHarvest List view mode and template for dataset nodes
+ *
+ */
+
+/**
+ * Implements hook_help().
+ *
+ * Used to display some helpful message.
+ *
+ */
+function eml_harvest_list_help($path, $arg) {
+  // Show a warning on the 'EML HL' view mode sub-tab of 'Manage Display' pages
+  // that re-ordering fields has no affect on the actual EML templates used.
+  if (preg_match('/.*\/manage\/.*\/display\/arvest/', $path)) {
+    drupal_set_message(t('The ordering of these elements is hard-coded in the template files of the EML Harvest List module. Re-ordering here will not change any output in the harvest list.'), 'warning');
+  }
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ *
+ * This creates the harvest list view mode
+ *
+ */
+function eml_harvest_list_entity_info_alter(array &$info) {
+  // harvest list only feeds of data set nodes.
+  // add a eml_hl view mode to entity type nodes.
+  $info['node']['view modes']['eml_hl'] = array(
+    'label' => t('EML Harvest List'),
+    'custom settings' => FALSE,
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function eml_harvest_list_menu() {
+  $items = array();
+
+  $items['node/%node/eml_harvest_list'] = array(
+    'page callback' => 'eml_harvest_list_output_node',
+    'page arguments' => array(1),
+    'access callback' => 'node_access',
+    'access arguments' => array('view', 1),
+    'type' => MENU_CALLBACK,
+    'file' => 'eml_harvest_list.pages.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_entity_view().
+ *
+ * When an entity is being rendered with the 'eml' view mode, convert the theme
+ * and template being used to use our own EML theme/template.
+ *
+ * @see eml_preprocess_eml()
+ */
+function eml_harvest_list_entity_view($entity, $type, $view_mode, $langcode) {
+  if ($view_mode == 'eml_hl') {
+    list(, , $bundle) = entity_extract_ids($type, $entity);
+    $entity->content += array(
+      '#entity' => $entity,
+      '#bundle' => $bundle,
+      '#theme' => "eml_hl",
+    );
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function eml_harvest_list_theme($existing, $type, $theme, $path) {
+  $info['eml_hl'] = array(
+    'render element' => 'elements',
+    'template' => 'eml_hl',
+    'path' => $path . '/templates',
+  );
+
+  // Add support for our additional EML templates.
+  $info += drupal_find_theme_templates($info, '.tpl.php', drupal_get_path('module', 'eml_harvest_list') . '/templates');
+
+  $info['eml_hl_tag'] = array(
+    'render element' => 'element',
+  );
+  $info['eml_hl_tags'] = array(
+    'render element' => 'element',
+  );
+
+  // A theme wrapper for format_xml_elements().
+  $info['eml_hl_elements'] = array(
+    'variables' => array('eml_hl' => array()),
+  );
+
+  return $info;
+}
+
+function theme_eml_hl_elements($variables) {
+  return format_xml_elements($variables['eml_hl']);
+}
+
+function theme_eml_hl_tag($variables) {
+  $element = &$variables['element'];
+  if (isset($element['#value'])) {
+    $element['#value'] = check_plain($element['#value']);
+  }
+  elseif ($children = element_children($element)) {
+    $element['#value'] = '';
+    foreach ($children as $key) {
+      $element[$key] += array('#theme' => 'eml_hl_tag');
+      $element['#value'] .= drupal_render($element[$key]);
+    }
+  }
+  return theme_html_tag($variables);
+}
+
+function theme_eml_hl_tags($variables) {
+  $output = '';
+  $element = &$variables['element'];
+  foreach (element_children($element) as $key) {
+    $sub_element = array('element' => array());
+    $sub_element['element']['#tag'] = $element['#tag'];
+    if (isset($element['#attributes'])) {
+      $sub_element['element']['#attributes'] = $element['#attributes'];
+    }
+    $sub_element['element']['#value'] = drupal_render($element[$key]);
+    $output .= theme_html_tag($sub_element);
+  }
+  return $output;
+}
+
+/**
+ * Implements hook_node_view().
+ */
+function eml_harvest_list_node_view($node, $view_mode, $langcode) {
+
+// may not need, but here is a chance to tinker w/ content b4 render
+  if ($view_mode != 'eml_hl') {
+    return;
+  }
+
+  switch ($node->type) {
+    case 'data_set':
+      // loads EmlHarvestList property
+      $node->EmlHarvestList = new EmlHarvestList($node);
+      break;
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for eml_hl.tpl.php.
+ */
+//function template_preprocess_eml_harvest_list(&$variables, $hook) {
+
+function template_preprocess_eml_hl(&$variables, $hook) {
+  $variables['entity'] = $variables['elements']['#entity'];
+  $entity = $variables['entity'];
+  $entity_type = $variables['elements']['#entity_type'];
+  $bundle = $variables['elements']['#bundle'];
+
+  $label = entity_label($entity_type, $entity);
+
+  $uri = entity_uri($entity_type, $entity);
+
+  $variables['url'] = url($uri['path'], array('absolute' => TRUE) + $uri['options']);
+
+  $variables['station'] = check_plain(variable_get('station_acronym', 'STATION'));
+
+  $variables['namespaces_array'] = array(
+    'xmlns:hrv' => "eml://ecoinformatics.org/harvestList",
+  );
+
+  // Helpful $content variable for templates.
+  $variables += array('content' => array());
+  foreach (element_children($variables['elements']) as $key) {
+    $variables['content'][$key] = $variables['elements'][$key];
+
+    // Remove the field wrappers and classes so we just get native output.
+    if (isset($variables['content'][$key]['#theme']) && $variables['content'][$key]['#theme'] == 'field') {
+      unset($variables['content'][$key]['#theme']);
+    }
+  }
+
+  // Ensure that all the fields for this entity are available, even if empty.
+  foreach (field_info_instances($entity_type, $bundle) as $instance) {
+    if (!isset($variables['content'][$instance['field_name']])) {
+      $variables['content'][$instance['field_name']] = '';
+    }
+  }
+
+  // Add template suggestions to use, starting with the least preferred, and
+  // ending with the one to try first if it exists. The last one should be the
+  // most specific.
+  $variables['theme_hook_suggestions'][] = 'eml_hl';
+  $variables['theme_hook_suggestions'][] = "eml_hl__{$entity_type}__{$bundle}";
+
+}
+
+/**
+ * Implements hook_process_HOOK() for eml_hl.tpl.php.
+ */
+function template_process_eml_harvest_list(array &$variables) {
+  $variables['namespaces'] = $variables['namespaces_array'] ? drupal_attributes($variables['namespaces_array']) : '';
+}

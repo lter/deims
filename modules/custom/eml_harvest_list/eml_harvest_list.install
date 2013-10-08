@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the EML module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function eml_harvest_list_install() {
+  variable_set('harvest_list_doc_type', 'eml://ecoinformatics.org/eml-2.0.1');
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function eml_harvest_list_uninstall() {
+  variable_del('harvest_list_doc_type');
+}
