@@ -271,6 +271,10 @@ function deims_variable_field_widget_form(&$form, &$form_state, $field, $instanc
     );
   }
 
+  // Set up a trackable target ID so the ajax system knows what content to
+  // replace.
+  $target_id = 'edit-' . drupal_clean_css_identifier(implode('-', $parents)) . '-data-values';
+
   $element['type'] = array(
     '#type' => 'select',
     '#title' => t('Type'),
@@ -278,7 +282,7 @@ function deims_variable_field_widget_form(&$form, &$form_state, $field, $instanc
     '#options' => _deims_variable_types(),
     '#default_value' => isset($items[$delta]['type']) ? $items[$delta]['type'] : DEIMS_VARIABLE_TYPE_NOMINAL,
     '#ajax' => array(
-      'wrapper' => 'edit-' . drupal_clean_css_identifier(implode('-', $parents)) . '-data-values',
+      'wrapper' => $target_id,
       'callback' => 'deims_variable_variable_type_select_callback',
     ),
     '#attributes' => array('class' => array('variable-type')),
@@ -288,7 +292,7 @@ function deims_variable_field_widget_form(&$form, &$form_state, $field, $instanc
     '#type' => 'container',
     '#tree' => TRUE,
     '#weight' => 50,
-    '#prefix' => '<div id="edit-' . drupal_clean_css_identifier(implode('-', $parents)) . '-data-values">',
+    '#prefix' => '<div id="' . $target_id . '">',
     '#suffix' => '</div></div>',
   );
 
