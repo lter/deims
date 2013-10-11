@@ -278,7 +278,7 @@ function deims_variable_field_widget_form(&$form, &$form_state, $field, $instanc
     '#options' => _deims_variable_types(),
     '#default_value' => isset($items[$delta]['type']) ? $items[$delta]['type'] : DEIMS_VARIABLE_TYPE_NOMINAL,
     '#ajax' => array(
-      'wrapper' => 'edit-' . drupal_clean_css_identifier(implode('-', $parents)) . '-data',
+      'wrapper' => 'edit-' . drupal_clean_css_identifier(implode('-', $parents)) . '-data-values',
       'callback' => 'deims_variable_variable_type_select_callback',
     ),
     '#attributes' => array('class' => array('variable-type')),
@@ -288,7 +288,8 @@ function deims_variable_field_widget_form(&$form, &$form_state, $field, $instanc
     '#type' => 'container',
     '#tree' => TRUE,
     '#weight' => 50,
-    '#suffix' => '</div>',
+    '#prefix' => '<div id="edit-' . drupal_clean_css_identifier(implode('-', $parents)) . '-data-values">',
+    '#suffix' => '</div></div>',
   );
 
   // Check if the type value has been submitted.
@@ -574,7 +575,7 @@ function deims_variable_field_formatter_view($entity_type, $entity, $field, $ins
       foreach ($items as $delta => $item) {
         $attribute = array();
         $attribute['attributeName'] = $item['name'];
-        $attribute['attributeLabel'] = !empty($item['label']) ? $item['label'] : $item['name']; 
+        $attribute['attributeLabel'] = !empty($item['label']) ? $item['label'] : $item['name'];
         $attribute['attributeDefinition'] = $item['definition'];
 
         switch ($item['type']) {
