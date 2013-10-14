@@ -249,6 +249,9 @@ function eml_field_formatter_view($entity_type, $entity, $field, $instance, $lan
         if (!empty($item['postal_code'])) {
           $address['postalCode'] = $item['postal_code'];
         }
+        if (!empty($item['country'])) {
+          $address['country'] = $item['country'];
+        }
         // if all address-related elements, dont print an <address> group
         if (!empty($address)) {
            $element[$delta] = array(
