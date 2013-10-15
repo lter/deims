@@ -28,7 +28,7 @@ function deims_person_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'auto_entitylabel_pattern_node_person';
-  $strongarm->value = '[node:field_name]';
+  $strongarm->value = '[node:name-field-name]';
   $export['auto_entitylabel_pattern_node_person'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -62,6 +62,15 @@ function deims_person_strongarm() {
         'custom_settings' => FALSE,
       ),
       'revision' => array(
+        'custom_settings' => FALSE,
+      ),
+      'bdp' => array(
+        'custom_settings' => TRUE,
+      ),
+      'diff_standard' => array(
+        'custom_settings' => FALSE,
+      ),
+      'eml_hl' => array(
         'custom_settings' => FALSE,
       ),
     ),

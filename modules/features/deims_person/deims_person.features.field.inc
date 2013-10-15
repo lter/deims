@@ -45,6 +45,13 @@ function deims_person_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'module' => 'bdp',
+          'settings' => array(),
+          'type' => 'addressfield_bdp_address',
+          'weight' => '4',
+        ),
         'default' => array(
           'label' => 'above',
           'module' => 'addressfield',
@@ -156,6 +163,12 @@ function deims_person_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '11',
+        ),
         'default' => array(
           'label' => 'above',
           'module' => 'token_formatters',
@@ -229,6 +242,13 @@ function deims_person_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'inline',
+          'module' => 'bdp',
+          'settings' => array(),
+          'type' => 'bdp_electronicMailAddress',
+          'weight' => '5',
+        ),
         'default' => array(
           'label' => 'inline',
           'module' => 'email',
@@ -292,6 +312,15 @@ function deims_person_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'inline',
+          'module' => 'bdp',
+          'settings' => array(
+            'phonetype' => 'facsimile',
+          ),
+          'type' => 'telephone_bdp_phone',
+          'weight' => '7',
+        ),
         'default' => array(
           'label' => 'inline',
           'module' => 'telephone',
@@ -375,6 +404,12 @@ function deims_person_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '9',
+        ),
         'default' => array(
           'label' => 'above',
           'settings' => array(),
@@ -521,6 +556,13 @@ Prof.',
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'inline',
+          'module' => 'bdp',
+          'settings' => array(),
+          'type' => 'name_bdp_individualName',
+          'weight' => '0',
+        ),
         'default' => array(
           'label' => 'inline',
           'module' => 'name',
@@ -672,6 +714,16 @@ Prof.',
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'module' => 'bdp',
+          'settings' => array(
+            'element' => '',
+            'multiple' => 0,
+          ),
+          'type' => 'entityreference_bdp_element',
+          'weight' => '3',
+        ),
         'default' => array(
           'label' => 'above',
           'module' => 'entityreference',
@@ -749,6 +801,12 @@ Prof.',
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '10',
+        ),
         'default' => array(
           'label' => 'above',
           'settings' => array(),
@@ -831,6 +889,13 @@ Prof.',
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'inline',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '2',
+        ),
         'default' => array(
           'label' => 'inline',
           'module' => 'list',
@@ -906,6 +971,12 @@ Prof.',
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'inline',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '1',
+        ),
         'default' => array(
           'label' => 'inline',
           'module' => 'text',
@@ -969,6 +1040,15 @@ Prof.',
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'inline',
+          'module' => 'bdp',
+          'settings' => array(
+            'phonetype' => 'voice',
+          ),
+          'type' => 'telephone_bdp_phone',
+          'weight' => '6',
+        ),
         'default' => array(
           'label' => 'inline',
           'module' => 'telephone',
@@ -1041,6 +1121,12 @@ Prof.',
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '12',
+        ),
         'default' => array(
           'label' => 'above',
           'module' => 'url',
@@ -1049,7 +1135,7 @@ Prof.',
             'trim_length' => 80,
           ),
           'type' => 'url_default',
-          'weight' => 12,
+          'weight' => '12',
         ),
         'eml' => array(
           'label' => 'hidden',
@@ -1134,6 +1220,12 @@ Prof.',
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '8',
+        ),
         'default' => array(
           'label' => 'above',
           'settings' => array(),

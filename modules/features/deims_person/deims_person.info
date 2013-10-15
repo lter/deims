@@ -3,6 +3,7 @@ core = 7.x
 package = DEIMS Base
 php = 5.2.4
 dependencies[] = addressfield
+dependencies[] = bdp
 dependencies[] = ctools
 dependencies[] = deims_organization
 dependencies[] = email
