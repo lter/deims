@@ -47,6 +47,13 @@ function deims_project_role_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'inline',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_key',
+          'weight' => '1',
+        ),
         'default' => array(
           'label' => 'inline',
           'module' => 'list',
@@ -142,6 +149,15 @@ function deims_project_role_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'hidden',
+          'module' => 'entityreference',
+          'settings' => array(
+            'link' => FALSE,
+          ),
+          'type' => 'entityreference_label',
+          'weight' => '0',
+        ),
         'default' => array(
           'label' => 'hidden',
           'module' => 'entityreference',
@@ -156,6 +172,7 @@ function deims_project_role_field_default_fields() {
           'module' => 'eml',
           'settings' => array(
             'element' => '',
+            'multiple' => 0,
           ),
           'type' => 'entityreference_eml_element',
           'weight' => '0',
