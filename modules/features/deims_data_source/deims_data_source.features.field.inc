@@ -52,6 +52,13 @@ function deims_data_source_field_default_fields() {
       'deleted' => '0',
       'description' => 'How are the columns separated? are the columns comma-delimited, Tab-delimited, or some other character, as a vertical bar, etc? We call the used delimiter a "field delimiter".',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_plain',
+          'weight' => '12',
+        ),
         'default' => array(
           'label' => 'above',
           'settings' => array(),
@@ -124,6 +131,13 @@ function deims_data_source_field_default_fields() {
       'deleted' => '0',
       'description' => 'The number of lines in a spreadsheet trailing the actual data. Example, 0, when no lines trail the data.',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'module' => 'number',
+          'settings' => array(),
+          'type' => 'number_unformatted',
+          'weight' => '9',
+        ),
         'default' => array(
           'label' => 'above',
           'settings' => array(),
@@ -198,6 +212,18 @@ function deims_data_source_field_default_fields() {
       'deleted' => '0',
       'description' => 'The number of lines at the top of the spreadsheet not containing any actual data. Example: When the first line contains column labels, the number of header lines is one.',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'module' => 'number',
+          'settings' => array(
+            'decimal_separator' => '.',
+            'prefix_suffix' => TRUE,
+            'scale' => 0,
+            'thousand_separator' => ' ',
+          ),
+          'type' => 'number_integer',
+          'weight' => '8',
+        ),
         'default' => array(
           'label' => 'above',
           'settings' => array(),
@@ -286,6 +312,13 @@ function deims_data_source_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_key',
+          'weight' => '10',
+        ),
         'default' => array(
           'label' => 'above',
           'settings' => array(),
@@ -363,6 +396,13 @@ function deims_data_source_field_default_fields() {
       'deleted' => '0',
       'description' => 'The symbols used to quote text, whether single quotes or double quotes.',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'module' => 'bdp',
+          'settings' => array(),
+          'type' => 'bdp_text',
+          'weight' => '11',
+        ),
         'default' => array(
           'label' => 'above',
           'settings' => array(),
@@ -448,6 +488,13 @@ function deims_data_source_field_default_fields() {
       'deleted' => '0',
       'description' => 'The character used to delimit or separate records (usually a new line - in case of doubt, leave empty).',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => '13',
+        ),
         'default' => array(
           'label' => 'above',
           'settings' => array(),
@@ -540,6 +587,13 @@ function deims_data_source_field_default_fields() {
       'deleted' => '0',
       'description' => 'Upload the actual spreadsheet containing the data.',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'module' => 'file',
+          'settings' => array(),
+          'type' => 'file_url_plain',
+          'weight' => '1',
+        ),
         'default' => array(
           'label' => 'above',
           'module' => 'file',
@@ -647,6 +701,13 @@ function deims_data_source_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'module' => 'bdp',
+          'settings' => array(),
+          'type' => 'date_bdp_temporalCoverage',
+          'weight' => '14',
+        ),
         'default' => array(
           'label' => 'above',
           'module' => 'date',
@@ -658,7 +719,7 @@ function deims_data_source_field_default_fields() {
             'multiple_to' => '',
           ),
           'type' => 'date_default',
-          'weight' => 14,
+          'weight' => '14',
         ),
         'eml' => array(
           'label' => 'above',
@@ -748,6 +809,13 @@ function deims_data_source_field_default_fields() {
       'deleted' => '0',
       'description' => 'A description of the spreadsheet or text file containing the data.',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_plain',
+          'weight' => '0',
+        ),
         'default' => array(
           'label' => 'above',
           'module' => 'text',
@@ -825,6 +893,13 @@ function deims_data_source_field_default_fields() {
       'deleted' => '0',
       'description' => 'Information about the instruments used to gather data.',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_plain',
+          'weight' => '4',
+        ),
         'default' => array(
           'label' => 'above',
           'module' => 'text',
@@ -899,6 +974,13 @@ function deims_data_source_field_default_fields() {
       'deleted' => '0',
       'description' => 'The methodologies used to gather these data.',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => '3',
+        ),
         'default' => array(
           'label' => 'above',
           'module' => 'text',
@@ -973,6 +1055,13 @@ function deims_data_source_field_default_fields() {
       'deleted' => '0',
       'description' => 'Quality assurance and control procedures used.',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_plain',
+          'weight' => '5',
+        ),
         'default' => array(
           'label' => 'above',
           'module' => 'text',
@@ -1069,6 +1158,16 @@ function deims_data_source_field_default_fields() {
       'deleted' => '0',
       'description' => 'Type the name of the location site and select from the list the site where the data was gathered. If you do not see it, please type the location name - you will be able to add details to the new site later. If data was gathered at more than one site, please use the "Add another item" button right below to add input field for additional sites.',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'module' => 'bdp',
+          'settings' => array(
+            'element' => 'spdom',
+            'multiple' => 0,
+          ),
+          'type' => 'entityreference_bdp_element',
+          'weight' => '6',
+        ),
         'default' => array(
           'label' => 'above',
           'module' => 'entityreference',
@@ -1150,6 +1249,13 @@ function deims_data_source_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'module' => 'deims_variable',
+          'settings' => array(),
+          'type' => 'bdp_attribute_list',
+          'weight' => '7',
+        ),
         'default' => array(
           'label' => 'above',
           'module' => 'deims_variable',

@@ -47,6 +47,18 @@ function deims_data_source_strongarm() {
       'revision' => array(
         'custom_settings' => FALSE,
       ),
+      'bdp' => array(
+        'custom_settings' => TRUE,
+      ),
+      'diff_standard' => array(
+        'custom_settings' => FALSE,
+      ),
+      'eml_hl' => array(
+        'custom_settings' => FALSE,
+      ),
+      'print' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
