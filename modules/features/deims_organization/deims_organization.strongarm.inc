@@ -53,6 +53,12 @@ function deims_organization_strongarm() {
       'revision' => array(
         'custom_settings' => FALSE,
       ),
+      'bdp' => array(
+        'custom_settings' => TRUE,
+      ),
+      'eml_hl' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
