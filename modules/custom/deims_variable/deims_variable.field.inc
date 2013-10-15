@@ -538,6 +538,10 @@ function deims_variable_field_formatter_info() {
     'label' => t('EML attributeList'),
     'field types' => array('deims_variable'),
   );
+  $info['bdp_attribute_list'] = array(
+    'label' => t('BDP attributeList'),
+    'field types' => array('deims_variable'),
+  );
 
   return $info;
 }
@@ -645,6 +649,68 @@ function deims_variable_field_formatter_view($entity_type, $entity, $field, $ins
         $element = array(
           '#theme' => 'eml_elements',
           '#eml' => $attributes,
+        );
+      }
+
+      break;
+
+    case 'bdp_attribute_list':
+      $attributes = array();
+
+      foreach ($items as $delta => $item) {
+        $attribute = array();
+        $attribute['attrlabl'] = !empty($item['label']) ? $item['label'] : $item['name']; 
+        $attribute['attrdef'] = $item['definition'];
+        $attribute['attrdefs'] = 'The data provider';
+
+        switch ($item['type']) {
+          case DEIMS_VARIABLE_TYPE_NOMINAL:
+            $attribute['attrdomv']['udom'] = $item['definition'];
+            break;
+          case DEIMS_VARIABLE_TYPE_PHYSICAL:
+            $attribute['attrdomv']['rdom'] = array();
+            if (drupal_strlen($item['data']['minimum'])) {
+              $attribute['attrdomv']['rdom']['rdommin']= $item['data']['minimum'];
+            }
+            if (drupal_strlen($item['data']['maximum'])) {
+              $attribute['attrdomv']['rdom']['rdommax'] = $item['data']['maximum'];
+            }
+            $attribute['attrdomv']['rdom']['attrunit'] = $item['data']['unit'];
+            if (drupal_strlen($item['data']['precision'])) {
+              $attribute['attrdomv']['rdom']['attrmres'] = $item['data']['precision'];
+            }
+            break;
+          case DEIMS_VARIABLE_TYPE_DATE:
+            $attribute['attrdomv']['edom'] = array();
+            $attribute['attrdomv']['edom']['edomv'] = 'calendar date/time';
+            $attribute['attrdomv']['edom']['edomvd'] = $item['data']['pattern'];
+            $attribute['attrdomv']['edom']['edomvds'] = 'gregorian calendar';
+            break;
+          case DEIMS_VARIABLE_TYPE_CODES:
+            $attribute['attrdomv'] = array();
+            foreach ($item['data']['codes'] as $key => $value) {
+              $attribute['attrdomv'][] = array(
+                'key' => 'edom',
+                'value' => array(
+                  'edomv' => $key,
+                  'edomvd' => $value,
+                  'edomvds' => 'The data provider',
+                ),
+              );
+            }
+            break;
+        }
+
+        $attributes[] = array(
+          'key' => 'attr',
+          'value' => $attribute,
+        );
+      }
+
+      if (!empty($attributes)) {
+        $element = array(
+          '#theme' => 'bdp_elements',
+          '#bdp' => $attributes,
         );
       }
 
