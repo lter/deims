@@ -32,6 +32,13 @@ function deims_research_site_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'module' => 'bdp',
+          'settings' => array(),
+          'type' => 'geofield_bdp_boundingCoordinates',
+          'weight' => '4',
+        ),
         'default' => array(
           'label' => 'above',
           'settings' => array(),
@@ -123,6 +130,12 @@ function deims_research_site_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '0',
+        ),
         'default' => array(
           'label' => 'above',
           'settings' => array(),
@@ -199,6 +212,13 @@ function deims_research_site_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'hidden',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_plain',
+          'weight' => '6',
+        ),
         'default' => array(
           'label' => 'hidden',
           'module' => 'text',
@@ -263,6 +283,18 @@ function deims_research_site_field_default_fields() {
       'deleted' => '0',
       'description' => 'In meters',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'module' => 'number',
+          'settings' => array(
+            'decimal_separator' => '.',
+            'prefix_suffix' => TRUE,
+            'scale' => 0,
+            'thousand_separator' => ' ',
+          ),
+          'type' => 'number_integer',
+          'weight' => '3',
+        ),
         'default' => array(
           'label' => 'above',
           'settings' => array(),
@@ -349,6 +381,12 @@ function deims_research_site_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'hidden',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '1',
+        ),
         'default' => array(
           'label' => 'hidden',
           'module' => 'image',
@@ -429,14 +467,7 @@ function deims_research_site_field_default_fields() {
       'field_permissions' => array(
         'type' => '0',
       ),
-      'foreign keys' => array(
-        'node' => array(
-          'columns' => array(
-            'target_id' => 'nid',
-          ),
-          'table' => 'node',
-        ),
-      ),
+      'foreign keys' => array(),
       'indexes' => array(
         'target_id' => array(
           0 => 'target_id',
@@ -470,6 +501,16 @@ function deims_research_site_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'module' => 'bdp',
+          'settings' => array(
+            'element' => '',
+            'multiple' => 0,
+          ),
+          'type' => 'entityreference_bdp_element',
+          'weight' => '13',
+        ),
         'default' => array(
           'label' => 'above',
           'settings' => array(),
@@ -542,6 +583,12 @@ function deims_research_site_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '2',
+        ),
         'default' => array(
           'label' => 'above',
           'settings' => array(),
