@@ -1,0 +1,44 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the BDP module.
+ */
+
+/**
+ * Implements hook_requirements().
+ */
+function bdp_requirements($phase) {
+  $requirements = array();
+  $t = get_t();
+
+  // @todo Possibly remove this function since we are able to duplicate Tidy's
+  // cleanup ability using DOM. @see BdpDataSet::tidyXml().
+  //$requirements['bdp_php_tidy'] = array('title' => $t('PHP tidy class'));
+  //if (class_exists('tidy')) {
+  //  $requirements['bdp_php_tidy']['value'] = $t('Enabled');
+  //  $requirements['bdp_php_tidy']['severity'] = REQUIREMENT_OK;
+  //}
+  //else {
+  //  $requirements['bdp_php_tidy']['description'] = $t('The BDP module strongly recommends the <a href="@php-tidy">PHP tidy extension</a> in order to provide XML that passes validation.', array('@php-tidy' => 'http://www.php.net/manual/en/tidy.installation.php'));
+  //  $requirements['bdp_php_tidy']['value'] = $t('Not enabled or missing');
+  //  $requirements['bdp_php_tidy']['severity'] = REQUIREMENT_WARNING;
+  //}
+
+  return $requirements;
+}
+
+/**
+ * Implements hook_install().
+ */
+function bdp_install() {
+  variable_set('date_format_bdp_yeardate', 'Y-m-d');
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function bdp_uninstall() {
+  variable_del('station_acronym');
+  variable_del('bdp_data_policies');
+}

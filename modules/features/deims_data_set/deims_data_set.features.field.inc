@@ -43,6 +43,13 @@ function deims_data_set_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'inline',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_plain',
+          'weight' => '12',
+        ),
         'default' => array(
           'label' => 'inline',
           'module' => 'text',
@@ -143,6 +150,13 @@ function deims_data_set_field_default_fields() {
       'deleted' => '0',
       'description' => 'Any additional information about this data set you may need to provide.',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_plain',
+          'weight' => '16',
+        ),
         'default' => array(
           'label' => 'above',
           'module' => 'text',
@@ -249,6 +263,16 @@ function deims_data_set_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'inline',
+          'module' => 'bdp',
+          'settings' => array(
+            'keyword_value' => '[term:name]',
+            'thesaurus_value' => '[term:vocabulary]',
+          ),
+          'type' => 'taxonomy_bdp_keywordset',
+          'weight' => '2',
+        ),
         'default' => array(
           'label' => 'inline',
           'module' => 'taxonomy',
@@ -266,7 +290,7 @@ function deims_data_set_field_default_fields() {
           'type' => 'taxonomy_eml_keywordset',
           'weight' => '4',
         ),
-       'eml_hl' => array(
+        'eml_hl' => array(
           'label' => 'inline',
           'settings' => array(),
           'type' => 'hidden',
@@ -353,6 +377,13 @@ function deims_data_set_field_default_fields() {
       'deleted' => '0',
       'description' => 'This is an unique, numeric identifier for your data set (for example, 1012009).',
       'display' => array(
+        'bdp' => array(
+          'label' => 'inline',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => '15',
+        ),
         'default' => array(
           'label' => 'inline',
           'module' => 'text',
@@ -470,6 +501,16 @@ function deims_data_set_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'inline',
+          'module' => 'bdp',
+          'settings' => array(
+            'element' => '',
+            'multiple' => 0,
+          ),
+          'type' => 'entityreference_bdp_element',
+          'weight' => '6',
+        ),
         'default' => array(
           'label' => 'inline',
           'module' => 'entityreference',
@@ -587,6 +628,13 @@ function deims_data_set_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'module' => 'bdp',
+          'settings' => array(),
+          'type' => 'date_bdp_temporalCoverage',
+          'weight' => '17',
+        ),
         'default' => array(
           'label' => 'above',
           'module' => 'date',
@@ -702,6 +750,13 @@ function deims_data_set_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'inline',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_plain',
+          'weight' => '14',
+        ),
         'default' => array(
           'label' => 'inline',
           'module' => 'text',
@@ -795,12 +850,18 @@ function deims_data_set_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'module' => 'select_or_other',
+          'settings' => array(),
+          'type' => 'select_or_other_formatter',
+          'weight' => '32',
+        ),
         'default' => array(
           'label' => 'above',
-          'module' => 'text',
           'settings' => array(),
-          'type' => 'text_default',
-          'weight' => 24,
+          'type' => 'hidden',
+          'weight' => '24',
         ),
         'eml' => array(
           'label' => 'above',
@@ -878,6 +939,13 @@ function deims_data_set_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'inline',
+          'module' => 'token_field',
+          'settings' => array(),
+          'type' => 'token_field_default',
+          'weight' => '30',
+        ),
         'default' => array(
           'label' => 'inline',
           'module' => 'token_field',
@@ -959,7 +1027,7 @@ function deims_data_set_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
-        'default' => array(
+        'bdp' => array(
           'label' => 'above',
           'module' => 'number',
           'settings' => array(
@@ -969,7 +1037,13 @@ function deims_data_set_field_default_fields() {
             'thousand_separator' => ' ',
           ),
           'type' => 'number_integer',
-          'weight' => 23,
+          'weight' => '31',
+        ),
+        'default' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '23',
         ),
         'eml' => array(
           'label' => 'above',
@@ -1061,12 +1135,18 @@ function deims_data_set_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
-        'default' => array(
+        'bdp' => array(
           'label' => 'above',
           'module' => 'list',
           'settings' => array(),
-          'type' => 'list_default',
-          'weight' => 25,
+          'type' => 'list_key',
+          'weight' => '33',
+        ),
+        'default' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '25',
         ),
         'eml' => array(
           'label' => 'above',
@@ -1079,8 +1159,8 @@ function deims_data_set_field_default_fields() {
           'settings' => array(),
           'type' => 'hidden',
           'weight' => '25',
-        ), 
-       'search_result' => array(
+        ),
+        'search_result' => array(
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
@@ -1147,6 +1227,13 @@ function deims_data_set_field_default_fields() {
       'deleted' => '0',
       'description' => 'Information about the instruments used to gather data.',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_plain',
+          'weight' => '10',
+        ),
         'default' => array(
           'label' => 'above',
           'module' => 'text',
@@ -1166,8 +1253,8 @@ function deims_data_set_field_default_fields() {
           'settings' => array(),
           'type' => 'hidden',
           'weight' => '8',
-        ), 
-       'full' => array(
+        ),
+        'full' => array(
           'label' => 'above',
           'module' => 'text',
           'settings' => array(),
@@ -1252,6 +1339,16 @@ function deims_data_set_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'inline',
+          'module' => 'bdp',
+          'settings' => array(
+            'keyword_value' => '[term:name]',
+            'thesaurus_value' => '[term:vocabulary]',
+          ),
+          'type' => 'taxonomy_bdp_keywordset',
+          'weight' => '4',
+        ),
         'default' => array(
           'label' => 'inline',
           'module' => 'taxonomy',
@@ -1269,7 +1366,7 @@ function deims_data_set_field_default_fields() {
           'type' => 'taxonomy_eml_keywordset',
           'weight' => '5',
         ),
-       'eml_hl' => array(
+        'eml_hl' => array(
           'label' => 'inline',
           'settings' => array(),
           'type' => 'hidden',
@@ -1362,6 +1459,13 @@ function deims_data_set_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_plain',
+          'weight' => '11',
+        ),
         'default' => array(
           'label' => 'above',
           'module' => 'text',
@@ -1458,6 +1562,13 @@ function deims_data_set_field_default_fields() {
       'deleted' => '0',
       'description' => 'The methodologies used to gather these data.',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_plain',
+          'weight' => '8',
+        ),
         'default' => array(
           'label' => 'above',
           'module' => 'text',
@@ -1571,14 +1682,21 @@ function deims_data_set_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'module' => 'bdp',
+          'settings' => array(
+            'element' => 'cntinfo',
+            'multiple' => 0,
+          ),
+          'type' => 'entityreference_bdp_element',
+          'weight' => '20',
+        ),
         'default' => array(
           'label' => 'above',
-          'module' => 'entityreference',
-          'settings' => array(
-            'link' => FALSE,
-          ),
-          'type' => 'entityreference_label',
-          'weight' => 20,
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '20',
         ),
         'eml' => array(
           'label' => 'above',
@@ -1688,14 +1806,20 @@ function deims_data_set_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
-        'default' => array(
+        'bdp' => array(
           'label' => 'above',
           'module' => 'entityreference',
           'settings' => array(
             'link' => FALSE,
           ),
           'type' => 'entityreference_label',
-          'weight' => 19,
+          'weight' => '19',
+        ),
+        'default' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '19',
         ),
         'eml' => array(
           'label' => 'above',
@@ -1805,14 +1929,21 @@ function deims_data_set_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'module' => 'bdp',
+          'settings' => array(
+            'element' => '',
+            'multiple' => 0,
+          ),
+          'type' => 'entityreference_bdp_element',
+          'weight' => '21',
+        ),
         'default' => array(
           'label' => 'above',
-          'module' => 'entityreference',
-          'settings' => array(
-            'link' => FALSE,
-          ),
-          'type' => 'entityreference_label',
-          'weight' => 21,
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '21',
         ),
         'eml' => array(
           'label' => 'above',
@@ -1922,14 +2053,20 @@ function deims_data_set_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
-        'default' => array(
+        'bdp' => array(
           'label' => 'above',
           'module' => 'entityreference',
           'settings' => array(
             'link' => FALSE,
           ),
           'type' => 'entityreference_label',
-          'weight' => 22,
+          'weight' => '22',
+        ),
+        'default' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '22',
         ),
         'eml' => array(
           'label' => 'above',
@@ -1998,14 +2135,7 @@ function deims_data_set_field_default_fields() {
       'field_permissions' => array(
         'type' => '0',
       ),
-      'foreign keys' => array(
-        'node' => array(
-          'columns' => array(
-            'target_id' => 'nid',
-          ),
-          'table' => 'node',
-        ),
-      ),
+      'foreign keys' => array(),
       'indexes' => array(
         'target_id' => array(
           0 => 'target_id',
@@ -2038,6 +2168,16 @@ function deims_data_set_field_default_fields() {
       'deleted' => '0',
       'description' => 'Use this to add anyone that was a data manager, field crew, lab crew, or associated researcher.',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'module' => 'entityreference',
+          'settings' => array(
+            'links' => 0,
+            'view_mode' => 'bdp',
+          ),
+          'type' => 'entityreference_entity_view',
+          'weight' => '0',
+        ),
         'default' => array(
           'label' => 'above',
           'module' => 'entityreference',
@@ -2162,6 +2302,13 @@ function deims_data_set_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'module' => 'bdp',
+          'settings' => array(),
+          'type' => 'date_bdp_temporalCoverage',
+          'weight' => '18',
+        ),
         'default' => array(
           'label' => 'above',
           'module' => 'date',
@@ -2181,7 +2328,7 @@ function deims_data_set_field_default_fields() {
           'type' => 'hidden',
           'weight' => '19',
         ),
-       'eml_hl' => array(
+        'eml_hl' => array(
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
@@ -2271,6 +2418,13 @@ function deims_data_set_field_default_fields() {
       'deleted' => '0',
       'description' => 'Explain here the purpose of your dat aset - for example, the goals sought with the collection of your data.',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_plain',
+          'weight' => '7',
+        ),
         'default' => array(
           'label' => 'above',
           'module' => 'text',
@@ -2365,6 +2519,13 @@ function deims_data_set_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_plain',
+          'weight' => '13',
+        ),
         'default' => array(
           'label' => 'above',
           'module' => 'text',
@@ -2462,6 +2623,13 @@ function deims_data_set_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'inline',
+          'module' => 'bdp',
+          'settings' => array(),
+          'type' => 'bdp_onlineUrl',
+          'weight' => '3',
+        ),
         'default' => array(
           'label' => 'inline',
           'module' => 'link',
@@ -2585,6 +2753,16 @@ function deims_data_set_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'inline',
+          'module' => 'bdp',
+          'settings' => array(
+            'element' => '',
+            'multiple' => 0,
+          ),
+          'type' => 'entityreference_bdp_element',
+          'weight' => '1',
+        ),
         'default' => array(
           'label' => 'inline',
           'module' => 'entityreference',
@@ -2707,6 +2885,16 @@ function deims_data_set_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'inline',
+          'module' => 'bdp',
+          'settings' => array(
+            'element' => '',
+            'multiple' => 0,
+          ),
+          'type' => 'entityreference_bdp_element',
+          'weight' => '5',
+        ),
         'default' => array(
           'label' => 'inline',
           'module' => 'entityreference',
@@ -2818,6 +3006,13 @@ function deims_data_set_field_default_fields() {
       'deleted' => '0',
       'description' => 'A short name is usually the name used to refer in short to your dataset. Example: meteo_2010',
       'display' => array(
+        'bdp' => array(
+          'label' => 'inline',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_plain',
+          'weight' => '9',
+        ),
         'default' => array(
           'label' => 'inline',
           'module' => 'text',

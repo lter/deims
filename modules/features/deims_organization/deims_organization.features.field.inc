@@ -35,6 +35,13 @@ function deims_organization_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'bdp' => array(
+          'label' => 'hidden',
+          'module' => 'bdp',
+          'settings' => array(),
+          'type' => 'bdp_onlineUrl',
+          'weight' => '1',
+        ),
         'default' => array(
           'label' => 'hidden',
           'module' => 'url',

@@ -56,6 +56,9 @@ function deims_data_set_strongarm() {
       'diff_standard' => array(
         'custom_settings' => FALSE,
       ),
+      'bdp' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(

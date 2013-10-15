@@ -2,6 +2,7 @@ name = DEIMS Data Set
 core = 7.x
 package = DEIMS Base
 php = 5.2.4
+dependencies[] = bdp
 dependencies[] = ctools
 dependencies[] = date
 dependencies[] = deims_project_role
