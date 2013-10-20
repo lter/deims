@@ -22,7 +22,7 @@ function bdp_output_node($node) {
 
   try {
     // Get the BDP as a string and output it.
-    $dataset = new BDPDataSet($node);
+    $dataset = new BdpDataSet($node);
     $bdp = $dataset->getBDP();
     drupal_add_http_header('Content-Type', 'application/xml; charset=utf-8');
     print $bdp;
