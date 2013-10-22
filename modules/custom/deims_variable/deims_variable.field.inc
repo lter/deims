@@ -643,6 +643,15 @@ function deims_variable_field_formatter_view($entity_type, $entity, $field, $ins
             }
             break;
         }
+        foreach ($item['missing_values'] as $key => $value) {
+           $attribute[] = array(
+              'key' => 'missingValueCode',
+              'value' => array(
+                 'code' => $key,
+                 'codeExplanation' => $value,
+               ),
+           );
+        }
 
         $attributes[] = array(
           'key' => 'attribute',
