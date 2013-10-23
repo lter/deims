@@ -30,7 +30,7 @@ Clone the repo:
 
 Build the site into your webroot:
 
-* `cd deims-profile`
+* `cd deims`
 * `drush make build-deims.make '/path/to/your-site/www' --prepare-install --contrib-destination=profiles/deims`
 
 ### Rebuilding an existing site ###
