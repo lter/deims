@@ -60,15 +60,16 @@ function pasta_form_eml_settings_form_alter(&$form, &$form_state) {
   * Implement hook_help()
   */
 function pasta_help($path, $arg) {
- switch ($path) {
- case 'admin/help#pasta':
-   return '' .  '<h3>' . t('About') . '</h3>' . '<p>' . t("The PASTA module provides an automated mechanism to participate
+  switch ($path) {
+    case 'admin/help#pasta':
+      return '<h3>' . t('About') . '</h3>' . '<p>' . t("The PASTA module provides an automated mechanism to participate
    in the PASTA services to store data and metadata objects. PASTA, or Provenance Aware System Tracking Architecture, is a
    service offered to LTER sites to store permanently data records.  Once this module is enabled, each time a dataset is published
    or updated, the PASTA module will try to send a copy to the PASTA-enabled repositories using the PASTA services, it does so
-   by using the Drupal queue systems and the EML Web Service") . '<p>'
-   }
- }
+   by using the Drupal queue systems and the EML Web Service") . '<p>';
+  }
+}
+
 // ----------------------------------------------------------------------------
 // Cron queues
 // ----------------------------------------------------------------------------
