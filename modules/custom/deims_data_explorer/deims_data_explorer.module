@@ -131,6 +131,29 @@ function deims_data_explorer_node_load(array $nodes) {
 }
 
 /**
+ * Implements hook_views_api().
+ */
+
+function deims_data_explorer_views_api() {
+  return array ('api' => 3.0);
+}
+
+function deims_data_explorer_views_default_views() {
+// Check for all view file in views directory
+  $files = file_scan_directory(drupal_get_path('module', 'deims_data_explorer') . '/views', '/.*\.inc$/');
+
+// Add view to list of views
+  foreach ($files as $filepath => $file) {
+    require $filepath;
+    if (isset($view)) {
+      $views[$view->name] = $view;
+    }
+  }
+
+// At the end, return array of default views.
+  return $views;
+}
+/**
  * Access callback for the data explorer page.
  *
  * @param $node
