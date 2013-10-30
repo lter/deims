@@ -1,0 +1,44 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the ISO module.
+ */
+
+/**
+ * Implements hook_requirements().
+ */
+function iso_requirements($phase) {
+  $requirements = array();
+  $t = get_t();
+
+  // @todo Possibly remove this function since we are able to duplicate Tidy's
+  // cleanup ability using DOM. @see IsoDataSet::tidyXml().
+  //$requirements['iso_php_tidy'] = array('title' => $t('PHP tidy class'));
+  //if (class_exists('tidy')) {
+  //  $requirements['iso_php_tidy']['value'] = $t('Enabled');
+  //  $requirements['iso_php_tidy']['severity'] = REQUIREMENT_OK;
+  //}
+  //else {
+  //  $requirements['iso_php_tidy']['description'] = $t('The ISO module strongly recommends the <a href="@php-tidy">PHP tidy extension</a> in order to provide XML that passes validation.', array('@php-tidy' => 'http://www.php.net/manual/en/tidy.installation.php'));
+  //  $requirements['iso_php_tidy']['value'] = $t('Not enabled or missing');
+  //  $requirements['iso_php_tidy']['severity'] = REQUIREMENT_WARNING;
+  //}
+
+  return $requirements;
+}
+
+/**
+ * Implements hook_install().
+ */
+function iso_install() {
+  variable_set('date_format_iso_yeardate', 'Y-m-d');
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function iso_uninstall() {
+  variable_del('station_acronym');
+  variable_del('iso_data_policies');
+}

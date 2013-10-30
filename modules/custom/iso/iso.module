@@ -1,0 +1,273 @@
+<?php
+
+/**
+ * @file
+ * ISO generation.
+ *
+ * ISO view mode and template for nodes
+ *
+ */
+
+require_once dirname(__FILE__) . '/iso.field.inc';
+
+/**
+ * Implements hook_help().
+ */
+function iso_help($path, $arg) {
+  // Show a warning on the 'ISO' view mode sub-tab of 'Manage Display' pages
+  // that re-ordering fields has no affect on the actual ISO templates used.
+  if (preg_match('/.*\/manage\/.*\/display\/iso/', $path)) {
+    drupal_set_message(t('The ordering of these elements is hard-coded in the template files of the ISO module. Re-ordering here will not change any output in ISO.'), 'warning');
+  }
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function iso_entity_info_alter(array &$info) {
+  // Add an 'ISO' view mode to all possible entity types.
+  foreach (array_keys($info) as $entity_type) {
+    if (!empty($info[$entity_type]['view modes'])) {
+      $info[$entity_type]['view modes']['iso'] = array(
+        'label' => t('ISO'),
+        'custom settings' => FALSE,
+      );
+    }
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function iso_menu() {
+  $items = array();
+
+  $items['node/%node/iso'] = array(
+    'page callback' => 'iso_output_node',
+    'page arguments' => array(1),
+    'access callback' => 'node_access',
+    'access arguments' => array('view', 1),
+    'type' => MENU_CALLBACK,
+    'file' => 'iso.pages.inc',
+  );
+  $items['admin/config/services/iso'] = array(
+    'title' => 'ISO',
+    'description' => 'Configure ISO settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('iso_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'iso.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_entity_view().
+ *
+ * When an entity is being rendered with the 'iso' view mode, convert the theme
+ * and template being used to use our own ISO theme/template.
+ *
+ * @see iso_preprocess_iso()
+ */
+function iso_entity_view($entity, $type, $view_mode, $langcode) {
+  if ($view_mode == 'iso') {
+    list(, , $bundle) = entity_extract_ids($type, $entity);
+    $entity->content += array(
+      '#entity' => $entity,
+      '#bundle' => $bundle,
+      '#theme' => "iso",
+    );
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function iso_theme($existing, $type, $theme, $path) {
+  $info['iso'] = array(
+    'render element' => 'elements',
+    'template' => 'iso',
+    'path' => $path . '/templates',
+  );
+
+  // Add support for our additional ISO templates.
+  $info += drupal_find_theme_templates($info, '.tpl.php', drupal_get_path('module', 'iso') . '/templates');
+
+  $info['iso_tag'] = array(
+    'render element' => 'element',
+  );
+  $info['iso_tags'] = array(
+    'render element' => 'element',
+  );
+
+  // A theme wrapper for format_xml_elements().
+  $info['iso_elements'] = array(
+    'variables' => array('iso' => array()),
+  );
+
+  return $info;
+}
+
+function theme_iso_elements($variables) {
+  return format_xml_elements($variables['iso']);
+}
+
+function theme_iso_tag($variables) {
+  $element = &$variables['element'];
+  if (isset($element['#value'])) {
+    $element['#value'] = check_plain($element['#value']);
+  }
+  elseif ($children = element_children($element)) {
+    $element['#value'] = '';
+    foreach ($children as $key) {
+      $element[$key] += array('#theme' => 'iso_tag');
+      $element['#value'] .= drupal_render($element[$key]);
+    }
+  }
+  return theme_html_tag($variables);
+}
+
+function theme_iso_tags($variables) {
+  $output = '';
+  $element = &$variables['element'];
+  foreach (element_children($element) as $key) {
+    $sub_element = array('element' => array());
+    $sub_element['element']['#tag'] = $element['#tag'];
+    if (isset($element['#attributes'])) {
+      $sub_element['element']['#attributes'] = $element['#attributes'];
+    }
+    $sub_element['element']['#value'] = drupal_render($element[$key]);
+    $output .= theme_html_tag($sub_element);
+  }
+  return $output;
+}
+
+/**
+ * Implements hook_node_view().
+ */
+function iso_node_view($node, $view_mode, $langcode) {
+  if ($view_mode != 'iso') {
+    return;
+  }
+// HERE -- mind methods in ISO, use EML guidance rather.
+  if ($node->type == 'data_set' || $node->type == 'data_source') {
+    $methods = array();
+//    if ($qa_items = field_get_items('node', $node, 'field_quality_assurance')) {
+//      $qa_instance = field_info_instance('node', 'field_quality_assurance', $node->type);
+//      $methods['methdesc'] .= ' Quality Control: '.strip_tags(_text_sanitize($qa_instance, $langcode, $qa_items[0], 'value'));
+//    }
+    if ($items = field_get_items('node', $node, 'field_methods')) {
+      $method_instance = field_info_instance('node', 'field_methods', $node->type);
+      $instrumentation_instance = field_info_instance('node', 'field_instrumentation', $node->type);
+      $instrumentation_values = field_get_items('node', $node, 'field_instrumentation');
+      foreach ($items as $delta => $item) {
+        $method = array();
+        $method['gmd:LI_ProcessStep']['gmd:description'][gco:CharacterString'] = strip_tags(_text_sanitize($method_instance, $langcode, $item, 'value'));
+        if (!empty($instrumentation_values[$delta])) {
+          $methods['gmd:LI_ProcessStep']['gmd:description'][gco:CharacterString'] .= ' Instrumentation:'. strip_tags(_text_sanitize($instrumentation_instance, $langcode, $instrumentation_values[$delta], 'value'));
+        }
+        $methods[] = array('key' => 'gmd:processStep', 'value' => $method);
+      }
+    }
+    if (!empty($methods)) {
+      $node->content['methods'] = array(
+        '#theme' => 'iso_elements',
+        '#iso' => $methods,
+      );
+    }
+  }
+
+  switch ($node->type) {
+    case 'data_set':
+      // Join all taxonomy fields into one content array to output in the
+      // template.
+      $node->content['keywordSets'] = array();
+      foreach (element_children($node->content) as $key) {
+        if (isset($node->content[$key]['#field_type'])
+            && $node->content[$key]['#field_type'] == 'taxonomy_term_reference'
+            && $node->content[$key]['#formatter'] == 'taxonomy_iso_keywordset') {
+          $node->content['keywordSets'][] = $node->content[$key];
+        }
+      }
+
+      break;
+  }
+}
+
+/**
+ * Implements hook_date_format_types().
+ */
+function iso_date_format_types() {
+  return array(
+    'iso_yeardate' => t('ISO yearDate'),
+  );
+}
+
+/**
+ * Implements hook_date_formats().
+ */
+function iso_date_formats() {
+  return array(
+    array(
+      'type' => 'iso_yeardate',
+      'format' => 'Y-m-d',
+      'locales' => array(),
+    ),
+  );
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for iso.tpl.php.
+ */
+function template_preprocess_iso(&$variables, $hook) {
+  $variables['entity'] = $variables['elements']['#entity'];
+  $entity = $variables['entity'];
+  $entity_type = $variables['elements']['#entity_type'];
+  $bundle = $variables['elements']['#bundle'];
+
+  $label = entity_label($entity_type, $entity);
+  $uri = entity_uri($entity_type, $entity);
+  $variables['url'] = url($uri['path'], array('absolute' => TRUE) + $uri['options']);
+  $variables['label'] = check_plain($label);
+
+  $variables['language'] = check_plain($GLOBALS[LANGUAGE_TYPE_CONTENT]->name);
+  $variables['pubPlace'] = check_plain(variable_get('site_name', 'Drupal'));
+  $variables['station'] = check_plain(variable_get('station_acronym', 'STATION'));
+  $variables['data_policies'] = check_plain(strip_tags(variable_get('iso_data_policies', '')));
+
+  if ($entity_type == 'node' && $variables['elements']['#bundle'] == 'data_set') {
+    $variables['pubDate'] = format_date($entity->created, 'iso_yeardate');
+  }
+
+  // Helpful $content variable for templates.
+  $variables += array('content' => array());
+  foreach (element_children($variables['elements']) as $key) {
+    $variables['content'][$key] = $variables['elements'][$key];
+
+    // Remove the field wrappers and classes so we just get native output.
+    if (isset($variables['content'][$key]['#theme']) && $variables['content'][$key]['#theme'] == 'field') {
+      unset($variables['content'][$key]['#theme']);
+    }
+  }
+
+  // Ensure that all the fields for this entity are available, even if empty.
+  foreach (field_info_instances($entity_type, $bundle) as $instance) {
+    if (!isset($variables['content'][$instance['field_name']])) {
+      $variables['content'][$instance['field_name']] = '';
+    }
+  }
+
+  // Add template suggestions to use, starting with the least preferred, and
+  // ending with the one to try first if it exists. The last one should be the
+  // most specific.
+  $variables['theme_hook_suggestions'][] = 'iso';
+  $variables['theme_hook_suggestions'][] = "iso__{$entity_type}__{$bundle}";
+}
+
+function iso_debug($message, array $variables = array()) {
+  if (variable_get('iso_debugging')) {
+    drupal_set_message(format_string('ISO DEBUG: ' . $message, $variables));
+    watchdog('iso', $message, $variables, WATCHDOG_DEBUG);
+  }
+}

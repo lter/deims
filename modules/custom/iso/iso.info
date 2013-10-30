@@ -1,0 +1,8 @@
+name = ISO
+description = Provides the ability to output ISO from nodes.
+core = 7.x
+package = DEIMS Base
+dependencies[] = field
+dependencies[] = lter_unit
+dependencies[] = helper
+files[] = lib/IsoDataSet.php
