@@ -340,7 +340,7 @@ function iso_field_formatter_view($entity_type, $entity, $field, $instance, $lan
         $text = _text_sanitize($instance, $langcode, $item, 'value');
         $element[$delta] = array(
           '#theme' => 'iso_elements',
-          '#iso' => array('gco:CharacterString' => strip_tags($text)),
+          '#iso' => array('gco:CharacterString' => strip_tags($text),
           ),
         );
       }
