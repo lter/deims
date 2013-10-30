@@ -163,9 +163,9 @@ function iso_node_view($node, $view_mode, $langcode) {
       $instrumentation_values = field_get_items('node', $node, 'field_instrumentation');
       foreach ($items as $delta => $item) {
         $method = array();
-        $method['gmd:LI_ProcessStep']['gmd:description'][gco:CharacterString'] = strip_tags(_text_sanitize($method_instance, $langcode, $item, 'value'));
+        $method['gmd:LI_ProcessStep']['gmd:description']['gco:CharacterString'] = strip_tags(_text_sanitize($method_instance, $langcode, $item, 'value'));
         if (!empty($instrumentation_values[$delta])) {
-          $methods['gmd:LI_ProcessStep']['gmd:description'][gco:CharacterString'] .= ' Instrumentation:'. strip_tags(_text_sanitize($instrumentation_instance, $langcode, $instrumentation_values[$delta], 'value'));
+          $methods['gmd:LI_ProcessStep']['gmd:description']['gco:CharacterString'] .= ' Instrumentation:'. strip_tags(_text_sanitize($instrumentation_instance, $langcode, $instrumentation_values[$delta], 'value'));
         }
         $methods[] = array('key' => 'gmd:processStep', 'value' => $method);
       }
