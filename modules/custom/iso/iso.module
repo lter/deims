@@ -236,6 +236,22 @@ function template_preprocess_iso(&$variables, $hook) {
   $variables['station'] = check_plain(variable_get('station_acronym', 'STATION'));
   $variables['data_policies'] = check_plain(strip_tags(variable_get('iso_data_policies', '')));
 
+  $variables['namespaces_array'] = array(
+   'xmlns' => "http://www.isotc211.org/2005/gmi", 
+   'xmlns:gco' => "http://www.isotc211.org/2005/gco", 
+   'xmlns:gmd' => "http://www.isotc211.org/2005/gmd", 
+   'xmlns:gmi' => "http://www.isotc211.org/2005/gmi", 
+   'xmlns:gml' => "http://www.opengis.net/gml/3.2", 
+   'xmlns:gmx' => "http://www.isotc211.org/2005/gmx", 
+   'xmlns:gsr' => "http://www.isotc211.org/2005/gsr", 
+   'xmlns:gss' => "http://www.isotc211.org/2005/gss", 
+   'xmlns:gts' => "http://www.isotc211.org/2005/gts", 
+   'xmlns:xlink' => "http://www.w3.org/1999/xlink", 
+   'xmlns:xsi' => "http://www.w3.org/2001/XMLSchema-instance", 
+   'xsi:schemaLocation' => "http://www.isotc211.org/2005/gmi http://www.ngdc.noaa.gov/metadata/published/xsd/schema.xsd",
+  );
+
+
   if ($entity_type == 'node' && $variables['elements']['#bundle'] == 'data_set') {
     $variables['pubDate'] = format_date($entity->created, 'iso_yeardate');
   }
@@ -264,6 +280,14 @@ function template_preprocess_iso(&$variables, $hook) {
   $variables['theme_hook_suggestions'][] = 'iso';
   $variables['theme_hook_suggestions'][] = "iso__{$entity_type}__{$bundle}";
 }
+
+/**
+ * Implements hook_process_HOOK() for iso.tpl.php.
+ */
+function template_process_iso(array &$variables) {
+  $variables['namespaces'] = $variables['namespaces_array'] ? drupal_attributes($variables['namespaces_array']) : '';
+}
+
 
 function iso_debug($message, array $variables = array()) {
   if (variable_get('iso_debugging')) {

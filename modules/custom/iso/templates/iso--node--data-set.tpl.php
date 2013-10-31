@@ -1,4 +1,4 @@
-<gmi:MI_Metadata<?php print $namespaces; ?> <?php print $attributes; ?>>
+<gmi:MI_Metadata<?php print $namespaces; ?> >
 
    <gmd:fileIndentifier>
     <?php print $shortname; ?>
