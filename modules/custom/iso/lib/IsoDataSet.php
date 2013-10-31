@@ -6,7 +6,7 @@
  */
 
 /**
- * Utility and API functions for interacting with data sets and their BDP.
+ * Utility and API functions for interacting with data sets and their ISO.
  */
 class IsoDataSet {
 
@@ -26,7 +26,7 @@ class IsoDataSet {
   }
 
   public static function getInstance($node) {
-    $instances = &drupal_static('BdpDataSet_instances', array());
+    $instances = &drupal_static('IsoDataSet_instances', array());
     if ($node->type != 'data_set') {
       throw new InvalidArgumentException('Cannot create a IsoDataSet object using a node type != data_set.');
     }
@@ -52,7 +52,7 @@ class IsoDataSet {
       $this->iso = render($build);
       $this->iso = $this->tidyXml($this->iso);
     }
-    return $this->bdp;
+    return $this->iso;
   }
 
   /**
