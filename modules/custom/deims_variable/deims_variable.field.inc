@@ -547,6 +547,10 @@ function deims_variable_field_formatter_info() {
     'label' => t('BDP attributeList'),
     'field types' => array('deims_variable'),
   );
+  $info['iso_attribute_list'] = array(
+    'label' => t('ISO attributeList'),
+    'field types' => array('deims_variable'),
+  );
 
   return $info;
 }
@@ -643,15 +647,6 @@ function deims_variable_field_formatter_view($entity_type, $entity, $field, $ins
             }
             break;
         }
-        foreach ($item['missing_values'] as $key => $value) {
-           $attribute[] = array(
-              'key' => 'missingValueCode',
-              'value' => array(
-                 'code' => $key,
-                 'codeExplanation' => $value,
-               ),
-           );
-        }
 
         $attributes[] = array(
           'key' => 'attribute',
@@ -729,8 +724,66 @@ function deims_variable_field_formatter_view($entity_type, $entity, $field, $ins
       }
 
       break;
-  }
 
+    case 'iso_attribute_list':
+//    ISO 19110 is not yet part of ISO19115, therefore we lump details in the interim.
+      $attributes = array();
+
+      foreach ($items as $delta => $item) {
+        $attribute['gco:CharacterString'] = array();
+        $attribute['gco:CharacterString'] .= ' Variable Name: '. $item['name'];
+        $attribute['gco:CharacterString'] .= ' Variable Definition: '. $item['definition'];
+
+        switch ($item['type']) {
+
+          case DEIMS_VARIABLE_TYPE_PHYSICAL:
+          $attribute['gco:CharacterString'] .= ' Unit: '. $item['data']['unit'];
+            
+          if (drupal_strlen($item['data']['precision'])) {
+              $remarks=' Precision: '. $item['data']['precision'];
+          }
+          if (drupal_strlen($item['data']['minimum'])) {
+              $remarks .= ' Minimum: '. $item['data']['minimum'];
+          }
+          if (drupal_strlen($item['data']['maximum'])) {
+              $remarks .= 'Maximum: '. $item['data']['maximum'];
+          }
+          $attribute['gco:CharacterString'] .= $remarks;
+
+            break;
+          case DEIMS_VARIABLE_TYPE_DATE:
+          $attribute['gco:CharacterString'] .= 'Date/Time Format: '. $item['data']['pattern'];
+            break;
+          case DEIMS_VARIABLE_TYPE_CODES:
+            foreach ($item['data']['codes'] as $key => $value) {
+              $attribute['gco:CharacterString'] .= ' Code Definition Pair:: Code: '. $key . ' Definition: '. $value;
+            }
+            break;
+        }
+
+//      WHILE ISO is still evolving the attributes, flatten the element
+//      REMOVE the next line later, uncomment the following for proper rendering
+        $attributes[] = $attribute['gco:CharacterString'];
+
+/*        $attributes[] = array(
+ *         'key' => 'gfm:otherCitationDetails',
+ *         'value' => $attribute,
+ *       );
+ */
+      }
+      
+
+      if (!empty($attributes)) {
+        $element = array(
+          '#theme' => 'iso_elements',
+          '#iso' => $attributes,
+        );
+      }
+
+      break;
+
+  }
+  
   return $element;
 }
 
