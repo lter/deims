@@ -59,6 +59,9 @@ function deims_research_site_strongarm() {
       'eml_hl' => array(
         'custom_settings' => FALSE,
       ),
+      'iso' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
