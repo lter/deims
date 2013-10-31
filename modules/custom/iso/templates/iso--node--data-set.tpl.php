@@ -1,10 +1,10 @@
 <gmi:MI_Metadata<?php print $namespaces; ?> >
 
    <gmd:fileIndentifier>
-    <?php print $shortname; ?>
+     <?php print render($content['field_short_name']); ?>
    </gmd:fileIndentifier>
    <gmd:language>
-     <?php print $language; ?>
+      <gco:CharacterString> <?php print $language; ?></gco:CharacterString>
    </gmd:language>
 
    <gmd:characterSet>
@@ -16,7 +16,12 @@
    </gmd:hierarchyLevel>
 
    <gmd:contact>
+     <gmd:CI_ResponsibleParty>
      <?php print render($content['field_person_contact']); ?>
+     <gmd:role>
+       <gmd:CI_RoleCode codeList="URL-to-NSF-roles" codeListValue="pointOfContact">pointOfContact</gmd:CI_RoleCode>
+     </gmd:role>
+     </gmd:CI_ResponsibleParty>
    </gmd:contact>
 
    <gmd:dateStamp><gco:Date><?php print $pubDate; ?></gco:Date></gmd:dateStamp>
@@ -32,7 +37,7 @@
       <gmd:MD_DataIdentification>
          <gmd:citation>
             <gmd:CI_Citation>
-               <gmd:title><?php print $label; ?></gmd:title>
+               <gmd:title><gco:CharacterString><?php print $label; ?></gco:CharacterString></gmd:title>
                <gmd:date>
                  <gmd:CI_Date>
                    <gmd:date><gco:Date><?php print $pubDate; ?></gco:Date></gmd:date>

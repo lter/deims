@@ -312,6 +312,17 @@ function iso_field_formatter_view($entity_type, $entity, $field, $instance, $lan
         );
       }
       break;
+    case 'telephone_iso_fax':
+      foreach ($items as $delta => $item) {
+        $element[$delta] = array(
+          '#theme' => 'iso_elements',
+          '#iso' => array(array(
+            'key' => 'gmd:phone',
+            'value' => array('gmd:CI_Telephone' => array('gmd:facsimile' => $item['value'])),
+          )),
+        );
+      }
+      break;
 
     case 'iso_electronicMailAddress':
       foreach ($items as $delta => $item) {

@@ -6,12 +6,20 @@
 ?>
 <?php print render($content['field_name']); ?>
 <?php if (!empty($content['field_organization'])): ?>
-<organizationName>
+<gmd:organisationName>
+  <!--only need organization node title here-->
   <?php print render($content['field_organization']); ?>
-</organizationName>
+</gmd:organisationName>
 <?php endif; ?>
-<?php print render($content['field_address']); ?>
-<?php print render($content['field_phone']); ?>
-<?php print render($content['field_fax']); ?>
-<?php print render($content['field_email']); ?>
+<gmd:contactInfo>
+  <gmd:CI_Contact>
+    <!--may be an issue with phones, fax+phone seem to be rendered together
+     unless the cardinality is 1->infyt. ALSO, facsimile thing is not working --> 
+    <?php print render($content['field_phone']); ?>
+    <?php print render($content['field_fax']); ?>
+    <!-- nest email inside address in field formatter -->
+    <?php print render($content['field_address']); ?>
+    <?php print render($content['field_email']); ?>
+  </gmd:CI_Contact>
+</gmd:contactInfo>
 <?php print render($content['field_url']); ?>

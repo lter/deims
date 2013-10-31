@@ -1,2 +1,2 @@
-<cntorg><?php print $label; ?></cntorg>
+<gco:CharacterString><?php print $label; ?></gco:CharacterString>
 <?php print render($content); ?>
