@@ -110,13 +110,17 @@ class DeimsContentDataSetMigration extends DrupalNode6Migration {
     // rather than the data source reference field on this data set. If this
     // backreference field has a value, use it instead.
     $connection = Database::getConnection('default', $this->sourceConnection);
-    $query = $connection->select('content_type_data_file', 'c');
-    $query->addField('c', 'nid');
-    $query->condition('field_data_file_data_set_nid', $row->nid);
-    $query->distinct();
-    $results = $query->execute()->fetchCol();
-    if (!empty($results)) {
-      $row->field_dataset_datafile_ref = $results;
+    if(!$connection->schema()->fieldExists('content_type_data_file','field_data_file_data_set_nid')){
+      $this->queueMessage("No back reference in Deims D6 database", MigrationBase::MESSAGE_INFORMATIONAL);
+    }else{
+      $query = $connection->select('content_type_data_file', 'c');
+      $query->addField('c', 'nid');
+      $query->condition('field_data_file_data_set_nid', $row->nid);
+      $query->distinct();
+      $results = $query->execute()->fetchCol();
+      if (!empty($results)) {
+        $row->field_dataset_datafile_ref = $results;
+      }
     }
   }
 
