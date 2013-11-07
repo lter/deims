@@ -171,18 +171,22 @@ function iso_field_formatter_view($entity_type, $entity, $field, $instance, $lan
       foreach ($items as $delta => $item) {
         $keywords[] = array(
           'key' => 'gmd:keyword',
-          'value' => token_replace($settings['keyword_value'], array('term' => $terms[$item['tid']])),
+          'value' => array('gco:CharacterString' => token_replace($settings['keyword_value'], array('term' => $terms[$item['tid']]))),
         );
       }
       if (!empty($keywords)) {
         $keywords[] = array(
+          'key' => 'gmd:type',
+          'value' => array('gmd:MD_KeywordTypeCode' => 'theme')      
+        );
+//        'attributes' => array('codeList' => 'http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode','codeListValue' => 'theme'),
+        $keywords[] = array(
           'key' => 'gmd:thesaurusName',
-          'value' => token_replace($settings['thesaurus_value'], array('term' => reset($terms)))
+          'value' => array('gmd:CI_Citation' => array('gmd:title' => array('gco:CharacterString' => token_replace($settings['thesaurus_value'], array ('term' => reset($terms)))),'gmd:date gco:nilReason=unknown'=>'',))
         );
         $element = array(
           '#theme' => 'iso_elements',
-//        i nested arrays in here
-          '#eml' => array('gmd:descriptiveKeywords' => array('gmd:MD_Keywords' => $keywords)),
+          '#iso' => array('gmd:descriptiveKeywords' => array('gmd:MD_Keywords' => $keywords)),
         );
       }
       break;
@@ -267,14 +271,18 @@ function iso_field_formatter_view($entity_type, $entity, $field, $instance, $lan
         $dates = date_formatter_process('date_default', $entity_type, $entity, $field, $instance, $langcode, $item, $display);
         $granularity = date_granularity($field);
         if ($dates['value']['formatted'] != $dates['value2']['formatted']) {
-          $value = array('gmd:EX_TemporalExtent' => array('gmd:extent' => array('key' => 'gml:TimePeriod', 'value' => array(
-            'gml:description' => 'ground condition',
-            'gml:beginPosition' => _iso_date_value($dates['value'], $granularity),
-            'gml:endPosition' => _iso_date_value($dates['value2'], $granularity),
-          ))));
+          $value = array(
+            'key' => 'gmd:EX_TemporalExtent',
+            'value'  => array(
+              'gmd:extent' => array('gml:TimePeriod gml:id=dle301' => 
+                 array('gml:description' => 'ground condition',
+                       'gml:beginPosition' => _iso_date_value($dates['value'], $granularity),
+                       'gml:endPosition' => _iso_date_value($dates['value2'], $granularity),))));
         }
         else {
-          $value = array('gmd:EX_TemporalExtent' => array('gmd:extent' => array('gmd:TimeInstant' => array('key' => 'gml:timePosition', 'value' => _iso_date_value($dates['value'], $granularity)))));
+          $value = array(
+             'key' => 'gmd:EX_TemporalExtent',
+             'value' => array('gmd:extent' => array('gmd:TimeInstant' => array('gml:timePosition' => _iso_date_value($dates['value'], $granularity)))));
         }
         $values[] = $value;
       }
@@ -362,7 +370,7 @@ function iso_field_formatter_view($entity_type, $entity, $field, $instance, $lan
 }
 
 function _iso_date_value($date, $granularity) {
-  $value = array('calendarDate' => $date['formatted_date']);
+  $value = $date['formatted_date'];
   if (!empty($granularity['hour']) || !empty($granularity['minute']) || !empty($granularity['second'])) {
     $value['time'] = $date['formatted_time'] . $date['formatted_timezone'];
   }
