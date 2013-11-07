@@ -16,12 +16,11 @@
    </gmd:hierarchyLevel>
 
    <gmd:contact>
-     <gmd:CI_ResponsibleParty>
      <?php print render($content['field_person_contact']); ?>
+     <!-- solve role needs to be in person template, perhaps person-role -->
      <gmd:role>
        <gmd:CI_RoleCode codeList="URL-to-NSF-roles" codeListValue="pointOfContact">pointOfContact</gmd:CI_RoleCode>
      </gmd:role>
-     </gmd:CI_ResponsibleParty>
    </gmd:contact>
 
    <gmd:dateStamp><gco:Date><?php print $pubDate; ?></gco:Date></gmd:dateStamp>
@@ -46,8 +45,10 @@
                    </gmd:dateType>
                  </gmd:CI_Date>
                </gmd:date>
-              <!--creator HERE -->
-               <?php print render($content['field_person_creator']); ?>
+              <!--creator(s) HERE -->
+               <gmd:citedResponsibleParty>
+                 <?php print render($content['field_person_creator']); ?>
+               </gmd:citedResponsibleParty>
                <gmd:presentationForm>
                   <gmd:CI_PresentationFormCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_PresentationFormCode" codeListValue="documentDigital" codeSpace="001">documentDigital</gmd:CI_PresentationFormCode>
                </gmd:presentationForm>
@@ -77,7 +78,7 @@
                 </gmd:maintenanceAndUpdateFrequency>
                 <gmd:maintenanceNote>
                    <?php print render($content['field_maintenance']); ?>
-                <gmd:maintenanceNote>
+                </gmd:maintenanceNote>
              </gmd:MD_MaintenanceInformation>
           </gmd:resourceMaintenance>
          <?php endif; ?>
@@ -100,7 +101,9 @@
 	       </gmd:otherConstraints>
 	     </gmd:MD_LegalConstraints>
            </gmd:resourceConstraints>
+           <!-- aggregationInfo -->
          <?php endif; ?>
+
          <gmd:language>
             <?php print $language; ?>
          </gmd:language>
@@ -108,6 +111,7 @@
             <gmd:EX_Extent>
                <?php print render($content['field_related_sites']); ?>
                <?php print render($content['field_date_range']); ?>
+               <!-- vertical info here as verticalElement/Ex_VerticalExtent/minimum|maximumValue/gcp:Real..-->
             </gmd:EX_Extent>
          </gmd:extent>
 

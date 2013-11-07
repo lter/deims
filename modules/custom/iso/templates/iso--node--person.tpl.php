@@ -4,6 +4,7 @@
  * by other elements.
  */
 ?>
+<gmd:CI_ResponsibleParty>
 <?php print render($content['field_name']); ?>
 <?php if (!empty($content['field_organization'])): ?>
 <gmd:organisationName>
@@ -23,3 +24,4 @@
   </gmd:CI_Contact>
 </gmd:contactInfo>
 <?php print render($content['field_url']); ?>
+</gmd:CI_ResponsibleParty>
