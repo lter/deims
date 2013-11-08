@@ -1,4 +1,15 @@
 <gmd:contentInfo>
+ <gmd:featureCatalogue>  
+  <gmd:MD_FeatureCatalogue>
+
+  <gmd:featureCatalogueLink>
+    <gmd:CI_OnlineResource>
+      <gmd:linkage>
+        <gmd:URL><?php print render($content['field_data_source_file']); ?></gmd:URL>
+      </gmd:linkage>
+    </gmd:CI_OnlineResource>
+  </gmd:featureCatalogueLink>
+  
   <gmx:name><?php print $label; ?></gmx:name>
   <gmx:scope gco:nilReason='unknown'/>
   <gmx:versionNumber gco:nilReason='unknown'/>
@@ -11,13 +22,10 @@
   </gmx:characterSet>
   <gfc:producer>
     <gmd:CI_ResponsibleParty>
-    <!-- hard code it to the site, as we have no access to creator, etc -->
       <gmd:organisationName>
-        <gco:CharacterString></gco:CharacterString>
+        <gco:CharacterString><?php print $pubPlace; ?></gco:CharacterString>
       </gmd:organisationName>
-      <gmd:contactInfo>
-        <gmd:CI_Contact/>
-      </gmd:contactInfo>
+      <gmd:role/>
     </gmd:CI_ResponsibleParty>
   </gfc:producer>
   <gfc:featureType>
@@ -51,4 +59,30 @@
       <?php print render($content['field_variables']); ?>
     </gfc:FC_FeatureType>   
   </gfc:featureType>
+ </gmd:MD_FeatureCatalogue>
+</gmd:featureCatalogue>  
+
 </gmd:contentInfo>
+<gmd:distributionInfo>
+   <gmd:MD_Distribution>
+      <gmd:distributionFormat>
+         <gmd:MD_Format>
+           <gmd:name>
+             <gco:CharacterString>DBF</gco:CharacterString>
+           </gmd:name>
+           <gmd:version gco:nilReason="unknown"/>
+         </gmd:MD_Format>
+      </gmd:distributionFormat>
+      <gmd:transferOptions>
+          <gmd:MD_DigitalTransferOptions>
+             <gmd:onLine>
+                <gmd:CI_OnlineResource>
+                   <gmd:linkage>
+                      <gmd:URL><?php print render($content['field_data_source_file']); ?></gmd:URL>
+                   </gmd:linkage>
+                </gmd:CI_OnlineResource>
+             </gmd:onLine>
+           </gmd:MD_DigitalTransferOptions>
+      </gmd:transferOptions>
+    </gmd:MD_Distribution>
+  </gmd:distributionInfo>

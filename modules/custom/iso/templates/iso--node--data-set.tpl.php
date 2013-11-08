@@ -64,6 +64,11 @@
             <?php print render($content['field_purpose']); ?>
           </gmd:purpose>
          <?php endif; ?>
+         <?php if (!empty($content['field_project_roles'])): ?>
+           <gmd:credit>
+             <?php print render($content['field_project_roles']); ?>
+           </gmd:credit>
+         <?php endif; ?>
          <gmd:status>
            <gmd:MD_ProgressCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ProgressCode" codeListValue="completed" codeSpace="001">completed</gmd:MD_ProgressCode>
          </gmd:status>    
@@ -123,69 +128,24 @@
       </gmd:MD_DataIdentification>
    </gmd:identificationInfo>
 
-   <!-- gmd:contentInfo -->
    <?php print render($content['field_data_sources']); ?>
-
-  <!-- distrib. info -->
-   <gmd:distributionInfo>
-     <gmd:MD_Distribution>
-       <gmd:distributionFormat>
-         <gmd:MD_Format>
-           <gmd:name>
-             <gco:CharacterString>DBF</gco:CharacterString>
-           </gmd:name>
-           <gmd:version gco:nilReason="unknown"/>
-         </gmd:MD_Format>
-       </gmd:distributionFormat>
-       <gmd:distributor>
-         <gmd:MD_Distributor>
-            <gmd:distributorContact>
-		<gmd:CI_ResponsibleParty>
-			<gmd:organisationName>
-			<gco:CharacterString>U.S. Environmental Protection Agency</gco:CharacterString>
-			</gmd:organisationName>
-                  <gmd:contactInfo>
- 		  </gmd:contactInfo>
-		  <gmd:role>
-		   <gmd:CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="distributor" codeSpace="005">distributor</gmd:CI_RoleCode>
-		  </gmd:role>
-		</gmd:CI_ResponsibleParty>
-            </gmd:distributorContact>
-            <gmd:distributionOrderProcess>
-              <gmd:MD_StandardOrderProcess>
-                <gmd:fees>
-                  <gco:CharacterString>None</gco:CharacterString>
-                </gmd:fees>
-              </gmd:MD_StandardOrderProcess>
-            </gmd:distributionOrderProcess>
-            <gmd:distributionOrderProcess>
-               <gmd:MD_StandardOrderProcess>
-                 <gmd:fees>
-                    <gco:CharacterString>None</gco:CharacterString>
-                 </gmd:fees>
-               </gmd:MD_StandardOrderProcess>
-            </gmd:distributionOrderProcess>
-         </gmd:MD_Distributor>
-       </gmd:distributor>
-       <gmd:transferOptions>
-          <gmd:MD_DigitalTransferOptions>
-             <gmd:onLine>
-                <gmd:CI_OnlineResource>
-                   <gmd:linkage>
-                      <gmd:URL>http://www.epa.gov/ost/fish/mercurydata.html</gmd:URL>
-                   </gmd:linkage>
-                </gmd:CI_OnlineResource>
-             </gmd:onLine>
-           </gmd:MD_DigitalTransferOptions>
-        </gmd:transferOptions>
-     </gmd:MD_Distribution> 
-   </gmd:distributionInfo>
 
    <!-- data qual info -->
     <?php if (!empty($content['methods'])): ?>
-    <methods>
-      <?php print render($content['methods']); ?>
-    </methods>
+    <gmd:dataQualityInfo>
+      <gmd:DQ_DataQuality>
+        <gmd:scope>
+          <gmd:DQ_Scope>
+            <gmd:level>
+              <gmd:MD_ScopeCode codeList="http://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#MD_ScopeCode" codeListValue="dataset">dataset</gmd:MD_ScopeCode>
+            </gmd:level>
+          </gmd:DQ_Scope>
+        </gmd:scope>
+        <gmd:lineage>
+          <?php print render($content['methods']); ?>
+        </gmd:lineage>
+      </gmd:DQ_DataQuality>
+    </gmd:dataQualityInfo>
     <?php endif; ?>
 
    <gmd:metadataConstraints>
@@ -202,18 +162,21 @@
      </gmd:MD_LegalConstraints>
    </gmd:metadataConstraints>
 
-   <!-- metadata maintenance -->
-
-   <?php print render($content['field_person_metadata_provider']); ?>
-
-    <?php print render($content['field_project_roles']); ?>
-
-    <?php if (!empty($content['field_person_publisher'])): ?>
-    <publisher>
-      <?php print render($content['field_person_publisher']); ?>
-    </publisher>
-    <?php endif; ?>
-
-    <pubPlace><?php print $pubPlace; ?></pubPlace>
-
+   <gmd:metadataMaintenance>
+     <gmd:MD_MaintenanceInformation>
+       <gmd:maintenanceAndUpdateFrequency>
+         <gmd:MD_MaintenanceFrequencyCode codeList="http://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#MD_MaintenanceFrequencyCode" codeListValue="annually">annually</gmd:MD_MaintenanceFrequencyCode>
+       </gmd:maintenanceAndUpdateFrequency>
+       <?php if (!empty($content['field_person_metadata_provider'])): ?>
+         <gmd:contact>
+           <gmd:CI_ResponsibleParty>
+             <?php print render($content['field_person_metadata_provider']); ?>
+             <gmd:role>
+               <gmd:CI_RoleCode codeList="http://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="pointOfContact">pointOfContact</gmd:CI_RoleCode>           
+             </gmd:role>
+           </gmd:CI_ResponsibleParty>
+         </gmd:contact>
+       <?php endif; ?>
+     </gmd:MD_MaintenanceInformation>
+   </gmd:metadataMaintenance>
 </gmi:MI_Metadata>

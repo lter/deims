@@ -153,25 +153,25 @@ function iso_node_view($node, $view_mode, $langcode) {
 // HERE -- mind methods in ISO, use EML guidance rather.
   if ($node->type == 'data_set' || $node->type == 'data_source') {
     $methods = array();
-    $methods['gmd:LI_ProcessStep'] = array();
-    $methods['gmd:LI_ProcessStep']['gmd:description'] = array();
-    $methods['gmd:LI_ProcessStep']['gmd:description']['gco:CharacterString'] = array();
+    $methods['gmd:LI_Lineage'] = array();
 
-//    if ($qa_items = field_get_items('node', $node, 'field_quality_assurance')) {
-//      $qa_instance = field_info_instance('node', 'field_quality_assurance', $node->type);
-//      $methods['methdesc'] .= ' Quality Control: '.strip_tags(_text_sanitize($qa_instance, $langcode, $qa_items[0], 'value'));
-//    }
+    if ($qa_items = field_get_items('node', $node, 'field_quality_assurance')) {
+      $qa_instance = field_info_instance('node', 'field_quality_assurance', $node->type);
+      $methods['gmd:LI_Lineage']['gmd:statement']['gco:CharacterString']= ' Quality Control: '.strip_tags(_text_sanitize($qa_instance, $langcode, $qa_items[0], 'value'));
+    }
     if ($items = field_get_items('node', $node, 'field_methods')) {
       $method_instance = field_info_instance('node', 'field_methods', $node->type);
       $instrumentation_instance = field_info_instance('node', 'field_instrumentation', $node->type);
       $instrumentation_values = field_get_items('node', $node, 'field_instrumentation');
+      $method = array();
+      $method['gmd:LI_ProcessStep'] = array();
+      $method['gmd:LI_ProcessStep']['gmd:description'] = array();
       foreach ($items as $delta => $item) {
-        $method = array();
         $method['gmd:LI_ProcessStep']['gmd:description']['gco:CharacterString'] = strip_tags(_text_sanitize($method_instance, $langcode, $item, 'value'));
         if (!empty($instrumentation_values[$delta])) {          
-          $methods['gmd:LI_ProcessStep']['gmd:description']['gco:CharacterString'] .= ' Instrumentation:'. strip_tags(_text_sanitize($instrumentation_instance, $langcode, $instrumentation_values[$delta], 'value'));
+          $method['gmd:LI_ProcessStep']['gmd:description']['gco:CharacterString'] .= ' Instrumentation:'. strip_tags(_text_sanitize($instrumentation_instance, $langcode, $instrumentation_values[$delta], 'value'));
         }
-        $methods[] = array('key' => 'gmd:processStep', 'value' => $method);
+        $methods['gmd:LI_Lineage'][] = array('key' => 'gmd:processStep', 'value' => $method);
       }
     }
     if (!empty($methods)) {

@@ -254,6 +254,10 @@ function iso_field_formatter_view($entity_type, $entity, $field, $instance, $lan
         if (!empty($item['country'])) {
           $address['gmd:country']['gco:CharacterString'] = $item['country'];
         }
+/*        if (!empty($item['email'])) {
+          $address['gmd:electronicMailAddress']['gco:CharacterString'] = $item['email'];
+        }
+*/
         // if all address-related elements, dont print an <address> group
         if (!empty($address)) {
            $element[$delta] = array(
@@ -331,7 +335,6 @@ function iso_field_formatter_view($entity_type, $entity, $field, $instance, $lan
         );
       }
       break;
-
     case 'iso_electronicMailAddress':
       foreach ($items as $delta => $item) {
         $element[$delta] = array(
@@ -342,13 +345,12 @@ function iso_field_formatter_view($entity_type, $entity, $field, $instance, $lan
         );
       }
       break;
-
     case 'iso_onlineUrl':
       foreach ($items as $delta => $item) {
         $element[$delta] = array(
           '#theme' => 'iso_elements',
           '#iso' => array(
-            'gmd:onLine' => array('gmd:CI_OnlineResource' => array('gmd:linkage'  => $field['type'] == 'url' ? $item['value'] : $item['url'])),
+            'gmd:contactInfo' => array('gmd:CI_Contact' => array('gmd:onlineResource' => array('gmd:CI_OnlineResource' => array('gmd:linkage'  => array('gmd:URL' => $field['type'] == 'url' ? $item['value'] : $item['url']))))),
           ),
         );
       }
