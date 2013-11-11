@@ -31,7 +31,7 @@ function iso_field_formatter_info() {
   );
   $info['addressfield_iso_address'] = array(
     'label' => t('ISO address'),
-    'field types' => array('addressfield, email'),
+    'field types' => array('addressfield', 'email'),
   );
 /**
 * Since the email in ISO needs to be lumped with the
