@@ -95,7 +95,6 @@
 	       </gmd:otherConstraints>
 	     </gmd:MD_LegalConstraints>
            </gmd:resourceConstraints>
-           <!-- aggregationInfo -->
          <?php endif; ?>
 
          <gmd:language>
@@ -105,7 +104,6 @@
             <gmd:EX_Extent>
                <?php print render($content['field_related_sites']); ?>
                <?php print render($content['field_date_range']); ?>
-               <!-- vertical info here as verticalElement/Ex_VerticalExtent/minimum|maximumValue/gcp:Real..-->
             </gmd:EX_Extent>
          </gmd:extent>
 
@@ -119,7 +117,6 @@
 
    <?php print render($content['field_data_sources']); ?>
 
-   <!-- data qual info -->
     <?php if (!empty($content['methods'])): ?>
     <gmd:dataQualityInfo>
       <gmd:DQ_DataQuality>
