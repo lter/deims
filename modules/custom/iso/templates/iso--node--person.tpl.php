@@ -13,7 +13,6 @@
 <?php endif; ?>
 <gmd:contactInfo>
   <gmd:CI_Contact>
-     unless the cardinality is 1->infyt. ALSO, facsimile thing is not working --> 
     <?php print render($content['field_phone']); ?>
     <?php print render($content['field_fax']); ?>
     <gmd:address>
@@ -26,6 +25,6 @@
 </gmd:contactInfo>
 <?php print render($content['field_url']); ?>
  <gmd:role>
-     <gmd:CI_RoleCode codeList="URL-to-NSF-roles" codeListValue="pointOfContact">pointOfContact</gmd:CI_RoleCode>
+   <gmd:CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="pointOfContact">pointOfContact</gmd:CI_RoleCode>
  </gmd:role>
 </gmd:CI_ResponsibleParty>
