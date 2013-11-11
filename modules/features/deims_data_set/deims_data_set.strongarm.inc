@@ -13,13 +13,6 @@ function deims_data_set_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'autosave_data_set';
-  $strongarm->value = 0;
-  $export['autosave_data_set'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'field_bundle_settings_node__data_set';
   $strongarm->value = array(
     'view_modes' => array(
@@ -57,6 +50,9 @@ function deims_data_set_strongarm() {
         'custom_settings' => FALSE,
       ),
       'bdp' => array(
+        'custom_settings' => TRUE,
+      ),
+      'iso' => array(
         'custom_settings' => TRUE,
       ),
     ),

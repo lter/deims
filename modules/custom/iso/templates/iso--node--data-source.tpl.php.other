@@ -1,0 +1,45 @@
+<gmd:contentInfo>
+
+   <gmx:name><?php print $label; ?></gmx:name>
+   <gmx:scope gco:nilReason='unknown'/>
+   <gmx:versionNumber gco:nilReason='unknown'/>
+   <gmx:versionDate gco:nilReason='unknown'/>
+   <gmx:language>
+      <gco:CharacterString>eng; US</gco:CharacterString>
+   </gmx:language>
+   <gmx:characterSet>
+     <gmd:MD_CharacterSetCode codeList='http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode' codeListValue='utf8' codeSpace='004'/>
+   <gmx:characterSet/>
+   <gfc:producer>
+      <gmd:CI_ResponsibleParty>
+      <!-- hard code it to the site, as we have no access to creator, etc -->
+         <gmd:organisationName>
+            <gco:CharacterString>
+            </gco:CharacterString>
+         </gmd:organisationName>
+         <gmd:contactInfo>
+           <gmd:CI_Contact/>
+         </gmd:contactInfo>
+      </gmd:CI_ResponsibleParty>
+    </gfc:producer>
+    <!-- here come the variables from variable.field.inc hook formatter view implementation -->
+      <?php print render($content['field_variables']); ?>
+
+<!--  all this??? wouldnt it be better to use MX_DataFile?
+           <?php if (!empty($content['field_csv_record_delimiter'])): ?>
+            <recdel><?php print render($content['field_csv_record_delimiter']);?></recdel>
+           <?php endif; ?>
+          <?php if (!empty($content['field_csv_header_lines'])): ?>
+            <numheadl><?php print render($content['field_csv_header_lines']); ?></numheadl>
+           <?php endif; ?>
+           <?php if (!empty($content['field_csv_orientation'])): ?>
+             <orienta><?php print render($content['field_csv_orientation']); ?></orienta>
+           <?php endif; ?>
+           <?php if (!empty($content['field_csv_quote_character'])): ?>
+             <quotech><?php print render($content['field_csv_quote_character']); ?></quotech>
+           <?php endif; ?>
+           <datafiel>
+           <dfwidthd><?php print render($content['field_csv_field_delimiter']); ?></dfwidthd>
+           </datafiel>          
+     <networkr><?php print render($content['field_data_source_file']); ?></networkr>
+-->

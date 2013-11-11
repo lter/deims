@@ -378,7 +378,6 @@ function deims_variable_field_widget_form(&$form, &$form_state, $field, $instanc
       );
       break;
   }
-
   return $element;
 }
 
@@ -547,6 +546,10 @@ function deims_variable_field_formatter_info() {
     'label' => t('BDP attributeList'),
     'field types' => array('deims_variable'),
   );
+  $info['iso_attribute_list'] = array(
+    'label' => t('ISO attributeList'),
+    'field types' => array('deims_variable'),
+  );
 
   return $info;
 }
@@ -643,6 +646,7 @@ function deims_variable_field_formatter_view($entity_type, $entity, $field, $ins
             }
             break;
         }
+
         foreach ($item['missing_values'] as $key => $value) {
            $attribute[] = array(
               'key' => 'missingValueCode',
@@ -729,8 +733,82 @@ function deims_variable_field_formatter_view($entity_type, $entity, $field, $ins
       }
 
       break;
-  }
 
+    case 'iso_attribute_list':
+//    ISO 19110 is not yet part of ISO19115, it is in the DIS stage (Draft)
+      $attributes = array();
+
+      foreach ($items as $delta => $item) {
+        $attribute = array();
+        $attribute['gfc:FC_FeatureAttribute'] = array();       
+        $attribute['gfc:FC_FeatureAttribute']['gfc:memberName'] = array();
+        $attribute['gfc:FC_FeatureAttribute']['gfc:memberName']['gco:LocalName'] = $item['name'];
+        $attribute['gfc:FC_FeatureAttribute']['gfc:definition']['gco:CharacterString'] = $item['definition'];
+        $attribute['gfc:FC_FeatureAttribute']['gfc:cardinality']['gco:Multiplicity gco:nilreason=unknown']='';
+ 
+        switch ($item['type']) {
+
+          case DEIMS_VARIABLE_TYPE_PHYSICAL:
+   
+            $unitmetadata = array();
+            if (drupal_strlen($item['data']['precision'])) {
+              $unitmetadata['precision'] = $item['data']['precision'];
+            }
+            if (drupal_strlen($item['data']['minimum'])) {
+              $unitmetatada['minimum'] =  $item['data']['minimum'];
+            }
+            if (drupal_strlen($item['data']['maximum'])) {
+              $unitmetadata['maximum'] = $item['data']['maximum'];
+            }
+            $unitname = "gml:unitDefinition gml:id=" . $item['data']['unit']; 
+
+            $attribute['gfc:FC_FeatureAttribute']['gfc:valueMeasurementUnit'] = array();
+            $attribute['gfc:FC_FeatureAttribute']['gfc:valueMeasurementUnit'][$unitname] = array();
+            if( !$unitmetadata) {
+              $attribute['gfc:FC_FeatureAttribute']['gfc:valueMeasurementUnit'][$unitname]['gml:metadataProperty']['GenericMetadata'] = $unitmetadata;
+            } 
+            $attribute['gfc:FC_FeatureAttribute']['gfc:valueMeasurementUnit'][$unitname]['gml:identifier codeSpace=http://unit.lternet.edu']='';
+                     
+            break;
+     
+          case DEIMS_VARIABLE_TYPE_DATE:
+            $attribute['gfc:FC_FeatureAttribute']['gfc:code']['gco:CharacterString'] = 'Date Time Format: '. $item['data']['pattern'];
+            break;
+     
+          case DEIMS_VARIABLE_TYPE_CODES:
+            foreach ($item['data']['codes'] as $key => $value) {
+              $attribute['gfc:FC_FeatureAttribute'][] = array(
+                'key' => 'gfc:listedValue',
+                'value' => array(
+                  'gfc:FC_ListedValue' => array(
+                     'gfc:label' => array('gco:CharacterString' => $key),
+                     'gfc:definition' => array('gco:CharacterString' => $value),
+                  ),
+                ),
+              );
+            }
+
+            break;
+        }
+
+        $attributes[] = array(
+          'key' => 'gfc:carrierOfCharacteristics',
+          'value' => $attribute,
+        );
+      
+      }
+      
+      if (!empty($attributes)) {
+        $element = array(
+          '#theme' => 'iso_elements',
+          '#iso' => $attributes,
+        );
+      }
+
+      break;
+
+  }
+  
   return $element;
 }
 

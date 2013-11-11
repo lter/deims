@@ -59,6 +59,13 @@ function deims_organization_field_default_fields() {
           'type' => 'eml_onlineUrl',
           'weight' => '1',
         ),
+        'iso' => array(
+          'label' => 'hidden',
+          'module' => 'iso',
+          'settings' => array(),
+          'type' => 'iso_onlineUrl',
+          'weight' => '1',
+        ),
       ),
       'entity_type' => 'node',
       'field_name' => 'field_url',
