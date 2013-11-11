@@ -85,14 +85,9 @@ function deims_person_field_default_fields() {
         ),
         'iso' => array(
           'label' => 'above',
-          'module' => 'addressfield',
-          'settings' => array(
-            'format_handlers' => array(
-              0 => 'address',
-            ),
-            'use_widget_handlers' => 1,
-          ),
-          'type' => 'addressfield_default',
+          'module' => 'iso',
+          'settings' => array(),
+          'type' => 'addressfield_iso_address',
           'weight' => '4',
         ),
       ),
@@ -290,9 +285,9 @@ function deims_person_field_default_fields() {
         ),
         'iso' => array(
           'label' => 'inline',
-          'module' => 'email',
+          'module' => 'iso',
           'settings' => array(),
-          'type' => 'email_default',
+          'type' => 'addressfield_iso_address',
           'weight' => '5',
         ),
       ),
