@@ -1,5 +1,4 @@
 <gmi:MI_Metadata<?php print $namespaces; ?> >
-
    <gmd:fileIndentifier>
      <?php print render($content['field_short_name']); ?>
    </gmd:fileIndentifier>
@@ -14,14 +13,7 @@
    <gmd:hierarchyLevel>
       <gmd:MD_ScopeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ScopeCode" codeListValue="dataset" codeSpace="005">dataset</gmd:MD_ScopeCode>
    </gmd:hierarchyLevel>
-
-   <gmd:contact>
-     <?php print render($content['field_person_contact']); ?>
-     <!-- solve role needs to be in person template, perhaps person-role -->
-     <gmd:role>
-       <gmd:CI_RoleCode codeList="URL-to-NSF-roles" codeListValue="pointOfContact">pointOfContact</gmd:CI_RoleCode>
-     </gmd:role>
-   </gmd:contact>
+   <?php print render($content['field_person_contact']); ?>
 
    <gmd:dateStamp><gco:Date><?php print $pubDate; ?></gco:Date></gmd:dateStamp>
 
@@ -45,10 +37,7 @@
                    </gmd:dateType>
                  </gmd:CI_Date>
                </gmd:date>
-              <!--creator(s) HERE -->
-               <gmd:citedResponsibleParty>
-                 <?php print render($content['field_person_creator']); ?>
-               </gmd:citedResponsibleParty>
+               <?php print render($content['field_person_creator']); ?>
                <gmd:presentationForm>
                   <gmd:CI_PresentationFormCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_PresentationFormCode" codeListValue="documentDigital" codeSpace="001">documentDigital</gmd:CI_PresentationFormCode>
                </gmd:presentationForm>

@@ -31,12 +31,18 @@ function iso_field_formatter_info() {
   );
   $info['addressfield_iso_address'] = array(
     'label' => t('ISO address'),
-    'field types' => array('addressfield'),
+    'field types' => array('addressfield, email'),
   );
-  $info['iso_electronicMailAddress'] = array(
-    'label' => t('ISO electronicMailAddress'),
-    'field types' => array('email'),
-  );
+/**
+* Since the email in ISO needs to be lumped with the
+* physical address, make the email part of the address
+* field formatter, commenting this out.
+*
+*  $info['iso_electronicMailAddress'] = array(
+*    'label' => t('ISO electronicMailAddress'),
+*    'field types' => array('email'),
+*  );
+*/
   $info['telephone_iso_phone'] = array(
     'label' => t('ISO phone'),
     'field types' => array('telephone'),
@@ -203,6 +209,7 @@ function iso_field_formatter_view($entity_type, $entity, $field, $instance, $lan
           $element = array(
             '#theme' => 'iso_tags',
             '#tag' => $settings['element'],
+            '#provenance' => $field['field_name'],
           ) + $results[$field['settings']['target_type']];
         }
         else {
@@ -237,6 +244,7 @@ function iso_field_formatter_view($entity_type, $entity, $field, $instance, $lan
       break;
 
     case 'addressfield_iso_address':
+
       foreach ($items as $delta => $item) {
         $address = array();
         if (!empty($item['thoroughfare'])) {
@@ -254,15 +262,16 @@ function iso_field_formatter_view($entity_type, $entity, $field, $instance, $lan
         if (!empty($item['country'])) {
           $address['gmd:country']['gco:CharacterString'] = $item['country'];
         }
-/*        if (!empty($item['email'])) {
+        if (!empty($item['email'])) {
           $address['gmd:electronicMailAddress']['gco:CharacterString'] = $item['email'];
         }
-*/
+
         // if all address-related elements, dont print an <address> group
         if (!empty($address)) {
            $element[$delta] = array(
              '#theme' => 'iso_elements',
-             '#iso' => array('gmd:address' => array('gmd:CI_Address' => $address)),
+             '#iso' => $address,
+//             '#iso' => array('gmd:address' => array('gmd:CI_Address' => $address)),
            );
         }
       }
@@ -324,27 +333,17 @@ function iso_field_formatter_view($entity_type, $entity, $field, $instance, $lan
         );
       }
       break;
-    case 'telephone_iso_fax':
-      foreach ($items as $delta => $item) {
-        $element[$delta] = array(
-          '#theme' => 'iso_elements',
-          '#iso' => array(array(
-            'key' => 'gmd:phone',
-            'value' => array('gmd:CI_Telephone' => array('gmd:facsimile' => $item['value'])),
-          )),
-        );
-      }
-      break;
-    case 'iso_electronicMailAddress':
-      foreach ($items as $delta => $item) {
-        $element[$delta] = array(
-          '#theme' => 'eml_elements',
-          '#iso' => array(
-            'gmd:electronicMailAddress' => array('gco:CharacterString' => $item['email']),
-          ),
-        );
-      }
-      break;
+/*    case 'iso_electronicMailAddress':
+*      foreach ($items as $delta => $item) {
+*        $element[$delta] = array(
+*          '#theme' => 'eml_elements',
+*          '#iso' => array(
+*            'gmd:electronicMailAddress' => array('gco:CharacterString' => $item['email']),
+*          ),
+*        );
+*      }
+*      break;
+*/
     case 'iso_onlineUrl':
       foreach ($items as $delta => $item) {
         $element[$delta] = array(

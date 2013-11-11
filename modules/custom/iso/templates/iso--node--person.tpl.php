@@ -18,10 +18,16 @@
      unless the cardinality is 1->infyt. ALSO, facsimile thing is not working --> 
     <?php print render($content['field_phone']); ?>
     <?php print render($content['field_fax']); ?>
-    <!-- nest email inside address in field formatter -->
-    <?php print render($content['field_address']); ?>
-    <?php print render($content['field_email']); ?>
+    <gmd:address>
+     <gmd:CI_Address>
+      <?php print render($content['field_address']); ?>
+      <?php print render($content['field_email']); ?>
+     </gmd:CI_Address>
+    </gmd:address>
   </gmd:CI_Contact>
 </gmd:contactInfo>
 <?php print render($content['field_url']); ?>
+ <gmd:role>
+     <gmd:CI_RoleCode codeList="URL-to-NSF-roles" codeListValue="pointOfContact">pointOfContact</gmd:CI_RoleCode>
+ </gmd:role>
 </gmd:CI_ResponsibleParty>
