@@ -13,6 +13,33 @@ function deims_data_set_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_additional_info|node|data_set|default';
+  $field_group->group_name = 'group_additional_info';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'data_set';
+  $field_group->mode = 'default';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Additional Information',
+    'weight' => '5',
+    'children' => array(
+      0 => 'field_additional_information',
+    ),
+    'format_type' => 'fieldset',
+    'format_settings' => array(
+      'label' => 'Additional Information',
+      'instance_settings' => array(
+        'classes' => 'group-additional-info field-group-fieldset',
+        'description' => '',
+      ),
+      'formatter' => 'collapsed',
+    ),
+  );
+  $export['group_additional_info|node|data_set|default'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_basic|node|data_set|form';
   $field_group->group_name = 'group_basic';
   $field_group->entity_type = 'node';
@@ -50,11 +77,8 @@ function deims_data_set_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Categories',
-    'weight' => '1',
-    'children' => array(
-      0 => 'field_core_areas',
-      1 => 'field_keywords',
-    ),
+    'weight' => '26',
+    'children' => array(),
     'format_type' => 'fieldset',
     'format_settings' => array(
       'formatter' => 'collapsible',
@@ -105,7 +129,7 @@ function deims_data_set_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Dates',
-    'weight' => '2',
+    'weight' => '28',
     'children' => array(
       0 => 'field_date_range',
       1 => 'field_publication_date',
@@ -163,10 +187,10 @@ function deims_data_set_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Downloads',
-    'weight' => '5',
+    'weight' => '7',
     'children' => array(
-      0 => 'field_data_sources',
-      1 => 'field_eml_link',
+      0 => 'data_links',
+      1 => 'data_set_services_icons',
       2 => 'links',
     ),
     'format_type' => 'fieldset',
@@ -179,6 +203,40 @@ function deims_data_set_field_group_info() {
     ),
   );
   $export['group_downloads|node|data_set|default'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_file_format|node|data_source|data_source_in_data_set';
+  $field_group->group_name = 'group_file_format';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'data_source';
+  $field_group->mode = 'data_source_in_data_set';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'File Format',
+    'weight' => '6',
+    'children' => array(
+      0 => 'field_csv_field_delimiter',
+      1 => 'field_csv_footer_lines',
+      2 => 'field_csv_header_lines',
+      3 => 'field_csv_orientation',
+      4 => 'field_csv_quote_character',
+      5 => 'field_csv_record_delimiter',
+    ),
+    'format_type' => 'fieldset',
+    'format_settings' => array(
+      'label' => 'File Format',
+      'instance_settings' => array(
+        'classes' => '',
+        'element' => 'h4',
+        'attributes' => '',
+        'description' => '',
+      ),
+      'formatter' => 'collapsible',
+    ),
+  );
+  $export['group_file_format|node|data_source|data_source_in_data_set'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -212,6 +270,61 @@ function deims_data_set_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_keywords|node|data_set|default';
+  $field_group->group_name = 'group_keywords';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'data_set';
+  $field_group->mode = 'default';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Keywords',
+    'weight' => '6',
+    'children' => array(
+      0 => 'field_core_areas',
+      1 => 'field_keywords',
+    ),
+    'format_type' => 'fieldset',
+    'format_settings' => array(
+      'label' => 'Keywords',
+      'instance_settings' => array(
+        'classes' => 'group-keywords field-group-fieldset',
+        'description' => '',
+      ),
+      'formatter' => 'collapsed',
+    ),
+  );
+  $export['group_keywords|node|data_set|default'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_maintenance|node|data_set|default';
+  $field_group->group_name = 'group_maintenance';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'data_set';
+  $field_group->mode = 'default';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Maintenance',
+    'weight' => '4',
+    'children' => array(
+      0 => 'field_maintenance',
+    ),
+    'format_type' => 'fieldset',
+    'format_settings' => array(
+      'label' => 'Maintenance',
+      'instance_settings' => array(
+        'classes' => 'group-maintenance field-group-fieldset',
+        'description' => '',
+      ),
+      'formatter' => 'collapsed',
+    ),
+  );
+  $export['group_maintenance|node|data_set|default'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_methodology|node|data_set|default';
   $field_group->group_name = 'group_methodology';
   $field_group->entity_type = 'node';
@@ -220,14 +333,10 @@ function deims_data_set_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Methodology',
-    'weight' => '6',
+    'weight' => '2',
     'children' => array(
-      0 => 'field_purpose',
-      1 => 'field_additional_information',
-      2 => 'field_maintenance',
-      3 => 'field_methods',
-      4 => 'field_instrumentation',
-      5 => 'field_quality_assurance',
+      0 => 'field_instrumentation',
+      1 => 'field_methods',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -280,10 +389,8 @@ function deims_data_set_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'People',
-    'weight' => '3',
-    'children' => array(
-      0 => 'field_project_roles',
-    ),
+    'weight' => '24',
+    'children' => array(),
     'format_type' => 'fieldset',
     'format_settings' => array(
       'formatter' => 'collapsible',
@@ -329,6 +436,33 @@ function deims_data_set_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_quality_assurance|node|data_set|default';
+  $field_group->group_name = 'group_quality_assurance';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'data_set';
+  $field_group->mode = 'default';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Quality Assurance',
+    'weight' => '3',
+    'children' => array(
+      0 => 'field_quality_assurance',
+    ),
+    'format_type' => 'fieldset',
+    'format_settings' => array(
+      'label' => 'Quality Assurance',
+      'instance_settings' => array(
+        'classes' => 'group-quality-assurance field-group-fieldset',
+        'description' => '',
+      ),
+      'formatter' => 'collapsed',
+    ),
+  );
+  $export['group_quality_assurance|node|data_set|default'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_read_only|node|data_set|form';
   $field_group->group_name = 'group_read_only';
   $field_group->entity_type = 'node';
@@ -369,12 +503,8 @@ function deims_data_set_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Related',
-    'weight' => '4',
-    'children' => array(
-      0 => 'field_related_links',
-      1 => 'field_related_publications',
-      2 => 'field_related_sites',
-    ),
+    'weight' => '23',
+    'children' => array(),
     'format_type' => 'fieldset',
     'format_settings' => array(
       'formatter' => 'collapsible',
@@ -427,13 +557,8 @@ function deims_data_set_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Summary',
-    'weight' => '0',
-    'children' => array(
-      0 => 'field_data_set_id',
-      1 => 'field_abstract',
-      2 => 'field_short_name',
-      3 => 'field_doi',
-    ),
+    'weight' => '27',
+    'children' => array(),
     'format_type' => 'fieldset',
     'format_settings' => array(
       'label' => 'Summary',

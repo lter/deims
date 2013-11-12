@@ -73,6 +73,40 @@ function deims_data_source_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_file_format|node|data_source|data_source_in_data_set';
+  $field_group->group_name = 'group_file_format';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'data_source';
+  $field_group->mode = 'data_source_in_data_set';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'File Format',
+    'weight' => '6',
+    'children' => array(
+      0 => 'field_csv_field_delimiter',
+      1 => 'field_csv_footer_lines',
+      2 => 'field_csv_header_lines',
+      3 => 'field_csv_orientation',
+      4 => 'field_csv_quote_character',
+      5 => 'field_csv_record_delimiter',
+    ),
+    'format_type' => 'fieldset',
+    'format_settings' => array(
+      'label' => 'File Format',
+      'instance_settings' => array(
+        'classes' => '',
+        'element' => 'h4',
+        'attributes' => '',
+        'description' => '',
+      ),
+      'formatter' => 'collapsible',
+    ),
+  );
+  $export['group_file_format|node|data_source|data_source_in_data_set'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_methods|node|data_source|form';
   $field_group->group_name = 'group_methods';
   $field_group->entity_type = 'node';

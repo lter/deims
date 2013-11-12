@@ -43,6 +43,7 @@ features[field][] = node-data_source-field_related_sites
 features[field][] = node-data_source-field_variables
 features[field_group][] = group_data_source_details|node|data_source|full
 features[field_group][] = group_details|node|data_source|form
+features[field_group][] = group_file_format|node|data_source|data_source_in_data_set
 features[field_group][] = group_methods|node|data_source|form
 features[field_group][] = group_related|node|data_source|form
 features[field_group][] = group_source|node|data_source|form

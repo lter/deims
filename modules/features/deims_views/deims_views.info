@@ -1,11 +1,15 @@
 name = DEIMS Views
 core = 7.x
 package = DEIMS Base
+php = 5.2.4
 dependencies[] = ctools
+dependencies[] = entityreference
 dependencies[] = file_download_count
 dependencies[] = views
 features[ctools][] = views:views_default:3.0
 features[features_api][] = api:1
 features[views_view][] = biblio_authors_to_people
+features[views_view][] = data_set_services_icon_block
+features[views_view][] = dataset_data_source_data_link
 features[views_view][] = directory
 features[views_view][] = entity_reference_selection_project_role

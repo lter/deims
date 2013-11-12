@@ -55,6 +55,12 @@ function deims_data_source_strongarm() {
       'iso' => array(
         'custom_settings' => TRUE,
       ),
+      'data_source_in_data_set' => array(
+        'custom_settings' => TRUE,
+      ),
+      'map' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(

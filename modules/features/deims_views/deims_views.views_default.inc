@@ -148,6 +148,126 @@ function deims_views_views_default_views() {
   $export['biblio_authors_to_people'] = $view;
 
   $view = new view();
+  $view->name = 'data_set_services_icon_block';
+  $view->description = 'Provides links to the Data Set XML services through their namesake icons';
+  $view->tag = 'default';
+  $view->base_table = 'node';
+  $view->human_name = 'Data Set Services Icon Block';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'Data Set Services Icon Block';
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '1';
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['row_plugin'] = 'fields';
+  /* Field: Content: Nid */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['label'] = '';
+  $handler->display->display_options['fields']['nid']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['nid']['alter']['text'] = '<a href="/node/%1/eml"><img src="/profiles/deims/modules/custom/eml/eml.png" /></a>
+<a href="/node/%1/bdp"><img src="/profiles/deims/modules/custom/bdp/bdp.png" /></a>
+<a href="/node/%1/iso"><img src="/profiles/deims/modules/custom/iso/iso.gif" /></a>
+';
+  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
+  /* Contextual filter: Global: Null */
+  $handler->display->display_options['arguments']['null']['id'] = 'null';
+  $handler->display->display_options['arguments']['null']['table'] = 'views';
+  $handler->display->display_options['arguments']['null']['field'] = 'null';
+  $handler->display->display_options['arguments']['null']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['null']['default_argument_type'] = 'node';
+  $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['null']['summary_options']['items_per_page'] = '25';
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'data_set' => 'data_set',
+  );
+
+  /* Display: Block */
+  $handler = $view->new_display('block', 'Block', 'block');
+  $export['data_set_services_icon_block'] = $view;
+
+  $view = new view();
+  $view->name = 'dataset_data_source_data_link';
+  $view->description = 'Links to the data for a given dataset';
+  $view->tag = 'default';
+  $view->base_table = 'node';
+  $view->human_name = 'dataset data source data link';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'dataset data source data link';
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['row_plugin'] = 'fields';
+  /* Relationship: Entity Reference: Referenced Entity */
+  $handler->display->display_options['relationships']['field_data_sources_target_id']['id'] = 'field_data_sources_target_id';
+  $handler->display->display_options['relationships']['field_data_sources_target_id']['table'] = 'field_data_field_data_sources';
+  $handler->display->display_options['relationships']['field_data_sources_target_id']['field'] = 'field_data_sources_target_id';
+  $handler->display->display_options['relationships']['field_data_sources_target_id']['label'] = 'Content entity referencED from field_data_sources';
+  /* Field: Content: File upload */
+  $handler->display->display_options['fields']['field_data_source_file']['id'] = 'field_data_source_file';
+  $handler->display->display_options['fields']['field_data_source_file']['table'] = 'field_data_field_data_source_file';
+  $handler->display->display_options['fields']['field_data_source_file']['field'] = 'field_data_source_file';
+  $handler->display->display_options['fields']['field_data_source_file']['relationship'] = 'field_data_sources_target_id';
+  $handler->display->display_options['fields']['field_data_source_file']['label'] = '';
+  $handler->display->display_options['fields']['field_data_source_file']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_data_source_file']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_data_source_file']['type'] = 'file_download_link';
+  $handler->display->display_options['fields']['field_data_source_file']['settings'] = array(
+    'text' => 'Download [file:name]',
+  );
+  /* Contextual filter: Global: Null */
+  $handler->display->display_options['arguments']['null']['id'] = 'null';
+  $handler->display->display_options['arguments']['null']['table'] = 'views';
+  $handler->display->display_options['arguments']['null']['field'] = 'null';
+  $handler->display->display_options['arguments']['null']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['null']['default_argument_type'] = 'node';
+  $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['null']['summary_options']['items_per_page'] = '25';
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+
+  /* Display: Block */
+  $handler = $view->new_display('block', 'Block', 'block');
+  $export['dataset_data_source_data_link'] = $view;
+
+  $view = new view();
   $view->name = 'directory';
   $view->description = 'Listing of all people associated with the LTER.';
   $view->tag = 'default';

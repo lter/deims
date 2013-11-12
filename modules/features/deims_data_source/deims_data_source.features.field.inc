@@ -59,6 +59,13 @@ function deims_data_source_field_default_fields() {
           'type' => 'text_plain',
           'weight' => '12',
         ),
+        'data_source_in_data_set' => array(
+          'label' => 'inline',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_plain',
+          'weight' => '13',
+        ),
         'default' => array(
           'label' => 'above',
           'settings' => array(),
@@ -144,6 +151,13 @@ function deims_data_source_field_default_fields() {
           'settings' => array(),
           'type' => 'number_unformatted',
           'weight' => '9',
+        ),
+        'data_source_in_data_set' => array(
+          'label' => 'inline',
+          'module' => 'number',
+          'settings' => array(),
+          'type' => 'number_unformatted',
+          'weight' => '10',
         ),
         'default' => array(
           'label' => 'above',
@@ -237,6 +251,13 @@ function deims_data_source_field_default_fields() {
           ),
           'type' => 'number_integer',
           'weight' => '8',
+        ),
+        'data_source_in_data_set' => array(
+          'label' => 'inline',
+          'module' => 'number',
+          'settings' => array(),
+          'type' => 'number_unformatted',
+          'weight' => '9',
         ),
         'default' => array(
           'label' => 'above',
@@ -340,6 +361,13 @@ function deims_data_source_field_default_fields() {
           'type' => 'list_key',
           'weight' => '10',
         ),
+        'data_source_in_data_set' => array(
+          'label' => 'inline',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '12',
+        ),
         'default' => array(
           'label' => 'above',
           'settings' => array(),
@@ -429,6 +457,13 @@ function deims_data_source_field_default_fields() {
           'module' => 'bdp',
           'settings' => array(),
           'type' => 'bdp_text',
+          'weight' => '11',
+        ),
+        'data_source_in_data_set' => array(
+          'label' => 'inline',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_plain',
           'weight' => '11',
         ),
         'default' => array(
@@ -529,6 +564,13 @@ function deims_data_source_field_default_fields() {
           'settings' => array(),
           'type' => 'text_default',
           'weight' => '13',
+        ),
+        'data_source_in_data_set' => array(
+          'label' => 'inline',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_plain',
+          'weight' => '14',
         ),
         'default' => array(
           'label' => 'above',
@@ -634,6 +676,12 @@ function deims_data_source_field_default_fields() {
           'module' => 'file',
           'settings' => array(),
           'type' => 'file_url_plain',
+          'weight' => '1',
+        ),
+        'data_source_in_data_set' => array(
+          'label' => 'hidden',
+          'settings' => array(),
+          'type' => 'hidden',
           'weight' => '1',
         ),
         'default' => array(
@@ -757,6 +805,12 @@ function deims_data_source_field_default_fields() {
           'type' => 'date_bdp_temporalCoverage',
           'weight' => '14',
         ),
+        'data_source_in_data_set' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '8',
+        ),
         'default' => array(
           'label' => 'above',
           'module' => 'date',
@@ -872,6 +926,13 @@ function deims_data_source_field_default_fields() {
           'type' => 'text_plain',
           'weight' => '0',
         ),
+        'data_source_in_data_set' => array(
+          'label' => 'hidden',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => '0',
+        ),
         'default' => array(
           'label' => 'above',
           'module' => 'text',
@@ -963,6 +1024,12 @@ function deims_data_source_field_default_fields() {
           'type' => 'text_plain',
           'weight' => '4',
         ),
+        'data_source_in_data_set' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '3',
+        ),
         'default' => array(
           'label' => 'above',
           'module' => 'text',
@@ -1051,6 +1118,12 @@ function deims_data_source_field_default_fields() {
           'type' => 'text_default',
           'weight' => '3',
         ),
+        'data_source_in_data_set' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '2',
+        ),
         'default' => array(
           'label' => 'above',
           'module' => 'text',
@@ -1138,6 +1211,12 @@ function deims_data_source_field_default_fields() {
           'settings' => array(),
           'type' => 'text_plain',
           'weight' => '5',
+        ),
+        'data_source_in_data_set' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '4',
         ),
         'default' => array(
           'label' => 'above',
@@ -1252,6 +1331,12 @@ function deims_data_source_field_default_fields() {
           'type' => 'entityreference_bdp_element',
           'weight' => '6',
         ),
+        'data_source_in_data_set' => array(
+          'label' => 'hidden',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '5',
+        ),
         'default' => array(
           'label' => 'above',
           'module' => 'entityreference',
@@ -1348,6 +1433,13 @@ function deims_data_source_field_default_fields() {
           'module' => 'deims_variable',
           'settings' => array(),
           'type' => 'bdp_attribute_list',
+          'weight' => '7',
+        ),
+        'data_source_in_data_set' => array(
+          'label' => 'above',
+          'module' => 'deims_variable',
+          'settings' => array(),
+          'type' => 'deims_variable_summary',
           'weight' => '7',
         ),
         'default' => array(
