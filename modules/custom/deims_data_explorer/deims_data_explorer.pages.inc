@@ -126,23 +126,29 @@ function deims_data_explorer_form($form, &$form_state, $variables, $connection, 
         break;
 
       case 'Download':
-        $file = file_save_data('', file_create_filename($connection['table'] . '.csv', variable_get('deims_data_explorer_dir', 'public://data-downloads/')));
+        // Add logic for download button disable and warning.
+        if (deims_data_explorer_get_row_count($connection, $filters) >= DEIMS_DOWNLOAD_COUNT) {
+           drupal_set_message('This is a very large data set. Please ' . l('contact us', 'contact') .
+             ' to obtain a copy.', 'warning', FALSE);
+        } else {
+          $file = file_save_data('', file_create_filename($connection['table'] . '.csv', variable_get('deims_data_explorer_dir', 'public://data-downloads/')));
 
-        // Set up the batch process.
-        $batch = array(
-          'title' => 'Processing Data Set',
-          'operations' => array(
-            array('_fetch_row_batch', array($query, $file, $columns)),
-            array('_process_file_for_download', array($file, $connection['table'], $form_state['values']['nid'])),
-          ),
-          'finished' => '_show_download_link',
-          'file' => drupal_get_path('module', 'deims_data_explorer') . '/deims_data_explorer.batch.inc'
-        );
+          // Set up the batch process.
+          $batch = array(
+            'title' => 'Processing Data Set',
+            'operations' => array(
+              array('_fetch_row_batch', array($query, $file, $columns)),
+              array('_process_file_for_download', array($file, $connection['table'], $form_state['values']['nid'])),
+            ),
+            'finished' => '_show_download_link',
+            'file' => drupal_get_path('module', 'deims_data_explorer') . '/deims_data_explorer.batch.inc'
+          );
 
-        batch_set($batch);
-        // This can be left blank because we're setting it in the finished
-        // callback hackery magic.
-        batch_process();
+          batch_set($batch);
+          // This can be left blank because we're setting it in the finished
+          // callback hackery magic.
+          batch_process();
+        }
         break;
 
       default:
@@ -225,12 +231,13 @@ function deims_data_explorer_form($form, &$form_state, $variables, $connection, 
     '#value' => 'Download',
   );
 
+  // Commented out by means of patch 18357-download-validation (Luke Wertz)
   // Add logic for download button disable and warning.
-  if (deims_data_explorer_get_row_count($connection) >= DEIMS_DOWNLOAD_COUNT) {
-    drupal_set_message('This is a very large data set. Please ' . l('contact us', 'contact') .
-      ' to obtain a copy.', 'warning', FALSE);
-    unset($form['download']);
-  }
+  //if (deims_data_explorer_get_row_count($connection) >= DEIMS_DOWNLOAD_COUNT) {
+  //  drupal_set_message('This is a very large data set. Please ' . l('contact us', 'contact') .
+  //    ' to obtain a copy.', 'warning', FALSE);
+  //  unset($form['download']);
+  //}
   return $form;
 }
 
