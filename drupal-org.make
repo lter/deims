@@ -198,6 +198,9 @@ projects[migrate][patch][] = "http://drupal.org/files/2037265-migrate-static-reg
 ; Fix page titles and breadcrumbs in the UI
 ; @see https://drupal.org/node/2040101
 projects[migrate][patch][] = "http://drupal.org/files/2040101-breadcrumb-titles.patch"
+; Fix preserve file type
+; @see https://drupal.org/node/2039649
+projects[migrate][patch][] = "http://drupal.org/files/issues/migrate.file-mimetype.2039649-14.patch"
 
 projects[migrate_d2d][version] = "2.x-dev"
 projects[migrate_d2d][subdir] = "contrib"
