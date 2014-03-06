@@ -38,11 +38,11 @@ projects[ctools][subdir] = "contrib"
 projects[context][version] = "3.0-beta6"
 projects[context][subdir] = "contrib"
 
-; We are currently using a fork of the Chosen module located in the install
-; profile to support the select_or_other integration.
+projects[chosen][version] = "2.0-beta1"
+projects[chosen][subdir] = "contrib"
+; Add support for the koenpunt fork of Chosen with supports adding options
 ; @see http://drupal.org/sandbox/davereid/2029921
-;projects[chosen][version] = "2.0-alpha2"
-;projects[chosen][subdir] = "contrib"
+projects[chosen][patch][] = "https://drupal.org/files/issues/2012900-chosen-select-or-other.patch"
 
 projects[custom_breadcrumbs][version] = "2.0-alpha3"
 projects[custom_breadcrumbs][subdir] = "contrib"
@@ -367,10 +367,9 @@ libraries[flexslider][download][subtree] = "FlexSlider-master"
 libraries[flexslider][directory_name] = "flexslider"
 
 ; Currently using a fork of the Chosen module that includes the Chosen library.
-;libraries[chosen][download][type] = "get"
-;libraries[chosen][download][url] = "https://github.com/koenpunt/chosen/archive/option_adding.zip"
-;libraries[chosen][download][subtree] = "chosen-option_adding"
-;libraries[chosen][directory_name] = "chosen"
+libraries[chosen][download][type] = "get"
+libraries[chosen][download][url] = "https://github.com/koenpunt/chosen/releases/download/v1.1.0/chosen_v1.1.0.zip"
+libraries[chosen][directory_name] = "chosen"
 
 libraries[superfish][download][type] = "get"
 libraries[superfish][download][url] = "https://github.com/mehrpadin/Superfish-for-Drupal/archive/1.x.zip"
