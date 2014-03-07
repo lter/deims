@@ -321,7 +321,7 @@ function deims_variable_field_widget_form(&$form, &$form_state, $field, $instanc
         '#required' => TRUE,
         '#attributes' => array(
           'data-create_option_text' => t('Use other unit'),
-          'class' => array('chosen-widget'),
+          'class' => array('chosen-enabled'),
         ),
       );
       $element['data']['maximum'] = array(

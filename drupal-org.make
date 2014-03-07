@@ -38,11 +38,11 @@ projects[ctools][subdir] = "contrib"
 projects[context][version] = "3.0-beta6"
 projects[context][subdir] = "contrib"
 
-projects[chosen][version] = "2.0-beta1"
+projects[chosen][version] = "2.0-beta2"
 projects[chosen][subdir] = "contrib"
 ; Add support for the koenpunt fork of Chosen with supports adding options
-; @see http://drupal.org/sandbox/davereid/2029921
-projects[chosen][patch][] = "https://drupal.org/files/issues/2012900-chosen-select-or-other.patch"
+; @see https://drupal.org/node/2012900
+projects[chosen][patch][] = "https://drupal.org/files/issues/2012900-chosen-select-or-other_0.patch"
 
 projects[custom_breadcrumbs][version] = "2.0-alpha3"
 projects[custom_breadcrumbs][subdir] = "contrib"
