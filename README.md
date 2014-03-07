@@ -33,6 +33,8 @@ Build the site into your webroot:
 * `cd deims`
 * `drush make build-deims.make '/path/to/your-site/www' --prepare-install --contrib-destination=profiles/deims`
 
+At this point, it is advisable you visit your installed DEIMS profile using the browser to complete the install. There are some configuration steps that are best deal with when using the UI wizard (as oppossed to `drush si deims`)
+
 ### Rebuilding an existing site ###
 
 ### NOTE: Rebuilding has not been implemented yet. ##
