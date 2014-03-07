@@ -65,6 +65,7 @@ projects[date][patch][] = "http://drupal.org/files/2034231-date-migration-consol
 projects[date_facets][version] = "1.x-dev"
 projects[date_facets][subdir] = "contrib"
 
+; Dev relese is ok here.
 projects[devel][version] = "1.x-dev"
 projects[devel][subdir] = "contrib"
 
@@ -98,7 +99,7 @@ projects[entity][subdir] = "contrib"
 ; @see https://drupal.org/node/1780646
 projects[entity][patch][] = "http://drupal.org/files/entity-entity_access-1780646-107.patch"
 
-projects[entitycache][version] = "1.x-dev"
+projects[entitycache][version] = "1.2"
 projects[entitycache][subdir] = "contrib"
 
 projects[entityreference][version] = "1.0"
@@ -184,6 +185,7 @@ projects[libraries][subdir] = "contrib"
 projects[link][version] = "1.1"
 projects[link][subdir] = "contrib"
 
+; Dave Reid maintains this, ok to use dev for now.
 projects[media][version] = "2.x-dev"
 projects[media][subdir] = "contrib"
 
