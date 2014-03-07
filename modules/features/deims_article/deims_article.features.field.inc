@@ -329,7 +329,7 @@ function deims_article_field_default_fields() {
         'active' => 0,
         'module' => 'options',
         'settings' => array(
-          'apply_chosen' => 0,
+          'apply_chosen' => '',
           'autocomplete_path' => 'taxonomy/autocomplete',
           'size' => 60,
         ),
@@ -596,7 +596,7 @@ function deims_article_field_default_fields() {
         'active' => 1,
         'module' => 'options',
         'settings' => array(
-          'apply_chosen' => 0,
+          'apply_chosen' => '',
         ),
         'type' => 'options_select',
         'weight' => '1',
