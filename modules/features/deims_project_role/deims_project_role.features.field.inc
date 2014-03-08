@@ -88,7 +88,7 @@ function deims_project_role_field_default_fields() {
         'active' => 1,
         'module' => 'options',
         'settings' => array(
-          'apply_chosen' => 0,
+          'apply_chosen' => '',
         ),
         'type' => 'options_select',
         'weight' => '2',

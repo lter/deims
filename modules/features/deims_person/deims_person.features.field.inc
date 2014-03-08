@@ -993,7 +993,7 @@ Prof.',
         'active' => 1,
         'module' => 'options',
         'settings' => array(
-          'apply_chosen' => 0,
+          'apply_chosen' => '',
         ),
         'type' => 'options_select',
         'weight' => '3',
