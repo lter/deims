@@ -38,7 +38,7 @@ projects[ctools][subdir] = "contrib"
 projects[context][version] = "3.0-beta6"
 projects[context][subdir] = "contrib"
 
-projects[chosen][version] = "2.0-beta3"
+projects[chosen][version] = "2.0-beta4"
 projects[chosen][subdir] = "contrib"
 ; Add support for the koenpunt fork of Chosen with supports adding options
 ; @see https://drupal.org/node/2012900
