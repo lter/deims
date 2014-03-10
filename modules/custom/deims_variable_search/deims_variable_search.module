@@ -153,7 +153,7 @@ function deims_variable_search_field_widget_deims_variable_default_form_alter(&$
 function deims_variable_load_multiple($field_name, array $ids) {
   $field = field_info_field($field_name);
   if ($field['storage']['type'] != 'field_sql_storage') {
-    throw new \DomainException('Cannot load DEIMS variables for field ' . $field_name . ' because it does not use SQL storage.');
+    throw new DomainException('Cannot load DEIMS variables for field ' . $field_name . ' because it does not use SQL storage.');
   }
 
   if (empty($ids)) {
