@@ -82,6 +82,11 @@
   $handler->display->display_options['filters']['type']['value'] = array(
     'data_source' => 'data_source',
   );
+  /* Filter criterion: Content: Remote Data Source (field_deims_data_explorer:table) */
+  $handler->display->display_options['filters']['field_deims_data_explorer_table']['id'] = 'field_deims_data_explorer_table';
+  $handler->display->display_options['filters']['field_deims_data_explorer_table']['table'] = 'field_data_field_deims_data_explorer';
+  $handler->display->display_options['filters']['field_deims_data_explorer_table']['field'] = 'field_deims_data_explorer_table';
+  $handler->display->display_options['filters']['field_deims_data_explorer_table']['operator'] = 'not empty';
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
