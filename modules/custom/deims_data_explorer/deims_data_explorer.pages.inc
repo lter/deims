@@ -476,12 +476,12 @@ function _deims_de_prep_date($variable, $form_state) {
       break;
   }
   $element['min'] = array(
-    '#prefix' => '<div class="form-item form-type-datetime"><label>' . t('Choose a minimum date') . '</label>',
+    '#prefix' => '<div class="form-item form-type-datetime"><label>' . t('Choose a minimum date (YYYY-MM-DD)') . '</label>',
     '#markup' => '<input type="' . $type . '" name="filters[' . $variable['name'] . '][min]" />',
     '#suffix' => '</div>',
   );
   $element['max'] = array(
-    '#prefix' => '<div class="form-item form-type-datetime"><label>' . t('Choose a maximum date') . '</label>',
+    '#prefix' => '<div class="form-item form-type-datetime"><label>' . t('Choose a maximum date (YYYY-MM-DD)') . '</label>',
     '#markup' => '<input type="' . $type . '" name="filters[' . $variable['name'] . '][max]" />',
     '#suffix' => '</div>',
   );

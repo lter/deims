@@ -41,13 +41,17 @@ function deims_data_explorer_help($path, $arg) {
 
   switch($path){
     case 'admin/help#deims_data_explorer';
-      return '' .  '<h3>' . t('About') . '</h3>' . '<p>' . t("The DEIMS Data Explorer enables you to make queries against 
+      return '<h3>' . t('About') . '</h3>' . '<p>' . t("The DEIMS Data Explorer enables you to make queries against
       tables in external databases.  In order to use it, you need to place a database connectors to your external database
       in a file called settings.local.php, which will also be at sites/default, and will have a similar \$database() array.
-      Once set up, you will be able to connect your data source nodes to the corresponding table in the connected external
-      database, right at the bottom of the data source form.  Each variable of the data-source is also configurable: you may 
-      choose to be queriable and able to filter on its values.  Once you have configured the data-source settings, you may 
-      access the data explorer page at the path node/%nid/data") . '<p>';
+      For more extensive help on how to configure it, please visit the <a href=\"http://drupal.org/node/2141695\">
+      DEIMS Data Explorer config help page.</a>
+      Once the Data Explorer is set up, you will be able to connect your data source nodes to the corresponding table in the
+      connected external database, right at the bottom of the data source form.  Each variable of the data-source is
+      configurable: you may choose to allow user to query and filter on its values.  Once you have configured the data-source
+      settings, you may access the data explorer page at the path node/%nid/data or using the Data Explorer Dashboard link
+      in the menu (if active). More info on Data Explorer usage at <a href=\"http://drupal.org/node/2141613\">
+      the DEIMS Data Explorer usage help page.</a>") . '</p>';
     case 'node/%/data':
       break;
   }
