@@ -47,7 +47,7 @@ function deims_data_explorer_help($path, $arg) {
       Once set up, you will be able to connect your data source nodes to the corresponding table in the connected external
       database, right at the bottom of the data source form.  Each variable of the data-source is also configurable: you may 
       choose to be queriable and able to filter on its values.  Once you have configured the data-source settings, you may 
-      access the data explorer page at the path node/%nid/data") . '<p>';
+      access the data explorer page at the path node/%nid/data or using the Data Explorer Dashboard link in the menu (if active)") . More info on Date Explorer usage at http://drupal.org/node/2141613'</p>'.;
     case 'node/%/data':
       break;
   }
