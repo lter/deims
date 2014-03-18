@@ -281,7 +281,7 @@ function deims_data_explorer_get_query_from_data_source($node, array $columns = 
         }
       }
       catch (Exception $e) {
-        watchdog_exception($e);
+        watchdog_exception('Data Explorer',$e);
         // Do not rethrow the exception. Fail gracefully by returning nothing.
       }
     }
