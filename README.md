@@ -46,7 +46,9 @@ At this point, it is advisable you visit your installed DEIMS profile using the 
 
 ### Update existing site ###
 
-*Note: updating an existing site from the profile is not yet supported. You must rebuild the site not using an existing database install.*
+Updates of Drupal Profiles often follow a different timeline and workflow than your typical Drupal Site.  In our case, the DEIMS Profile Drupal has a few enhancements that are lost if updated without care to carry these enhacements. We advise to wait for a new release of DEIMS before updating on your own - but if you do, make sure the enhancements are ported, otherwise you may experience issues after the update.
+
+*Note: updating an existing site from the profile is not yet supported. You must rebuild the site not using an existing database install.*  The following may work only on specific updates - best to wait for a bundle or Read advisories and guidelines per update.
 
 * `git pull`
 * `cd www`
