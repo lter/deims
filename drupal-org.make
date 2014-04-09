@@ -32,10 +32,10 @@ projects[biblio][subdir] = "contrib"
 projects[captcha][version] = "1.0"
 projects[captcha][subdir] = "contrib"
 
-projects[ctools][version] = "1.3"
+projects[ctools][version] = "1.4"
 projects[ctools][subdir] = "contrib"
 
-projects[context][version] = "3.0-beta6"
+projects[context][version] = "3.2"
 projects[context][subdir] = "contrib"
 
 projects[chosen][version] = "2.0-beta4"
@@ -93,20 +93,14 @@ projects[email][subdir] = "contrib"
 projects[emptyparagraphkiller][version] = "1.0-beta2"
 projects[emptyparagraphkiller][subdir] = "contrib"
 
-projects[entity][version] = "1.1"
+projects[entity][version] = "1.5"
 projects[entity][subdir] = "contrib"
-; Fix for entity_metadata_no_hook_node_access() and new entity objects (required to work with inline_entity_form).
-; @see https://drupal.org/node/1780646
-projects[entity][patch][] = "http://drupal.org/files/entity-entity_access-1780646-107.patch"
 
 projects[entitycache][version] = "1.2"
 projects[entitycache][subdir] = "contrib"
 
-projects[entityreference][version] = "1.0"
+projects[entityreference][version] = "1.1"
 projects[entityreference][subdir] = "contrib"
-; Allow the 'Default' view mode to be selected in formatters
-; @see https://drupal.org/node/2035699
-projects[entityreference][patch][] = "http://drupal.org/files/2035699-formatter-default-view-mode.patch"
 
 projects[entity_view_mode][version] = "1.0-rc1"
 projects[entity_view_mode][subdir] = "contrib"
@@ -136,7 +130,7 @@ projects[file_download_count][subdir] = "contrib"
 projects[file_entity][version] = "2.x-dev"
 projects[file_entity][subdir] = "contrib"
 
-projects[filefield_sources][version] = "1.8"
+projects[filefield_sources][version] = "1.9"
 projects[filefield_sources][subdir] = "contrib"
 ; Ensure files that already exist in the files directory are left alone.
 ; @see https://drupal.org/node/1492374
@@ -167,7 +161,7 @@ projects[geophp][subdir] = "contrib"
 projects[google_analytics][version] = "1.3"
 projects[google_analytics][subdir] = "contrib"
 
-projects[helper][version] = "1.1"
+projects[helper][version] = "1.3"
 projects[helper][subdir] = "contrib"
 
 projects[inline_entity_form][version] = "1.3"
@@ -179,10 +173,10 @@ projects[inline_entity_form][patch][] = "http://drupal.org/files/ief_clone_butto
 ; @see https://drupal.org/node/1872316
 projects[inline_entity_form][patch][] = "http://drupal.org/files/1872316-ief-bundle-selection-node-view_0.patch"
 
-projects[libraries][version] = "2.1"
+projects[libraries][version] = "2.2"
 projects[libraries][subdir] = "contrib"
 
-projects[link][version] = "1.1"
+projects[link][version] = "1.2"
 projects[link][subdir] = "contrib"
 
 ; Dave Reid maintains this, ok to use dev for now.
