@@ -207,7 +207,7 @@ projects[migrate_d2d][patch][] = "http://drupal.org/files/2026233-d6-php-notice-
 projects[migrate_extras][version] = "2.x-dev"
 projects[migrate_extras][subdir] = "contrib"
 
-projects[module_filter][version] = "1.7"
+projects[module_filter][version] = "1.8"
 projects[module_filter][subdir] = "contrib"
 
 projects[name][version] = "1.9"
@@ -231,7 +231,7 @@ projects[pathauto][subdir] = "contrib"
 projects[pathauto_persist][version] = "1.3"
 projects[pathauto_persist][subdir] = "contrib"
 
-projects[print][version] = "2.x-dev"
+projects[print][version] = "2.0"
 projects[print][subdir] = "contrib"
 
 projects[recaptcha][version] = "1.9"
