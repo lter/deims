@@ -343,10 +343,10 @@ projects[wysiwyg_linebreaks][subdir] = "contrib"
 ; Contributed themes
 ; -----------------------------------------------------------------------------
 
-projects[adaptivetheme][version] = "3.x-dev"
+projects[adaptivetheme][version] = "3.2"
 projects[adaptivetheme][subdir] = "contrib"
 
-projects[pixture_reloaded][version] = "3.x-dev"
+projects[pixture_reloaded][version] = "3.0"
 projects[pixture_reloaded][subdir] = "contrib"
 
 projects[shiny][version] = "1.3"
