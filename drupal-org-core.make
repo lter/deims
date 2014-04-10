@@ -3,7 +3,7 @@ core = 7.x
 
 ; Drupal core
 projects[drupal][type] = core
-projects[drupal][version] = 7.23
+projects[drupal][version] = 7.26
 
 ; Ensure that hook_field_presave() is run for default field values.
 ; @see https://drupal.org/node/1899498
