@@ -200,9 +200,6 @@ projects[migrate][patch][] = "http://drupal.org/files/issues/migrate.file-mimety
 
 projects[migrate_d2d][version] = "2.x-dev"
 projects[migrate_d2d][subdir] = "contrib"
-; Fix a PHP notice in migrations
-; @see https://drupal.org/node/2026233
-projects[migrate_d2d][patch][] = "http://drupal.org/files/2026233-d6-php-notice-revision-id.patch"
 
 projects[migrate_extras][version] = "2.x-dev"
 projects[migrate_extras][subdir] = "contrib"
