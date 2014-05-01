@@ -42,7 +42,7 @@ projects[chosen][version] = "2.0-beta4"
 projects[chosen][subdir] = "contrib"
 ; Add support for the koenpunt fork of Chosen with supports adding options
 ; @see https://drupal.org/node/2012900
-projects[chosen][patch][] = "https://drupal.org/files/issues/2012900-chosen-select-or-other_1.patch"
+projects[chosen][patch][] = "http://drupal.org/files/issues/2012900-chosen-select-or-other_1.patch"
 
 projects[custom_breadcrumbs][version] = "2.0-alpha3"
 projects[custom_breadcrumbs][subdir] = "contrib"
