@@ -42,7 +42,7 @@ projects[chosen][version] = "2.0-beta4"
 projects[chosen][subdir] = "contrib"
 ; Add support for the koenpunt fork of Chosen with supports adding options
 ; @see https://drupal.org/node/2012900
-projects[chosen][patch][] = "https://drupal.org/files/issues/2012900-chosen-select-or-other_1.patch"
+projects[chosen][patch][] = "http://drupal.org/files/issues/2012900-chosen-select-or-other_1.patch"
 
 projects[custom_breadcrumbs][version] = "2.0-alpha3"
 projects[custom_breadcrumbs][subdir] = "contrib"
@@ -200,9 +200,6 @@ projects[migrate][patch][] = "http://drupal.org/files/issues/migrate.file-mimety
 
 projects[migrate_d2d][version] = "2.x-dev"
 projects[migrate_d2d][subdir] = "contrib"
-; Fix a PHP notice in migrations
-; @see https://drupal.org/node/2026233
-projects[migrate_d2d][patch][] = "http://drupal.org/files/2026233-d6-php-notice-revision-id.patch"
 
 projects[migrate_extras][version] = "2.x-dev"
 projects[migrate_extras][subdir] = "contrib"
