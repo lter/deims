@@ -461,6 +461,7 @@ function deims_data_set_field_group_info() {
     'children' => array(
       0 => 'field_core_areas',
       1 => 'field_keywords',
+      2 => 'field_taxa_ref',
     ),
     'format_type' => 'htab',
     'format_settings' => array(

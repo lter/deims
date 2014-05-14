@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the DEIMS Taxa feature.
+ */
+
+include_once 'deims_taxa.features.inc';
