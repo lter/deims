@@ -68,6 +68,12 @@
   
       <?php print render($content['keywordSets']); ?>
 
+      <?php if (!empty($content['field_taxa_ref'])): ?>
+      <taxonomy>
+        <?php print render($content['field_taxa_ref']); ?>
+      </taxonomy>
+      <?php endif; ?>
+
       <accconst>None</accconst>
       <?php if (!empty($data_policies)): ?>
         <useconst>
