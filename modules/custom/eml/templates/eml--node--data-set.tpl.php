@@ -61,6 +61,7 @@
     <coverage>
       <?php print render($content['field_related_sites']); ?>
       <?php print render($content['field_date_range']); ?>
+      <?php print render($content['field_taxa_ref']); ?>
     </coverage>
     <?php endif; ?>
 

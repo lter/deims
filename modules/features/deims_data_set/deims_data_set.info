@@ -25,6 +25,7 @@ dependencies[] = strongarm
 dependencies[] = taxonomy
 dependencies[] = term_reference_tree
 dependencies[] = token_field
+dependencies[] = token_formatters
 dependencies[] = views
 features[ctools][] = ds:ds:1
 features[ctools][] = field_group:field_group:1
