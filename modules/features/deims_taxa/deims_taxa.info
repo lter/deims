@@ -1,6 +1,7 @@
 name = DEIMS Taxa
 description = Simple entity to hold Taxa information
 core = 7.x
+php = 5.2.4
 package = DEIMS Base
 project = deims_taxa
 dependencies[] = eck
