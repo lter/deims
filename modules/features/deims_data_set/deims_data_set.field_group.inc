@@ -53,7 +53,8 @@ function deims_data_set_field_group_info() {
     'weight' => '1',
     'children' => array(
       0 => 'field_core_areas',
-      1 => 'field_keywords',
+      1 => 'field_taxa_ref',
+      2 => 'field_keywords',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -222,11 +223,11 @@ function deims_data_set_field_group_info() {
     'label' => 'Methodology',
     'weight' => '6',
     'children' => array(
-      0 => 'field_purpose',
-      1 => 'field_additional_information',
+      0 => 'field_additional_information',
+      1 => 'field_instrumentation',
       2 => 'field_maintenance',
       3 => 'field_methods',
-      4 => 'field_instrumentation',
+      4 => 'field_purpose',
       5 => 'field_quality_assurance',
     ),
     'format_type' => 'fieldset',
@@ -282,7 +283,9 @@ function deims_data_set_field_group_info() {
     'label' => 'People',
     'weight' => '3',
     'children' => array(
-      0 => 'field_project_roles',
+      0 => 'field_person_contact',
+      1 => 'field_person_creator',
+      2 => 'field_project_roles',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -429,10 +432,10 @@ function deims_data_set_field_group_info() {
     'label' => 'Summary',
     'weight' => '0',
     'children' => array(
-      0 => 'field_data_set_id',
-      1 => 'field_abstract',
-      2 => 'field_short_name',
-      3 => 'field_doi',
+      0 => 'field_abstract',
+      1 => 'field_data_set_id',
+      2 => 'field_doi',
+      3 => 'field_short_name',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -461,6 +464,7 @@ function deims_data_set_field_group_info() {
     'children' => array(
       0 => 'field_core_areas',
       1 => 'field_keywords',
+      2 => 'field_taxa_ref',
     ),
     'format_type' => 'htab',
     'format_settings' => array(

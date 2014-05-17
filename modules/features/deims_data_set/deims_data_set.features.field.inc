@@ -440,7 +440,7 @@ function deims_data_set_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '24',
+          'weight' => '25',
         ),
         'eml_hl' => array(
           'label' => 'inline',
@@ -866,7 +866,7 @@ function deims_data_set_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '22',
+          'weight' => '23',
         ),
         'eml_hl' => array(
           'label' => 'inline',
@@ -978,7 +978,7 @@ function deims_data_set_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '17',
+          'weight' => '19',
         ),
         'eml_hl' => array(
           'label' => 'above',
@@ -1080,7 +1080,7 @@ function deims_data_set_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '21',
+          'weight' => '22',
         ),
         'eml_hl' => array(
           'label' => 'inline',
@@ -1186,7 +1186,7 @@ function deims_data_set_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '18',
+          'weight' => '20',
         ),
         'eml_hl' => array(
           'label' => 'above',
@@ -1302,7 +1302,7 @@ function deims_data_set_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '0',
+          'weight' => '18',
         ),
         'eml_hl' => array(
           'label' => 'above',
@@ -1915,9 +1915,14 @@ function deims_data_set_field_default_fields() {
         ),
         'default' => array(
           'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '20',
+          'module' => 'token_formatters',
+          'settings' => array(
+            'check_access' => TRUE,
+            'link' => '[entity:url]',
+            'text' => '[entity:label]',
+          ),
+          'type' => 'token_formatters_entity_reference',
+          'weight' => '6',
         ),
         'eml' => array(
           'label' => 'above',
@@ -2481,7 +2486,7 @@ function deims_data_set_field_default_fields() {
             'view_mode' => 'teaser',
           ),
           'type' => 'entityreference_entity_view',
-          'weight' => '6',
+          'weight' => '7',
         ),
         'eml' => array(
           'label' => 'above',
@@ -2641,7 +2646,7 @@ function deims_data_set_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '19',
+          'weight' => '21',
         ),
         'eml_hl' => array(
           'label' => 'above',
@@ -3004,7 +3009,7 @@ function deims_data_set_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '26',
+          'weight' => '27',
         ),
         'eml_hl' => array(
           'label' => 'inline',
@@ -3152,7 +3157,7 @@ function deims_data_set_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '23',
+          'weight' => '24',
         ),
         'eml_hl' => array(
           'label' => 'inline',
@@ -3434,7 +3439,7 @@ function deims_data_set_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '25',
+          'weight' => '26',
         ),
         'eml_hl' => array(
           'label' => 'inline',
@@ -3497,6 +3502,128 @@ function deims_data_set_field_default_fields() {
     ),
   );
 
+  // Exported field: 'node-data_set-field_taxa_ref'.
+  $fields['node-data_set-field_taxa_ref'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '-1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_taxa_ref',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(
+        'target_id' => array(
+          0 => 'target_id',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'entityreference',
+      'settings' => array(
+        'delete_on_parent_delete' => '',
+        'handler' => 'base',
+        'handler_settings' => array(
+          'behaviors' => array(
+            'views-select-list' => array(
+              'status' => 0,
+            ),
+          ),
+          'sort' => array(
+            'type' => 'none',
+          ),
+          'target_bundles' => array(
+            'taxa' => 'taxa',
+          ),
+        ),
+        'target_type' => 'taxa',
+      ),
+      'translatable' => '0',
+      'type' => 'entityreference',
+    ),
+    'field_instance' => array(
+      'bundle' => 'data_set',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'entityreference',
+          'settings' => array(
+            'link' => FALSE,
+          ),
+          'type' => 'entityreference_label',
+          'weight' => '6',
+        ),
+        'eml' => array(
+          'label' => 'above',
+          'module' => 'eml',
+          'settings' => array(
+            'element' => '',
+            'multiple' => 0,
+          ),
+          'type' => 'entityreference_eml_element',
+          'weight' => '17',
+        ),
+        'eml_hl' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'iso' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_taxa_ref',
+      'label' => 'Taxa',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'inline_entity_form',
+        'settings' => array(
+          'fields' => array(),
+          'type_settings' => array(
+            'allow_existing' => 1,
+            'clone_button' => 1,
+            'delete_references' => 0,
+            'match_operator' => 'CONTAINS',
+          ),
+        ),
+        'type' => 'inline_entity_form',
+        'weight' => '10',
+      ),
+      'workbench_access_field' => 0,
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
   t('A short name is usually the name used to refer in short to your dataset. Example: meteo_2010');
@@ -3530,6 +3657,7 @@ function deims_data_set_field_default_fields() {
   t('Related publications');
   t('Related sites');
   t('Short name');
+  t('Taxa');
   t('The methodologies used to gather these data.');
   t('This is an unique, numeric identifier for your data set (for example, 1012009).');
   t('Use this to add anyone that was a data manager, field crew, lab crew, or associated researcher.');
