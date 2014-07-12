@@ -244,6 +244,9 @@ projects[rules][subdir] = "contrib"
 projects[schema][version] = "1.0-rc1"
 projects[schema][subdir] = "contrib"
 
+projects[schemaorg][version] = "1.0-beta4"
+projects[schemaorg][subdir] = "contrib"
+
 projects[schema_reference][version] = "1.0-beta5"
 projects[schema_reference][subdir] = "contrib"
 
