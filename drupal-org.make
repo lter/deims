@@ -56,11 +56,8 @@ projects[datatables][patch][] = "http://drupal.org/files/2021741-installation-bl
 ; @see https://drupal.org/node/1904140#comment-7724631
 projects[datatables][patch][] = "http://drupal.org/files/1904140-datatables-fix-errors-when-headers-are-strings.patch"
 
-projects[date][version] = "2.6"
+projects[date][version] = "2.8"
 projects[date][subdir] = "contrib"
-; Patch required for migration to work.
-; @see https://drupal.org/node/2034231
-projects[date][patch][] = "http://drupal.org/files/2034231-date-migration-consolidated-do-not-test.patch"
 
 projects[date_facets][version] = "1.x-dev"
 projects[date_facets][subdir] = "contrib"
@@ -280,8 +277,8 @@ projects[taxonomy_csv][subdir] = "contrib"
 projects[taxonomy_manager][version] = "1.0"
 projects[taxonomy_manager][subdir] = "contrib"
 
-; Dave Reid maintains this D8 backport, dev release is ok.
-projects[telephone][version] = "1.x-dev"
+; Dave Reid maintains this D8 backport.
+projects[telephone][version] = "1.0-alpha1"
 projects[telephone][subdir] = "contrib"
 
 projects[term_reference_tree][version] = "1.10"
@@ -303,7 +300,7 @@ projects[token_formatters][subdir] = "contrib"
 projects[url][version] = "1.x-dev"
 projects[url][subdir] = "contrib"
 
-projects[views][version] = "3.7"
+projects[views][version] = "3.8"
 projects[views][subdir] = "contrib"
 
 projects[views_bulk_operations][version] = "3.1"
