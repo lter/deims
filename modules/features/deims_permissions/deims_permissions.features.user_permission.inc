@@ -2009,11 +2009,7 @@ function deims_permissions_user_default_permissions() {
   // Exported permission: view field_eml_revision_id.
   $permissions['view field_eml_revision_id'] = array(
     'name' => 'view field_eml_revision_id',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'anonymous user',
-      2 => 'authenticated user',
-    ),
+    'roles' => array(),
     'module' => 'field_permissions',
   );
 
