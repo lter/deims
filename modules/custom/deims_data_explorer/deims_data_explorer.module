@@ -302,7 +302,7 @@ function deims_data_explorer_filters_apply(QueryAlterableInterface $query, array
     switch ($filter['variable']['type']) {
       case '';
         if (drupal_strlen($filter['value'])) {
-          $query->condition($key, $filter['value']);
+          $query->condition($key, '%'.$filter['value'].'%', 'LIKE');
         }
         break;
 
