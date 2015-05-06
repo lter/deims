@@ -5,20 +5,17 @@ core = "7.x"
 ; Contributed modules
 ; -----------------------------------------------------------------------------
 
-projects[addressfield][version] = "1.0-beta4"
+projects[addressfield][version] = "1.1"
 projects[addressfield][subdir] = "contrib"
 
-projects[admin_menu][version] = "3.0-rc4"
+projects[admin_menu][version] = "3.0-rc5"
 projects[admin_menu][subdir] = "contrib"
 
-projects[admin_select][version] = "1.3"
+projects[admin_select][version] = "1.5"
 projects[admin_select][subdir] = "contrib"
 
-projects[auto_entitylabel][version] = "1.2"
+projects[auto_entitylabel][version] = "1.3"
 projects[auto_entitylabel][subdir] = "contrib"
-; One more patch needed for Inline Entity Form module support
-; @see https://drupal.org/node/1980652
-projects[auto_entitylabel][patch][] = "http://drupal.org/files/1980652-autoentitylabel-field-attach-submit.patch"
 
 projects[autosave][version] = "2.2"
 projects[autosave][subdir] = "contrib"
@@ -32,7 +29,7 @@ projects[biblio][subdir] = "contrib"
 projects[captcha][version] = "1.0"
 projects[captcha][subdir] = "contrib"
 
-projects[ctools][version] = "1.4"
+projects[ctools][version] = "1.7"
 projects[ctools][subdir] = "contrib"
 
 projects[context][version] = "3.2"
@@ -69,7 +66,7 @@ projects[devel][subdir] = "contrib"
 projects[diff][version] = "3.2"
 projects[diff][subdir] = "contrib"
 
-projects[ds][version] = "2.4"
+projects[ds][version] = "2.8"
 projects[ds][subdir] = "contrib"
 
 projects[eck][version] = "2.0-rc2"
@@ -84,7 +81,7 @@ projects[eck][patch][] = "http://drupal.org/files/1979686-eck-ief-clone-button.p
 projects[elements][version] = "1.x-dev"
 projects[elements][subdir] = "contrib"
 
-projects[email][version] = "1.2"
+projects[email][version] = "1.3"
 projects[email][subdir] = "contrib"
 
 projects[emptyparagraphkiller][version] = "1.0-beta2"
@@ -102,7 +99,7 @@ projects[entityreference][subdir] = "contrib"
 projects[entity_view_mode][version] = "1.0-rc1"
 projects[entity_view_mode][subdir] = "contrib"
 
-projects[extlink][version] = "1.13"
+projects[extlink][version] = "1.18"
 projects[extlink][subdir] = "contrib"
 
 projects[facetapi][version] = "1.3"
@@ -117,7 +114,7 @@ projects[field_permissions][subdir] = "contrib"
 projects[field_referenced_delete][version] = "1.0-rc4"
 projects[field_referenced_delete][subdir] = "contrib"
 
-projects[field_validation][version] = "2.3"
+projects[field_validation][version] = "2.4"
 projects[field_validation][subdir] = "contrib"
 
 projects[file_download_count][version] = "1.0-rc1"
@@ -158,7 +155,7 @@ projects[geophp][subdir] = "contrib"
 projects[google_analytics][version] = "1.3"
 projects[google_analytics][subdir] = "contrib"
 
-projects[helper][version] = "1.3"
+projects[helper][version] = "1.5"
 projects[helper][subdir] = "contrib"
 
 projects[inline_entity_form][version] = "1.3"
@@ -201,7 +198,7 @@ projects[migrate_d2d][subdir] = "contrib"
 projects[migrate_extras][version] = "2.x-dev"
 projects[migrate_extras][subdir] = "contrib"
 
-projects[module_filter][version] = "1.8"
+projects[module_filter][version] = "2.0"
 projects[module_filter][subdir] = "contrib"
 
 projects[name][version] = "1.9"
@@ -247,10 +244,10 @@ projects[schemaorg][subdir] = "contrib"
 projects[schema_reference][version] = "1.0-beta5"
 projects[schema_reference][subdir] = "contrib"
 
-projects[search_api][version] = "1.7"
+projects[search_api][version] = "1.14"
 projects[search_api][subdir] = "contrib"
 
-projects[search_api_db][version] = "1.0-rc2"
+projects[search_api_db][version] = "1.2"
 projects[search_api_db][subdir] = "contrib"
 
 projects[search_api_ranges][version] = "1.4"
@@ -300,13 +297,13 @@ projects[token_formatters][subdir] = "contrib"
 projects[url][version] = "1.x-dev"
 projects[url][subdir] = "contrib"
 
-projects[views][version] = "3.8"
+projects[views][version] = "3.11"
 projects[views][subdir] = "contrib"
 
 projects[views_bulk_operations][version] = "3.1"
 projects[views_bulk_operations][subdir] = "contrib"
 
-projects[views_content_cache][version] = "3.0-alpha2"
+projects[views_content_cache][version] = "3.0-alpha3"
 projects[views_content_cache][subdir] = "contrib"
 
 projects[webform][version] = "3.19"
