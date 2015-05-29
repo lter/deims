@@ -15,6 +15,10 @@ function deims_permissions_user_default_permissions() {
     'name' => 'access administration menu',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
+      2 => 'content contributor',
+      3 => 'data contributor',
+      4 => 'information manager',
     ),
     'module' => 'admin_menu',
   );
@@ -24,6 +28,9 @@ function deims_permissions_user_default_permissions() {
     'name' => 'access administration pages',
     'roles' => array(
       0 => 'administrator',
+      1 => 'content contributor',
+      2 => 'data contributor',
+      3 => 'information manager',
     ),
     'module' => 'system',
   );
@@ -42,6 +49,8 @@ function deims_permissions_user_default_permissions() {
     'name' => 'access biblio content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'anonymous user',
+      2 => 'authenticated user',
     ),
     'module' => 'biblio',
   );
@@ -80,6 +89,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'access print',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'print',
   );
@@ -89,6 +99,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'access private fields',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'field_permissions',
   );
@@ -107,6 +118,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'access site reports',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'system',
   );
@@ -125,6 +137,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'access toolbar',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'toolbar',
   );
@@ -143,6 +156,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'access user profiles',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'user',
   );
@@ -332,6 +346,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'administer image styles',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'image',
   );
@@ -557,6 +572,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'block IP addresses',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'system',
   );
@@ -611,6 +627,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'create article content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'node',
   );
@@ -620,6 +637,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'create biblio content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'node',
   );
@@ -629,6 +647,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'create data_set content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'node',
   );
@@ -638,6 +657,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'create data_source content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'node',
   );
@@ -645,28 +665,30 @@ function deims_permissions_user_default_permissions() {
   // Exported permission: create field_doi.
   $permissions['create field_doi'] = array(
     'name' => 'create field_doi',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'information manager',
+    ),
     'module' => 'field_permissions',
   );
 
   // Exported permission: create field_eml_hash.
   $permissions['create field_eml_hash'] = array(
     'name' => 'create field_eml_hash',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'information manager',
+    ),
     'module' => 'field_permissions',
   );
 
   // Exported permission: create field_eml_revision_id.
   $permissions['create field_eml_revision_id'] = array(
     'name' => 'create field_eml_revision_id',
-    'roles' => array(),
-    'module' => 'field_permissions',
-  );
-
-  // Exported permission: create field_eml_valid.
-  $permissions['create field_eml_valid'] = array(
-    'name' => 'create field_eml_valid',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'information manager',
+    ),
     'module' => 'field_permissions',
   );
 
@@ -675,6 +697,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'create files',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'file_entity',
   );
@@ -684,6 +707,17 @@ function deims_permissions_user_default_permissions() {
     'name' => 'create image_gallery content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
+    ),
+    'module' => 'node',
+  );
+
+  // Exported permission: create organization content.
+  $permissions['create organization content'] = array(
+    'name' => 'create organization content',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'node',
   );
@@ -693,6 +727,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'create page content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'node',
   );
@@ -702,6 +737,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'create person content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'node',
   );
@@ -711,6 +747,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'create project content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'node',
   );
@@ -720,6 +757,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'create research_site content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'node',
   );
@@ -729,6 +767,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'create url aliases',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'path',
   );
@@ -747,6 +786,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'delete any article content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'node',
   );
@@ -756,6 +796,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'delete any audio files',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'file_entity',
   );
@@ -765,6 +806,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'delete any biblio content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'node',
   );
@@ -774,6 +816,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'delete any data_set content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'node',
   );
@@ -783,6 +826,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'delete any data_source content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'node',
   );
@@ -792,6 +836,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'delete any document files',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'file_entity',
   );
@@ -801,6 +846,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'delete any image files',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'file_entity',
   );
@@ -810,6 +856,17 @@ function deims_permissions_user_default_permissions() {
     'name' => 'delete any image_gallery content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
+    ),
+    'module' => 'node',
+  );
+
+  // Exported permission: delete any organization content.
+  $permissions['delete any organization content'] = array(
+    'name' => 'delete any organization content',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'node',
   );
@@ -819,6 +876,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'delete any page content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'node',
   );
@@ -828,6 +886,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'delete any person content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'node',
   );
@@ -837,6 +896,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'delete any project content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'node',
   );
@@ -846,6 +906,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'delete any research_site content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'node',
   );
@@ -855,6 +916,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'delete any video files',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'file_entity',
   );
@@ -864,6 +926,8 @@ function deims_permissions_user_default_permissions() {
     'name' => 'delete own article content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
+      2 => 'information manager',
     ),
     'module' => 'node',
   );
@@ -873,6 +937,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'delete own audio files',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'file_entity',
   );
@@ -882,6 +947,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'delete own biblio content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'node',
   );
@@ -891,6 +957,9 @@ function deims_permissions_user_default_permissions() {
     'name' => 'delete own data_set content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'content contributor',
+      2 => 'data contributor',
+      3 => 'information manager',
     ),
     'module' => 'node',
   );
@@ -900,6 +969,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'delete own data_source content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'node',
   );
@@ -909,6 +979,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'delete own document files',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'file_entity',
   );
@@ -918,6 +989,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'delete own image files',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'file_entity',
   );
@@ -927,6 +999,19 @@ function deims_permissions_user_default_permissions() {
     'name' => 'delete own image_gallery content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
+    ),
+    'module' => 'node',
+  );
+
+  // Exported permission: delete own organization content.
+  $permissions['delete own organization content'] = array(
+    'name' => 'delete own organization content',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'content contributor',
+      2 => 'data contributor',
+      3 => 'information manager',
     ),
     'module' => 'node',
   );
@@ -936,6 +1021,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'delete own page content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'node',
   );
@@ -945,6 +1031,8 @@ function deims_permissions_user_default_permissions() {
     'name' => 'delete own person content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
+      2 => 'content contributor',
     ),
     'module' => 'node',
   );
@@ -954,6 +1042,9 @@ function deims_permissions_user_default_permissions() {
     'name' => 'delete own project content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'content contributor',
+      2 => 'data contributor',
+      3 => 'information manager',
     ),
     'module' => 'node',
   );
@@ -963,6 +1054,9 @@ function deims_permissions_user_default_permissions() {
     'name' => 'delete own research_site content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'content contributor',
+      2 => 'data contributor',
+      3 => 'information manager',
     ),
     'module' => 'node',
   );
@@ -972,6 +1066,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'delete own video files',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'file_entity',
   );
@@ -1025,6 +1120,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'display drupal links',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'admin_menu',
   );
@@ -1034,6 +1130,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'download any audio files',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'file_entity',
   );
@@ -1043,6 +1140,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'download any document files',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'file_entity',
   );
@@ -1052,6 +1150,9 @@ function deims_permissions_user_default_permissions() {
     'name' => 'download any image files',
     'roles' => array(
       0 => 'administrator',
+      1 => 'content contributor',
+      2 => 'data contributor',
+      3 => 'information manager',
     ),
     'module' => 'file_entity',
   );
@@ -1061,6 +1162,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'download any video files',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'file_entity',
   );
@@ -1070,6 +1172,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'download own audio files',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'file_entity',
   );
@@ -1079,6 +1182,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'download own document files',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'file_entity',
   );
@@ -1088,6 +1192,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'download own image files',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'file_entity',
   );
@@ -1097,6 +1202,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'download own video files',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'file_entity',
   );
@@ -1118,7 +1224,6 @@ function deims_permissions_user_default_permissions() {
     ),
     'module' => 'eck',
   );
-
   // Exported permission: eck add entity types.
   $permissions['eck add entity types'] = array(
     'name' => 'eck add entity types',
@@ -1196,8 +1301,7 @@ function deims_permissions_user_default_permissions() {
     'roles' => array(),
     'module' => 'eck',
   );
-
-  // Exported permission: eck administer site_details bundles.
+ // Exported permission: eck administer site_details bundles.
   $permissions['eck administer site_details bundles'] = array(
     'name' => 'eck administer site_details bundles',
     'roles' => array(),
@@ -1404,6 +1508,9 @@ function deims_permissions_user_default_permissions() {
     'name' => 'edit any article content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'content contributor',
+      2 => 'data contributor',
+      3 => 'information manager',
     ),
     'module' => 'node',
   );
@@ -1413,6 +1520,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'edit any audio files',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'file_entity',
   );
@@ -1422,6 +1530,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'edit any biblio content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'node',
   );
@@ -1431,6 +1540,9 @@ function deims_permissions_user_default_permissions() {
     'name' => 'edit any data_set content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'content contributor',
+      2 => 'data contributor',
+      3 => 'information manager',
     ),
     'module' => 'node',
   );
@@ -1440,6 +1552,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'edit any data_source content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'node',
   );
@@ -1449,6 +1562,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'edit any document files',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'file_entity',
   );
@@ -1458,6 +1572,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'edit any image files',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'file_entity',
   );
@@ -1467,6 +1582,17 @@ function deims_permissions_user_default_permissions() {
     'name' => 'edit any image_gallery content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
+    ),
+    'module' => 'node',
+  );
+
+  // Exported permission: edit any organization content.
+  $permissions['edit any organization content'] = array(
+    'name' => 'edit any organization content',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'node',
   );
@@ -1476,6 +1602,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'edit any page content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'node',
   );
@@ -1485,6 +1612,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'edit any person content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'node',
   );
@@ -1494,6 +1622,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'edit any project content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'node',
   );
@@ -1503,6 +1632,9 @@ function deims_permissions_user_default_permissions() {
     'name' => 'edit any research_site content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'content contributor',
+      2 => 'data contributor',
+      3 => 'information manager',
     ),
     'module' => 'node',
   );
@@ -1512,6 +1644,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'edit any video files',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'file_entity',
   );
@@ -1521,6 +1654,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'edit biblio authors',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'biblio',
   );
@@ -1530,6 +1664,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'edit by all biblio authors',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'biblio',
   );
@@ -1537,28 +1672,30 @@ function deims_permissions_user_default_permissions() {
   // Exported permission: edit field_doi.
   $permissions['edit field_doi'] = array(
     'name' => 'edit field_doi',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'information manager',
+    ),
     'module' => 'field_permissions',
   );
 
   // Exported permission: edit field_eml_hash.
   $permissions['edit field_eml_hash'] = array(
     'name' => 'edit field_eml_hash',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'information manager',
+    ),
     'module' => 'field_permissions',
   );
 
   // Exported permission: edit field_eml_revision_id.
   $permissions['edit field_eml_revision_id'] = array(
     'name' => 'edit field_eml_revision_id',
-    'roles' => array(),
-    'module' => 'field_permissions',
-  );
-
-  // Exported permission: edit field_eml_valid.
-  $permissions['edit field_eml_valid'] = array(
-    'name' => 'edit field_eml_valid',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'information manager',
+    ),
     'module' => 'field_permissions',
   );
 
@@ -1567,6 +1704,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'edit own article content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'node',
   );
@@ -1576,6 +1714,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'edit own audio files',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'file_entity',
   );
@@ -1585,6 +1724,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'edit own biblio content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'node',
   );
@@ -1594,6 +1734,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'edit own data_set content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'node',
   );
@@ -1603,6 +1744,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'edit own data_source content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'node',
   );
@@ -1612,6 +1754,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'edit own document files',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'file_entity',
   );
@@ -1619,28 +1762,30 @@ function deims_permissions_user_default_permissions() {
   // Exported permission: edit own field_doi.
   $permissions['edit own field_doi'] = array(
     'name' => 'edit own field_doi',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'information manager',
+    ),
     'module' => 'field_permissions',
   );
 
   // Exported permission: edit own field_eml_hash.
   $permissions['edit own field_eml_hash'] = array(
     'name' => 'edit own field_eml_hash',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'information manager',
+    ),
     'module' => 'field_permissions',
   );
 
   // Exported permission: edit own field_eml_revision_id.
   $permissions['edit own field_eml_revision_id'] = array(
     'name' => 'edit own field_eml_revision_id',
-    'roles' => array(),
-    'module' => 'field_permissions',
-  );
-
-  // Exported permission: edit own field_eml_valid.
-  $permissions['edit own field_eml_valid'] = array(
-    'name' => 'edit own field_eml_valid',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'information manager',
+    ),
     'module' => 'field_permissions',
   );
 
@@ -1649,6 +1794,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'edit own image files',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'file_entity',
   );
@@ -1658,6 +1804,17 @@ function deims_permissions_user_default_permissions() {
     'name' => 'edit own image_gallery content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
+    ),
+    'module' => 'node',
+  );
+
+  // Exported permission: edit own organization content.
+  $permissions['edit own organization content'] = array(
+    'name' => 'edit own organization content',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'node',
   );
@@ -1667,6 +1824,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'edit own page content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'node',
   );
@@ -1676,6 +1834,9 @@ function deims_permissions_user_default_permissions() {
     'name' => 'edit own person content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'content contributor',
+      2 => 'data contributor',
+      3 => 'information manager',
     ),
     'module' => 'node',
   );
@@ -1685,6 +1846,8 @@ function deims_permissions_user_default_permissions() {
     'name' => 'edit own project content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
+      2 => 'information manager',
     ),
     'module' => 'node',
   );
@@ -1694,6 +1857,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'edit own research_site content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'node',
   );
@@ -1703,6 +1867,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'edit own video files',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'file_entity',
   );
@@ -1747,6 +1912,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'flush caches',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'admin_menu',
   );
@@ -1756,6 +1922,8 @@ function deims_permissions_user_default_permissions() {
     'name' => 'import from file',
     'roles' => array(
       0 => 'administrator',
+      1 => 'content contributor',
+      2 => 'information manager',
     ),
     'module' => 'biblio',
   );
@@ -1767,20 +1935,6 @@ function deims_permissions_user_default_permissions() {
       0 => 'administrator',
     ),
     'module' => 'features',
-  );
-
-  // Exported permission: manage project_role properties.
-  $permissions['manage project_role properties'] = array(
-    'name' => 'manage project_role properties',
-    'roles' => array(),
-    'module' => 'eck',
-  );
-
-  // Exported permission: manage site_details properties.
-  $permissions['manage site_details properties'] = array(
-    'name' => 'manage site_details properties',
-    'roles' => array(),
-    'module' => 'eck',
   );
 
   // Exported permission: moderate content from draft to needs_review.
@@ -1842,6 +1996,8 @@ function deims_permissions_user_default_permissions() {
     'name' => 'search content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'anonymous user',
+      2 => 'authenticated user',
     ),
     'module' => 'search',
   );
@@ -1869,6 +2025,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'show download links',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'biblio',
   );
@@ -1878,6 +2035,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'show export links',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'biblio',
   );
@@ -1887,6 +2045,8 @@ function deims_permissions_user_default_permissions() {
     'name' => 'show filter tab',
     'roles' => array(
       0 => 'administrator',
+      1 => 'anonymous user',
+      2 => 'authenticated user',
     ),
     'module' => 'biblio',
   );
@@ -1896,6 +2056,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'show own download links',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'biblio',
   );
@@ -1905,6 +2066,8 @@ function deims_permissions_user_default_permissions() {
     'name' => 'show sort links',
     'roles' => array(
       0 => 'administrator',
+      1 => 'anonymous user',
+      2 => 'authenticated user',
     ),
     'module' => 'biblio',
   );
@@ -1932,6 +2095,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'use advanced search',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'search',
   );
@@ -1950,6 +2114,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'use text format filtered_html',
     'roles' => array(
       0 => 'administrator',
+      1 => 'information manager',
     ),
     'module' => 'filter',
   );
@@ -1959,8 +2124,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'use text format full_html',
     'roles' => array(
       0 => 'administrator',
-      1 => 'anonymous user',
-      2 => 'authenticated user',
+      1 => 'authenticated user',
     ),
     'module' => 'filter',
   );
@@ -1995,14 +2159,20 @@ function deims_permissions_user_default_permissions() {
   // Exported permission: view field_doi.
   $permissions['view field_doi'] = array(
     'name' => 'view field_doi',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'information manager',
+    ),
     'module' => 'field_permissions',
   );
 
   // Exported permission: view field_eml_hash.
   $permissions['view field_eml_hash'] = array(
     'name' => 'view field_eml_hash',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'information manager',
+    ),
     'module' => 'field_permissions',
   );
 
@@ -2014,13 +2184,6 @@ function deims_permissions_user_default_permissions() {
       1 => 'anonymous user',
       2 => 'authenticated user',
     ),
-    'module' => 'field_permissions',
-  );
-
-  // Exported permission: view field_eml_valid.
-  $permissions['view field_eml_valid'] = array(
-    'name' => 'view field_eml_valid',
-    'roles' => array(),
     'module' => 'field_permissions',
   );
 
@@ -2040,6 +2203,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'view full text',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'biblio',
   );
@@ -2065,28 +2229,31 @@ function deims_permissions_user_default_permissions() {
   // Exported permission: view own field_doi.
   $permissions['view own field_doi'] = array(
     'name' => 'view own field_doi',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'information manager',
+    ),
     'module' => 'field_permissions',
   );
 
   // Exported permission: view own field_eml_hash.
   $permissions['view own field_eml_hash'] = array(
     'name' => 'view own field_eml_hash',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'information manager',
+    ),
     'module' => 'field_permissions',
   );
 
   // Exported permission: view own field_eml_revision_id.
   $permissions['view own field_eml_revision_id'] = array(
     'name' => 'view own field_eml_revision_id',
-    'roles' => array(),
-    'module' => 'field_permissions',
-  );
-
-  // Exported permission: view own field_eml_valid.
-  $permissions['view own field_eml_valid'] = array(
-    'name' => 'view own field_eml_valid',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'anonymous user',
+      2 => 'authenticated user',
+    ),
     'module' => 'field_permissions',
   );
 
@@ -2095,6 +2262,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'view own files',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'file_entity',
   );
@@ -2104,6 +2272,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'view own private files',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'file_entity',
   );
@@ -2113,6 +2282,8 @@ function deims_permissions_user_default_permissions() {
     'name' => 'view own unpublished content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'anonymous user',
+      2 => 'authenticated user',
     ),
     'module' => 'node',
   );
@@ -2122,6 +2293,9 @@ function deims_permissions_user_default_permissions() {
     'name' => 'view private files',
     'roles' => array(
       0 => 'administrator',
+      1 => 'content contributor',
+      2 => 'data contributor',
+      3 => 'information manager',
     ),
     'module' => 'file_entity',
   );
@@ -2131,6 +2305,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'view revisions',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'node',
   );
@@ -2140,6 +2315,7 @@ function deims_permissions_user_default_permissions() {
     'name' => 'view the administration theme',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
     ),
     'module' => 'system',
   );
