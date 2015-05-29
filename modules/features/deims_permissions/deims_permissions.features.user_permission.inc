@@ -1189,9 +1189,6 @@ function deims_permissions_user_default_permissions() {
     'name' => 'eck add entities',
     'roles' => array(
       0 => 'administrator',
-      1 => 'content contributor',
-      2 => 'data contributor',
-      3 => 'information manager',
     ),
     'module' => 'eck',
   );
@@ -1324,9 +1321,6 @@ function deims_permissions_user_default_permissions() {
     'name' => 'eck delete entities',
     'roles' => array(
       0 => 'administrator',
-      1 => 'content contributor',
-      2 => 'data contributor',
-      3 => 'information manager',
     ),
     'module' => 'eck',
   );
@@ -1396,9 +1390,6 @@ function deims_permissions_user_default_permissions() {
     'name' => 'eck edit entities',
     'roles' => array(
       0 => 'administrator',
-      1 => 'content contributor',
-      2 => 'data contributor',
-      3 => 'information manager',
     ),
     'module' => 'eck',
   );
@@ -1468,9 +1459,6 @@ function deims_permissions_user_default_permissions() {
     'name' => 'eck list entities',
     'roles' => array(
       0 => 'administrator',
-      1 => 'content contributor',
-      2 => 'data contributor',
-      3 => 'information manager',
     ),
     'module' => 'eck',
   );
@@ -1498,8 +1486,6 @@ function deims_permissions_user_default_permissions() {
     'name' => 'eck list project_role project_role entities',
     'roles' => array(
       0 => 'administrator',
-      1 => 'anonymous user',
-      2 => 'authenticated user',
     ),
     'module' => 'eck',
   );
@@ -1516,10 +1502,7 @@ function deims_permissions_user_default_permissions() {
   // Exported permission: eck list site_details site_details entities.
   $permissions['eck list site_details site_details entities'] = array(
     'name' => 'eck list site_details site_details entities',
-    'roles' => array(
-      0 => 'anonymous user',
-      1 => 'authenticated user',
-    ),
+    'roles' => array(),
     'module' => 'eck',
   );
 
@@ -1540,6 +1523,8 @@ function deims_permissions_user_default_permissions() {
     'name' => 'eck view project_role project_role entities',
     'roles' => array(
       0 => 'administrator',
+      1 => 'anonymous user',
+      2 => 'authenticated user',
     ),
     'module' => 'eck',
   );
