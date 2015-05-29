@@ -712,6 +712,16 @@ function deims_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: create organization content.
+  $permissions['create organization content'] = array(
+    'name' => 'create organization content',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'authenticated user',
+    ),
+    'module' => 'node',
+  );
+
   // Exported permission: create page content.
   $permissions['create page content'] = array(
     'name' => 'create page content',
@@ -851,6 +861,16 @@ function deims_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: delete any organization content.
+  $permissions['delete any organization content'] = array(
+    'name' => 'delete any organization content',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'information manager',
+    ),
+    'module' => 'node',
+  );
+
   // Exported permission: delete any page content.
   $permissions['delete any page content'] = array(
     'name' => 'delete any page content',
@@ -980,6 +1000,18 @@ function deims_permissions_user_default_permissions() {
     'roles' => array(
       0 => 'administrator',
       1 => 'authenticated user',
+    ),
+    'module' => 'node',
+  );
+
+  // Exported permission: delete own organization content.
+  $permissions['delete own organization content'] = array(
+    'name' => 'delete own organization content',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'content contributor',
+      2 => 'data contributor',
+      3 => 'information manager',
     ),
     'module' => 'node',
   );
@@ -1175,370 +1207,6 @@ function deims_permissions_user_default_permissions() {
     'module' => 'file_entity',
   );
 
-  // Exported permission: eck add bundles.
-  $permissions['eck add bundles'] = array(
-    'name' => 'eck add bundles',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck add entities.
-  $permissions['eck add entities'] = array(
-    'name' => 'eck add entities',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck add entity types.
-  $permissions['eck add entity types'] = array(
-    'name' => 'eck add entity types',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck add project_role bundles.
-  $permissions['eck add project_role bundles'] = array(
-    'name' => 'eck add project_role bundles',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck add project_role project_role entities.
-  $permissions['eck add project_role project_role entities'] = array(
-    'name' => 'eck add project_role project_role entities',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'content contributor',
-      2 => 'data contributor',
-      3 => 'information manager',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck add site_details bundles.
-  $permissions['eck add site_details bundles'] = array(
-    'name' => 'eck add site_details bundles',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck add site_details site_details entities.
-  $permissions['eck add site_details site_details entities'] = array(
-    'name' => 'eck add site_details site_details entities',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'content contributor',
-      2 => 'data contributor',
-      3 => 'information manager',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck administer bundles.
-  $permissions['eck administer bundles'] = array(
-    'name' => 'eck administer bundles',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck administer entities.
-  $permissions['eck administer entities'] = array(
-    'name' => 'eck administer entities',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck administer entity types.
-  $permissions['eck administer entity types'] = array(
-    'name' => 'eck administer entity types',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck administer project_role bundles.
-  $permissions['eck administer project_role bundles'] = array(
-    'name' => 'eck administer project_role bundles',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck administer project_role project_role entities.
-  $permissions['eck administer project_role project_role entities'] = array(
-    'name' => 'eck administer project_role project_role entities',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck administer site_details bundles.
-  $permissions['eck administer site_details bundles'] = array(
-    'name' => 'eck administer site_details bundles',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck administer site_details site_details entities.
-  $permissions['eck administer site_details site_details entities'] = array(
-    'name' => 'eck administer site_details site_details entities',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck delete bundles.
-  $permissions['eck delete bundles'] = array(
-    'name' => 'eck delete bundles',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck delete entities.
-  $permissions['eck delete entities'] = array(
-    'name' => 'eck delete entities',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck delete entity types.
-  $permissions['eck delete entity types'] = array(
-    'name' => 'eck delete entity types',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck delete project_role bundles.
-  $permissions['eck delete project_role bundles'] = array(
-    'name' => 'eck delete project_role bundles',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck delete project_role project_role entities.
-  $permissions['eck delete project_role project_role entities'] = array(
-    'name' => 'eck delete project_role project_role entities',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'content contributor',
-      2 => 'data contributor',
-      3 => 'information manager',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck delete site_details bundles.
-  $permissions['eck delete site_details bundles'] = array(
-    'name' => 'eck delete site_details bundles',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck delete site_details site_details entities.
-  $permissions['eck delete site_details site_details entities'] = array(
-    'name' => 'eck delete site_details site_details entities',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'content contributor',
-      2 => 'data contributor',
-      3 => 'information manager',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck edit bundles.
-  $permissions['eck edit bundles'] = array(
-    'name' => 'eck edit bundles',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck edit entities.
-  $permissions['eck edit entities'] = array(
-    'name' => 'eck edit entities',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck edit entity types.
-  $permissions['eck edit entity types'] = array(
-    'name' => 'eck edit entity types',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck edit project_role bundles.
-  $permissions['eck edit project_role bundles'] = array(
-    'name' => 'eck edit project_role bundles',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck edit project_role project_role entities.
-  $permissions['eck edit project_role project_role entities'] = array(
-    'name' => 'eck edit project_role project_role entities',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'content contributor',
-      2 => 'data contributor',
-      3 => 'information manager',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck edit site_details bundles.
-  $permissions['eck edit site_details bundles'] = array(
-    'name' => 'eck edit site_details bundles',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck edit site_details site_details entities.
-  $permissions['eck edit site_details site_details entities'] = array(
-    'name' => 'eck edit site_details site_details entities',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'content contributor',
-      2 => 'data contributor',
-      3 => 'information manager',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck list bundles.
-  $permissions['eck list bundles'] = array(
-    'name' => 'eck list bundles',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck list entities.
-  $permissions['eck list entities'] = array(
-    'name' => 'eck list entities',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck list entity types.
-  $permissions['eck list entity types'] = array(
-    'name' => 'eck list entity types',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck list project_role bundles.
-  $permissions['eck list project_role bundles'] = array(
-    'name' => 'eck list project_role bundles',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck list project_role project_role entities.
-  $permissions['eck list project_role project_role entities'] = array(
-    'name' => 'eck list project_role project_role entities',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck list site_details bundles.
-  $permissions['eck list site_details bundles'] = array(
-    'name' => 'eck list site_details bundles',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck list site_details site_details entities.
-  $permissions['eck list site_details site_details entities'] = array(
-    'name' => 'eck list site_details site_details entities',
-    'roles' => array(),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck view entities.
-  $permissions['eck view entities'] = array(
-    'name' => 'eck view entities',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'content contributor',
-      2 => 'data contributor',
-      3 => 'information manager',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck view project_role project_role entities.
-  $permissions['eck view project_role project_role entities'] = array(
-    'name' => 'eck view project_role project_role entities',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'anonymous user',
-      2 => 'authenticated user',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: eck view site_details site_details entities.
-  $permissions['eck view site_details site_details entities'] = array(
-    'name' => 'eck view site_details site_details entities',
-    'roles' => array(
-      0 => 'anonymous user',
-      1 => 'authenticated user',
-    ),
-    'module' => 'eck',
-  );
-
   // Exported permission: edit any article content.
   $permissions['edit any article content'] = array(
     'name' => 'edit any article content',
@@ -1616,6 +1284,16 @@ function deims_permissions_user_default_permissions() {
   // Exported permission: edit any image_gallery content.
   $permissions['edit any image_gallery content'] = array(
     'name' => 'edit any image_gallery content',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'information manager',
+    ),
+    'module' => 'node',
+  );
+
+  // Exported permission: edit any organization content.
+  $permissions['edit any organization content'] = array(
+    'name' => 'edit any organization content',
     'roles' => array(
       0 => 'administrator',
       1 => 'information manager',
@@ -1835,6 +1513,16 @@ function deims_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: edit own organization content.
+  $permissions['edit own organization content'] = array(
+    'name' => 'edit own organization content',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'authenticated user',
+    ),
+    'module' => 'node',
+  );
+
   // Exported permission: edit own page content.
   $permissions['edit own page content'] = array(
     'name' => 'edit own page content',
@@ -1951,24 +1639,6 @@ function deims_permissions_user_default_permissions() {
       0 => 'administrator',
     ),
     'module' => 'features',
-  );
-
-  // Exported permission: manage project_role properties.
-  $permissions['manage project_role properties'] = array(
-    'name' => 'manage project_role properties',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'eck',
-  );
-
-  // Exported permission: manage site_details properties.
-  $permissions['manage site_details properties'] = array(
-    'name' => 'manage site_details properties',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'eck',
   );
 
   // Exported permission: moderate content from draft to needs_review.
