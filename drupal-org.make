@@ -25,6 +25,10 @@ projects[backup_migrate][subdir] = "contrib"
 
 projects[biblio][version] = "1.0-rc7"
 projects[biblio][subdir] = "contrib"
+; Biblio crossref module acquiring data using "GET" instead of POST
+; @see https://www.drupal.org/node/2168043
+; https://www.drupal.org/node/2168853
+projects[biblio][patch][] = "http://drupal.org/files/issues/biblio_crossref_GET_not_POST-UNKNOWN-0.patch"
 
 projects[captcha][version] = "1.0"
 projects[captcha][subdir] = "contrib"
