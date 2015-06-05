@@ -16,6 +16,9 @@ projects[admin_select][subdir] = "contrib"
 
 projects[auto_entitylabel][version] = "1.3"
 projects[auto_entitylabel][subdir] = "contrib"
+; auto_entitylabel bug on postgresql integer type problem
+; @see https://www.drupal.org/node/2411259 for details
+projects[auto_entitylabel][patch][] = "http://www.drupal.org/files/issues/auto_entitylabel-weightfix.patch"
 
 projects[autosave][version] = "2.2"
 projects[autosave][subdir] = "contrib"
