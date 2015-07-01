@@ -5,6 +5,13 @@
  */
 
 /**
+ * Implements hook_views_api().
+ */
+function deims_taxa_views_api() {
+  return array("version" => "3.0");
+}
+
+/**
  * Implements hook_eck_bundle_info().
  */
 function deims_taxa_eck_bundle_info() {
