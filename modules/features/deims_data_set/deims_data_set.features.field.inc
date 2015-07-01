@@ -3513,8 +3513,15 @@ function deims_data_set_field_default_fields() {
       'field_permissions' => array(
         'type' => '0',
       ),
-      'foreign keys' => array(),
-      'indexes' => array(
+      'foreign keys' => array(
+        'eck_taxa' => array(
+          'columns' => array(
+            'target_id' => 'id',
+          ),
+          'table' => 'eck_taxa',
+        ),
+      ), 
+     'indexes' => array(
         'target_id' => array(
           0 => 'target_id',
         ),
@@ -3523,18 +3530,17 @@ function deims_data_set_field_default_fields() {
       'module' => 'entityreference',
       'settings' => array(
         'delete_on_parent_delete' => '',
-        'handler' => 'base',
+        'handler' => 'views',
         'handler_settings' => array(
           'behaviors' => array(
             'views-select-list' => array(
               'status' => 0,
             ),
           ),
-          'sort' => array(
-            'type' => 'none',
-          ),
-          'target_bundles' => array(
-            'taxa' => 'taxa',
+          'view' => array(
+            'args' => array(),
+            'display_name' => 'entityreference_1',
+            'view_name' => 'taxa_common_and_sci_name_list',
           ),
         ),
         'target_type' => 'taxa',
@@ -3558,9 +3564,10 @@ function deims_data_set_field_default_fields() {
           'label' => 'inline',
           'module' => 'entityreference',
           'settings' => array(
-            'link' => FALSE,
+            'links' => TRUE,
+            'view_mode' => 'default',
           ),
-          'type' => 'entityreference_label',
+          'type' => 'entityreference_entity_view',
           'weight' => '6',
         ),
         'eml' => array(
