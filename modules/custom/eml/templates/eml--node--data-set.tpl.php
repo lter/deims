@@ -12,6 +12,12 @@
   <dataset>
     <title><?php print $label; ?></title>
 
+    <?php if (!empty($entity->field_short_name[LANGUAGE_NONE][0])): ?>
+      <shortname>
+         <?php print check_plain($entity->field_short_name[LANGUAGE_NONE][0]['value']); ?>
+      </shortname>
+    <?php endif; ?>
+
     <?php print render($content['field_person_creator']); ?>
 
     <?php print render($content['field_person_metadata_provider']); ?>
