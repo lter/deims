@@ -1,4 +1,46 @@
-<dataTable>
+<?php if (empty($content['field_variables'])): ?>
+  <otherEntity>
+   <entityName><?php print $label; ?></entityName>
+   <?php if (!empty($content['field_description'])): ?>
+    <entityDescription>
+     <?php print render($content['field_description']); ?>
+    </entityDescription>
+   <?php endif; ?>
+  <physical>
+    <?php if (!empty($entity->field_data_source_file[LANGUAGE_NONE][0])): ?>
+     <objectName><?php print check_plain($entity->field_data_source_file[LANGUAGE_NONE][0]['filename']); ?></objectName>
+     <size><?php print check_plain($entity->field_data_source_file[LANGUAGE_NONE][0]['filesize']); ?></size>
+    <?php endif; ?>
+    <dataFormat>
+     <externallyDefinedFormat>
+      <formatName>
+       <?php print check_plain($entity->field_data_source_file[LANGUAGE_NONE][0]['filemime']); ?>
+      </formatName>
+     </externallyDefinedFormat>
+    </dataFormat>
+    <distribution>
+     <online>
+       <url><?php print render($content['field_data_source_file']); ?></url>
+     </online>
+    </distribution>
+   </physical>
+   <?php if (!empty($content['field_date_range'])): ?>
+   <coverage>
+    <?php print render($content['field_date_range']); ?>
+   </coverage>
+   <?php endif; ?>
+   <?php if (!empty($content['methods'])): ?>
+    <methods>
+     <?php print render($content['methods']); ?>
+    </methods>
+   <?php endif; ?>
+   <entityType>
+     <?php print check_plain($entity->field_data_source_file[LANGUAGE_NONE][0]['type']); ?>
+   </entityType>
+  </otherEntity>
+<?php endif; ?>
+<?php if (!empty($content['field_variables'])): ?>
+ <dataTable>
   <entityName><?php print $label; ?></entityName>
   <?php if (!empty($content['field_description'])): ?>
   <entityDescription>
@@ -51,4 +93,5 @@
   <attributeList>
     <?php print render($content['field_variables']); ?>
   </attributeList>
-</dataTable>
+ </dataTable>
+<?php endif; ?>
