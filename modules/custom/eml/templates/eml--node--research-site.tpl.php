@@ -1,6 +1,7 @@
 <geographicCoverage>
   <geographicDescription>
     <?php print render($content['field_description']); ?>
+    <?php print render($content['field_site_details']); ?>
   </geographicDescription>
   <?php if (!empty($content['field_coordinates'])): ?>
     <boundingCoordinates>
