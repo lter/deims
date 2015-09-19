@@ -553,7 +553,9 @@ function deims_research_site_field_default_fields() {
         'eml' => array(
           'label' => 'above',
           'settings' => array(),
-          'type' => 'hidden',
+          'module' => 'eml',
+          'settings' => array(),
+          'type' => 'entityreference_eml_element',
           'weight' => '3',
         ),
         'full' => array(

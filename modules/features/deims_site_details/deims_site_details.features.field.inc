@@ -50,7 +50,7 @@ function deims_site_details_field_default_fields() {
           'label' => 'hidden',
           'module' => 'text',
           'settings' => array(),
-          'type' => 'text_default',
+          'type' => 'text_plain',
           'weight' => '1',
         ),
         'teaser' => array(
@@ -122,7 +122,7 @@ function deims_site_details_field_default_fields() {
           'label' => 'hidden',
           'module' => 'text',
           'settings' => array(),
-          'type' => 'text_default',
+          'type' => 'text_plain',
           'weight' => '0',
         ),
         'teaser' => array(
