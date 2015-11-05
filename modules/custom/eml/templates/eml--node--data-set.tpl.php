@@ -10,13 +10,14 @@
     </allow>
   </access>
   <dataset>
-    <title><?php print $label; ?></title>
 
     <?php if (!empty($entity->field_short_name[LANGUAGE_NONE][0])): ?>
-      <shortname>
+      <shortName>
          <?php print check_plain($entity->field_short_name[LANGUAGE_NONE][0]['value']); ?>
-      </shortname>
+      </shortName>
     <?php endif; ?>
+
+    <title><?php print $label; ?></title>
 
     <?php print render($content['field_person_creator']); ?>
 
