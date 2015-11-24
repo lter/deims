@@ -5,7 +5,7 @@ core = "7.x"
 ; Contributed modules
 ; -----------------------------------------------------------------------------
 
-projects[addressfield][version] = "1.1"
+projects[addressfield][version] = "1.2"
 projects[addressfield][subdir] = "contrib"
 
 projects[admin_menu][version] = "3.0-rc5"
@@ -14,11 +14,8 @@ projects[admin_menu][subdir] = "contrib"
 projects[admin_select][version] = "1.5"
 projects[admin_select][subdir] = "contrib"
 
-projects[auto_entitylabel][version] = "1.3"
+projects[auto_entitylabel][version] = "1.x-dev"
 projects[auto_entitylabel][subdir] = "contrib"
-; auto_entitylabel bug on postgresql integer type problem
-; @see https://www.drupal.org/node/2411259 for details
-projects[auto_entitylabel][patch][] = "http://www.drupal.org/files/issues/auto_entitylabel-weightfix.patch"
 
 projects[autosave][version] = "2.2"
 projects[autosave][subdir] = "contrib"
@@ -33,7 +30,7 @@ projects[biblio][subdir] = "contrib"
 ; https://www.drupal.org/node/2168853
 projects[biblio][patch][] = "http://drupal.org/files/issues/biblio_crossref_GET_not_POST-UNKNOWN-0.patch"
 
-projects[captcha][version] = "1.0"
+projects[captcha][version] = "1.3"
 projects[captcha][subdir] = "contrib"
 
 projects[ctools][version] = "1.7"
@@ -48,7 +45,7 @@ projects[chosen][subdir] = "contrib"
 ; @see https://drupal.org/node/2012900
 projects[chosen][patch][] = "http://drupal.org/files/issues/2012900-chosen-select-or-other_1.patch"
 
-projects[custom_breadcrumbs][version] = "2.0-alpha3"
+projects[custom_breadcrumbs][version] = "2.0-beta1"
 projects[custom_breadcrumbs][subdir] = "contrib"
 
 projects[datatables][version] = "1.2"
@@ -60,7 +57,7 @@ projects[datatables][patch][] = "http://drupal.org/files/2021741-installation-bl
 ; @see https://drupal.org/node/1904140#comment-7724631
 projects[datatables][patch][] = "http://drupal.org/files/1904140-datatables-fix-errors-when-headers-are-strings.patch"
 
-projects[date][version] = "2.8"
+projects[date][version] = "2.9"
 projects[date][subdir] = "contrib"
 
 projects[date_facets][version] = "1.x-dev"
@@ -73,7 +70,7 @@ projects[devel][subdir] = "contrib"
 projects[diff][version] = "3.2"
 projects[diff][subdir] = "contrib"
 
-projects[ds][version] = "2.8"
+projects[ds][version] = "2.11"
 projects[ds][subdir] = "contrib"
 
 projects[eck][version] = "2.0-rc2"
@@ -94,10 +91,10 @@ projects[email][subdir] = "contrib"
 projects[emptyparagraphkiller][version] = "1.0-beta2"
 projects[emptyparagraphkiller][subdir] = "contrib"
 
-projects[entity][version] = "1.5"
+projects[entity][version] = "1.6"
 projects[entity][subdir] = "contrib"
 
-projects[entitycache][version] = "1.2"
+projects[entitycache][version] = "1.5"
 projects[entitycache][subdir] = "contrib"
 
 projects[entityreference][version] = "1.1"
@@ -118,10 +115,10 @@ projects[features][subdir] = "contrib"
 projects[field_permissions][version] = "1.0-beta2"
 projects[field_permissions][subdir] = "contrib"
 
-projects[field_referenced_delete][version] = "1.0-rc4"
+projects[field_referenced_delete][version] = "1.0"
 projects[field_referenced_delete][subdir] = "contrib"
 
-projects[field_validation][version] = "2.4"
+projects[field_validation][version] = "2.6"
 projects[field_validation][subdir] = "contrib"
 
 projects[file_download_count][version] = "1.0-rc1"
@@ -131,25 +128,19 @@ projects[file_download_count][subdir] = "contrib"
 projects[file_entity][version] = "2.x-dev"
 projects[file_entity][subdir] = "contrib"
 
-projects[filefield_sources][version] = "1.9"
+projects[filefield_sources][version] = "1.10"
 projects[filefield_sources][subdir] = "contrib"
-; Ensure files that already exist in the files directory are left alone.
-; @see https://drupal.org/node/1492374
-projects[filefield_sources][patch][] = "http://drupal.org/files/1492374-ffs-attach-file-same-path.patch"
-; Only show files with relevant extensions in the attach select list.
-; @see https://drupal.org/node/2006436
-projects[filefield_sources][patch][] = "http://drupal.org/files/2006436-file-attach-extension-filter.patch"
 ; Show the actual attach upload path using drupal_realpath()
 ; @see https://drupal.org/node/2033269
 projects[filefield_sources][patch][] = "http://drupal.org/files/2033269-attach-realpath.patch"
 
 ; @todo Change to 1.3 release when available.
-projects[field_group][version] = "1.x-dev"
+projects[field_group][version] = "1.4"
 projects[field_group][subdir] = "contrib"
 
 projects[flag][version] = "3.0-rc1"
 projects[flag][subdir] = "contrib"
-
+ 
 projects[flexslider][version] = "2.0-alpha1"
 projects[flexslider][subdir] = "contrib"
 
@@ -159,25 +150,19 @@ projects[geofield][subdir] = "contrib"
 projects[geophp][version] = "1.7"
 projects[geophp][subdir] = "contrib"
 
-projects[google_analytics][version] = "1.3"
+projects[google_analytics][version] = "2.1"
 projects[google_analytics][subdir] = "contrib"
 
-projects[helper][version] = "1.5"
+projects[helper][version] = "1.7"
 projects[helper][subdir] = "contrib"
 
-projects[inline_entity_form][version] = "1.3"
+projects[inline_entity_form][version] = "1.x-dev"
 projects[inline_entity_form][subdir] = "contrib"
-; Add a 'Clone' button to the widget
-; @see https://drupal.org/node/1590146
-projects[inline_entity_form][patch][] = "http://drupal.org/files/ief_clone_button-1590146-18-default-off.patch"
-; Limit 'Add new' bundle options when entityreference uses a view for selection
-; @see https://drupal.org/node/1872316
-projects[inline_entity_form][patch][] = "http://drupal.org/files/1872316-ief-bundle-selection-node-view_0.patch"
 
 projects[libraries][version] = "2.2"
 projects[libraries][subdir] = "contrib"
 
-projects[link][version] = "1.2"
+projects[link][version] = "1.2=3"
 projects[link][subdir] = "contrib"
 
 ; Dave Reid maintains this, ok to use dev for now.
@@ -223,10 +208,10 @@ projects[options_element][patch][] = "http://drupal.org/files/2012198-options-el
 ; @see https://drupal.org/node/2045091
 projects[options_element][patch][] = "http://drupal.org/files/2045091-manual-entry-js-trigger.patch"
 
-projects[pathauto][version] = "1.2"
+projects[pathauto][version] = "1.3"
 projects[pathauto][subdir] = "contrib"
 
-projects[pathauto_persist][version] = "1.3"
+projects[pathauto_persist][version] = "1.4"
 projects[pathauto_persist][subdir] = "contrib"
 
 projects[print][version] = "2.0"
@@ -242,19 +227,19 @@ projects[responsive_tables][subdir] = "contrib"
 projects[rules][version] = "2.3"
 projects[rules][subdir] = "contrib"
 
-projects[schema][version] = "1.0-rc1"
+projects[schema][version] = "1.2"
 projects[schema][subdir] = "contrib"
 
-projects[schemaorg][version] = "1.0-beta4"
+projects[schemaorg][version] = "1.0-rc1"
 projects[schemaorg][subdir] = "contrib"
 
 projects[schema_reference][version] = "1.0-beta5"
 projects[schema_reference][subdir] = "contrib"
 
-projects[search_api][version] = "1.14"
+projects[search_api][version] = "1.16"
 projects[search_api][subdir] = "contrib"
 
-projects[search_api_db][version] = "1.2"
+projects[search_api_db][version] = "1.5"
 projects[search_api_db][subdir] = "contrib"
 
 projects[search_api_ranges][version] = "1.4"
@@ -291,7 +276,7 @@ projects[term_reference_tree][subdir] = "contrib"
 ; @see https://drupal.org/node/2007164
 projects[term_reference_tree][patch][] = "http://drupal.org/files/2007164-filter.patch"
 
-projects[token][version] = "1.5"
+projects[token][version] = "1.6"
 projects[token][subdir] = "contrib"
 
 projects[token_field][version] = "1.x-dev"
@@ -304,10 +289,10 @@ projects[token_formatters][subdir] = "contrib"
 projects[url][version] = "1.x-dev"
 projects[url][subdir] = "contrib"
 
-projects[views][version] = "3.11"
+projects[views][version] = "3.13"
 projects[views][subdir] = "contrib"
 
-projects[views_bulk_operations][version] = "3.1"
+projects[views_bulk_operations][version] = "3.3"
 projects[views_bulk_operations][subdir] = "contrib"
 
 projects[views_content_cache][version] = "3.0-alpha3"
@@ -319,17 +304,14 @@ projects[webform][subdir] = "contrib"
 projects[workbench][version] = "1.2"
 projects[workbench][subdir] = "contrib"
 
-projects[workbench_moderation][version] = "1.3"
+projects[workbench_access][version] = "1.4"
+projects[workbench_access][subdir] = "contrib"
+
+projects[workbench_moderation][version] = "1.4"
 projects[workbench_moderation][subdir] = "contrib"
 ; Show revision log message in the workbench message menu_block
 ; @see https://drupal.org/node/1972888
 projects[workbench_moderation][patch][] = "http://drupal.org/files/1972888-workbench-show-revision-log-message.patch"
-; Add features support
-; @see https://drupal.org/node/1314508
-projects[workbench_moderation][patch][] = "http://drupal.org/files/1314508-workbench-moderation-features.patch"
-
-projects[workbench_access][version] = "1.2"
-projects[workbench_access][subdir] = "contrib"
 
 projects[workbench_email][version] = "2.2"
 projects[workbench_email][subdir] = "contrib"
@@ -337,7 +319,7 @@ projects[workbench_email][subdir] = "contrib"
 projects[wysiwyg][version] = "2.x-dev"
 projects[wysiwyg][subdir] = "contrib"
 
-projects[wysiwyg_linebreaks][version] = "1.5"
+projects[wysiwyg_linebreaks][version] = "1.7"
 projects[wysiwyg_linebreaks][subdir] = "contrib"
 
 ; -----------------------------------------------------------------------------
