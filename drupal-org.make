@@ -33,10 +33,10 @@ projects[biblio][patch][] = "http://drupal.org/files/issues/biblio_crossref_GET_
 projects[captcha][version] = "1.3"
 projects[captcha][subdir] = "contrib"
 
-projects[ctools][version] = "1.7"
+projects[ctools][version] = "1.9"
 projects[ctools][subdir] = "contrib"
 
-projects[context][version] = "3.2"
+projects[context][version] = "3.6"
 projects[context][subdir] = "contrib"
 
 projects[chosen][version] = "2.0-beta4"
@@ -158,6 +158,9 @@ projects[helper][subdir] = "contrib"
 
 projects[inline_entity_form][version] = "1.x-dev"
 projects[inline_entity_form][subdir] = "contrib"
+; Limit 'Add new' bundle options when entityreference uses a view for selection
+; @see https://drupal.org/node/1872316
+https://www.drupal.org/files/issues/1872316-ief-bundle-selection-erv-22_0.patch
 
 projects[libraries][version] = "2.2"
 projects[libraries][subdir] = "contrib"
@@ -313,7 +316,7 @@ projects[workbench_moderation][subdir] = "contrib"
 ; @see https://drupal.org/node/1972888
 projects[workbench_moderation][patch][] = "http://drupal.org/files/1972888-workbench-show-revision-log-message.patch"
 
-projects[workbench_email][version] = "2.2"
+projects[workbench_email][version] = "3.6"
 projects[workbench_email][subdir] = "contrib"
 
 projects[wysiwyg][version] = "2.x-dev"
