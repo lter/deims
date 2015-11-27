@@ -242,7 +242,7 @@ projects[schema_reference][subdir] = "contrib"
 projects[search_api][version] = "1.16"
 projects[search_api][subdir] = "contrib"
 
-projects[search_api_db][version] = "1.5"
+projects[search_api_db][version] = "1.4"
 projects[search_api_db][subdir] = "contrib"
 
 projects[search_api_ranges][version] = "1.4"
