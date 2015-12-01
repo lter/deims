@@ -7,6 +7,23 @@
 * [Drush](http://drush.ws/)
 * [Git](http://git-scm.com/)
 
+## Tested Hardware
+
+DEIMS can run in a modern laptop (say a MacPro), for testing/devel purposes.  For production,
+we suggest you use a machine running a Linux distro, with at least 2Gb of RAM, specially if 
+you are going to build DEIMS using `drush make`. Having said that, we have built DEIMS on 
+old PC Desktops with just 1Gb of RAM running PHP 5.3.*. However, with PHP 5.5.*, you will need 
+more that 1.5Gb of RAM, most likely 2.5Gb at least.
+
+We installed DEIMS in Solaris, using a pre-built LAMP, but generally speaking, according
+to our tests, Linux has better tuned in LAMPs or LEMPs, and runs those stacks more 
+efficiently out of the box. We do not know enough Solaris to make LAMPs fly. 
+
+We heard of cases when DEIMS was installed in a WAMP stack (Windows). Folks (in Taiwan) installed 
+DEIMS using a PostGres backend (see patches/issues to make that happen). Please tell us your
+experiences.
+
+
 ## Instructions ##
 
 The following instructions assume that you clone this profile into a directory
