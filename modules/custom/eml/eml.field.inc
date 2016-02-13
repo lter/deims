@@ -293,8 +293,8 @@ function eml_field_formatter_view($entity_type, $entity, $field, $instance, $lan
         $element[$delta] = array(
           '#theme' => 'eml_elements',
           '#eml' => array(
-            'westBoundingCoordinate' => $item['right'],
-            'eastBoundingCoordinate' => $item['left'],
+            'westBoundingCoordinate' => $item['left'],
+            'eastBoundingCoordinate' => $item['right'],
             'northBoundingCoordinate' => $item['top'],
             'southBoundingCoordinate' => $item['bottom'],
           ),
