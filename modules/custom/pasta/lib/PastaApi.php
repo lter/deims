@@ -72,7 +72,7 @@ class PastaApi {
     $request = drupal_http_request($url, array('timeout' => 10));
 
     if (empty($request->error) && $request->code == 200 && !empty($request->data)) {
-      if (preg_match('/doi:([\d.]+\/pasta\/[a-e0-9]+)/', $request->data, $matches)) {
+      if (preg_match('/doi:([\d.]+\/pasta\/[a-z0-9]+)/', $request->data, $matches)) {
         return $matches[1];
       }
       else {
