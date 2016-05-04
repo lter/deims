@@ -1,7 +1,7 @@
 <gmi:MI_Metadata<?php print $namespaces; ?> >
-   <gmd:fileIndentifier>
+   <gmd:fileIdentifier>
      <?php print render($content['field_short_name']); ?>
-   </gmd:fileIndentifier>
+   </gmd:fileIdentifier>
    <gmd:language>
       <gco:CharacterString> <?php print $language; ?></gco:CharacterString>
    </gmd:language>
