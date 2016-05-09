@@ -8,5 +8,5 @@ includes[] = "drupal-org-core.make"
 projects[deims][type] = profile
 projects[deims][download][type] = "git"
 projects[deims][download][url] = "git@github.com:lter/deims.git"
-projects[deims][download][branch] = "d121-welcome-page"
+projects[deims][download][branch] = "121-welcome-page"
 projects[deims][subdir] = ""
