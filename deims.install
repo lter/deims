@@ -433,6 +433,10 @@ function deims_form_install_configure_form_submit($form, &$form_state) {
  * Implements hook_install_tasks().
  */
 function deims_install_tasks(&$install_state) {
+  $tasks['deims_welcome_page'] = array(
+    'display_name' => st('A helpful welcome page'),
+    'type' => 'normal',
+  );
   $tasks['deims_configure_eml_form'] = array(
     'display_name' => st('EML configuration'),
     'type' => 'form',
@@ -443,6 +447,42 @@ function deims_install_tasks(&$install_state) {
   );
 
   return $tasks;
+}
+
+function deims_welcome_page() {
+
+ global $user;
+
+ $values = array(
+  'type' => 'page',
+  'uid' => $user->uid,
+  'status' => 1,
+  'comment' => 1,
+  'promote' => 1,
+ );
+ $entity = entity_create('node', $values);
+
+ $ewrapper = entity_metadata_wrapper('node', $entity);
+ $ewrapper->title->set('Welcome to the Drupal Ecological Information Management System!');
+
+ $my_body_content = 'Hello There! Joining the ranks of scientists that use <a href="http://drupal.org/project/deims"> DEIMS</a>? You will manage data, publications, projects, locations, metadata, documents, photos and relevant information.
+ <p>DEIMS enables storing, editing and sharing data and information about your biological and ecological research. Your team work will be findable, versioned and compliant with common standards (ISO, Google and others).</p>
+ <h2>Getting Started</h2> 
+ DEIMS is based on <a href="https://drupal.org">Drupal</a> content management system. There is a wealth of information and documentation about Drupal on the web. If you are confortable using a Drupal based website, DEIMS is second nature to you. But Drupal experience is not required to use DEIMS. We have prepared for you <a href="https://docs.google.com/document/d/1zf5O56_WjMTRngSzY7vuDIT-lMLS0DljoGBqiAM5lAw/edit?usp=sharing">documentation specific to DEIMS</a>. How to create a data-set, how to add files, photos, publications. All of it. 
+ <h2>Maintaining DEIMS</h2> 
+ Your DEIMS administrator will leverage the <a href="https://groups.google.com/forum/#!forum/deims">helper notices </a> posted in the DEIMS support group, as well as tips and tricks found in the above cited <em>Book of DEIMS</em>. What are the first things you would want to do? Well, first you want to customize the look-and-feel to suit your group -- head to the <a href="/admin/appearance/settings/deims_theme">Theme administration pages</a> to add logos, color-schemas, fonts and the likes. 
+ <h2>Adding Content</h2>
+ You will need to start populating your DEIMS site; adding dataset description, personel profiles, photos, etc.  For example, you may want to show a personnel directory (your group!), one of my favs starting places.  If yours is a large directory, consider using migrate tools to import in bulk. Likewise for other large number of assets.  Otherwise, the user-friendly forms will help you creating your site.<p>One more thing: Do not forget to demote this page from your DEIMS frontpage, or to unpublish or, (gasp), delete it.';
+
+ $ewrapper->body->set(array('value' => $my_body_content, 'format' => 'full_html', 'summary' => $my_body_content));
+
+ $my_date = new DateTime('May 4, 2016');
+ $entity->field_my_date[LANGUAGE_NONE][0] = array(
+   'value' => date_format($my_date, 'Y-m-d'),
+   'timezone' => 'UTC',
+   'timezone_db' => 'UTC',
+ );
+ $ewrapper->save();
 }
 
 function deims_configure_eml_form($form, &$form_state, &$install_state) {
