@@ -5,7 +5,6 @@
  * BDP generation.
  *
  * BDP view mode and template for nodes
- *
  */
 
 require_once dirname(__FILE__) . '/bdp.field.inc';
@@ -160,13 +159,13 @@ function bdp_node_view($node, $view_mode, $langcode) {
       foreach ($items as $delta => $item) {
         $methods['methdesc'] = strip_tags(_text_sanitize($method_instance, $langcode, $item, 'value'));
         if (!empty($instrumentation_values[$delta])) {
-          $methods['methdesc'] .= ' Instrumentation:'. strip_tags(_text_sanitize($instrumentation_instance, $langcode, $instrumentation_values[$delta], 'value'));
+          $methods['methdesc'] .= ' Instrumentation:' . strip_tags(_text_sanitize($instrumentation_instance, $langcode, $instrumentation_values[$delta], 'value'));
         }
       }
     }
     if ($qa_items = field_get_items('node', $node, 'field_quality_assurance')) {
       $qa_instance = field_info_instance('node', 'field_quality_assurance', $node->type);
-      $methods['methdesc'] .= ' Quality Control: '.strip_tags(_text_sanitize($qa_instance, $langcode, $qa_items[0], 'value'));
+      $methods['methdesc'] .= ' Quality Control: ' . strip_tags(_text_sanitize($qa_instance, $langcode, $qa_items[0], 'value'));
     }
     if (!empty($methods)) {
       $node->content['methods'] = array(

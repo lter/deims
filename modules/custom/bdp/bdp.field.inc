@@ -64,7 +64,7 @@ function bdp_field_formatter_info() {
     'label' => t('BDP onlineUrl'),
     'field types' => array('link_field', 'url'),
   );
-  // not used (not working either, we took away nested elements)
+  // Not used (not working either, we took away nested elements)
   $info['bdp_text'] = array(
     'label' => t('BDP text'),
     'field types' => array('text', 'text_long', 'text_with_summary'),
@@ -234,7 +234,7 @@ function bdp_field_formatter_view($entity_type, $entity, $field, $instance, $lan
     case 'name_bdp_individualName':
       foreach ($items as $delta => $item) {
         $name = array(
-          'cntper' => $item['given'].' '.$item['family'],
+          'cntper' => $item['given'] . ' ' . $item['family'],
         );
         $element[$delta] = array(
           '#theme' => 'bdp_elements',
@@ -245,7 +245,7 @@ function bdp_field_formatter_view($entity_type, $entity, $field, $instance, $lan
 
     case 'name_bdp_publisherName':
       foreach ($items as $delta => $item) {
-        $name =  $item['given'].' '.$item['family'];
+        $name = $item['given'] . ' ' . $item['family'];
         $element[$delta] = array(
           '#theme' => 'bdp_elements',
           '#bdp' => array('publish' => $name),
@@ -256,7 +256,7 @@ function bdp_field_formatter_view($entity_type, $entity, $field, $instance, $lan
     case 'addressfield_bdp_address':
       foreach ($items as $delta => $item) {
         $address = array();
-        $address['addrtype']='Physical Address';
+        $address['addrtype'] = 'Physical Address';
         if (!empty($item['thoroughfare'])) {
           $address['address'] = $item['thoroughfare'];
         }
@@ -272,7 +272,7 @@ function bdp_field_formatter_view($entity_type, $entity, $field, $instance, $lan
         if (!empty($item['country'])) {
           $address['country'] = $item['country'];
         }
-        // if all address-related elements, dont print an <address> group
+        // If all address-related elements, dont print an <address> group.
         if (!empty($address)) {
            $element[$delta] = array(
              '#theme' => 'bdp_elements',
@@ -281,6 +281,7 @@ function bdp_field_formatter_view($entity_type, $entity, $field, $instance, $lan
         }
       }
       break;
+
     case 'addressfield_bdp_pubplace':
       foreach ($items as $delta => $item) {
         $address = array();
@@ -288,12 +289,12 @@ function bdp_field_formatter_view($entity_type, $entity, $field, $instance, $lan
           $address['pubplace'] = $item['locality'];
         }
         if (!empty($item['administrative_area'])) {
-          $address['pubplace'] .= ' '. $item['administrative_area'];
+          $address['pubplace'] .= ' ' . $item['administrative_area'];
         }
         if (!empty($item['country'])) {
           $address['pubplace'] .= $item['country'];
         }
-        // if all address-related elements, dont print an <address> group
+        // If all address-related elements, dont print an <address> group.
         if (!empty($address)) {
            $element[$delta] = array(
              '#theme' => 'bdp_elements',
@@ -311,9 +312,10 @@ function bdp_field_formatter_view($entity_type, $entity, $field, $instance, $lan
         $granularity = date_granularity($field);
         if ($dates['value']['formatted'] != $dates['value2']['formatted']) {
           $value = array('key' => 'rngdates', 'value' => array(
-            'begdate' => _bdp_date_value($dates['value'], $granularity),
-            'enddate' => _bdp_date_value($dates['value2'], $granularity),
-          ));
+                'begdate' => _bdp_date_value($dates['value'], $granularity),
+                'enddate' => _bdp_date_value($dates['value2'], $granularity),
+              )
+          );
         }
         else {
           $value = array('key' => 'sngdate', 'value' => _bdp_date_value($dates['value'], $granularity));
@@ -350,7 +352,8 @@ function bdp_field_formatter_view($entity_type, $entity, $field, $instance, $lan
           '#bdp' => array(array(
             'key' => 'cntvoice',
             'value' => $item['value'],
-          )),
+           )
+          ),
         );
       }
       break;
@@ -362,7 +365,8 @@ function bdp_field_formatter_view($entity_type, $entity, $field, $instance, $lan
           '#bdp' => array(array(
             'key' => 'cntfax',
             'value' => $item['value'],
-          )),
+            )
+           ),
         );
       }
       break;
@@ -398,6 +402,7 @@ function bdp_field_formatter_view($entity_type, $entity, $field, $instance, $lan
         );
       }
       break;
+
   }
 
   return $element;
