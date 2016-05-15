@@ -41,7 +41,7 @@ class IsoDataSet {
   }
 
   /**
-   * Render a data set into its ISO
+   * Render a data set into its ISO.
    *
    * @return string
    *   A string containing the data set's ISO/XML.
@@ -56,7 +56,7 @@ class IsoDataSet {
   }
 
   /**
-   * Cleanup XML output using the Tidy library
+   * Cleanup XML output using the Tidy library.
    *
    * @param string $xml
    *   A string containing XML.

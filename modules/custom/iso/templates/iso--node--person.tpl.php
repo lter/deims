@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * This template does not have a surrounding XML element because it is re-used
  * by other elements.
  */

@@ -4,8 +4,7 @@
  * @file
  * ISO generation.
  *
- * ISO view mode and template for nodes
- *
+ * ISO view mode and template for nodes.
  */
 
 require_once dirname(__FILE__) . '/iso.field.inc';
@@ -150,14 +149,13 @@ function iso_node_view($node, $view_mode, $langcode) {
   if ($view_mode != 'iso') {
     return;
   }
-// HERE -- mind methods in ISO, use EML guidance rather.
   if ($node->type == 'data_set' || $node->type == 'data_source') {
     $methods = array();
     $methods['gmd:LI_Lineage'] = array();
 
     if ($qa_items = field_get_items('node', $node, 'field_quality_assurance')) {
       $qa_instance = field_info_instance('node', 'field_quality_assurance', $node->type);
-      $methods['gmd:LI_Lineage']['gmd:statement']['gco:CharacterString']= ' Quality Control: '.strip_tags(_text_sanitize($qa_instance, $langcode, $qa_items[0], 'value'));
+      $methods['gmd:LI_Lineage']['gmd:statement']['gco:CharacterString'] = ' Quality Control: ' . strip_tags(_text_sanitize($qa_instance, $langcode, $qa_items[0], 'value'));
     }
     if ($items = field_get_items('node', $node, 'field_methods')) {
       $method_instance = field_info_instance('node', 'field_methods', $node->type);
@@ -168,8 +166,8 @@ function iso_node_view($node, $view_mode, $langcode) {
       $method['gmd:LI_ProcessStep']['gmd:description'] = array();
       foreach ($items as $delta => $item) {
         $method['gmd:LI_ProcessStep']['gmd:description']['gco:CharacterString'] = strip_tags(_text_sanitize($method_instance, $langcode, $item, 'value'));
-        if (!empty($instrumentation_values[$delta])) {          
-          $method['gmd:LI_ProcessStep']['gmd:description']['gco:CharacterString'] .= ' Instrumentation:'. strip_tags(_text_sanitize($instrumentation_instance, $langcode, $instrumentation_values[$delta], 'value'));
+        if (!empty($instrumentation_values[$delta])) {
+          $method['gmd:LI_ProcessStep']['gmd:description']['gco:CharacterString'] .= ' Instrumentation:' . strip_tags(_text_sanitize($instrumentation_instance, $langcode, $instrumentation_values[$delta], 'value'));
         }
         $methods['gmd:LI_Lineage'][] = array('key' => 'gmd:processStep', 'value' => $method);
       }
@@ -241,21 +239,20 @@ function template_preprocess_iso(&$variables, $hook) {
   $variables['data_policies'] = check_plain(strip_tags(variable_get('iso_data_policies', '')));
 
   $variables['namespaces_array'] = array(
-   'xmlns' => "http://www.isotc211.org/2005/gmi", 
-   'xmlns:gco' => "http://www.isotc211.org/2005/gco", 
-   'xmlns:gfc' => "http://www.isotc211.org/2005/gfc", 
-   'xmlns:gmd' => "http://www.isotc211.org/2005/gmd", 
-   'xmlns:gmi' => "http://www.isotc211.org/2005/gmi", 
-   'xmlns:gml' => "http://www.opengis.net/gml/3.2", 
-   'xmlns:gmx' => "http://www.isotc211.org/2005/gmx", 
-   'xmlns:gsr' => "http://www.isotc211.org/2005/gsr", 
-   'xmlns:gss' => "http://www.isotc211.org/2005/gss", 
-   'xmlns:gts' => "http://www.isotc211.org/2005/gts", 
-   'xmlns:xlink' => "http://www.w3.org/1999/xlink", 
-   'xmlns:xsi' => "http://www.w3.org/2001/XMLSchema-instance", 
-   'xsi:schemaLocation' => "http://www.isotc211.org/2005/gmi http://www.ngdc.noaa.gov/metadata/published/xsd/schema.xsd",
+    'xmlns' => "http://www.isotc211.org/2005/gmi",
+    'xmlns:gco' => "http://www.isotc211.org/2005/gco",
+    'xmlns:gfc' => "http://www.isotc211.org/2005/gfc",
+    'xmlns:gmd' => "http://www.isotc211.org/2005/gmd",
+    'xmlns:gmi' => "http://www.isotc211.org/2005/gmi",
+    'xmlns:gml' => "http://www.opengis.net/gml/3.2",
+    'xmlns:gmx' => "http://www.isotc211.org/2005/gmx",
+    'xmlns:gsr' => "http://www.isotc211.org/2005/gsr",
+    'xmlns:gss' => "http://www.isotc211.org/2005/gss",
+    'xmlns:gts' => "http://www.isotc211.org/2005/gts",
+    'xmlns:xlink' => "http://www.w3.org/1999/xlink",
+    'xmlns:xsi' => "http://www.w3.org/2001/XMLSchema-instance",
+    'xsi:schemaLocation' => "http://www.isotc211.org/2005/gmi http://www.ngdc.noaa.gov/metadata/published/xsd/schema.xsd",
   );
-
 
   if ($entity_type == 'node' && $variables['elements']['#bundle'] == 'data_set') {
     $variables['pubDate'] = format_date($entity->created, 'iso_yeardate');
@@ -292,7 +289,6 @@ function template_preprocess_iso(&$variables, $hook) {
 function template_process_iso(array &$variables) {
   $variables['namespaces'] = $variables['namespaces_array'] ? drupal_attributes($variables['namespaces_array']) : '';
 }
-
 
 function iso_debug($message, array $variables = array()) {
   if (variable_get('iso_debugging')) {
