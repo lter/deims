@@ -11,7 +11,6 @@ function iso_settings_form() {
     '#type' => 'textarea',
     '#title' => t('Data policies text'),
     '#default_value' => variable_get('iso_data_policies', ''),
-    //'#required' => TRUE,
   );
 
   return system_settings_form($form);

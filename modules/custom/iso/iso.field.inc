@@ -9,6 +9,7 @@
  * Implements hook_field_formatter_info().
  */
 function iso_field_formatter_info() {
+
   $info['taxonomy_iso_keywordset'] = array(
     'label' => t('ISO keywordSet'),
     'field types' => array('taxonomy_term_reference'),
@@ -17,6 +18,7 @@ function iso_field_formatter_info() {
       'thesaurus_value' => '[term:vocabulary]',
     ),
   );
+
   $info['entityreference_iso_element'] = array(
     'label' => t('ISO element'),
     'field types' => array('entityreference'),
@@ -25,24 +27,17 @@ function iso_field_formatter_info() {
       'multiple' => 0,
     ),
   );
+
   $info['name_iso_individualName'] = array(
     'label' => t('ISO individualName'),
     'field types' => array('name'),
   );
+
   $info['addressfield_iso_address'] = array(
     'label' => t('ISO address'),
     'field types' => array('addressfield', 'email'),
   );
-/**
-* Since the email in ISO needs to be lumped with the
-* physical address, make the email part of the address
-* field formatter, commenting this out.
-*
-*  $info['iso_electronicMailAddress'] = array(
-*    'label' => t('ISO electronicMailAddress'),
-*    'field types' => array('email'),
-*  );
-*/
+
   $info['telephone_iso_phone'] = array(
     'label' => t('ISO phone'),
     'field types' => array('telephone'),
@@ -50,18 +45,22 @@ function iso_field_formatter_info() {
       'phonetype' => 'voice',
     ),
   );
+
   $info['date_iso_temporalCoverage'] = array(
     'label' => t('ISO temporalCoverage'),
     'field types' => array('date', 'datestamp', 'datetime'),
   );
+
   $info['geofield_iso_boundingCoordinates'] = array(
     'label' => t('ISO boundingCoordinates'),
     'field types' => array('geofield'),
   );
+
   $info['iso_onlineUrl'] = array(
     'label' => t('ISO onlineUrl'),
     'field types' => array('link_field', 'url'),
   );
+
   $info['iso_text'] = array(
     'label' => t('ISO text'),
     'field types' => array('text', 'text_long', 'text_with_summary'),
@@ -99,6 +98,7 @@ function iso_field_formatter_settings_summary($field, $instance, $view_mode) {
     case 'telephone_iso_phone':
       $summary[] = t('Type: @value', array('@value' => $settings['phonetype']));
       break;
+
   }
 
   return implode('<br />', $summary);
@@ -155,6 +155,7 @@ function iso_field_formatter_settings_form($field, $instance, $view_mode, $form,
         '#default_value' => $settings['phonetype'],
       );
       break;
+
   }
   return $element;
 }
@@ -177,22 +178,32 @@ function iso_field_formatter_view($entity_type, $entity, $field, $instance, $lan
       foreach ($items as $delta => $item) {
         $keywords[] = array(
           'key' => 'gmd:keyword',
-          'value' => array('gco:CharacterString' => token_replace($settings['keyword_value'], array('term' => $terms[$item['tid']]))),
+          'value' => array(
+            'gco:CharacterString' => token_replace($settings['keyword_value'], array('term' => $terms[$item['tid']]))
+          ),
         );
       }
       if (!empty($keywords)) {
         $keywords[] = array(
           'key' => 'gmd:type',
-          'value' => array('gmd:MD_KeywordTypeCode' => 'theme')      
+          'value' => array('gmd:MD_KeywordTypeCode' => 'theme')
         );
-//        'attributes' => array('codeList' => 'http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode','codeListValue' => 'theme'),
         $keywords[] = array(
           'key' => 'gmd:thesaurusName',
-          'value' => array('gmd:CI_Citation' => array('gmd:title' => array('gco:CharacterString' => token_replace($settings['thesaurus_value'], array ('term' => reset($terms)))),'gmd:date gco:nilReason=unknown'=>'',))
+          'value' => array(
+            'gmd:CI_Citation' => array(
+              'gmd:title' => array(
+                'gco:CharacterString' => token_replace($settings['thesaurus_value'], array ('term' => reset($terms)))
+              ), 
+              'gmd:date gco:nilReason=unknown' => '',
+            )
+          )
         );
         $element = array(
           '#theme' => 'iso_elements',
-          '#iso' => array('gmd:descriptiveKeywords' => array('gmd:MD_Keywords' => $keywords)),
+          '#iso' => array(
+            'gmd:descriptiveKeywords' => array('gmd:MD_Keywords' => $keywords)
+          ),
         );
       }
       break;
@@ -234,7 +245,7 @@ function iso_field_formatter_view($entity_type, $entity, $field, $instance, $lan
     case 'name_iso_individualName':
       foreach ($items as $delta => $item) {
         $name = array(
-          'gco:CharacterString' => $item['given'].' '.$item['family'],
+          'gco:CharacterString' => $item['given'] . ' ' . $item['family'],
         );
         $element[$delta] = array(
           '#theme' => 'iso_elements',
@@ -266,13 +277,12 @@ function iso_field_formatter_view($entity_type, $entity, $field, $instance, $lan
           $address['gmd:electronicMailAddress']['gco:CharacterString'] = $item['email'];
         }
 
-        // if all address-related elements, dont print an <address> group
+        // If all address-related elements, dont print an <address> group.
         if (!empty($address)) {
-           $element[$delta] = array(
-             '#theme' => 'iso_elements',
-             '#iso' => $address,
-//             '#iso' => array('gmd:address' => array('gmd:CI_Address' => $address)),
-           );
+          $element[$delta] = array(
+            '#theme' => 'iso_elements',
+            '#iso' => $address,
+          );
         }
       }
       break;
@@ -287,15 +297,27 @@ function iso_field_formatter_view($entity_type, $entity, $field, $instance, $lan
           $value = array(
             'key' => 'gmd:EX_TemporalExtent',
             'value'  => array(
-              'gmd:extent' => array('gml:TimePeriod gml:id=dle301' => 
-                 array('gml:description' => 'ground condition',
-                       'gml:beginPosition' => _iso_date_value($dates['value'], $granularity),
-                       'gml:endPosition' => _iso_date_value($dates['value2'], $granularity),))));
+              'gmd:extent' => array(
+                'gml:TimePeriod gml:id=dle301' => array(
+                  'gml:description' => 'ground condition',
+                  'gml:beginPosition' => _iso_date_value($dates['value'], $granularity),
+                  'gml:endPosition' => _iso_date_value($dates['value2'], $granularity),
+                )
+              )
+            )
+          );
         }
         else {
           $value = array(
-             'key' => 'gmd:EX_TemporalExtent',
-             'value' => array('gmd:extent' => array('gmd:TimeInstant' => array('gml:timePosition' => _iso_date_value($dates['value'], $granularity)))));
+            'key' => 'gmd:EX_TemporalExtent',
+            'value' => array(
+              'gmd:extent' => array(
+                'gmd:TimeInstant' => array(
+                  'gml:timePosition' => _iso_date_value($dates['value'], $granularity)
+                )
+              )
+            )
+          );
         }
         $values[] = $value;
       }
@@ -315,7 +337,7 @@ function iso_field_formatter_view($entity_type, $entity, $field, $instance, $lan
           '#iso' => array(
             'gmd:westBoundingLongitude' => array('gco:Decimal' => $item['right']),
             'gmd:eastBoundingLongitude' => array('gco:Decimal' => $item['left']),
-            'gmd:southBoundingLatitude' => array('gco:Decimal' =>  $item['bottom']),
+            'gmd:southBoundingLatitude' => array('gco:Decimal' => $item['bottom']),
             'gmd:northBoundingLatitude' => array('gco:Decimal' => $item['top']),
           ),
         );
@@ -326,30 +348,34 @@ function iso_field_formatter_view($entity_type, $entity, $field, $instance, $lan
       foreach ($items as $delta => $item) {
         $element[$delta] = array(
           '#theme' => 'iso_elements',
-          '#iso' => array(array(
-            'key' => 'gmd:phone',
-            'value' => array('gmd:CI_Telephone' => array('gmd:voice' => $item['value'])),
-          )),
+          '#iso' => array(
+            array(
+              'key' => 'gmd:phone',
+              'value' => array(
+                'gmd:CI_Telephone' => array('gmd:voice' => $item['value'])
+              ),
+            )
+          ),
         );
       }
       break;
-/*    case 'iso_electronicMailAddress':
-*      foreach ($items as $delta => $item) {
-*        $element[$delta] = array(
-*          '#theme' => 'eml_elements',
-*          '#iso' => array(
-*            'gmd:electronicMailAddress' => array('gco:CharacterString' => $item['email']),
-*          ),
-*        );
-*      }
-*      break;
-*/
+
     case 'iso_onlineUrl':
       foreach ($items as $delta => $item) {
         $element[$delta] = array(
           '#theme' => 'iso_elements',
           '#iso' => array(
-            'gmd:contactInfo' => array('gmd:CI_Contact' => array('gmd:onlineResource' => array('gmd:CI_OnlineResource' => array('gmd:linkage'  => array('gmd:URL' => $field['type'] == 'url' ? $item['value'] : $item['url']))))),
+            'gmd:contactInfo' => array(
+              'gmd:CI_Contact' => array(
+                'gmd:onlineResource' => array(
+                  'gmd:CI_OnlineResource' => array(
+                    'gmd:linkage' => array(
+                      'gmd:URL' => $field['type'] == 'url' ? $item['value'] : $item['url']
+                    )
+                  )
+                )
+              )
+            ),
           ),
         );
       }
@@ -360,11 +386,13 @@ function iso_field_formatter_view($entity_type, $entity, $field, $instance, $lan
         $text = _text_sanitize($instance, $langcode, $item, 'value');
         $element[$delta] = array(
           '#theme' => 'iso_elements',
-          '#iso' => array('gco:CharacterString' => strip_tags($text),
+          '#iso' => array(
+            'gco:CharacterString' => strip_tags($text),
           ),
         );
       }
       break;
+
   }
 
   return $element;
