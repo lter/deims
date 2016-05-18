@@ -57,7 +57,7 @@ class EmlDataSet {
   }
 
   /**
-   * Cleanup XML output using the Tidy library
+   * Cleanup XML output using the Tidy library.
    *
    * @param string $xml
    *   A string containing XML.
@@ -249,5 +249,7 @@ class EmlDataSet {
     $uri = entity_uri('node', $this->node);
     $link = l(t('View data set'), $uri['path'], $uri['options']);
     watchdog('pasta', 'Updated DOI for %title to @doi.', array('%title' => $this->node->title, '@doi' => $doi), WATCHDOG_INFO, $link);
+
   }
+
 }

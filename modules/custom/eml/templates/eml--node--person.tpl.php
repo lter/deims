@@ -1,7 +1,10 @@
 <?php
 /**
- * This template does not have a surrounding XML element because it is re-used
- * by other elements.
+ * @file
+ * 
+ * Person template.
+ * This template does not have a surrounding XML element.
+ * Because it is re-used by other elements.
  */
 ?>
 <?php print render($content['field_name']); ?>

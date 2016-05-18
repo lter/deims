@@ -5,10 +5,10 @@
  * EML generation.
  *
  * Major features
- * - EML view mode and template for nodes
- * - API to generate a package ID for EML
- * - API to fetch the DOI of an EML
- * - Action that can be used in VBO to update data sets' DOI fields
+ * - EML view mode and template for nodes.
+ * - API to generate a package ID for EML.
+ * - API to fetch the DOI of an EML.
+ * - Action that can be used in VBO to update data sets' DOI fields.
  *
  * @todo Sean check all the pasta api urls and calls.
  * @todo Sean to trace the process for the API calls and test the logic.
@@ -344,10 +344,6 @@ function eml_debug($message, array $variables = array()) {
     watchdog('eml', $message, $variables, WATCHDOG_DEBUG);
   }
 }
-
-// ----------------------------------------------------------------------------
-// Package ID API
-// ----------------------------------------------------------------------------
 
 /**
  * Calculate the package ID of a data set.
