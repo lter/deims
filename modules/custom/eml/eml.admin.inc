@@ -29,7 +29,6 @@ function eml_settings_form() {
     '#type' => 'textarea',
     '#title' => t('Data policies text'),
     '#default_value' => variable_get('eml_data_policies', ''),
-    //'#required' => TRUE,
   );
 
   $form['tokens'] = array(

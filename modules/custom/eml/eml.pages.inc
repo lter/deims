@@ -13,6 +13,7 @@
  * When nothing is returned from a page callback Drupal will not render anything
  * and still call the rest of the proper hooks including necessary exit hooks.
  * For a similar usage example see:
+ *
  * @see http://api.drupal.org/api/drupal/modules%21node%21node.module/function/node_feed/7
  */
 function eml_output_node($node) {

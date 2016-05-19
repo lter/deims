@@ -252,12 +252,12 @@ function eml_field_formatter_view($entity_type, $entity, $field, $instance, $lan
         if (!empty($item['country'])) {
           $address['country'] = $item['country'];
         }
-        // if all address-related elements, dont print an <address> group
+
         if (!empty($address)) {
-           $element[$delta] = array(
-             '#theme' => 'eml_elements',
-             '#eml' => array('address' => $address),
-           );
+          $element[$delta] = array(
+            '#theme' => 'eml_elements',
+            '#eml' => array('address' => $address),
+          );
         }
       }
       break;
@@ -269,13 +269,18 @@ function eml_field_formatter_view($entity_type, $entity, $field, $instance, $lan
         $dates = date_formatter_process('date_default', $entity_type, $entity, $field, $instance, $langcode, $item, $display);
         $granularity = date_granularity($field);
         if ($dates['value']['formatted'] != $dates['value2']['formatted']) {
-          $value = array('key' => 'rangeOfDates', 'value' => array(
-            'beginDate' => _eml_date_value($dates['value'], $granularity),
-            'endDate' => _eml_date_value($dates['value2'], $granularity),
-          ));
+          $value = array(
+            'key' => 'rangeOfDates', 'value' => array(
+              'beginDate' => _eml_date_value($dates['value'], $granularity),
+              'endDate' => _eml_date_value($dates['value2'], $granularity),
+             )
+          );
         }
         else {
-          $value = array('key' => 'singleDateTime', 'value' => _eml_date_value($dates['value'], $granularity));
+          $value = array(
+            'key' => 'singleDateTime', 
+            'value' => _eml_date_value($dates['value'], $granularity)
+          );
         }
         $values[] = $value;
       }
