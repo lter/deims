@@ -4,17 +4,13 @@
  * @file
  * EML Harvest List generation.
  *
- * Major features
+ * Major features.
  *
- * - EMLHarvest List view mode and template for dataset nodes
- *
+ * - EMLHarvestList view mode and template for dataset nodes
  */
 
 /**
  * Implements hook_help().
- *
- * Used to display some helpful message.
- *
  */
 function eml_harvest_list_help($path, $arg) {
   // Show a warning on the 'EML HL' view mode sub-tab of 'Manage Display' pages
@@ -26,13 +22,10 @@ function eml_harvest_list_help($path, $arg) {
 
 /**
  * Implements hook_entity_info_alter().
- *
- * This creates the harvest list view mode
- *
  */
 function eml_harvest_list_entity_info_alter(array &$info) {
-  // harvest list only feeds of data set nodes.
-  // add a eml_hl view mode to entity type nodes.
+  // Harvest list only feeds of data set nodes.
+  // Add a eml_hl view mode to entity type nodes.
   $info['node']['view modes']['eml_hl'] = array(
     'label' => t('EML Harvest List'),
     'custom settings' => FALSE,
@@ -143,14 +136,12 @@ function theme_eml_hl_tags($variables) {
  */
 function eml_harvest_list_node_view($node, $view_mode, $langcode) {
 
-// may not need, but here is a chance to tinker w/ content b4 render
   if ($view_mode != 'eml_hl') {
     return;
   }
 
   switch ($node->type) {
     case 'data_set':
-      // loads EmlHarvestList property
       $node->EmlHarvestList = new EmlHarvestList($node);
       break;
   }
@@ -159,15 +150,12 @@ function eml_harvest_list_node_view($node, $view_mode, $langcode) {
 /**
  * Implements hook_preprocess_HOOK() for eml_hl.tpl.php.
  */
-//function template_preprocess_eml_harvest_list(&$variables, $hook) {
 
 function template_preprocess_eml_hl(&$variables, $hook) {
   $variables['entity'] = $variables['elements']['#entity'];
   $entity = $variables['entity'];
   $entity_type = $variables['elements']['#entity_type'];
   $bundle = $variables['elements']['#bundle'];
-
-  $label = entity_label($entity_type, $entity);
 
   $uri = entity_uri($entity_type, $entity);
 

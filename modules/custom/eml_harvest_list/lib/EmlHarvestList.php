@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains EmlHarvestList
+ * Contains EmlHarvestList.
  */
 
 /**
@@ -55,7 +55,7 @@ class EmlHarvestList {
   }
 
   /**
-   * Cleanup XML output using the Tidy library
+   * Cleanup XML output using the Tidy library.
    *
    * @param string $xml
    *   A string containing XML.
