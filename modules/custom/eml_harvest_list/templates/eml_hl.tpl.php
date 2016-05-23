@@ -1,5 +1,5 @@
- <?php
- /**
+<?php
+/**
  * @file
  * Default template to use when an entity is rendered using the 'eml_hl' view mode.
  *
