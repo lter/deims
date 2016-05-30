@@ -39,7 +39,7 @@ define('DEIMS_DATA_EXPLORER_FIELD', 'field_deims_data_explorer');
  */
 function deims_data_explorer_help($path, $arg) {
 
-  switch($path){
+  switch ($path) {
     case 'admin/help#deims_data_explorer';
       return '<h3>' . t('About') . '</h3>' . '<p>' . t("The DEIMS Data Explorer enables you to make queries against
       tables in external databases.  In order to use it, you need to place a database connectors to your external database
@@ -52,8 +52,10 @@ function deims_data_explorer_help($path, $arg) {
       settings, you may access the data explorer page at the path node/%nid/data or using the Data Explorer Dashboard link
       in the menu (if active). More info on Data Explorer usage at <a href=\"http://drupal.org/node/2141613\">
       the DEIMS Data Explorer usage help page.</a>") . '</p>';
+
     case 'node/%/data':
       break;
+
   }
 }
 
@@ -89,12 +91,12 @@ function deims_data_explorer_permission() {
 
   // This permission doesn't actually do anything because there are no
   // administration pages. So it has been commented out for now.
-  //$info['adminster DEIMS data explorer'] = array(
+  // $info['administer DEIMS data explorer'] = array(
   //  'title' => t('Administer DEIMS data explorer'),
   //  'restrict access' => TRUE,
   //);
 
-  //$info['use DEIMS data explorer'] = array(
+  // $info['use DEIMS data explorer'] = array(
   //  'title' => t('Use the DEIMS data explorer'),
   //);
 
@@ -137,30 +139,33 @@ function deims_data_explorer_node_load(array $nodes) {
 /**
  * Implements hook_views_api().
  */
-
 function deims_data_explorer_views_api() {
-  return array ('api' => 3.0);
+  return array('api' => 3.0);
 }
 
+/**
+ * Implements hook_views_default_views().
+ */
 function deims_data_explorer_views_default_views() {
-// Check for all view file in views directory
+  // Check for all view file in views directory.
   $files = file_scan_directory(drupal_get_path('module', 'deims_data_explorer') . '/views', '/.*\.inc$/');
 
-// Add view to list of views
-  foreach ($files as $filepath => $file) {
+  // Add view to list of views.
+  foreach ($files as $filepath) {
     require $filepath;
     if (isset($view)) {
       $views[$view->name] = $view;
     }
   }
 
-// At the end, return array of default views.
+  // At the end, return array of default views.
   return $views;
 }
+
 /**
  * Access callback for the data explorer page.
  *
- * @param $node
+ * @param object $node
  *   The data source node object.
  */
 function deims_data_explorer_page_access($node) {
@@ -175,9 +180,9 @@ function deims_data_explorer_page_access($node) {
 /**
  * Access callback for the data explorer download file page.
  *
- * @param $node
+ * @param object $node
  *   The data source node object.
- * @param $file
+ * @param object $file
  *   The exported CSV file object.
  */
 function deims_data_explorer_download_access($node, $file) {
@@ -191,8 +196,8 @@ function deims_data_explorer_download_access($node, $file) {
  * exported files are saved as temporary, we need to manually allow those
  * files to be downloaded.
  */
-function deims_data_explorer_file_entity_access($op, $file, $account) {
-  if ($op == 'download' && $file->status != FILE_STATUS_PERMANENT && $file->uid == $account->uid && strpos($file->uri, variable_get('deims_data_explorer_dir', 'public://data-downloads/')) !== FALSE) {
+function deims_data_explorer_file_entity_access($operation, $file, $account) {
+  if ($operation == 'download' && $file->status != FILE_STATUS_PERMANENT && $file->uid == $account->uid && strpos($file->uri, variable_get('deims_data_explorer_dir', 'public://data-downloads/')) !== FALSE) {
     return FILE_ENTITY_ACCESS_ALLOW;
   }
   return FILE_ENTITY_ACCESS_IGNORE;
@@ -267,9 +272,9 @@ function deims_data_explorer_get_query_from_data_source($node, array $columns = 
       try {
         // Database::getConnection() could throw an exception so catch it and
         // fail gracefully.
-        if ($db = Database::getConnection('default', $connection[0]['connection'])) {
-          if ($db->schema()->tableExists($connection[0]['table'])) {
-            $query = $db->select($connection[0]['table'], 'data');
+        if ($dbo = Database::getConnection('default', $connection[0]['connection'])) {
+          if ($dbo->schema()->tableExists($connection[0]['table'])) {
+            $query = $dbo->select($connection[0]['table'], 'data');
             if (!empty($columns)) {
               $query->fields('data', $columns);
             }
@@ -292,6 +297,9 @@ function deims_data_explorer_get_query_from_data_source($node, array $columns = 
 
 /**
  * Array filter callback; Checks if a variable field value can be a column.
+ *
+ * @param array $variable
+ *   Contains settings.
  */
 function deims_data_explorer_filter_allowed_column_variable($variable) {
   return !empty($variable['data']['data_explorer_settings']['expose']);
@@ -302,7 +310,7 @@ function deims_data_explorer_filters_apply(QueryAlterableInterface $query, array
     switch ($filter['variable']['type']) {
       case '';
         if (drupal_strlen($filter['value'])) {
-          $query->condition($key, '%'.$filter['value'].'%', 'LIKE');
+          $query->condition($key, '%' . $filter['value'] . '%', 'LIKE');
         }
         break;
 
