@@ -151,7 +151,7 @@ function deims_data_explorer_views_default_views() {
   $files = file_scan_directory(drupal_get_path('module', 'deims_data_explorer') . '/views', '/.*\.inc$/');
 
   // Add view to list of views.
-  foreach ($files as $filepath) {
+  foreach ($files as $filepath => $file) {  
     require $filepath;
     if (isset($view)) {
       $views[$view->name] = $view;
