@@ -1,0 +1,16 @@
+---
+engines:
+  phpmd:
+    enabled: true
+    config:
+      file_extensions: "php,inc,module"
+      rulesets: ".phpmd.xml"
+ratings:
+  paths:
+  - "modules/custom/**.php"
+  - "modules/custom/**.inc"
+  - "modules/custom/**.module"
+exclude_paths:
+- exports
+- modules/features
+- themes
