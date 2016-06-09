@@ -1,5 +1,5 @@
 # DEIMS Install Profile #
-
+<a href="https://codeclimate.com/github/lter/deims"><img src="https://codeclimate.com/github/lter/deims/badges/gpa.svg" /></a>
 ## Requirements ##
 
 * [Base Drupal 7 requirements](http://drupal.org/requirements)
