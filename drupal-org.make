@@ -160,7 +160,7 @@ projects[inline_entity_form][version] = "1.x-dev"
 projects[inline_entity_form][subdir] = "contrib"
 ; Limit 'Add new' bundle options when entityreference uses a view for selection
 ; @see https://drupal.org/node/1872316
-https://www.drupal.org/files/issues/1872316-ief-bundle-selection-erv-22_0.patch
+projects[inline_entity_form][patch][] = https://www.drupal.org/files/issues/1872316-ief-bundle-selection-erv-22_0.patch
 
 projects[libraries][version] = "2.2"
 projects[libraries][subdir] = "contrib"
