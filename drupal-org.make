@@ -146,6 +146,7 @@ projects[flexslider][subdir] = "contrib"
 
 projects[geofield][version] = "1.2"
 projects[geofield][subdir] = "contrib"
+projects[geofield][patch][] = http://www.drupal.org/files/geofield-sql-field-type-numeric-1456180-13.patch
 
 projects[geophp][version] = "1.7"
 projects[geophp][subdir] = "contrib"
