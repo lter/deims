@@ -5,6 +5,13 @@ engines:
     config:
       file_extensions: "php,inc,module"
       rulesets: ".phpmd.xml"
+  phpcodesniffer:
+    enabled: true
+    config:
+      file_extensions: "php,inc,module"
+      encoding: utf-8
+      standard: "Drupal"
+      ignore_warnings: true
 ratings:
   paths:
   - "modules/custom/**.php"
