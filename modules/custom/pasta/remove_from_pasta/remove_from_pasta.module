@@ -1,0 +1,31 @@
+<?php
+/**
+ * Implements hook_node_delete().
+ */
+function remove_from_pasta_node_delete($node) {
+  if ($node->type == 'data_set') {
+    $dataSet = new EmlDataSet($node);
+    if ($dataSet->getDOI()) {
+      // Do not bother making a request to remove the EML from PASTA if there is
+      // is no recorded DOI associated with this data set.
+      $pasta = new PastaApi();
+      $pasta->deleteEml();
+      watchdog('pasta', 'Sent request to remove all EML associated with data set @title from PASTA.', array(
+        '@title' => $node->title));
+    }
+  }
+}
+
+/**
+  * Implement hook_help()
+  * @toDo, need actual doc
+  */
+function remove_from_pasta_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#remove_from_pasta':
+      return '<h3>' . t('About') . '</h3>' . '<p>' . t("The Remove EML from PASTA, part of the PASTA module suite provides 
+   an automated mechanism to erase all traces of the locally selected datasets from the PASTA repository.  Only relevant to 
+   LTER, this module is to be used with caution, as the PASTA repository does not allow the reuse of the unique dataset IDs. 
+   Enjoy the clean up.") . '<p>';
+  }
+}

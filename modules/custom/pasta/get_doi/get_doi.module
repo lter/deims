@@ -1,0 +1,63 @@
+<?php
+
+/**
+ * Implements hook_form_alter().
+ */
+
+/**
+  * Implement hook_help()
+  */
+function get_doi_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#get_doi':
+      return '<h3>' . t('About') . '</h3>' . '<p>' . t("The Get DOI module, part of the PASTA module suite, provides an automated 
+   mechanism to retrieve Digital Object Identifiers (DOI) for data-sets from the Provenance Aware System Tracking Architecture (PASTA).
+   This is a service only relevant to LTER, currently (2017-) offered to LTER sites to store <i>permanently</i> (cough, cough) data records.  
+   Once this module is enabled, the Content->dataset administrative list will allow you to retrieve those DOIs, provided those are in PASTA.") . '<p>';
+  }
+}
+
+// ----------------------------------------------------------------------------
+// Actions
+// ----------------------------------------------------------------------------
+
+/**
+ * Implements hook_action_info().
+ */
+function get_doi_action_info() {
+  $info['get_doi_action_dataset_update_doi'] = array(
+    'type' => 'node',
+    'label' => t('Fetch DOI from PASTA'),
+    'configurable' => FALSE,
+    'triggers' => array(),
+  );
+
+  return $info;
+}
+
+/**
+ * Implements callback_action_info().
+ *
+ * Action callback to retrieve a data set's DOI and save it in field_doi.
+ */
+function get_doi_action_dataset_update_doi($node) {
+  if ($node->type != 'data_set') {
+    return;
+  }
+
+  try {
+    $dataSet = new EmlDataSet($node);
+    $pasta = new PastaApi($dataSet);
+    if ($doi = $pasta->fetchDOI()) {
+      $dataSet->saveDOI($doi);
+    }else{
+      drupal_set_message('The DOI for this dataset ID and EML revision was not found in PASTA (http://portal.lternet.edu');
+      watchdog('get_doi', 'No DOI after lib call');
+    }
+  }
+  catch (Exception $exception) {
+    // @todo Should we set the DOI field to be empty here?
+    watchdog('get_doi', $exception);
+  }
+}
+

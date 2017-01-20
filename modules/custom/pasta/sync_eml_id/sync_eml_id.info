@@ -1,0 +1,7 @@
+name = Sync EML Revision Id
+description = Allows the admin to syncronize the dataset EML Revision id with the latest EML Revision ID of the corresponding dataset stored in PASTA
+package = DEIMS Enhancements
+core = 7.x
+dependencies[] = eml
+dependencies[] = pasta
+

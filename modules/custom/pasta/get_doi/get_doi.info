@@ -1,0 +1,6 @@
+name = Get DOI from PASTA
+description = Allows the admin to retrieve a DOI for a number of data sets using the LTER PASTA API service.
+package = DEIMS Enhancements
+core = 7.x
+dependencies[] = eml
+dependencies[] = pasta

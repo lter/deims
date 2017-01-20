@@ -1,0 +1,6 @@
+name = Remove dataset from PASTA
+description = Removes data sets stored in the LTER network PASTA, using its API service.
+package = DEIMS Enhancements
+core = 7.x
+dependencies[] = eml
+dependencies[] = pasta

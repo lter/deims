@@ -1,0 +1,86 @@
+<?php
+/**
+ * Implements hook_form_alter().
+ */
+
+/**
+  * Implement hook_help()
+  */
+function validate_eml_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#validate_eml':
+      return '<h3>' . t('About') . '</h3>' . '<p>' . t("The Validate EML, part of the PASTA module suite, provides an automated 
+   mechanism to check the validity of a dataset EML according to the PASTA dogma.  This is a service only relevant to the US-LTER.  
+   The service can be triggered from the Content->Dataset list, and administrative link. It will attempt to fetch a validation report
+   provided that the same dataset (matching ID and revision ID) is hosted in PASTA. ") . '<p>';
+  }
+}
+
+// ----------------------------------------------------------------------------
+// Cron queues
+// ----------------------------------------------------------------------------
+
+/**
+ * Implements hook_cron_queue_info().
+ */
+function validate_eml_cron_queue_info() {
+  $info['PastaValidationQueue'] = array(
+    'worker callback' => 'pasta_validation_queue_process',
+    'time' => 20,
+  );
+  $info['PastaSubmissionQueue'] = array(
+    'worker callback' => 'pasta_submission_queue_process',
+    'time' => 30,
+  );
+
+  return $info;
+}
+
+/**
+ * Implements callback_cron_queue_info_worker().
+ */
+function validate_eml_validation_queue_process($data) {
+  return PastaValidationQueue::processData($data);
+}
+
+/**
+ * Implements callback_cron_queue_info_worker().
+ */
+function validate_eml_submission_queue_process($data) {
+  return PastaSubmissionQueue::processData($data);
+}
+
+// ----------------------------------------------------------------------------
+// Actions
+// ----------------------------------------------------------------------------
+
+/**
+ * Implements hook_action_info().
+ */
+function validate_eml_action_info() {
+  $info['validate_eml_action_dataset_enqueue_validation'] = array(
+    'type' => 'node',
+    'label' => t('Enqueue to fetch EML validation report'),
+    'configurable' => FALSE,
+    'triggers' => array(),
+  );
+
+  return $info;
+}
+/**
+ * Implements callback_action_info().
+ *
+ * Enqueues a data set node to fetch its validation report.
+ */
+function validate_eml_action_dataset_enqueue_validation($node) {
+  if ($node->type != 'data_set') {
+    return;
+  }
+
+  try {
+    PastaValidationQueue::get()->enqueue($node);
+  }
+  catch (Exception $exception) {
+    watchdog_exception('pasta', $exception);
+  }
+}
