@@ -50,7 +50,7 @@ function sync_eml_id_action_dataset_update($node) {
 
   try {
     $dataSet = new EmlDataSet($node);
-    $pasta = new PastaEmlIdApi($dataSet);
+    $pasta = new PastaApi($dataSet);
     if ($emlid = $pasta->fetchEMLID()) {
       $dataSet->setEMLRevisionID($emlid);
     }else{
@@ -76,7 +76,7 @@ function sync_plusone_eml_id_action_dataset_update($node) {
 
   try {
     $dataSet = new EmlDataSet($node);
-    $pasta = new PastaEmlIdApi($dataSet);
+    $pasta = new PastaApi($dataSet);
     if ($emlid = $pasta->fetchEMLID()) {
       $emlid++;
       $dataSet->setEMLRevisionID($emlid);
