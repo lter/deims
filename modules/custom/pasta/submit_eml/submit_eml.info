@@ -1,5 +1,5 @@
 name = Submit EML to PASTA
-description = Saves data set's EMLs to the LTER network PASTA, using its API service.
+description = Provides an action for the Dataset Admin interface, to submit data set's EMLs to the LTER network PASTA, using its API service.
 package = DEIMS Enhancements
 core = 7.x
 dependencies[] = eml

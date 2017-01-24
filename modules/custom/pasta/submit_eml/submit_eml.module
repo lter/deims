@@ -1,14 +1,6 @@
 <?php
 
 /**
- * Implements hook_eml_changed().
- */
-function submit_eml_eml_changed(EmlDataSet $dataSet) {
-  // Enqueue the data set to be submitted to PASTA.
-  PastaSubmissionQueue::get()->enqueue($dataSet->getNode());
-}
-
-/**
   * Implement hook_help()
   */
 function submit_eml_help($path, $arg) {
@@ -19,5 +11,44 @@ function submit_eml_help($path, $arg) {
    service offered to LTER sites to store permanently data records.  Once this module is enabled, each time a dataset is published
    or updated, the PASTA module will try to send a copy to the PASTA-enabled repositories using the PASTA services, it does so
    by using the Drupal queue systems and the EML Web Service") . '<p>';
+  }
+}
+
+// ----------------------------------------------------------------------------
+// Actions
+// ----------------------------------------------------------------------------
+
+/**
+ * Implements hook_action_info().
+ */
+function submit_eml_action_info() {
+  $info['submit_eml_action_dataset'] = array(
+    'type' => 'node',
+    'label' => t('Send Dataset to PASTA'),
+    'configurable' => FALSE,
+    'triggers' => array(),
+  );
+
+  return $info;
+}
+
+/**
+ * Implements callback_action_info().
+ *
+ * Action callback to send the selected dataset to PASTA
+ */
+function submit_eml_action_dataset($node) {
+  if ($node->type != 'data_set') {
+    return;
+  }
+
+  try {
+    $dataSet = new EmlDataSet($node);
+    $pasta = new PastaApi($dataSet);
+    $pasta->submitEml();
+    drupal_set_message('A dataset EML has been sent to PASTA');
+  }
+  catch (Exception $exception) {
+    watchdog('submit_eml', $exception);
   }
 }
