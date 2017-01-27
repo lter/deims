@@ -1,0 +1,56 @@
+<?php
+/**
+  * Implement hook_help()
+  * @toDo, need actual doc
+  */
+
+function remove_from_pasta_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#remove_from_pasta':
+      return '<h3>' . t('About') . '</h3>' . '<p>' . t("The Remove EML from PASTA, part of the PASTA module suite provides 
+   an automated mechanism to erase all traces of the locally selected datasets from the PASTA repository.  Only relevant to 
+   LTER, this module is to be used with caution, as the PASTA repository does not allow the reuse of the unique dataset IDs. 
+   Enjoy the clean up.") . '<p>';
+  }
+}
+
+// ----------------------------------------------------------------------------
+// Actions
+// ----------------------------------------------------------------------------
+
+/**
+ * Implements hook_action_info().
+ */
+function remove_from_pasta_action_info() {
+  $info['remove_from_pasta_action_dataset_delete_remote'] = array(
+    'type' => 'node',
+    'label' => t('Remove Dataset from PASTA'),
+    'configurable' => FALSE,
+    'triggers' => array(),
+  );
+
+  return $info;
+}
+
+/**
+ * Implements callback_action_info().
+ *
+ * Action callback to erase the selected dataset from the PASTA
+ * clearinghouse.  The nuclear option.
+ */
+function remove_from_pasta_action_dataset_delete_remote($node) {
+  if ($node->type != 'data_set') {
+    return;
+  }
+
+  try {
+    $dataSet = new EmlDataSet($node);
+    $pasta = new PastaApi($dataSet);
+    $pasta->deleteEml();
+    drupal_set_message('A request has been sent to PASTA to erase this dataset, which responded with this code: !code', array('!code' => $request->code));
+  }
+  catch (Exception $exception) {
+    watchdog('remove_from_pasta', $exception);
+  }
+}
+

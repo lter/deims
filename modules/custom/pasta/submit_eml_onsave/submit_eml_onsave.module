@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * Implements hook_eml_changed().
+ */
+function submit_eml_onsave_eml_changed(EmlDataSet $dataSet) {
+  // Enqueue the data set to be submitted to PASTA.
+  PastaSubmissionQueue::get()->enqueue($dataSet->getNode());
+}
+
+/**
+  * Implement hook_help()
+  */
+function submit_eml_onsave_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#sumbit_eml_onsave':
+   return '<h3>' . t('About') . '</h3>' . '<p>' . t("The Submit EML on save, part of the PASTA module suite, provides an automated mechanism to participate
+   in the PASTA services to store data and metadata objects. Only relevant to the LTER, PASTA, or Provenance Aware System Tracking Architecture, is a
+   service offered to LTER sites to store permanently data records.  Once this module is enabled, each time a dataset is published
+   or updated, the PASTA module will try to send a copy to the PASTA-enabled repositories using the PASTA services, it does so
+   by using the Drupal queue systems and the EML Web Service") . '<p>';
+  }
+}

@@ -1,0 +1,93 @@
+<?php
+
+/**
+  * Implement hook_help()
+  */
+function sync_eml_id_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#sync_eml_id':
+      return '<h3>' . t('About') . '</h3>' . '<p>' . t("This is only relevant to the US-LTER.  The Synchronize EML Revision ID, 
+   part of the PASTA module suite, provides an automated mechanism to set the EML revision Ids of DEIMS Datasets to the value of the 
+   corresponding dataset(s) stored in PASTA. This service is provided through the dataset administrative list that you can
+   access following the link in the Content->Datasets menu item") . '<p>';
+  }
+}
+
+// ----------------------------------------------------------------------------
+// Actions
+// ----------------------------------------------------------------------------
+
+/**
+ * Implements hook_action_info().
+ */
+function sync_eml_id_action_info() {
+  $info['sync_eml_id_action_dataset_update'] = array(
+    'type' => 'node',
+    'label' => t('Sync EML ID'),
+    'configurable' => FALSE,
+    'triggers' => array(),
+  );
+  $info['sync_plusone_eml_id_action_dataset_update'] = array(
+    'type' => 'node',
+    'label' => t('Sync and increment EML ID'),
+    'configurable' => FALSE,
+    'triggers' => array(),
+  );
+
+  return $info;
+}
+
+/**
+ * Implements callback_action_info().
+ *
+ * Action callback to retrieve a data set's EML ID from PASTA
+ * and save it in field_eml_revision.
+ */
+function sync_eml_id_action_dataset_update($node) {
+  if ($node->type != 'data_set') {
+    return;
+  }
+
+  try {
+    $dataSet = new EmlDataSet($node);
+    $pasta = new PastaApi($dataSet);
+    if ($emlid = $pasta->fetchEMLID()) {
+      $dataSet->setEMLRevisionID($emlid);
+    }else{
+      drupal_set_message('No dataset found in PASTA (http://portal.lternet.edu) for this local dataset');
+      watchdog('sync_eml_id', 'No EML ID after call');
+    }
+  }
+  catch (Exception $exception) {
+    // @todo Should we set the DOI field to be empty here?
+    watchdog('set_eml_id', $exception);
+  }
+}
+/**
+ * Implements callback_action_info().
+ *
+ * Action callback to retrieve a data set's EML ID from PASTA
+ * and save it in field_eml_revision.
+ */
+function sync_plusone_eml_id_action_dataset_update($node) {
+  if ($node->type != 'data_set') {
+    return;
+  }
+
+  try {
+    $dataSet = new EmlDataSet($node);
+    $pasta = new PastaApi($dataSet);
+    if ($emlid = $pasta->fetchEMLID()) {
+      $emlid++;
+      $dataSet->setEMLRevisionID($emlid);
+    }else{
+      drupal_set_message('No dataset found in PASTA (http://portal.lternet.edu) for this local dataset');
+      watchdog('sync_eml_id', 'No EML ID after call');
+    }
+  }
+  catch (Exception $exception) {
+    // @todo Should we set the DOI field to be empty here?
+    watchdog('set_eml_id', $exception);
+  }
+}
+

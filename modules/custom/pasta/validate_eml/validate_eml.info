@@ -1,0 +1,6 @@
+name = Validate EML using PASTA
+description = Validates the EML using an US-LTER PASTA API service.
+package = DEIMS Enhancements
+core = 7.x
+dependencies[] = eml
+dependencies[] = pasta
