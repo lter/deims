@@ -18,3 +18,8 @@
 <?php print render($content['field_fax']); ?>
 <?php print render($content['field_email']); ?>
 <?php print render($content['field_url']); ?>
+<?php $orcid=render($content['field_orcid_id']);
+      $onlineurl_tags = array("<onlineUrl>","</onlineUrl>");
+      $userid_tags = array("<userId directory=\"http://orcid.org\">","</userId>");
+      print str_replace($onlineurl_tags,$userid_tags,$orcid);
+      ?>
