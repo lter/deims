@@ -104,6 +104,7 @@ function deims_person_field_default_fields() {
         'module' => 'addressfield',
         'settings' => array(
           'available_countries' => array(),
+          'default_country' => 'site_default',
           'format_handlers' => array(
             'address' => 'address',
             'address-hide-country' => 0,
@@ -191,7 +192,7 @@ function deims_person_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '10',
+          'weight' => '11',
         ),
         'full' => array(
           'label' => 'above',
@@ -227,7 +228,7 @@ function deims_person_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'entityreference_autocomplete',
-        'weight' => '12',
+        'weight' => '13',
       ),
       'workbench_access_field' => 0,
     ),
@@ -449,7 +450,7 @@ function deims_person_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '11',
+          'weight' => '12',
         ),
         'full' => array(
           'label' => 'above',
@@ -703,6 +704,98 @@ Prof.',
     ),
   );
 
+  // Exported field: 'node-person-field_orcid'.
+  $fields['node-person-field_orcid'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_orcid',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'max_length' => '19',
+      ),
+      'translatable' => '0',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'person',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => 'This person ORCID, Example: 0000-0002-1825-0097',
+      'display' => array(
+        'bdp' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 13,
+        ),
+        'eml' => array(
+          'label' => 'hidden',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_plain',
+          'weight' => '7',
+        ),
+        'full' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'iso' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_orcid',
+      'label' => 'ORCID',
+      'required' => 0,
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'size' => '19',
+        ),
+        'type' => 'text_textfield',
+        'weight' => '12',
+      ),
+      'workbench_access_field' => 0,
+    ),
+  );
+
   // Exported field: 'node-person-field_organization'.
   $fields['node-person-field_organization'] = array(
     'field_config' => array(
@@ -869,7 +962,7 @@ Prof.',
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '8',
+          'weight' => '9',
         ),
         'full' => array(
           'label' => 'above',
@@ -965,7 +1058,7 @@ Prof.',
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '7',
+          'weight' => '8',
         ),
         'full' => array(
           'label' => 'inline',
@@ -1053,7 +1146,7 @@ Prof.',
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '9',
+          'weight' => '10',
         ),
         'full' => array(
           'label' => 'inline',
@@ -1324,7 +1417,7 @@ Prof.',
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '12',
+          'weight' => '13',
         ),
         'full' => array(
           'label' => 'above',
@@ -1368,10 +1461,12 @@ Prof.',
   t('Fax');
   t('List in Directory');
   t('Name');
+  t('ORCID');
   t('Organization');
   t('Person ID');
   t('Phone');
   t('Role');
+  t('This person ORCID, Example: 0000-0002-1825-0097');
   t('Title');
   t('URL');
   t('User Account');

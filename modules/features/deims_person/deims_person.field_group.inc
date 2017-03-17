@@ -111,6 +111,7 @@ function deims_person_field_group_info() {
       0 => 'field_associated_biblio_author',
       1 => 'field_person_id',
       2 => 'field_user_account',
+      3 => 'field_orcid',
     ),
     'format_type' => 'htab',
     'format_settings' => array(
