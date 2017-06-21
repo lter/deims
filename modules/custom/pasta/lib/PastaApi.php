@@ -37,8 +37,6 @@ class PastaApi {
     // ID which is used to fetch the actual evalution report from
     // /error/eml/{transaction}.
     if ($request->code == 202 && !empty($request->data)) {
-      dpm($request->data);
- 
       return $request->data;
     }
     elseif ($request->code == 401) {
