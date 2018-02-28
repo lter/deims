@@ -240,6 +240,9 @@ function eml_field_formatter_view($entity_type, $entity, $field, $instance, $lan
         if (!empty($item['thoroughfare'])) {
           $address['deliveryPoint'] = $item['thoroughfare'];
         }
+        if (!empty($item['premise'])) {
+          $address['deliveryPoint'] = $address['deliveryPoint'].", ".$item['premise'];  
+        }        
         if (!empty($item['locality'])) {
           $address['city'] = $item['locality'];
         }
