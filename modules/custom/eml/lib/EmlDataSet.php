@@ -7,6 +7,7 @@
 
 /**
  * Utility and API functions for interacting with data sets and their EML.
+ * Nov 2017 Added utf8 option to tidy statement at line 80, i.e. $tidy->repairString($xml, $config,'utf8') for &nbsp problem.
  */
 class EmlDataSet {
 
@@ -64,6 +65,8 @@ class EmlDataSet {
    *
    * @return string
    *   The XML after being repaired with Tidy.
+   *  Added utf8 encoding to the tidy statment
+   *  This takes care of the &nbsp; coding.
    */
   private function tidyXml($xml) {
     if (extension_loaded('tidy')) {
@@ -74,13 +77,14 @@ class EmlDataSet {
         'wrap' => FALSE,
       );
       $tidy = new tidy();
-      return $tidy->repairString($xml, $config);
+      return $tidy->repairString($xml, $config, 'utf8');
     }
     else {
       // If the Tidy library isn't found, then we can pretty much duplicate
       // the whitespace and indentation cleanup using the PHP DOM library.
 
-      // Need to convert encoded spaces to character encoding.
+      // Need to convert encoded spaces to character encoding. Added additional conversions.
+      $xml = preg_replace ('/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u', ' ', $xml);
       $xml = str_replace('&nbsp;', '&#160;', $xml);
 
       $dom = new DOMDocument();
