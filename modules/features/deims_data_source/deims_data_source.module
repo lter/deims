@@ -125,13 +125,60 @@ function deims_data_source_parse_csv_to_variables_submit(&$form, &$form_state) {
     // Next build the form state values and save them to both form values and
     // form input so that the form rebuild will display our custom values now.
     $values = array();
+    $delimiters_csv=array('pair'=>';','key_value'=>'|');  //Delimiters in the CSV file
+    $delimiters_form=array('pair'=>"\n",'key_value'=>'|'); //Delimiters used in the form
+    $options_field = module_exists('options_element');  //Options Element module adds an 'options_elelment' key.
     foreach ($headers as $delta => $header) {
+      //parse out the type of data and the units or code pairs from the CSV file.
+	// Pattern for: physical variables is unit:name_of_unit;max|value;min|value;precision|value
+	// coded variables codes:key|value;key|value and so on for as many key|value pairs
+	// date variables  date:date format
+	// missing values pairs  code|reason  Note: missing values and code pairs are separated by ';' in the CSV file 
+	//          but the form needs them in 'code|reason /n' 'code|reason /n'  format. 
+        
+        if ($options_field)   {
+          $missing['options_field']=str_replace($delimiters_csv,$delimiters_form,$header['missing_values']);   
+        }else {
+            $missing=str_replace($delimiters_csv,$delimiters_form,$header['missing_values']);
+        }
+        //Parse out the type of data and values
+        if (strpos($header['data'], ':') ){
+            list($data_type,$data_values)= explode(':',$header['data']);
+        } else {
+            $data_type="";
+        }
+        $data=array();
+        Switch ($data_type) {
+           case 'codes':
+               if ($options_field) {
+                   $data['codes']['options_field']= str_replace($delimiters_csv,$delimiters_form,$data_values);
+               }else {
+                   $data['codes']= str_replace($delimiters_csv,$delimiters_form,$data_values);
+               }
+               break;
+           case 'unit':
+               $data_pair=explode(';',$data_values);
+               $data_type= 'physical';
+               $data['unit']['select']='select_or_other';  //DEIMS uses the select_or_other module for units. to add it need other.
+               $data['unit']['other']= $data_pair[0];
+               $data['maximum']=isset($data_pair[1]) ? substr($data_pair[1], strpos($data_pair[1], '|') + 1):""; //only get the value of pair
+               $data['minimum']=isset($data_pair[2]) ? substr($data_pair[2], strpos($data_pair[2], '|') + 1):"";
+               $data['precision']=isset($data_pair[3]) ? substr($data_pair[3], strpos($data_pair[3], '|') + 1):"";
+               break;  
+           case 'date':
+               $data['pattern']=$data_values;
+               break;      
+       }      
+        
       $values[] = array(
         'id' => NULL,
-        'name' => $header,
-        'label' => '',
-        'definition' => $header,
-        'type' => '',
+        'name' => $header['label'],
+        'label' => $header['label'],
+        'definition' => $header['description'],
+        'type' => $data_type,
+        'data'=>$data,
+        'missing_values'=>$missing,
+        
         //'_weight' => $delta,
       );
     }
@@ -226,16 +273,16 @@ function deims_data_source_preview_csv_js($form, $form_state) {
  */
 function deims_data_source_get_csv_table($fid, array $options = array()) {
   $options += array(
-    'header lines' => 1,
+    'header lines' => $options['header lines'],
     'footer lines' => 0,
     'orientation' => 'column',
     'delimiter' => ',',
     'default headers' => TRUE,
     'limit' => variable_get('data_source_preview_limit', 100),
   );
-
+    
   $result = array(
-    'header' => array(),
+    'header' => array('label'=>array(),'description'=>array(),'data'=>array(),'missing_values'=>array()),
     'rows' => array(),
   );
 
@@ -249,15 +296,23 @@ function deims_data_source_get_csv_table($fid, array $options = array()) {
       // Sanity check.
       if ($row_count <= ($options['limit'] + $options['header lines'])) {
         if ($options['orientation'] == 'column') {
-          // Are we adding just 1 header line?
-          if ($options['header lines'] == 1 && $row_count == 1) {
-            foreach ($line as $field) {
-              $result['header'][] = $field;
-            }
-          }
-          else {
-            array_push($result['rows'], $line);
-          }
+          // Are we adding just 1 header line? If not then assign lines to correct header array.
+          switch ($row_count) {
+              case 1:
+                $result['header']['label']=$line; 
+                break;
+              case 2:
+                $result['header']['description']=$line;
+                break;                  
+              case 3:
+                $result['header']['data']= $line;
+                break;
+              case 4:
+                $result['header']['missing_values']=$line;
+                break;
+              default:
+                array_push($result['rows'], $line);  
+          } 
         }
         else {
           // Each new line represents data for records defined in columns.
@@ -280,7 +335,21 @@ function deims_data_source_get_csv_table($fid, array $options = array()) {
 
     fclose($csv);
   }
-
+//rearrange array of headers so that each variable key includes all the info. The switch is using follow through 
+ $vari_list = array();
+ foreach($result['header']['label']as $key=>$var_label){
+     switch ($options['header lines']){
+         case 4:
+            $vari_list[$key]['missing_values']=$result['header']['missing_values'][$key];
+         case 3:
+            $vari_list[$key]['data']=$result['header']['data'][$key];
+         case 2:
+            $vari_list[$key]['description']=$result['header']['description'][$key];
+         case 1:     
+            $vari_list[$key]['label'] =$result['header']['label'][$key];}
+         
+ }
+ $result['header']= $vari_list;
   // Do we need to remove any footer lines?
   $remove = count($result['rows']) - $options['header lines'] - $options['footer lines'];
   if ($remove < $options['limit']) {
