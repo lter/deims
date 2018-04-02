@@ -91,13 +91,13 @@ projects[email][subdir] = "contrib"
 projects[emptyparagraphkiller][version] = "1.0-beta2"
 projects[emptyparagraphkiller][subdir] = "contrib"
 
-projects[entity][version] = "1.6"
+projects[entity][version] = "1.9"
 projects[entity][subdir] = "contrib"
 
 projects[entitycache][version] = "1.5"
 projects[entitycache][subdir] = "contrib"
 
-projects[entityreference][version] = "1.1"
+projects[entityreference][version] = "1.5"
 projects[entityreference][subdir] = "contrib"
 
 projects[entity_view_mode][version] = "1.0-rc1"
@@ -128,14 +128,14 @@ projects[file_download_count][subdir] = "contrib"
 projects[file_entity][version] = "2.x-dev"
 projects[file_entity][subdir] = "contrib"
 
-projects[filefield_sources][version] = "1.10"
+projects[filefield_sources][version] = "1.11"
 projects[filefield_sources][subdir] = "contrib"
 ; Show the actual attach upload path using drupal_realpath()
 ; @see https://drupal.org/node/2033269
 projects[filefield_sources][patch][] = "http://drupal.org/files/2033269-attach-realpath.patch"
 
 ; @todo Change to 1.3 release when available.
-projects[field_group][version] = "1.4"
+projects[field_group][version] = "1.6"
 projects[field_group][subdir] = "contrib"
 
 projects[flag][version] = "3.0-rc1"
@@ -240,7 +240,7 @@ projects[schemaorg][subdir] = "contrib"
 projects[schema_reference][version] = "1.0-beta5"
 projects[schema_reference][subdir] = "contrib"
 
-projects[search_api][version] = "1.16"
+projects[search_api][version] = "1.23"
 projects[search_api][subdir] = "contrib"
 
 projects[search_api_db][version] = "1.4"
@@ -274,7 +274,7 @@ projects[taxonomy_manager][subdir] = "contrib"
 projects[telephone][version] = "1.0-alpha1"
 projects[telephone][subdir] = "contrib"
 
-projects[term_reference_tree][version] = "1.10"
+projects[term_reference_tree][version] = "1.11"
 projects[term_reference_tree][subdir] = "contrib"
 ; Add filtering to the widget
 ; @see https://drupal.org/node/2007164
@@ -293,7 +293,7 @@ projects[token_formatters][subdir] = "contrib"
 projects[url][version] = "1.x-dev"
 projects[url][subdir] = "contrib"
 
-projects[views][version] = "3.13"
+projects[views][version] = "3.18"
 projects[views][subdir] = "contrib"
 
 projects[views_bulk_operations][version] = "3.3"
