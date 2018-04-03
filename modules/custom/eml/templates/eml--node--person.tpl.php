@@ -18,5 +18,8 @@
 <?php print render($content['field_fax']); ?>
 <?php print render($content['field_email']); ?>
 <?php print render($content['field_url']); ?>
-<userid directory="http://orcid.org/<?php print render($content['field_orcid']); ?>"></userid>
+<?php if (!empty($content['field_orc_id'])): ?>
+   <userId directory="http://orcid.org">http://orcid.org/<?php print render($content['field_orcid']); ?></userId>
+<?php endif; ?>
+
 
